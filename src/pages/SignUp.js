@@ -142,7 +142,8 @@ export default function SignUp(){
                                 <MenuItem value="Customer" className="menuItem">
                                     <AccountCircleIcon /> Customer
                                 </MenuItem>
-                            </TextField></FormControl>
+                            </TextField>
+                            </FormControl>
                             <TextField 
                                 className="field"
                                 label="Full name"
@@ -247,7 +248,6 @@ export default function SignUp(){
                                 color="primary"
                                 className="field"
                                 id="submit"
-                                style={{backgroundColor: '#C4714B'}}
                                 disabled={!validInputs}
                             >
                                 Sign up
