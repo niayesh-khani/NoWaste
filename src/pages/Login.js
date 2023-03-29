@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import Checkbox from '@mui/material/Checkbox';
 import './Login-Signup.css'
 
+
 const theme = createTheme({
     palette: {
         primary: {
@@ -52,7 +53,7 @@ export default function Login(){
                 <Container className="container">
                     <img
                         className="background"
-                        src="/Log.jpg"
+                        src="/3.jpg"
                         alt="NoWaste"
                     />
                     <Box className="box">
@@ -110,24 +111,24 @@ export default function Login(){
                                     )
                                 }}
                             />
-                            <FormControlLabel control={<Checkbox />} label="Remember me"/>
+                            <FormControlLabel control={<Checkbox />} label="Remember me" fontSize = '14px'/>
 
-                            <Link to="/login">Forget password?</Link>
+                            <Link to="/login" style={{color:'#C4714B'}}>Forget password?</Link>
                             <Button 
                                 variant="contained" 
                                 type="submit" 
                                 color="primary"
                                 className="field"
                                 id="submit"
-                                style={{backgroundColor: '#dd9d46'}}
+                                style={{backgroundColor: '#C4714B'}}
                             >
                                 Login
                             </Button>
                         </form> 
                         <Typography variant="h6"
-                            style={{textAlign: 'center', marginBottom: '5%', marginTop: '5%'}}
+                            style={{textAlign: 'center', marginBottom: '5%', marginTop: '5%', fontSize: '14px'}}
                         >
-                            Don't have an account? <Link to="/sign-up">Sign up</Link>
+                            Don't have an account? <Link to="/sign-up" style={{color:'#C4714B'}}>Sign up</Link>
                         </Typography>
                     </Box>
                 </Container>

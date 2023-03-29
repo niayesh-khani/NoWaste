@@ -1,27 +1,43 @@
 .root {
+    /* height: 100vh;
+    width: 100vw; */
     height: 100vh;
-    width: 100vw;
-    background-color: #DD9D46;
+    display: flex;
+    /* background-color: #DD9D46; */
+    /* background-image: url("/public/5.jpg"); */
+    background-image: url(/public/10.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    justify-content: center;
+    align-items: center;
+    /* text-align: center;       */
 }
+
+img {
+    border-radius: 10px 0px 0px 10px;
+  }
 .container {
     position: relative;
 }
+      
 .background {
-    width: 40%;
+    width: 32%;
     height: auto;
-    margin-left: 10%;
+    margin-left: 18%;
     margin-top: 0%;
 }
 .box {
     position: absolute;
     top: 0;
     left: 0;
-    width: 40%;
+    width: 32%;
     height: auto;
     align-items: center;
     justify-content: center;
     margin-left: 50%;
     background-color: #FFFFFF;
+    border-radius: 0px 10px 10px 0px;
 }
 .field {
     margin-top: 4%;

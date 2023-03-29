@@ -106,18 +106,19 @@ export default function SignUp(){
     }
     return ( 
         <ThemeProvider theme={theme}>
-            <div className="root" style={{paddingTop: '5%'}}>
+            <div className="root">
                 <Container className="container">
                     <img
                         className="background"
-                        src="/Log.jpg"
+                        src="/3.jpg"
                         alt="NoWaste"
+                        borderRadius="25px"
                     />
                     <Box className="box">
                         <Typography variant="h5" 
                             color="textPrimary"
                             gutterBottom
-                            style={{textAlign: 'center', marginTop: '5%', marginBottom: '5%', fontWeight: 'bold'}}
+                            style={{textAlign: 'center', marginTop: '5%', marginBottom: '5%', fontWeight: 'bold' , borderRadius : '25px'}}
                         >
                             Sign up 
                         </Typography>
@@ -153,7 +154,7 @@ export default function SignUp(){
                                 error={fullnameError}
                                 helperText={
                                     <div style={{height: fullnameError ? '2.2em' : '2.2em', lineHeight: '1em'}}>
-                                        {fullnameError && 'Full name can only contain letters, at least one space and at least one letter after space.'}
+                                        {fullnameError && 'Your full name should have at least two words.'}
                                     </div>
                                 }
                                 InputProps={{
@@ -246,16 +247,16 @@ export default function SignUp(){
                                 color="primary"
                                 className="field"
                                 id="submit"
-                                style={{backgroundColor: '#dd9d46'}}
+                                style={{backgroundColor: '#C4714B'}}
                                 disabled={!validInputs}
                             >
                                 Sign up
                             </Button>
                         </form> 
-                        <Typography variant="h6"
-                            style={{textAlign: 'center', marginBottom: '2%'}}
+                        <Typography
+                            style={{textAlign: 'center', marginBottom: '2%', fontSize: '14px'}}
                         >
-                            Already have an account? <Link to="/login">Log in</Link>
+                            Already have an account? <Link to="/login" style={{color:'#C4714B'}}>Log in</Link>
                         </Typography>
                     </Box>
                 </Container>
