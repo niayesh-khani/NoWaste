@@ -49,18 +49,19 @@ export default function Login(){
     
     return ( 
         <ThemeProvider theme={theme}>
-            <div className="root" style={{paddingTop: '8%'}}>
+            <div className="root">
                 <Container className="container">
                     <img
                         className="background"
                         src="/3.jpg"
                         alt="NoWaste"
+                        borderRadius="25px"
                     />
                     <Box className="box">
                         <Typography variant="h5" 
                             color="textPrimary"
                             gutterBottom
-                            style={{textAlign: 'center', marginTop: '5%', marginBottom: '5%', fontWeight: 'bold'}}
+                            style={{textAlign: 'center', marginTop: '5%', marginBottom: '5%', fontWeight: 'bold', borderRadius : '25px'}}
                         >
                             Login 
                         </Typography>
@@ -71,7 +72,7 @@ export default function Login(){
                                 color="secondary"
                                 required
                                 className="field"
-                                style={{marginBottom: '4%'}}
+                                // style={{marginBottom: '4%'}}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
