@@ -1,13 +1,11 @@
-import { Box, Button, Container, createTheme, FormControl, Icon, InputAdornment, TextField, ThemeProvider, Typography } from "@material-ui/core";
+import { Box, Button, Container, createTheme, FormControlLabel, Icon, InputAdornment, TextField, ThemeProvider, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import LockIcon from '@mui/icons-material/Lock';
 import PersonIcon from '@mui/icons-material/Person';
 import { Link, useHistory } from "react-router-dom";
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import MenuItem from '@mui/material/MenuItem';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import RestaurantIcon from '@mui/icons-material/Restaurant';
 import './Login-Signup.css';
+import Checkbox from '@mui/material/Checkbox';
 
 const theme = createTheme({
     palette: {
@@ -17,7 +15,17 @@ const theme = createTheme({
         secondary: {
           main: '#a44704',
         }
-      }
+    },
+    overrides: {
+        MuiFormLabel: {
+            asterisk: {
+                color: '#db3131',
+                '&$error': {
+                color: '#db3131'
+                },
+            }
+        }
+    }
 })
 
 export default function SignUp(){
@@ -29,7 +37,7 @@ export default function SignUp(){
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
-        if(!/\S+@\S+\.\S+/.test(e.target.value) && e.target.value.length >256) {
+        if(!/\S+@\S+\.\S+/.test(e.target.value)) {
             setEmailError(true);
         } else{
             setEmailError(false);
@@ -41,7 +49,7 @@ export default function SignUp(){
 
     const handleFullname = (e) => {
         setFullname(e.target.value);
-        if(!/^\S*\s+[a-zA-Z]/gm.test(e.target.value)) {
+        if(!/^\S*\s+[a-zA-Z]/gm.test(e.target.value) || e.target.value.length > 256) {
             setFullnameError(true);
         } else {
             setFullnameError(false);
@@ -104,6 +112,7 @@ export default function SignUp(){
         e.preventDefault();
         history.push("/");
     }
+
     return ( 
         <ThemeProvider theme={theme}>
             <div className="root">
@@ -115,46 +124,26 @@ export default function SignUp(){
                         borderRadius="25px"
                     />
                     <Box className="box">
-                        <Typography variant="h5" 
+                        <Typography variant="h4" 
                             color="textPrimary"
                             gutterBottom
-                            style={{textAlign: 'center', marginTop: '5%', marginBottom: '5%', fontWeight: 'bold' , borderRadius : '25px'}}
+                            className="text"
+                            style={{textAlign: 'center', marginTop: '5%', marginBottom: '5%', fontWeight: 'bold'}}
                         >
-                            Sign up 
+                            Sign Up 
                         </Typography>
                         <form noValidate autoComplete="off" style={{textAlign: 'center'}} onSubmit={handleSubmit}>
-                            <FormControl style={{width: '100%'}}>
-                                <TextField
-                                    select
-                                    label="Select your role"
-                                    defaultValue="Customer"
-                                    color="secondary"
-                                    required
-                                    className="field"
-                                    style= {{textAlign: 'left', marginBottom: "5%", marginLeft: "15%"}}
-                                >
-                                    <MenuItem value="" disabled>
-                                        <em>Select role</em>
-                                    </MenuItem>
-                                    <MenuItem value="Restaurant" className="menuItem">
-                                        <RestaurantIcon /> Restaurant
-                                    </MenuItem>
-                                    <MenuItem value="Customer" className="menuItem">
-                                        <AccountCircleIcon /> Customer
-                                    </MenuItem>
-                                </TextField>
-                            </FormControl>
                             <TextField 
                                 className="field"
                                 label="Full name"
-                                variant="standard"
+                                variant="outlined"
                                 color="secondary"
                                 required
                                 value={fullname}
                                 onChange={handleFullname}
                                 error={fullnameError}
                                 helperText={
-                                    <div style={{height: fullnameError ? '2.2em' : '2.2em', lineHeight: '1em'}}>
+                                    <div className="error">
                                         {fullnameError && 'Your full name should have at least two words.'}
                                     </div>
                                 }
@@ -171,14 +160,14 @@ export default function SignUp(){
                             <TextField 
                                 className="field"
                                 label="Email address"
-                                variant="standard"
+                                variant="outlined"
                                 color="secondary"
                                 required
                                 value={email}
                                 onChange={handleEmailChange}
                                 error={emailError}
                                 helperText={
-                                    <div style={{height: emailError ? '1.5em' : '1.5em'}}>
+                                    <div className="error">
                                       {emailError && 'Invalid email Address!'}
                                     </div>
                                 }
@@ -194,7 +183,7 @@ export default function SignUp(){
                             />
                             <TextField 
                                 label="Password"
-                                variant="standard"
+                                variant="outlined"
                                 color="secondary"
                                 required
                                 className="field"
@@ -202,7 +191,7 @@ export default function SignUp(){
                                 onChange={handleChangePassword}
                                 error={passwordError}
                                 helperText={
-                                    <div style={{height: passwordError ? '2em' : '2em'}}>
+                                    <div className="error">
                                         {passwordError && 'Password must be mixture of letters and numbers.'}
                                     </div>
                                 }
@@ -219,7 +208,7 @@ export default function SignUp(){
                             />
                             <TextField 
                                 label="Confirm password"
-                                variant="standard"
+                                variant="outlined"
                                 color="secondary"
                                 required
                                 className="field"
@@ -227,7 +216,7 @@ export default function SignUp(){
                                 onChange={handleChangeConfirmPass}
                                 error={passwordMatch === false}
                                 helperText={
-                                    <div style={{height: !passwordMatch ? '1em' : '1em'}}>
+                                    <div className="error">
                                       {!passwordMatch && 'Password do not match!'}
                                     </div>
                                 }
@@ -242,6 +231,11 @@ export default function SignUp(){
                                     )
                                 }}
                             />
+                            <FormControlLabel control={<Checkbox />} label={
+                                <Typography style={{fontSize: "1.2em"}}>
+                                    Sign up as restaurant.
+                                </Typography>
+                            }/>
                             <Button 
                                 variant="contained" 
                                 type="submit" 
@@ -254,9 +248,10 @@ export default function SignUp(){
                             </Button>
                         </form> 
                         <Typography
-                            style={{textAlign: 'center', marginBottom: '2%', fontSize: '14px'}}
+                            style={{textAlign: 'center', marginBottom: '5%', fontSize: '1em'}}
+                            className="text"
                         >
-                            Already have an account? <Link to="/login" style={{color:'#C4714B'}}>Log in</Link>
+                            Already have an account? <Link to="/login" className="link">Log in</Link>
                         </Typography>
                     </Box>
                 </Container>

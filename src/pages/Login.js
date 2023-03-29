@@ -16,7 +16,17 @@ const theme = createTheme({
         secondary: {
           main: '#a44704',
         }
-      }
+    },
+    overrides: {
+        MuiFormLabel: {
+            asterisk: {
+                color: '#db3131',
+                '&$error': {
+                color: '#db3131'
+                },
+            }
+        }
+    }
 })
 
 export default function Login(){
@@ -75,23 +85,24 @@ export default function Login(){
                         borderRadius="25px"
                     />
                     <Box className="box">
-                        <Typography variant="h5" 
+                        <Typography variant="h4" 
                             color="textPrimary"
                             gutterBottom
-                            style={{textAlign: 'center', marginTop: '5%', marginBottom: '5%', fontWeight: 'bold', borderRadius : '25px'}}
+                            className="text"
+                            style={{textAlign: 'center', marginTop: '10%', marginBottom: '10%', fontWeight: 'bold'}}
                         >
                             Login 
                         </Typography>
                         <form noValidate autoComplete="off" style={{textAlign: 'center'}}>
                             <TextField 
                                 label="Email Address"
-                                variant="standard"
+                                variant="outlined"
                                 color="secondary"
                                 required
                                 className="field"
                                 value={email}
                                 onChange={handleEmail}
-                                style={{marginBottom: '4%'}}
+                                style={{marginBottom: '10%'}}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -104,11 +115,11 @@ export default function Login(){
                             />
                             <TextField 
                                 label="Password"
-                                variant="standard"
+                                variant="outlined"
                                 color="secondary"
                                 required
                                 className="field"
-                                style={{marginBottom: '4%'}}
+                                style={{marginBottom: '2%'}}
                                 value={password}
                                 onChange={handlePassword}
                                 type= {showPassword ? 'text' : 'password'}
@@ -133,9 +144,9 @@ export default function Login(){
                                     )
                                 }}
                             />
-                            <FormControlLabel control={<Checkbox />} label="Remember me" fontSize = '14px'/>
-
-                            <Link to="/login" style={{color:'#C4714B'}}>Forget password?</Link>
+                            <FormControlLabel control={<Checkbox />} label="Remember me" fontSize = '1em' style={{marginBottom:"8%"}}/>
+                            <br/>
+                            <Link to="/login" className="link">Forget password?</Link>
                             <Button 
                                 variant="contained" 
                                 type="submit" 
@@ -147,10 +158,11 @@ export default function Login(){
                                 Login
                             </Button>
                         </form> 
-                        <Typography variant="h6"
-                            style={{textAlign: 'center', marginBottom: '5%', marginTop: '5%', fontSize: '14px'}}
+                        <Typography 
+                            style={{textAlign: 'center', marginBottom: '5%', marginTop: '5%', fontSize: '1em'}}
+                            className="text"
                         >
-                            Don't have an account? <Link to="/sign-up" style={{color:'#C4714B'}}>Sign up</Link>
+                            Don't have an account? <Link to="/sign-up" className="link">Sign Up</Link>
                         </Typography>
                     </Box>
                 </Container>
