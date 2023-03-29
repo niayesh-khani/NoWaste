@@ -124,25 +124,25 @@ export default function SignUp(){
                         </Typography>
                         <form noValidate autoComplete="off" style={{textAlign: 'center'}} onSubmit={handleSubmit}>
                             <FormControl style={{width: '100%'}}>
-                            <TextField
-                                select
-                                label="Select your role"
-                                defaultValue="Customer"
-                                color="secondary"
-                                required
-                                className="field"
-                                style= {{textAlign: 'left', marginBottom: "5%", marginLeft: "15%"}}
-                            >
-                                <MenuItem value="" disabled>
-                                    <em>Select role</em>
-                                </MenuItem>
-                                <MenuItem value="Restaurant" className="menuItem">
-                                    <RestaurantIcon /> Restaurant
-                                </MenuItem>
-                                <MenuItem value="Customer" className="menuItem">
-                                    <AccountCircleIcon /> Customer
-                                </MenuItem>
-                            </TextField>
+                                <TextField
+                                    select
+                                    label="Select your role"
+                                    defaultValue="Customer"
+                                    color="secondary"
+                                    required
+                                    className="field"
+                                    style= {{textAlign: 'left', marginBottom: "5%", marginLeft: "15%"}}
+                                >
+                                    <MenuItem value="" disabled>
+                                        <em>Select role</em>
+                                    </MenuItem>
+                                    <MenuItem value="Restaurant" className="menuItem">
+                                        <RestaurantIcon /> Restaurant
+                                    </MenuItem>
+                                    <MenuItem value="Customer" className="menuItem">
+                                        <AccountCircleIcon /> Customer
+                                    </MenuItem>
+                                </TextField>
                             </FormControl>
                             <TextField 
                                 className="field"

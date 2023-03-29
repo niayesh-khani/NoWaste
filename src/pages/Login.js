@@ -21,12 +21,29 @@ const theme = createTheme({
 
 export default function Login(){
 
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleEmail = (e) => {
+        setEmail(e.target.value);
+    };
+
+    const handlePassword = (e) => {
+        setPassword(e.target.value);
+    };
+
     const [showPassword, setShowPassword] = useState(false);
 
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+
+    const [validInputs, setValidInputs] = useState(false);
+    useEffect(() => {
+        let isValid = email.trim().length > 0 && password.trim().length > 0;
+        setValidInputs(isValid);
+    }, [email, password]);
 
     function setHeight() {
         const box = document.querySelector('.box');
@@ -72,7 +89,9 @@ export default function Login(){
                                 color="secondary"
                                 required
                                 className="field"
-                                // style={{marginBottom: '4%'}}
+                                value={email}
+                                onChange={handleEmail}
+                                style={{marginBottom: '4%'}}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -90,6 +109,8 @@ export default function Login(){
                                 required
                                 className="field"
                                 style={{marginBottom: '4%'}}
+                                value={password}
+                                onChange={handlePassword}
                                 type= {showPassword ? 'text' : 'password'}
                                 InputProps={{
                                     startAdornment: (
@@ -121,7 +142,7 @@ export default function Login(){
                                 color="primary"
                                 className="field"
                                 id="submit"
-                                style={{backgroundColor: '#C4714B'}}
+                                disabled={!validInputs}
                             >
                                 Login
                             </Button>
