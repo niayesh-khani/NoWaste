@@ -5,16 +5,17 @@ import LockIcon from '@mui/icons-material/Lock';
 import PersonIcon from '@mui/icons-material/Person';
 import { Link } from "react-router-dom";
 import Checkbox from '@mui/material/Checkbox';
+import axios from "axios";
 import './Login-Signup.css'
 
 
 const theme = createTheme({
     palette: {
         primary: {
-          main: '#dd9d46',
+            main: '#dd9d46',
         },
         secondary: {
-          main: '#a44704',
+            main: '#a44704',
         }
     },
     overrides: {
@@ -73,6 +74,33 @@ export default function Login(){
           window.onpopstate = null;
         };
     }, []);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const userData = {
+            password: password,
+            email: email
+            };
+            console.log(userData);
+            axios.post("http://nowaste39.pythonanywhere.com/User/login/", userData, {headers:{"Content-Type" : "application/json"}})
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                // if (error.response) {
+                //     console.log(error.response);
+                //     console.log("server responded");
+                // } 
+                // else if (error.request) {
+                //     console.log("network error");
+                // } 
+                // else {
+                //     console.log(error);
+                // }
+                console.log(error);
+                console.log(error.request.body);
+            });
+        };
     
     return ( 
         <ThemeProvider theme={theme}>
@@ -158,6 +186,7 @@ export default function Login(){
                                 color="primary"
                                 className="field"
                                 id="submit"
+                                onClick={handleSubmit}
                                 disabled={!validInputs}
                             >
                                 Login

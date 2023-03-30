@@ -5,6 +5,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import { Link, useHistory } from "react-router-dom";
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import './Login-Signup.css';
+import axios from "axios";
 import Checkbox from '@mui/material/Checkbox';
 
 const theme = createTheme({
@@ -31,6 +32,7 @@ const theme = createTheme({
 export default function SignUp(){
 
     const [showPassword, setShowPassword] = useState(false);
+    const [role, setRole] = useState('Customer');
 
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState(false);
@@ -110,8 +112,31 @@ export default function SignUp(){
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        history.push("/");
-    }
+        const userData = {
+            Name: fullname,
+            password: password,
+            email: email,
+            role: role
+            };
+            axios.post("http://nowaste39.pythonanywhere.com/User/signup/", userData, {headers:{"Content-Type" : "application/json"}})
+            .then((response) => {
+                console.log(response);
+                history.push("/");
+
+            })
+            .catch((error) => {
+                if (error.response) {
+                console.log(error.response);
+                console.log("server responded");
+                } 
+                else if (error.request) {
+                console.log("network error");
+                } 
+                else {
+                console.log(error);
+                }
+            });
+    };
 
     return ( 
         <ThemeProvider theme={theme}>
@@ -168,7 +193,7 @@ export default function SignUp(){
                                 error={emailError}
                                 helperText={
                                     <div className="error">
-                                      {emailError && 'Invalid email Address!'}
+                                        {emailError && 'Invalid email Address!'}
                                     </div>
                                 }
                                 InputProps={{
@@ -217,7 +242,7 @@ export default function SignUp(){
                                 error={passwordMatch === false}
                                 helperText={
                                     <div className="error">
-                                      {!passwordMatch && 'Password do not match!'}
+                                        {!passwordMatch && 'Password do not match!'}
                                     </div>
                                 }
                                 type= {showPassword ? 'text' : 'password'}
@@ -233,8 +258,8 @@ export default function SignUp(){
                             />
                             
                             <FormControlLabel className='checkbox' control={<Checkbox sx={{color : '#f18b72', '&.Mui-checked': {color: '#f18b72',},}}/>}
-                                              label={
-                                <Typography className = 'checkbox' style={{fontSize: "1.1em"}}>
+                                            label={
+                                <Typography className = 'checkbox' style={{fontSize: "1.1em"}} onClick={() => setRole("restaurant")}>
                                     sign up as restaurant
                                 </Typography>
                             }/>
