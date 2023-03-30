@@ -144,9 +144,14 @@ export default function Login(){
                                     )
                                 }}
                             />
-                            <FormControlLabel control={<Checkbox />} label="Remember me" fontSize = '1em' style={{marginBottom:"8%"}}/>
-                            <br/>
-                            <Link to="/login" className="link">Forget password?</Link>
+                            <FormControlLabel className = 'remember' control={<Checkbox sx={{color : '#f18b72','& .MuiSvgIcon-root': { fontSize: 22 }, '&.Mui-checked': {color: '#f18b72',},}}/>}
+                                            //   label="Remember me" fontSize = '1em' style={{marginBottom:"8%"}}/>
+                                            label={
+                                                <Typography className = 'remember'>
+                                                    Remember me
+                                                </Typography>
+                                            }/>
+                            <Link to="/login" className="forgetpassword" >Forget password?</Link>
                             <Button 
                                 variant="contained" 
                                 type="submit" 

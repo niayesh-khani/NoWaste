@@ -124,11 +124,11 @@ export default function SignUp(){
                         borderRadius="25px"
                     />
                     <Box className="box">
-                        <Typography variant="h4" 
+                        <Typography variant="h5" 
                             color="textPrimary"
                             gutterBottom
                             className="text"
-                            style={{textAlign: 'center', marginTop: '5%', marginBottom: '5%', fontWeight: 'bold'}}
+                            style={{textAlign: 'center', marginTop: '5%', marginBottom: '5%', fontWeight: 'bold', fontSize: '30px'}}
                         >
                             Sign Up 
                         </Typography>
@@ -231,9 +231,11 @@ export default function SignUp(){
                                     )
                                 }}
                             />
-                            <FormControlLabel control={<Checkbox />} label={
-                                <Typography style={{fontSize: "1.2em"}}>
-                                    Sign up as restaurant.
+                            
+                            <FormControlLabel className='checkbox' control={<Checkbox sx={{color : '#f18b72', '&.Mui-checked': {color: '#f18b72',},}}/>}
+                                              label={
+                                <Typography className = 'checkbox' style={{fontSize: "1.1em"}}>
+                                    sign up as restaurant
                                 </Typography>
                             }/>
                             <Button 
@@ -248,7 +250,7 @@ export default function SignUp(){
                             </Button>
                         </form> 
                         <Typography
-                            style={{textAlign: 'center', marginBottom: '5%', fontSize: '1em'}}
+                            style={{textAlign: 'center', marginBottom: '5%', fontSize: '0.9em'}}
                             className="text"
                         >
                             Already have an account? <Link to="/login" className="link">Log in</Link>
