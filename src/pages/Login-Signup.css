@@ -1,11 +1,6 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Alkatra&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
-/* @import url('https://fonts.googleapis.com/css2?family=Gloock&display=swap'); */
-/* @import url('https://fonts.googleapis.com/css2?family=Megrim&display=swap'); */
 
 .root {
-    /* height: 100vh;
-    width: 100vw; */
     height: 100vh;
     display: flex;
     background-image: url(/public/10.jpg);
@@ -49,98 +44,127 @@
     flex-direction: column;
 }
 #submit {
-    margin: 3% auto;
+    margin: 5% auto;
     background-color: #f18b72;
     border-radius: 70px;
     margin-bottom: 20px;
 }
 #submit:hover {
     background-color: rgb(244, 84, 48);
-    /* color: aqua; */
 }
 .link {
     color: #c5663a;
 }
-.forgetpassword
-{
-    color: #c5663a;
-    /* height: 20px; */
-    margin-top: -21px !important;
-    margin-left: 225px !important;
-    margin-bottom: 30px;
-    font-size: 15px;
-    float: left;
-}
 .text {
-    /* font-family: 'Dancing Script' !important; */
-    /* font-family: 'Alkatra' !important; */
     font-weight: 400;
     font-family: 'Staatliches', cursive !important;
+    text-align: center;
+    font-size: 0.9em;
 }
 .error {
     font-size: 0.8em;
     line-height: 1em;
     height: 3em;
 }
-@media (max-width: 768px) {
+.forgetpassword {
+    color: #c5663a;
+    margin-top: 5%;
+    margin-right: 15% !important;
+    float: right;
+}
+.checkbox {
+    height: 25px;
+    margin-top: -2%;
+    float: left;
+    white-space: nowrap;
+    margin-left: 13% !important;
+}
+.remember {
+    height: 20px;
+    margin-top: 6%;
+    float: left;
+    margin-left: 13% !important;
+    white-space: nowrap;
+}
+#signupcheck {
+    font-size: 1.1em;
+}
+@media(max-width: 576px) {
+    .background {
+        display: none;
+    }
+    .box {
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+        position: static;
+        width: 80%;
+        margin: 10% 10%;
+        border: 1px solid rgb(197, 120, 58);
+    }
+    .remember {
+        float: none;
+        margin-bottom: 0%;
+        width: 50%;
+    }
+    .forgetpassword {
+        float: right;
+        width: 70%;
+        margin-bottom: 5%;
+    }
     .error{
         height: 4em;
     }
 }
-
-.checkbox
-{
-    font-family: 'Staatliches', cursive !important;
-    height: 25px;
-    margin-top: -5px;
-    margin-right: 53px !important;
-    margin-bottom: 10px;
+@media(min-width: 577px) and (max-width: 768px){
+    .background {
+        width: 40%;
+        margin-left: 10%;
+    }
+    .box {
+        width: 40%;
+        margin-left: 50%;
+    }
+    .remember {
+        float: none;
+        margin-bottom: 0%;
+        width: 60%;
+    }
+    .forgetpassword {
+        float: right;
+        width: 70%;
+        margin-bottom: 5%;
+    }
+    #signupcheck {
+        font-size: 0.9em;
+    }
+    .error{
+        height: 4em;
+    }
 }
-.remember
-{
-    font-family: 'Staatliches', cursive !important;
-    height: 20px;
-    margin-top: 20px;
-    margin-right: 87px !important;
-    font-size: 15px;
-
+@media(min-width: 769px) and (max-width: 992px){
+    .remember {
+        float: none;
+        margin-bottom: 0%;
+        width: 60%;
+    }
+    .forgetpassword {
+        float: right;
+        width: 70%;
+        margin-bottom: 2%;
+    }
+    #signupcheck {
+        font-size: 1em;
+    }
 }
-
-
-/* Responsive */
-/* @media (max-width:779px)
-{
-    .root
-    {
-        width: 100vw;
-        height: 120vh;
+@media(min-width: 993px) and (max-width: 1200px){
+    .remember {
+        float: none;
+        margin-bottom: 0%;
+        width: 50%;
     }
-    .container
-    {
-        width: 10vw;
-        height: 80vh;
+    .forgetpassword {
+        float: right;
+        width: 75%;
+        margin-bottom: 2%;
     }
-    .box
-    {
-        top: -70px;
-        height: 60px;
-        width: 999px;
-    }
-        .background
-    {
-        margin-top: -900px;
-        width: 30px;
-    }
-
 }
-@media (max-width:635px)
-{
-    .container::before
-    {
-        display: none;
-    }
-    .background
-    {
-        display: none;
-    }
-} */

@@ -1,4 +1,4 @@
-import { Box, Button, Container, createTheme, FormControlLabel, Icon, IconButton, InputAdornment, TextField, ThemeProvider, Typography } from "@material-ui/core";
+import { Box, Button, Container, createTheme, FormControlLabel, Icon, IconButton, InputAdornment, makeStyles, TextField, ThemeProvider, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material"
 import LockIcon from '@mui/icons-material/Lock';
@@ -24,7 +24,7 @@ const theme = createTheme({
                 color: '#db3131',
                 '&$error': {
                 color: '#db3131'
-                },
+                }
             }
         }
     }
@@ -147,7 +147,6 @@ export default function Login(){
                                 color="secondary"
                                 required
                                 className="field"
-                                style={{marginBottom: '2%'}}
                                 value={password}
                                 onChange={handlePassword}
                                 type= {showPassword ? 'text' : 'password'}
@@ -172,14 +171,21 @@ export default function Login(){
                                     )
                                 }}
                             />
-                            <FormControlLabel className = 'remember' control={<Checkbox sx={{color : '#f18b72','& .MuiSvgIcon-root': { fontSize: 22 }, '&.Mui-checked': {color: '#f18b72',},}}/>}
-                                            //   label="Remember me" fontSize = '1em' style={{marginBottom:"8%"}}/>
-                                            label={
-                                                <Typography className = 'remember'>
-                                                    Remember me
-                                                </Typography>
-                                            }/>
-                            <Link to="/login" className="forgetpassword" >Forget password?</Link>
+                            <FormControlLabel className="remember"
+                                control={<Checkbox 
+                                    sx={{color: '#f18b72', '&.Mui-checked': {color: '#f18b72'},}}
+                                    />}
+                                    label={
+                                        <Typography className = 'text'>
+                                            Remember me
+                                        </Typography>
+                                    }
+                            />
+                            <Link to="/login" className="forgetpassword">
+                                <Typography>
+                                    Forgot password?
+                                </Typography>
+                            </Link>
                             <Button 
                                 variant="contained" 
                                 type="submit" 
@@ -193,7 +199,7 @@ export default function Login(){
                             </Button>
                         </form> 
                         <Typography 
-                            style={{textAlign: 'center', marginBottom: '5%', marginTop: '5%', fontSize: '1em'}}
+                            style={{marginBottom: '5%', fontSize: '0.9em'}}
                             className="text"
                         >
                             Don't have an account? <Link to="/sign-up" className="link">Sign Up</Link>

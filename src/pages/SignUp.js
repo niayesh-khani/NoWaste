@@ -146,7 +146,6 @@ export default function SignUp(){
                         className="background"
                         src="/3.jpg"
                         alt="NoWaste"
-                        borderRadius="25px"
                     />
                     <Box className="box">
                         <Typography variant="h5" 
@@ -257,10 +256,14 @@ export default function SignUp(){
                                 }}
                             />
                             
-                            <FormControlLabel className='checkbox' control={<Checkbox sx={{color : '#f18b72', '&.Mui-checked': {color: '#f18b72',},}}/>}
-                                            label={
-                                <Typography className = 'checkbox' style={{fontSize: "1.1em"}} onClick={() => setRole("restaurant")}>
-                                    sign up as restaurant
+                            <FormControlLabel className='checkbox' 
+                                control={<Checkbox 
+                                            sx={{color: '#f18b72', '&.Mui-checked': {color: '#f18b72',},}}
+                                        />}
+                                label={
+                                <Typography className="text" id="signupcheck"
+                                     onClick={() => setRole("restaurant")}>
+                                    Sign up as restaurant
                                 </Typography>
                             }/>
                             <Button 
@@ -275,7 +278,7 @@ export default function SignUp(){
                             </Button>
                         </form> 
                         <Typography
-                            style={{textAlign: 'center', marginBottom: '5%', fontSize: '0.9em'}}
+                            style={{marginBottom: '5%', fontSize: '0.9em'}}
                             className="text"
                         >
                             Already have an account? <Link to="/login" className="link">Log in</Link>
