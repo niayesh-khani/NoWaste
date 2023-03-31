@@ -34,7 +34,7 @@ export default function ForgotPass(){
 
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState(false);
-    // const [password, setPassword] = useState('');
+    const [password, setPassword] = useState('');
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -45,17 +45,16 @@ export default function ForgotPass(){
         }
     };
 
+    const handlePassword = (e) => {
+        setPassword(e.target.value);
+    };
 
-    // const handlePassword = (e) => {
-    //     setPassword(e.target.value);
-    // };
+    const [showPassword, setShowPassword] = useState(false);
 
-    // const [showPassword, setShowPassword] = useState(false);
-
-    // const handleClickShowPassword = () => setShowPassword(!showPassword);
-    // const handleMouseDownPassword = (event) => {
-    //     event.preventDefault();
-    // };
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
 
     const [validInputs, setValidInputs] = useState(false);
     useEffect(() => {
@@ -146,16 +145,16 @@ export default function ForgotPass(){
                                             </Icon> 
                                         </InputAdornment>
                                     ),
-                                    // endAdornment: (
-                                    //     <InputAdornment position="end">
-                                    //         <Icon>
-                                    //             <SendIcon />
-                                    //         </Icon>
-                                    //     </InputAdornment>
-                                    // )
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <Icon>
+                                                <SendIcon />
+                                            </Icon>
+                                        </InputAdornment>
+                                    )
                                 }}
                             />
-                            {/* <TextField 
+                            <TextField 
                                 label="Password"
                                 variant="outlined"
                                 color="secondary"
@@ -184,7 +183,7 @@ export default function ForgotPass(){
                                         </InputAdornment>
                                     )
                                 }}
-                            /> */}
+                            />
                             <Button 
                                 variant="contained" 
                                 type="submit" 

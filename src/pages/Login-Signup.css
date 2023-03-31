@@ -75,6 +75,10 @@
     margin-top: 5%;
     margin-right: 15% !important;
     float: right;
+    text-decoration:none;
+}
+.forgetpassword:hover, a:active {
+    text-decoration: underline;
 }
 .remember {
     height: 20px;
@@ -119,7 +123,7 @@
     color: #c5663a;
 }
 .error#forget, .error#verify {
-    height: 1em;
+    height: 2em;
     font-size: 1em;
 }
 .verification {
