@@ -34,7 +34,8 @@ export default function ForgotPass(){
 
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState(false);
-    const [password, setPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    // const [newPasswordError, setNewPasswordError] = useState(false);
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -45,8 +46,13 @@ export default function ForgotPass(){
         }
     };
 
-    const handlePassword = (e) => {
-        setPassword(e.target.value);
+    const handleNewPassword = (e) => {
+        setNewPassword(e.target.value);
+        // if(e.target.value.length != 10 || !/[a-zA-Z]+/.test(e.target.value)){
+        //     setNewPasswordError(true)
+        // } else {
+        //     setNewPasswordError(false)
+        // }
     };
 
     const [showPassword, setShowPassword] = useState(false);
@@ -58,9 +64,13 @@ export default function ForgotPass(){
 
     const [validInputs, setValidInputs] = useState(false);
     useEffect(() => {
-        let isValid = email.trim().length > 0 && !emailError;
+        let isValid = email.trim().length > 0 && !emailError && newPassword.trim().length >0;
         setValidInputs(isValid);
-    }, [email]);
+    }, [email, newPassword]);
+    
+    const handleSendEmail = () => {
+        alert("We've just sent you an email including your new password. Enter your new password to continue.");
+    }
 
     function setHeight() {
         const box = document.querySelector('.box');
@@ -147,22 +157,28 @@ export default function ForgotPass(){
                                     ),
                                     endAdornment: (
                                         <InputAdornment position="end">
-                                            <Icon>
+                                            <IconButton onClick={handleSendEmail} disabled={!validInputs}>
                                                 <SendIcon />
-                                            </Icon>
+                                            </IconButton>
                                         </InputAdornment>
                                     )
                                 }}
                             />
                             <TextField 
-                                label="Password"
+                                label="New password"
                                 variant="outlined"
                                 color="secondary"
                                 required
                                 className="field"
-                                value={password}
-                                onChange={handlePassword}
+                                value={newPassword}
+                                onChange={handleNewPassword}
                                 type= {showPassword ? 'text' : 'password'}
+                                // error={newPasswordError}
+                                // helperText={
+                                //     <div className="error">
+                                //         New password
+                                //     </div>
+                                // }
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -193,7 +209,7 @@ export default function ForgotPass(){
                                 onClick={handleSubmit}
                                 disabled={!validInputs}
                             >
-                                Send Email
+                                Continue
                             </Button>
                         </form> 
                         <Typography 
