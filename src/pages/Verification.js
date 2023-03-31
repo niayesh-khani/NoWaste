@@ -33,6 +33,7 @@ export default function Verification(){
 
     const [code, setCode] = useState('');
     const [codeError, setCodeError] = useState(false);
+    const [email, setEmail] = useState([]);
 
     const handleCode = (e) => {
         setCode(e.target.value);
@@ -56,6 +57,13 @@ export default function Verification(){
         image.style.height = `${boxHeight}px`;
     }
     const history = useHistory();
+    useEffect(() => {
+        const email = JSON.parse(localStorage.getItem('email'));
+        if (email) {
+            setEmail(email);
+            console.log(email);
+        }
+    }, []);
 
     useEffect(() => {
         setHeight(); 
@@ -68,11 +76,11 @@ export default function Verification(){
           window.onpopstate = null;
         };
     }, []);
-
     const handleSubmit = (e) => {
         e.preventDefault();
         const userData = {
-            code: code
+            code: code,
+            email: email
             };
             axios.post("http://nowaste39.pythonanywhere.com/User/forgot-password/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {

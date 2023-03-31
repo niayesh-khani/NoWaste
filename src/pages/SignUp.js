@@ -109,7 +109,6 @@ export default function SignUp(){
     }, []);
     
     const history = useHistory();
-
     const handleSubmit = (e) => {
         e.preventDefault();
         const userData = {
@@ -136,6 +135,10 @@ export default function SignUp(){
                 }
             });
     };
+
+    useEffect(() => {
+        localStorage.setItem('email', JSON.stringify(email));
+        }, [email]);
 
     return ( 
         <ThemeProvider theme={theme}>
