@@ -5,6 +5,7 @@ import SyncLockIcon from '@mui/icons-material/SyncLock';
 import EmailIcon from '@mui/icons-material/Email';
 import SendIcon from '@mui/icons-material/Send';
 import { Link } from "react-router-dom";
+import axios from "axios";
 import './Login-Signup.css'
 
 
@@ -80,6 +81,29 @@ export default function ForgotPass(){
           window.onpopstate = null;
         };
     }, []);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const userData = {
+            email: email
+            };
+            axios.post("http://nowaste39.pythonanywhere.com/User/forgot-password/", userData, {headers:{"Content-Type" : "application/json"}})
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response);
+                    console.log("server responded");
+                } 
+                else if (error.request) {
+                    console.log("network error");
+                } 
+                else {
+                    console.log(error);
+                }
+            });
+        };
 
     return ( 
         <ThemeProvider theme={theme}>
@@ -167,6 +191,7 @@ export default function ForgotPass(){
                                 color="primary"
                                 className="field"
                                 id="submit"
+                                onClick={handleSubmit}
                                 disabled={!validInputs}
                             >
                                 Send Email

@@ -4,6 +4,7 @@ import CodeIcon from '@mui/icons-material/Code';
 import { Link } from "react-router-dom";
 import './Login-Signup.css'
 import { tr } from "date-fns/locale";
+import axios from "axios";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 
@@ -56,10 +57,6 @@ export default function Verification(){
     }
     const history = useHistory();
 
-    const handleSubmit = () => {
-        history.push("/");
-    }
-
     useEffect(() => {
         setHeight(); 
         window.addEventListener('resize', setHeight);
@@ -71,6 +68,30 @@ export default function Verification(){
           window.onpopstate = null;
         };
     }, []);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const userData = {
+            code: code
+            };
+            axios.post("http://nowaste39.pythonanywhere.com/User/forgot-password/", userData, {headers:{"Content-Type" : "application/json"}})
+            .then((response) => {
+                console.log(response);
+                history.push("/");
+            })
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response);
+                    console.log("server responded");
+                } 
+                else if (error.request) {
+                    console.log("network error");
+                } 
+                else {
+                    console.log(error);
+                }
+            });
+    };
 
     return ( 
         <ThemeProvider theme={theme}>

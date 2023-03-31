@@ -110,10 +110,6 @@ export default function SignUp(){
     
     const history = useHistory();
 
-    const handleSignUp = () => {
-        history.push("/verification");
-    }
-
     const handleSubmit = (e) => {
         e.preventDefault();
         const userData = {
@@ -125,8 +121,7 @@ export default function SignUp(){
             axios.post("http://nowaste39.pythonanywhere.com/User/signup/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
-                history.push("/");
-
+                history.push("/verification");
             })
             .catch((error) => {
                 if (error.response) {
@@ -160,7 +155,7 @@ export default function SignUp(){
                         >
                             Sign Up 
                         </Typography>
-                        <form noValidate autoComplete="off" style={{textAlign: 'center'}} onSubmit={handleSubmit}>
+                        <form noValidate autoComplete="off" style={{textAlign: 'center'}}>
                             <TextField 
                                 className="field"
                                 label="Full name"
@@ -266,7 +261,7 @@ export default function SignUp(){
                                         />}
                                 label={
                                 <Typography className="text" id="signupcheck"
-                                     onClick={() => setRole("restaurant")}>
+                                        onClick={() => setRole("restaurant")}>
                                     Sign up as restaurant
                                 </Typography>
                             }/>
@@ -277,7 +272,7 @@ export default function SignUp(){
                                 className="field"
                                 id="submit"
                                 disabled={!validInputs}
-                                onClick={handleSignUp}
+                                onClick={handleSubmit}
                             >
                                 Sign up
                             </Button>

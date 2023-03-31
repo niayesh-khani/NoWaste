@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material"
 import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Checkbox from '@mui/material/Checkbox';
 import axios from "axios";
 import './Login-Signup.css'
@@ -74,6 +74,7 @@ export default function Login(){
         };
     }, []);
 
+    const history = useHistory();
     const handleSubmit = (e) => {
         e.preventDefault();
         const userData = {
@@ -84,20 +85,19 @@ export default function Login(){
             axios.post("http://nowaste39.pythonanywhere.com/User/login/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
+                history.push("/verification");
             })
             .catch((error) => {
-                // if (error.response) {
-                //     console.log(error.response);
-                //     console.log("server responded");
-                // } 
-                // else if (error.request) {
-                //     console.log("network error");
-                // } 
-                // else {
-                //     console.log(error);
-                // }
-                console.log(error);
-                console.log(error.request.body);
+                if (error.response) {
+                    console.log(error.response);
+                    console.log("server responded");
+                } 
+                else if (error.request) {
+                    console.log("network error");
+                } 
+                else {
+                    console.log(error);
+                }
             });
         };
     
