@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route} from 'react-router-dom'
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import ForgotPass from './pages/ForgotPass'
+import Verification from './pages/Verification';
 
 const theme = createMuiTheme({
   palette: {
@@ -25,6 +26,9 @@ function App() {
           </Route>
           <Route path='/forgotpass'>
             <ForgotPass />
+          </Route>
+          <Route path="/verification">
+            <Verification />
           </Route>
       </Router>
     </ThemeProvider>

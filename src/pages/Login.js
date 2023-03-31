@@ -1,13 +1,12 @@
-import { Box, Button, Container, createTheme, FormControlLabel, Icon, IconButton, InputAdornment, makeStyles, TextField, ThemeProvider, Typography } from "@material-ui/core";
+import { Box, Button, Container, createTheme, FormControlLabel, Icon, IconButton, InputAdornment, TextField, ThemeProvider, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material"
 import LockIcon from '@mui/icons-material/Lock';
-import PersonIcon from '@mui/icons-material/Person';
+import EmailIcon from '@mui/icons-material/Email';
 import { Link } from "react-router-dom";
 import Checkbox from '@mui/material/Checkbox';
 import axios from "axios";
 import './Login-Signup.css'
-
 
 const theme = createTheme({
     palette: {
@@ -135,7 +134,7 @@ export default function Login(){
                                     startAdornment: (
                                         <InputAdornment position="start">
                                             <Icon>
-                                                <PersonIcon />
+                                                <EmailIcon />
                                             </Icon> 
                                         </InputAdornment>
                                     )

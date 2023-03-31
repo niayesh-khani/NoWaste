@@ -1,4 +1,4 @@
-import { Box, Button, Container, createTheme, FormControlLabel, Icon, IconButton, InputAdornment, makeStyles, TextField, ThemeProvider, Typography } from "@material-ui/core";
+import { Box, Button, Container, createTheme, Icon, IconButton, InputAdornment, TextField, ThemeProvider, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material"
 import SyncLockIcon from '@mui/icons-material/SyncLock';
@@ -32,33 +32,40 @@ const theme = createTheme({
 export default function ForgotPass(){
 
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [emailError, setEmailError] = useState(false);
+    // const [password, setPassword] = useState('');
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
+        if(!/\S+@\S+\.\S+/.test(e.target.value)) {
+            setEmailError(true);
+        } else{
+            setEmailError(false);
+        }
     };
 
-    const handlePassword = (e) => {
-        setPassword(e.target.value);
-    };
 
-    const [showPassword, setShowPassword] = useState(false);
+    // const handlePassword = (e) => {
+    //     setPassword(e.target.value);
+    // };
 
-    const handleClickShowPassword = () => setShowPassword(!showPassword);
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
+    // const [showPassword, setShowPassword] = useState(false);
+
+    // const handleClickShowPassword = () => setShowPassword(!showPassword);
+    // const handleMouseDownPassword = (event) => {
+    //     event.preventDefault();
+    // };
 
     const [validInputs, setValidInputs] = useState(false);
     useEffect(() => {
-        let isValid = email.trim().length > 0 && password.trim().length > 0;
+        let isValid = email.trim().length > 0 && !emailError;
         setValidInputs(isValid);
-    }, [email, password]);
+    }, [email]);
 
     function setHeight() {
-        const box = document.querySelector('.box-forgot');
+        const box = document.querySelector('.box');
         const boxHeight = box.offsetHeight;
-        const image = document.querySelector('.desktop');
+        const image = document.querySelector('.background');
         image.style.height = `${boxHeight}px`;
     }
 
@@ -79,17 +86,16 @@ export default function ForgotPass(){
             <div className="root">
                 <Container className="container">
                     <img
-                        className="desktop"
+                        className="background"
                         src="/f2.jpg"
                         alt="NoWaste"
-                        borderRadius="25px"
                     />
-                    <Box className="box-forgot">
+                    <Box className="box">
                         <Typography variant="h4" 
                             color="textPrimary"
                             gutterBottom
                             className="text"
-                            style={{textAlign: 'center', marginTop: '10%', marginBottom: '10%', fontWeight: 'bold'}}
+                            style={{fontWeight: 'bold'}}
                         >
                             Forgot Your Password?
                         </Typography>
@@ -102,7 +108,12 @@ export default function ForgotPass(){
                                 className="field"
                                 value={email}
                                 onChange={handleEmail}
-                                style={{marginBottom: '10%'}}
+                                error={emailError}
+                                helperText={ 
+                                    <div className="error" id="forget">
+                                        {emailError && "Email is invalid!"}
+                                    </div>
+                                }
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -111,17 +122,16 @@ export default function ForgotPass(){
                                             </Icon> 
                                         </InputAdornment>
                                     ),
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <Icon>
-                                                <SendIcon />
-                                            </Icon>
-                                        </InputAdornment>
-                                    )
-
+                                    // endAdornment: (
+                                    //     <InputAdornment position="end">
+                                    //         <Icon>
+                                    //             <SendIcon />
+                                    //         </Icon>
+                                    //     </InputAdornment>
+                                    // )
                                 }}
                             />
-                            <TextField 
+                            {/* <TextField 
                                 label="Password"
                                 variant="outlined"
                                 color="secondary"
@@ -150,7 +160,7 @@ export default function ForgotPass(){
                                         </InputAdornment>
                                     )
                                 }}
-                            />
+                            /> */}
                             <Button 
                                 variant="contained" 
                                 type="submit" 
@@ -159,11 +169,11 @@ export default function ForgotPass(){
                                 id="submit"
                                 disabled={!validInputs}
                             >
-                                Continue
+                                Send Email
                             </Button>
                         </form> 
                         <Typography 
-                            style={{marginBottom: '5%', fontSize: '1em'}}
+                            style={{fontSize: '1em'}}
                             className="text"
                         >
                         <Link to="/login" className="link-pass">back to Login</Link>

@@ -110,6 +110,10 @@ export default function SignUp(){
     
     const history = useHistory();
 
+    const handleSignUp = () => {
+        history.push("/verification");
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const userData = {
@@ -152,7 +156,7 @@ export default function SignUp(){
                             color="textPrimary"
                             gutterBottom
                             className="text"
-                            style={{textAlign: 'center', marginTop: '5%', marginBottom: '5%', fontWeight: 'bold', fontSize: '30px'}}
+                            style={{fontWeight: 'bold', fontSize: '30px'}}
                         >
                             Sign Up 
                         </Typography>
@@ -273,12 +277,13 @@ export default function SignUp(){
                                 className="field"
                                 id="submit"
                                 disabled={!validInputs}
+                                onClick={handleSignUp}
                             >
                                 Sign up
                             </Button>
                         </form> 
                         <Typography
-                            style={{marginBottom: '5%', fontSize: '0.9em'}}
+                            style={{fontSize: '0.9em'}}
                             className="text"
                         >
                             Already have an account? <Link to="/login" className="link">Log in</Link>
