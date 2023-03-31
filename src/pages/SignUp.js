@@ -32,7 +32,7 @@ const theme = createTheme({
 export default function SignUp(){
 
     const [showPassword, setShowPassword] = useState(false);
-    const [role, setRole] = useState('Customer');
+    const [role, setRole] = useState('customer');
 
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState(false);
@@ -100,11 +100,11 @@ export default function SignUp(){
         setHeight(); 
         window.addEventListener('resize', setHeight);
         window.onpopstate = () => {
-          setHeight();
+            setHeight();
         };
         return () => {
-          window.removeEventListener('resize', setHeight); 
-          window.onpopstate = null;
+            window.removeEventListener('resize', setHeight); 
+            window.onpopstate = null;
         };
     }, []);
     
@@ -112,12 +112,12 @@ export default function SignUp(){
     const handleSubmit = (e) => {
         e.preventDefault();
         const userData = {
-            Name: fullname,
+            name: fullname,
             password: password,
             email: email,
             role: role
             };
-            axios.post("http://nowaste39.pythonanywhere.com/User/signup/", userData, {headers:{"Content-Type" : "application/json"}})
+            axios.post("http://nowaste39.pythonanywhere.com/user/signup/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
                 history.push("/verification");

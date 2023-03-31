@@ -87,7 +87,7 @@ export default function ForgotPass(){
         const userData = {
             email: email
             };
-            axios.post("http://nowaste39.pythonanywhere.com/User/forgot-password/", userData, {headers:{"Content-Type" : "application/json"}})
+            axios.post("http://nowaste39.pythonanywhere.com/user/forgot-password/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
             })
