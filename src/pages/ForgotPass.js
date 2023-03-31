@@ -157,7 +157,7 @@ export default function ForgotPass(){
                                     ),
                                     endAdornment: (
                                         <InputAdornment position="end">
-                                            <IconButton onClick={handleSendEmail} disabled={!validInputs}>
+                                            <IconButton onClick={handleSendEmail} disabled={emailError}>
                                                 <SendIcon />
                                             </IconButton>
                                         </InputAdornment>
