@@ -201,7 +201,7 @@ export default function ForgotPass(){
                             style={{fontSize: '1em'}}
                             className="text"
                         >
-                        <Link to="/login" className="link-pass">back to Login</Link>
+                        <Link to="/login" className="link">back to Login</Link>
                         </Typography>
                     </Box>
                 </Container>

@@ -52,9 +52,6 @@
 #submit:hover {
     background-color: rgb(244, 84, 48);
 }
-.link {
-    color: #c5663a;
-}
 .text {
     font-weight: 400;
     font-family: 'Staatliches', cursive !important;
@@ -111,13 +108,15 @@
     margin-left: 4.99%;
 
 } */
-.link-pass
-{
+.link {
     text-decoration:none;
     color: black;
 }
-.link-pass:hover, a:active {
+.link:hover, a:active {
     text-decoration:underline;
+}
+.link#signup, .link#login {
+    color: #c5663a;
 }
 .error#forget, .error#verify {
     height: 1em;

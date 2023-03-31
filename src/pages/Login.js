@@ -201,7 +201,7 @@ export default function Login(){
                             style={{marginBottom: '5%', fontSize: '0.9em'}}
                             className="text"
                         >
-                            Don't have an account? <Link to="/sign-up" className="link">Sign Up</Link>
+                            Don't have an account? <Link to="/sign-up" className="link" id="signup">Sign Up</Link>
                         </Typography>
                     </Box>
                 </Container>

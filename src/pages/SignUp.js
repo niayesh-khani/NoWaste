@@ -39,7 +39,7 @@ export default function SignUp(){
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
-        if(!/\S+@\S+\.\S+/.test(e.target.value)) {
+        if(!/[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/.test(e.target.value)) {
             setEmailError(true);
         } else{
             setEmailError(false);
@@ -51,7 +51,7 @@ export default function SignUp(){
 
     const handleFullname = (e) => {
         setFullname(e.target.value);
-        if(!/^\S*\s+[a-zA-Z]/gm.test(e.target.value) || e.target.value.length > 256) {
+        if(!/^[a-zA-Z]+\s[a-zA-Z]+$/gm.test(e.target.value)){
             setFullnameError(true);
         } else {
             setFullnameError(false);
@@ -284,7 +284,7 @@ export default function SignUp(){
                             style={{fontSize: '0.9em'}}
                             className="text"
                         >
-                            Already have an account? <Link to="/login" className="link">Log in</Link>
+                            Already have an account? <Link to="/login" className="link" id="login">Log in</Link>
                         </Typography>
                     </Box>
                 </Container>
