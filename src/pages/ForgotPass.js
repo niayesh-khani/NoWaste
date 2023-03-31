@@ -73,9 +73,9 @@ export default function ForgotPass(){
     }
 
     function setHeight() {
-        const box = document.querySelector('.box');
+        const box = document.querySelector('.box-forgot');
         const boxHeight = box.offsetHeight;
-        const image = document.querySelector('.background');
+        const image = document.querySelector('.desktop');
         image.style.height = `${boxHeight}px`;
     }
 
@@ -119,11 +119,11 @@ export default function ForgotPass(){
             <div className="root">
                 <Container className="container">
                     <img
-                        className="background"
+                        className="desktop"
                         src="/f2.jpg"
                         alt="NoWaste"
                     />
-                    <Box className="box">
+                    <Box className="box-forgot">
                         <Typography variant="h4" 
                             color="textPrimary"
                             gutterBottom

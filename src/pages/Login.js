@@ -129,6 +129,7 @@ export default function Login(){
                                 className="field"
                                 value={email}
                                 onChange={handleEmail}
+                                
                                 style={{marginBottom: '10%'}}
                                 InputProps={{
                                     startAdornment: (

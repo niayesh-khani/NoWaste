@@ -91,7 +91,7 @@
     font-size: 1.1em;
 }
 
-/* ForgotPass
+/* ForgotPass */
 .box-forgot{
     position: absolute;
     top: 0;
@@ -103,15 +103,14 @@
     margin-left: 50%;
     background-color: rgba(250, 249, 249, 0.8);
     border-radius: 0px 10px 10px 0px;
-} */
-/* .desktop{
+}
+.desktop{
     width: 45%;
     height: auto;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     margin-left: 4.99%;
-
-} */
+}
 .link {
     text-decoration:none;
     color: black;
@@ -128,7 +127,6 @@
 }
 .verification {
     text-align: center;
-    /* font-size: 0.5em; */
     margin-bottom: 5%;
 }
 @media(max-width: 576px) {
