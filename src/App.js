@@ -6,17 +6,8 @@ import SignUp from './pages/SignUp';
 import ForgotPass from './pages/ForgotPass'
 import Verification from './pages/Verification';
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#fefefe'
-    },
-    secondary: purple
-  }
-})
 function App() {
   return (
-    <ThemeProvider theme={theme}>
       <Router>
           <Route exact path="/sign-up">
             <SignUp />
@@ -31,7 +22,6 @@ function App() {
             <Verification />
           </Route>
       </Router>
-    </ThemeProvider>
   );
 }
 
