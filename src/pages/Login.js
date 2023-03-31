@@ -181,7 +181,7 @@ export default function Login(){
                                         </Typography>
                                     }
                             />
-                            <Link to="/login" className="forgetpassword">
+                            <Link to="/forgotpass" className="forgetpassword">
                                 <Typography>
                                     Forgot password?
                                 </Typography>

@@ -66,18 +66,18 @@
     line-height: 1em;
     height: 3em;
 }
-.forgetpassword {
-    color: #c5663a;
-    margin-top: 5%;
-    margin-right: 15% !important;
-    float: right;
-}
 .checkbox {
     height: 25px;
     margin-top: -2%;
     float: left;
     white-space: nowrap;
     margin-left: 13% !important;
+}
+.forgetpassword {
+    color: #c5663a;
+    margin-top: 5%;
+    margin-right: 15% !important;
+    float: right;
 }
 .remember {
     height: 20px;
@@ -89,6 +89,37 @@
 #signupcheck {
     font-size: 1.1em;
 }
+
+/* ForgotPass */
+.box-forgot{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 45%;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+    margin-left: 50%;
+    background-color: rgba(250, 249, 249, 0.8);
+    border-radius: 0px 10px 10px 0px;
+}
+.desktop{
+    width: 45%;
+    height: auto;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    margin-left: 4.99%;
+
+}
+.link-pass
+{
+    text-decoration:none;
+    color: black;
+}
+.link-pass:hover, a:active {
+    text-decoration:underline;
+}
+
 @media(max-width: 576px) {
     .background {
         display: none;
@@ -114,6 +145,19 @@
     .error{
         height: 4em;
     }
+    .desktop
+    {
+        display: none;
+    }
+    .box-forgot{
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+        position: static;
+        width: 70%;
+        margin: 1% 15%;
+        border: 1px solid rgb(197, 120, 58);
+    }
+
 }
 @media(min-width: 577px) and (max-width: 768px){
     .background {
@@ -140,6 +184,16 @@
     .error{
         height: 4em;
     }
+    .desktop {
+        width: 47%;
+        margin-left: 3%;
+    }
+    .box-forgot {
+        width: 45%;
+        margin-left: 50%;
+    }
+
+
 }
 @media(min-width: 769px) and (max-width: 992px){
     .remember {

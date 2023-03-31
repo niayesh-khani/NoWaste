@@ -3,6 +3,7 @@ import { purple } from '@material-ui/core/colors';
 import { BrowserRouter as Router, Route} from 'react-router-dom'
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import ForgotPass from './pages/ForgotPass'
 
 const theme = createMuiTheme({
   palette: {
@@ -21,6 +22,9 @@ function App() {
           </Route>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path='/forgotpass'>
+            <ForgotPass />
           </Route>
       </Router>
     </ThemeProvider>
