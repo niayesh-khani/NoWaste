@@ -7,7 +7,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { Link } from "react-router-dom";
 import axios from "axios";
 import './Login-Signup.css'
-
+import { Alert, AlertTitle } from "@mui/material";
 
 const theme = createTheme({
     palette: {
@@ -35,11 +35,10 @@ export default function ForgotPass(){
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState(false);
     const [newPassword, setNewPassword] = useState('');
-    // const [newPasswordError, setNewPasswordError] = useState(false);
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
-        if(!/\S+@\S+\.\S+/.test(e.target.value)) {
+        if(!/\S+@\S+\.\S+/.test(e.target.value) || e.target.value.trim().length === 0)   {
             setEmailError(true);
         } else{
             setEmailError(false);
@@ -48,11 +47,6 @@ export default function ForgotPass(){
 
     const handleNewPassword = (e) => {
         setNewPassword(e.target.value);
-        // if(e.target.value.length != 10 || !/[a-zA-Z]+/.test(e.target.value)){
-        //     setNewPasswordError(true)
-        // } else {
-        //     setNewPasswordError(false)
-        // }
     };
 
     const [showPassword, setShowPassword] = useState(false);
@@ -61,6 +55,16 @@ export default function ForgotPass(){
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+    
+    const [open, setOpen] = useState(null);
+
+    const handleClick = () => {
+        setOpen(true);
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+    }
 
     const [validInputs, setValidInputs] = useState(false);
     useEffect(() => {
@@ -68,9 +72,6 @@ export default function ForgotPass(){
         setValidInputs(isValid);
     }, [email, newPassword]);
     
-    const handleSendEmail = () => {
-        alert("We've just sent you an email including your new password. Enter your new password to continue.");
-    }
 
     function setHeight() {
         const box = document.querySelector('.box-forgot');
@@ -118,6 +119,13 @@ export default function ForgotPass(){
         <ThemeProvider theme={theme}>
             <div className="root">
                 <Container className="container">
+                <div className="alert">
+                    {open && <Alert severity="success"  open={open} onClose={handleClose}>
+                        <AlertTitle>Success</AlertTitle>
+                            We've just sent you an email including your new password. Enter your new password to continue.
+                    </Alert>}
+                    </div>
+
                     <img
                         className="desktop"
                         src="/f2.jpg"
@@ -157,7 +165,7 @@ export default function ForgotPass(){
                                     ),
                                     endAdornment: (
                                         <InputAdornment position="end">
-                                            <IconButton onClick={handleSendEmail} disabled={emailError}>
+                                            <IconButton onClick={handleClick} disabled={emailError || email.length ===0}>
                                                 <SendIcon />
                                             </IconButton>
                                         </InputAdornment>
@@ -173,12 +181,6 @@ export default function ForgotPass(){
                                 value={newPassword}
                                 onChange={handleNewPassword}
                                 type= {showPassword ? 'text' : 'password'}
-                                // error={newPasswordError}
-                                // helperText={
-                                //     <div className="error">
-                                //         New password
-                                //     </div>
-                                // }
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
