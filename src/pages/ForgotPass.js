@@ -89,6 +89,7 @@ export default function ForgotPass(){
 
     const history = useHistory();
     const handleClick = (e) => {
+        setOpen(true);
         e.preventDefault();
         const userData = {
             email: email
