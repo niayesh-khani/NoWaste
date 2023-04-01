@@ -85,7 +85,7 @@ export default function Login(){
             axios.post("http://nowaste39.pythonanywhere.com/user/login/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
-                history.push("/verification");
+                history.push("/");
             })
             .catch((error) => {
                 if (error.response) {
