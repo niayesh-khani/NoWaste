@@ -4,7 +4,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material"
 import SyncLockIcon from '@mui/icons-material/SyncLock';
 import EmailIcon from '@mui/icons-material/Email';
 import SendIcon from '@mui/icons-material/Send';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import './Login-Signup.css'
 import { Alert, AlertTitle } from "@mui/material";
@@ -57,11 +57,6 @@ export default function ForgotPass(){
     };
     
     const [open, setOpen] = useState(null);
-
-    const handleClick = () => {
-        setOpen(true);
-    }
-
     const handleClose = () => {
         setOpen(false);
     }
@@ -92,7 +87,8 @@ export default function ForgotPass(){
         };
     }, []);
 
-    const handleSubmit = (e) => {
+    const history = useHistory();
+    const handleClick = (e) => {
         e.preventDefault();
         const userData = {
             email: email
@@ -100,6 +96,7 @@ export default function ForgotPass(){
             axios.post("http://nowaste39.pythonanywhere.com/user/forgot-password/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
+                setOpen(true);
             })
             .catch((error) => {
                 if (error.response) {
@@ -108,12 +105,17 @@ export default function ForgotPass(){
                 } 
                 else if (error.request) {
                     console.log("network error");
+                    console.log(error);
                 } 
                 else {
                     console.log(error);
                 }
             });
-        };
+    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        history.push("/");
+    };
 
     return ( 
         <ThemeProvider theme={theme}>

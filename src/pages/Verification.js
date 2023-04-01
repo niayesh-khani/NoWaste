@@ -64,7 +64,6 @@ export default function Verification(){
             console.log(email);
         }
     }, []);
-
     useEffect(() => {
         setHeight(); 
         window.addEventListener('resize', setHeight);
@@ -76,13 +75,14 @@ export default function Verification(){
           window.onpopstate = null;
         };
     }, []);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const userData = {
             code: code,
             email: email
             };
-            axios.post("http://nowaste39.pythonanywhere.com/User/forgot-password/", userData, {headers:{"Content-Type" : "application/json"}})
+            axios.post("https://nowaste39.pythonanywhere.com/user/verify-email/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
                 history.push("/");
@@ -94,6 +94,7 @@ export default function Verification(){
                 } 
                 else if (error.request) {
                     console.log("network error");
+                    console.log(error);
                 } 
                 else {
                     console.log(error);
