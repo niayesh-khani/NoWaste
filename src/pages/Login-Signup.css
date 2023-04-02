@@ -1,0 +1,293 @@
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
+
+.root {
+    height: 100vh;
+    display: flex;
+    background-image: url(/public/10.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.container {
+    position: relative;
+}   
+.background {
+    width: 32%;
+    height: auto;
+    margin-left: 18%;
+    margin-top: 0%;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 32%;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+    margin-left: 50%;
+    background-color: rgba(250, 249, 249, 0.8);
+    border-radius: 0px 10px 10px 0px;
+}
+.field {
+    margin-top: 4%;
+    margin-bottom: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+#submit {
+    margin: 5% auto;
+    background-color: #f18b72;
+    border-radius: 70px;
+    margin-bottom: 20px;
+}
+#submit:hover {
+    background-color: rgb(244, 84, 48);
+}
+.text {
+    font-weight: 400;
+    font-family: 'Staatliches', cursive !important;
+    text-align: center;
+    margin: 5% auto !important;
+}
+.error {
+    font-size: 0.8em;
+    line-height: 1em;
+    height: 3em;
+}
+.checkbox {
+    height: 25px;
+    margin-top: -2%;
+    float: left;
+    white-space: nowrap;
+    margin-left: 13% !important;
+}
+.forgetpassword {
+    color: #c5663a;
+    margin-top: 5%;
+    margin-right: 15% !important;
+    float: right;
+    text-decoration:none;
+}
+.forgetpassword:hover, a:active {
+    text-decoration: underline;
+}
+.remember {
+    height: 20px;
+    margin-top: 6%;
+    float: left;
+    margin-left: 13% !important;
+    white-space: nowrap;
+}
+#signupcheck {
+    font-size: 1.1em;
+}
+
+/* ForgotPass */
+.box-forgot{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 45%;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+    margin-left: 50%;
+    background-color: rgba(250, 249, 249, 0.8);
+    border-radius: 0px 10px 10px 0px;
+}
+.desktop{
+    width: 45%;
+    height: auto;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    margin-left: 4.99%;
+}
+.link {
+    text-decoration:none;
+    color: black;
+}
+.link:hover, a:active {
+    text-decoration:underline;
+}
+.link#signup, .link#login {
+    color: #c5663a;
+}
+.error#forget, .error#verify {
+    height: 2em;
+    font-size: 1em;
+}
+.verification {
+    text-align: center;
+    margin-bottom: 5%;
+}
+.alert {
+    margin: -10% 30% 0 25%;
+    position: fixed;
+    height: 5%;
+    width: 40%;
+}
+@media(max-width: 414px) {
+    .background {
+        display: none;
+    }
+    .box {
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+        position: static;
+        width: 80%;
+        margin: 10% 10%;
+        border: 1px solid rgb(197, 120, 58);
+    }
+    .remember {
+        float: none;
+        margin-bottom: 0%;
+        width: 50%;
+    }
+    .forgetpassword {
+        float: right;
+        width: 70%;
+        margin-bottom: 5%;
+    }
+    .error{
+        height: 4em;
+    }
+    .desktop
+    {
+        display: none;
+    }
+    .box-forgot{
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+        position: static;
+        width: 70%;
+        margin: 1% 15%;
+        border: 1px solid rgb(197, 120, 58);
+    }
+    .alert {
+        margin: -40% 15% 0 12%;
+        width: 70%;
+    }
+}
+@media(min-width: 415) and (max-width: 576px){
+    .background {
+        display: none;
+    }
+    .box {
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+        position: static;
+        width: 80%;
+        margin: 10% 10%;
+        border: 1px solid rgb(197, 120, 58);
+    }
+    .remember {
+        float: none;
+        margin-bottom: 0%;
+        width: 50%;
+    }
+    .forgetpassword {
+        float: right;
+        width: 70%;
+        margin-bottom: 5%;
+    }
+    .error{
+        height: 4em;
+    }
+    .desktop {
+        display: none;
+    }
+    .box-forgot{
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+        position: static;
+        width: 70%;
+        margin: 1% 15%;
+        border: 1px solid rgb(197, 120, 58);
+    }
+    .alert {
+        margin: -25% 15% 0 12%;
+        width: 70%;
+    }
+}
+@media(min-width: 577px) and (max-width: 768px){
+    .background {
+        width: 40%;
+        margin-left: 10%;
+    }
+    .box {
+        width: 40%;
+        margin-left: 50%;
+    }
+    .remember {
+        float: none;
+        margin-bottom: 0%;
+        width: 60%;
+    }
+    .forgetpassword {
+        float: right;
+        width: 70%;
+        margin-bottom: 5%;
+    }
+    #signupcheck {
+        font-size: 0.9em;
+    }
+    .error{
+        height: 4em;
+    }
+    .desktop {
+        width: 47%;
+        margin-left: 3%;
+    }
+    .box-forgot {
+        width: 45%;
+        margin-left: 50%;
+    }
+    .alert {
+        margin: -22% 15% 0 18%;
+        width: 60%;
+    }
+}
+@media(min-width: 769px) and (max-width: 992px){
+    .remember {
+        float: none;
+        margin-bottom: 0%;
+        width: 60%;
+    }
+    .forgetpassword {
+        float: right;
+        width: 70%;
+        margin-bottom: 2%;
+    }
+    #signupcheck {
+        font-size: 1em;
+    }
+    .alert {
+        margin: -17% 15% 0 18%;
+        width: 60%;
+    }
+}
+@media(min-width: 993px) and (max-width: 1200px){
+    .remember {
+        float: none;
+        margin-bottom: 0%;
+        width: 50%;
+    }
+    .forgetpassword {
+        float: right;
+        width: 75%;
+        margin-bottom: 2%;
+    }
+    .alert {
+        margin: -13% 15% 0 18%;
+        width: 60%;
+    }
+}
