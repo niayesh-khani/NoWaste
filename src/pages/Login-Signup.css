@@ -160,8 +160,7 @@
     .error{
         height: 4em;
     }
-    .desktop
-    {
+    .desktop {
         display: none;
     }
     .box-forgot{
@@ -177,7 +176,7 @@
         width: 70%;
     }
 }
-@media(min-width: 415) and (max-width: 576px){
+@media(min-width: 415px) and (max-width: 576px){
     .background {
         display: none;
     }
@@ -214,7 +213,7 @@
         border: 1px solid rgb(197, 120, 58);
     }
     .alert {
-        margin: -25% 15% 0 12%;
+        margin: -30% 15% 0 12%;
         width: 70%;
     }
 }
