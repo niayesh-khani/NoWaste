@@ -99,4 +99,19 @@
     border-radius: 50px;
 
   }
+
+  .navbar {
+    position: absolute;
+    top: 0;
+    right: 0 ;
+  }
   
+  .navbar-right {
+    margin-top: 10px;
+    margin-right: 10px;
+  }
+
+  .login{
+    margin-right: 20px; ;
+  }
+
