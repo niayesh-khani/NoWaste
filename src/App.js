@@ -6,6 +6,7 @@ import SignUp from './pages/SignUp';
 import ForgotPass from './pages/ForgotPass'
 import Verification from './pages/Verification';
 import HomePage  from './pages/Homepage';
+import Landing from './pages/Landing'
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
           </Route>
           <Route exact path="/homepage">
             <HomePage />
+          </Route>
+          <Route path="/landing">
+            <Landing />
           </Route>
       </Router>
   );
