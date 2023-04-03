@@ -35,6 +35,8 @@ export default function ForgotPass(){
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState(false);
     const [newPassword, setNewPassword] = useState('');
+    const [token, setToken] = useState('');
+
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -87,6 +89,10 @@ export default function ForgotPass(){
         };
     }, []);
 
+    useEffect(() => {
+        localStorage.setItem('token', JSON.stringify(token));
+        }, [token]);
+
     const history = useHistory();
     const handleClick = (e) => {
         setOpen(true);
@@ -114,8 +120,31 @@ export default function ForgotPass(){
             });
     };
     const handleSubmit = (e) => {
-        e.preventDefault();
-        history.push("/");
+    e.preventDefault();
+    const userData = {
+        password: newPassword,
+        email: email
+        };
+        console.log(userData);
+        axios.post("http://nowaste39.pythonanywhere.com/user/login/", userData, {headers:{"Content-Type" : "application/json"}})
+        .then((response) => {
+            console.log(response);
+            setToken(response.body);
+            console.log(token);
+            history.push("/homepage");
+        })
+        .catch((error) => {
+            if (error.response) {
+                console.log(error.response);
+                console.log("server responded");
+            } 
+            else if (error.request) {
+                console.log("network error");
+            } 
+            else {
+                console.log(error);
+            }
+        });    
     };
 
     return ( 
