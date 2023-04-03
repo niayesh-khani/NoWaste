@@ -129,7 +129,8 @@ export default function ForgotPass(){
         axios.post("http://nowaste39.pythonanywhere.com/user/login/", userData, {headers:{"Content-Type" : "application/json"}})
         .then((response) => {
             console.log(response);
-            setToken(response.body);
+            console.log(response.data.token);
+            setToken(response.data.token);
             console.log(token);
             history.push("/homepage");
         })
