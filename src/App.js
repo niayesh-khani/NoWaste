@@ -25,6 +25,9 @@ function App() {
           <Route exact path="/homepage">
             <HomePage />
           </Route>
+          <Route path="/landing">
+            <Landing />
+          </Route>
       </Router>
   );
 }
