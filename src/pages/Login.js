@@ -7,6 +7,7 @@ import { Link, useHistory } from "react-router-dom";
 import Checkbox from '@mui/material/Checkbox';
 import axios from "axios";
 import './Login-Signup.css'
+import { Alert, AlertTitle } from "@mui/material";
 
 const theme = createTheme({
     palette: {
@@ -78,6 +79,15 @@ export default function Login(){
     useEffect(() => {
         localStorage.setItem('token', JSON.stringify(token));
         }, [token]);
+    const [open, setOpen] = useState(null);
+    const handleClose = () => {
+        setOpen(false);
+        setHeight();
+    }
+
+    useEffect(() => {
+        setHeight();
+    }, [open]);
 
     const history = useHistory();
     const handleSubmit = (e) => {
@@ -95,6 +105,7 @@ export default function Login(){
                 history.push("/homepage");
             })
             .catch((error) => {
+                setOpen(true);
                 if (error.response) {
                     console.log(error.response);
                     console.log("server responded");
@@ -128,6 +139,10 @@ export default function Login(){
                             Login 
                         </Typography>
                         <form noValidate autoComplete="off" style={{textAlign: 'center'}}>
+                            {open && <Alert severity="error" open={open} onClose={handleClose} variant="outlined" className="alert-error filed">
+                                    Incorrect email address or password!
+                                </Alert>
+                            } 
                             <TextField 
                                 label="Email Address"
                                 variant="outlined"

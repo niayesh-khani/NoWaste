@@ -6,6 +6,7 @@ import './Login-Signup.css'
 import { tr } from "date-fns/locale";
 import axios from "axios";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { Alert } from "@mui/material";
 
 
 const theme = createTheme({
@@ -45,6 +46,7 @@ export default function Verification(){
     }
 
     const [validInputs, setValidInputs] = useState(false);
+
     useEffect(() => {
         let isValid = !codeError;
         setValidInputs(isValid);
@@ -56,7 +58,18 @@ export default function Verification(){
         const image = document.querySelector('.background');
         image.style.height = `${boxHeight}px`;
     }
+    const [open, setOpen] = useState(null);
+
+    const handleClose = () => {
+        setOpen(false);
+    }
+
+    useEffect(() => {
+        setHeight();
+    }, [open]);
+
     const history = useHistory();
+
     useEffect(() => {
         const email = JSON.parse(localStorage.getItem('email'));
         if (email) {
@@ -88,6 +101,7 @@ export default function Verification(){
                 history.push("/homepage");
             })
             .catch((error) => {
+                setOpen(true);
                 if (error.response) {
                     console.log(error.response);
                     console.log("server responded");
@@ -127,6 +141,10 @@ export default function Verification(){
                             Enter the verification code we just sent you on your email address.
                         </Typography>
                         <form noValidate autoComplete="off" style={{textAlign: 'center'}}>
+                            {open && <Alert severity="error" open={open} onClose={handleClose} className="alert-error" variant="outlined">
+                                    Incorrect code!
+                                </Alert>
+                            }
                             <TextField 
                                 label="Code"
                                 variant="outlined"
@@ -167,7 +185,7 @@ export default function Verification(){
                             style={{fontSize: '1em'}}
                             className="text"
                         >
-                        <Link to="/" className="link-pass">Resend code?</Link>
+                        {/* <Link to="/" className="link-pass">Resend code?</Link> */}
                         </Typography>
                     </Box>
                 </Container>

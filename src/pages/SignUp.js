@@ -116,24 +116,24 @@ export default function SignUp(){
             password: password,
             email: email,
             role: role
-            };
-            axios.post("http://nowaste39.pythonanywhere.com/user/signup/", userData, {headers:{"Content-Type" : "application/json"}})
-            .then((response) => {
-                console.log(response);
-                history.push("/verification");
-            })
-            .catch((error) => {
-                if (error.response) {
-                console.log(error.response);
-                console.log("server responded");
-                } 
-                else if (error.request) {
-                console.log("network error");
-                } 
-                else {
-                console.log(error);
-                }
-            });
+        };
+        axios.post("http://nowaste39.pythonanywhere.com/user/signup/", userData, {headers:{"Content-Type" : "application/json"}})
+        .then((response) => {
+            console.log(response);
+            history.push("/verification");
+        })
+        .catch((error) => {
+            if (error.response) {
+            console.log(error.response);
+            console.log("server responded");
+            } 
+            else if (error.request) {
+            console.log("network error");
+            } 
+            else {
+            console.log(error);
+            }
+        });
     };
 
     useEffect(() => {

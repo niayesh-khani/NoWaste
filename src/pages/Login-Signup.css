@@ -135,6 +135,10 @@
     height: 5%;
     width: 40%;
 }
+.alert-error{
+    text-align: left;
+    margin: 5% 15%;
+}
 @media(max-width: 414px) {
     .background {
         display: none;
