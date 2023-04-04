@@ -8,6 +8,8 @@ import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import './Login-Signup.css'
 import { Alert, AlertTitle } from "@mui/material";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const theme = createTheme({
     palette: {
@@ -94,6 +96,33 @@ export default function ForgotPass(){
         }, [token]);
 
     const history = useHistory();
+    const [alertSeverity, setAlertSeverity] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+    
+    useEffect(() => {
+        if(alertMessage !== "" && alertSeverity !== ""){
+            if(alertSeverity === "success"){
+                toast.success(alertMessage, {
+                            position: toast.POSITION.TOP_RIGHT,
+                            title: "Success",
+                            autoClose: 7000,
+                            pauseOnHover: true,
+                            // className: "toast-success",
+                            // bodyClassName: "toast-success-body"
+                        });
+            } else {
+                toast.error(alertMessage, {
+                            position: toast.POSITION.TOP_RIGHT,
+                            title: "Error",
+                            autoClose: 3000,
+                            pauseOnHover: true
+                        });
+            }
+            setAlertMessage("");
+            setAlertSeverity("");
+        }
+    }, [alertMessage, alertSeverity]);
+
     const handleClick = (e) => {
         setOpen(true);
         e.preventDefault();
@@ -103,9 +132,19 @@ export default function ForgotPass(){
             axios.post("http://nowaste39.pythonanywhere.com/user/forgot-password/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
-                setOpen(true);
+                // setOpen(true);
+                // if(response.status === 200){
+                    setAlertMessage("We've just sent you an email including your new password. Enter your new password to continue.");
+                    setAlertSeverity("success");
+                    // toast.success(alertMessage, {position: toast.POSITION.TOP_RIGHT});
+                // } else {
+
+                // }
             })
             .catch((error) => {
+                setAlertMessage("An error occured. Please try agian later.");
+                setAlertSeverity("error");
+                // toast.error(alertMessage, {position: toast.POSITION.TOP_RIGHT});
                 if (error.response) {
                     console.log(error.response);
                     console.log("server responded");
@@ -152,11 +191,18 @@ export default function ForgotPass(){
         <ThemeProvider theme={theme}>
             <div className="root">
                 <Container className="container">
-                <div className="alert">
-                    {open && <Alert severity="success"  open={open} onClose={handleClose}>
+                    <div >
+                    {/* {open && <Alert severity="success" open={open} onClose={handleClose}>
                         <AlertTitle>Success</AlertTitle>
                             We've just sent you an email including your new password. Enter your new password to continue.
-                    </Alert>}
+                    </Alert>} */}
+                    {/* {open && <Alert severity={alertSeverity} open={open} onClose={handleClose}>
+                        <AlertTitle>{alertSeverity}</AlertTitle>
+                        {alertMessage} */}
+                        {/* <AlertTitle>Success</AlertTitle>
+                            We've just sent you an email including your new password. Enter your new password to continue. */}
+                    {/* </Alert>} */}
+                        <ToastContainer />
                     </div>
 
                     <img
