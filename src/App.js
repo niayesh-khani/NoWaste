@@ -5,6 +5,9 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import ForgotPass from './pages/ForgotPass'
 import Verification from './pages/Verification';
+import HomePage  from './pages/Homepage';
+import Landing from './pages/Landing';
+import Routing from './pages/Routing';
 
 function App() {
   return (
@@ -20,6 +23,12 @@ function App() {
           </Route>
           <Route path="/verification">
             <Verification />
+          </Route>
+          <Route exact path="/homepage">
+            <HomePage />
+          </Route>
+          <Route path="/landing">
+            <Routing/>
           </Route>
       </Router>
   );

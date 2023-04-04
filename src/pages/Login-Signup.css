@@ -164,8 +164,7 @@
     .error{
         height: 4em;
     }
-    .desktop
-    {
+    .desktop {
         display: none;
     }
     .box-forgot{
@@ -218,7 +217,7 @@
         border: 1px solid rgb(197, 120, 58);
     }
     .alert {
-        margin: -25% 15% 0 12%;
+        margin: -30% 15% 0 12%;
         width: 70%;
     }
 }
