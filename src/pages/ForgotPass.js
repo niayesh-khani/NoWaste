@@ -61,9 +61,14 @@ export default function ForgotPass(){
     };
     
     const [open, setOpen] = useState(null);
+    
     const handleClose = () => {
         setOpen(false);
     }
+
+    useEffect(() => {
+        setHeight();
+    }, [open]);
 
     const [validInputs, setValidInputs] = useState(false);
     useEffect(() => {
@@ -122,7 +127,7 @@ export default function ForgotPass(){
             setAlertSeverity("");
         }
     }, [alertMessage, alertSeverity]);
-
+        
     const handleClick = (e) => {
         setOpen(true);
         e.preventDefault();
@@ -144,7 +149,6 @@ export default function ForgotPass(){
             .catch((error) => {
                 setAlertMessage("An error occured. Please try agian later.");
                 setAlertSeverity("error");
-                // toast.error(alertMessage, {position: toast.POSITION.TOP_RIGHT});
                 if (error.response) {
                     console.log(error.response);
                     console.log("server responded");
@@ -174,6 +178,7 @@ export default function ForgotPass(){
             history.push("/homepage");
         })
         .catch((error) => {
+            setOpen(true);
             if (error.response) {
                 console.log(error.response);
                 console.log("server responded");
@@ -192,16 +197,6 @@ export default function ForgotPass(){
             <div className="root">
                 <Container className="container">
                     <div >
-                    {/* {open && <Alert severity="success" open={open} onClose={handleClose}>
-                        <AlertTitle>Success</AlertTitle>
-                            We've just sent you an email including your new password. Enter your new password to continue.
-                    </Alert>} */}
-                    {/* {open && <Alert severity={alertSeverity} open={open} onClose={handleClose}>
-                        <AlertTitle>{alertSeverity}</AlertTitle>
-                        {alertMessage} */}
-                        {/* <AlertTitle>Success</AlertTitle>
-                            We've just sent you an email including your new password. Enter your new password to continue. */}
-                    {/* </Alert>} */}
                         <ToastContainer />
                     </div>
 
@@ -220,6 +215,10 @@ export default function ForgotPass(){
                             Forgot Your Password?
                         </Typography>
                         <form noValidate autoComplete="off" style={{textAlign: 'center'}}>
+                            {open && <Alert severity="error" open={open} onClose={handleClose} className="alert-error" variant="outlined">
+                                    Incorrect new password!
+                                </Alert>
+                            }
                             <TextField 
                                 label="Email Address"
                                 variant="outlined"

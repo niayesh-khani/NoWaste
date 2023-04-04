@@ -135,6 +135,10 @@
     height: 5%;
     width: 40%;
 }
+.alert-error{
+    text-align: left;
+    margin: 5% 15%;
+}
 @media(max-width: 414px) {
     .background {
         display: none;
@@ -177,7 +181,7 @@
         width: 70%;
     }
 }
-@media(min-width: 415) and (max-width: 576px){
+@media(min-width: 415px) and (max-width: 576px){
     .background {
         display: none;
     }
