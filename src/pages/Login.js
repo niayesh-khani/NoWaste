@@ -92,7 +92,7 @@ export default function Login(){
                 console.log(response);
                 setToken(response.data.token);
                 console.log(token);
-                history.push("/");
+                history.push("/homepage");
             })
             .catch((error) => {
                 if (error.response) {

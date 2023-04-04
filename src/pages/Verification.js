@@ -85,7 +85,7 @@ export default function Verification(){
             axios.post("https://nowaste39.pythonanywhere.com/user/verify-email/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
-                history.push("/");
+                history.push("/homepage");
             })
             .catch((error) => {
                 if (error.response) {
