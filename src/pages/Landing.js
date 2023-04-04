@@ -38,7 +38,7 @@ export default function Landing(){
                             <Typical
                             loop={Infinity}
                             wrapper="b"
-                            steps={['Delicious food that wont break the bank.', 3000,'Affordable meals that wont sacrifice taste.',3000,'Good food shouldnt cost a fortune.',3000]}
+                            steps={['Delicious food that won\'t break the bank.', 3000,'Affordable meals that won\'t sacrifice taste.',3000,'Good food shouldn\'t cost a fortune.',3000]}
                             />
                             <br></br>
                             Try us and see
