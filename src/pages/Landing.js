@@ -12,12 +12,12 @@ export default function Landing(){
         <div className="landback">
 
             <nav className="navbar navbar-expand-lg">
-                <div className="navbar-right">
-                    <form>
-                        <button className="button-order login" role="button" formAction="./login">Login</button> 
-                        <button className="button-order" role="button" formAction="./sign-up">Sign up</button>
-                    </form>
-                </div>
+
+                <form>
+                    <button className="button-order login" role="button" formAction="./login">Login</button> 
+                    <button className="button-order" role="button" formAction="./sign-up">Sign up</button>
+                </form>
+
             </nav>
 
 
@@ -40,7 +40,7 @@ export default function Landing(){
                             <Typical
                             loop={Infinity}
                             wrapper="b"
-                            steps={['Delicious food that wont break the bank.', 3000,'Affordable meals that wont sacrifice taste.',3000,'Good food shouldnt cost a fortune.',3000]}
+                            steps={['Delicious food that won\'t break the bank.', 3000,'Affordable meals that won\'t sacrifice taste.',3000,'Good food shouldn\'t cost a fortune.',3000]}
                             />
                             <br></br>
                             Try us and see

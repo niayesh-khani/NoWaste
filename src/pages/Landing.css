@@ -103,7 +103,7 @@
   .navbar {
     position: absolute;
     top: 0;
-    right: 0 ;
+    right: 10px;
   }
   
   .navbar-right {
@@ -112,6 +112,7 @@
   }
 
   .login{
-    margin-right: 20px; ;
+    margin-right: 20px; 
   }
+
 

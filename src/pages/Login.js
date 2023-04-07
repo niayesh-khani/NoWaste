@@ -33,6 +33,7 @@ export default function Login(){
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [token, setToken] = useState('');
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -74,6 +75,10 @@ export default function Login(){
         };
     }, []);
 
+    useEffect(() => {
+        localStorage.setItem('token', JSON.stringify(token));
+        }, [token]);
+
     const history = useHistory();
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -85,6 +90,8 @@ export default function Login(){
             axios.post("http://nowaste39.pythonanywhere.com/user/login/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
+                setToken(response.data.token);
+                console.log(token);
                 history.push("/");
             })
             .catch((error) => {
