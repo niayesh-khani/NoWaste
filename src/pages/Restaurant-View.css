@@ -1,0 +1,23 @@
+.logo {
+    margin-left: 0;
+    width: 10% !important;
+    height: auto;
+    
+}
+.MuiAppBar-root.headerRV {
+    background-color: #911436;
+} 
+
+.toolbarRV {
+    display: flex;
+    justify-content: space-between;
+}
+.toolbarRV .iconRV {
+    display: flex;
+    align-items: center;
+    /* justify-content: flex-end; */
+}
+
+.last-iconRV {
+    margin-left: 10px !important;
+}
