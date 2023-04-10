@@ -4,20 +4,31 @@
     height: auto;
     
 }
-.MuiAppBar-root.headerRV {
+.MuiAppBar-root.header-restaurant-view {
     background-color: #911436;
 } 
 
-.toolbarRV {
+.toolbar-restaurant-view {
     display: flex;
     justify-content: space-between;
 }
-.toolbarRV .iconRV {
+
+.toolbar-restaurant-view .icon-restaurant-view {
     display: flex;
     align-items: center;
     /* justify-content: flex-end; */
 }
 
-.last-iconRV {
+.card-restaurant-view {
+    height: auto;
+    width: 25%;
+    /* max-width: 345; */
+    margin-left: 1%;
+    margin-top: 1%;
+    border: none;
+    /* border-color: #911436 */
+}
+
+.last-icon-restaurant-view {
     margin-left: 10px !important;
 }

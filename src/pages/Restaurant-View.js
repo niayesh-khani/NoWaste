@@ -18,6 +18,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import './Restaurant-View.css';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
+import Collapse from '@mui/material/Collapse';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
@@ -27,6 +28,8 @@ import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Rating } from '@mui/material';
+
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -91,6 +94,7 @@ const RestaurantView = () =>
     const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState('');
     const [expanded, setExpanded] = React.useState(false);
+    const [rateValue, setRateValue] = React.useState(2);
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -99,11 +103,15 @@ const RestaurantView = () =>
     setAnchorEl(null);
     };
 
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
+
     return (
     <div>
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" className="headerRV">
-            <Toolbar className='toolbarRV'>
+            <AppBar position="static" className="header-restaurant-view">
+            <Toolbar className='toolbar-restaurant-view'>
 
                 <img 
                     className='logo'
@@ -135,7 +143,7 @@ const RestaurantView = () =>
                     aria-haspopup="true"
                     onClick={handleMenu}
                     color="inherit"
-                    className='last-iconRV'
+                    className='last-icon-restaurant-view'
                     >
                     <AccountCircle />
                     </IconButton>
@@ -165,38 +173,53 @@ const RestaurantView = () =>
             </AppBar>
         </Box>
 
-        <Card sx={{ maxWidth: 345, marginLeft: 150, marginTop: 3, marginRight: 3, border: 1, borderColor: '#911436'}}>
+        <Card className='card-restaurant-view' sx={{ borderStyle: 'none'}}>
             <CardHeader
-            avatar={
-                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                R
-                </Avatar>
-            }
-            // action={
-            //     <IconButton aria-label="settings">
-            //     <MoreVertIcon />
-            //     </IconButton>
-            // }
-            title="name_restaurant"
-            subheader="From September 14, 2016"
-            />
+                avatar={
+                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                    R
+                    </Avatar>
+                }
+                title="name_restaurant"
+                subheader="From September 14, 2016"
+            >
+                <IconButton aria-label="add to favorites" color="primary">
+                    <FavoriteIcon />
+                </IconButton>
+            </CardHeader>
             <CardMedia
             component="img"
             src="/logo4.png"
             alt="Restaurant1"
             />
             <CardContent>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" className='Body2-restaurant-view' color="text.secondary">
                 This impressive paella is a perfect party dish and a fun meal to cook
                 together with your guests. Add 1 cup of frozen peas along with the mussels,
                 if you like.
             </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-                </IconButton>
+                <Rating name="read-only" value={rateValue} readOnly />
+                <ExpandMore
+                    expand={expanded}
+                    onClick={handleExpandClick}
+                    aria-expanded={expanded}
+                    aria-label="show more"
+                >
+                <ExpandMoreIcon />
+                </ExpandMore>
             </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <CardContent>
+                <Typography paragraph>
+                    phone number : 09125478945
+                </Typography>
+                <Typography paragraph>
+                    Address : hell
+                </Typography>
+            </CardContent>
+        </Collapse>
         </Card>
     </div>
     );
