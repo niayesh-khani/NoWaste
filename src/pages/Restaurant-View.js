@@ -9,6 +9,8 @@ import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
+// import Row from 'react-bootstrap/Row';
+// import Col from 'react-bootstrap/Col';
 import Menu from '@mui/material/Menu';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
@@ -93,6 +95,36 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
     duration: theme.transitions.duration.shortest,
     }),
 }));
+
+const getColumnsForRow =()=>{
+    return ( 
+        <Card className= 'card-food'>
+        <CardMedia
+            sx={{ height: 140 }}
+            image="/food1.jpg"
+            title="green iguana"
+        />
+        <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+                Special Sultan's Kebab of Mohsen
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+                Premium leaf (300g) + Kebab Lqma (250g) + Grilled tomato without rice and side dishes (decorative picture).
+            </Typography>
+        </CardContent>
+        <CardActions>
+            <IconButton color="success" aria-label="add to shopping cart">
+                <AddShoppingCartIcon />
+            </IconButton>
+
+            <IconButton sx={{ color: red[500] }} aria-label="add to shopping cart">
+                <RemoveShoppingCart />
+            </IconButton>
+
+        </CardActions>
+        </Card>
+        );
+};
 
 
 const RestaurantView = () => 
@@ -241,32 +273,9 @@ const RestaurantView = () =>
             </Collapse>
         </Card>
 
-        <Card className= 'card-food'>
-            
-            <CardMedia
-                sx={{ height: 140 }}
-                image="/food1.jpg"
-                title="green iguana"
-            />
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                    Special Sultan's Kebab of Mohsen
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    Premium leaf (300g) + Kebab Lqma (250g) + Grilled tomato without rice and side dishes (decorative picture).
-                </Typography>
-            </CardContent>
-            <CardActions>
-                <IconButton color="success" aria-label="add to shopping cart">
-                    <AddShoppingCartIcon />
-                </IconButton>
-
-                <IconButton sx={{ color: red[500] }} aria-label="add to shopping cart">
-                    <RemoveShoppingCart />
-                </IconButton>
-
-            </CardActions>
-        </Card>
+        <Grid>
+            {getColumnsForRow()}
+        </Grid>
     </div>
     );
 }
