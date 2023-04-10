@@ -28,6 +28,12 @@ import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Button from '@mui/material/Button';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import RemoveShoppingCart from '@material-ui/icons/RemoveShoppingCart';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import { Grid } from '@material-ui/core';
 import { Rating } from '@mui/material';
 
 
@@ -107,6 +113,12 @@ const RestaurantView = () =>
         setExpanded(!expanded);
     };
 
+    const [value, setValue] = React.useState('');
+
+    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+        setValue(newValue);
+    };
+
     return (
     <div>
         <Box sx={{ flexGrow: 1 }}>
@@ -174,52 +186,86 @@ const RestaurantView = () =>
         </Box>
 
         <Card className='card-restaurant-view' sx={{ borderStyle: 'none'}}>
-            <CardHeader
-                avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                    R
-                    </Avatar>
-                }
-                title="name_restaurant"
-                subheader="From September 14, 2016"
-            >
-                <IconButton aria-label="add to favorites" color="primary">
-                    <FavoriteIcon />
-                </IconButton>
-            </CardHeader>
+            <Grid container spacing={1} alignItems="center">
+                <CardHeader
+                        avatar={
+                            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                            M
+                            </Avatar>
+                        }
+                        title="Restaurant Mohsen"
+                        subheader="From September 14, 2023"
+                        >
+                </CardHeader>
+
+                <Grid item>
+                    <BottomNavigation value={value} onChange={handleChange}>
+                        <BottomNavigationAction 
+                        value="favorites"
+                        icon={<FavoriteIcon sx={{ color: value === 'favorites' ? 'red' : 'inherit' }} />}
+                        />
+                    </BottomNavigation>
+                </Grid>
+            </Grid>
+
+                <CardMedia
+                component="img"
+                src="/mohsen.jpg"
+                alt="Restaurant1"
+                />
+                <CardContent>
+                <Typography variant="body2" className='Body2-restaurant-view' color="text.secondary">
+                    Restaurant Mohsen takes pride that since 1375 (1996/1997), the same time it started its activities, it has been maintaining its special quantity and quality with the full supervision of management and the support of an experienced team in the preparation of raw materials and cooking affairs.
+                </Typography>
+                </CardContent>
+                <CardActions disableSpacing>
+                    <Rating name="read-only" value={rateValue} readOnly />
+                    <ExpandMore
+                        expand={expanded}
+                        onClick={handleExpandClick}
+                        aria-expanded={expanded}
+                        aria-label="show more"
+                    >
+                    <ExpandMoreIcon />
+                    </ExpandMore>
+                </CardActions>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <CardContent>
+                    <Typography paragraph>
+                        phone number : 021 2284 5657
+                    </Typography>
+                    <Typography paragraph>
+                        Address : Tehran Province, Tehran, Zarrabkhaneh, Qoba, QF52+P86
+                    </Typography>
+                </CardContent>
+            </Collapse>
+        </Card>
+
+        <Card className= 'card-food'>
+            
             <CardMedia
-            component="img"
-            src="/logo4.png"
-            alt="Restaurant1"
+                sx={{ height: 140 }}
+                image="/food1.jpg"
+                title="green iguana"
             />
             <CardContent>
-            <Typography variant="body2" className='Body2-restaurant-view' color="text.secondary">
-                This impressive paella is a perfect party dish and a fun meal to cook
-                together with your guests. Add 1 cup of frozen peas along with the mussels,
-                if you like.
-            </Typography>
+                <Typography gutterBottom variant="h5" component="div">
+                    Special Sultan's Kebab of Mohsen
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                    Premium leaf (300g) + Kebab Lqma (250g) + Grilled tomato without rice and side dishes (decorative picture).
+                </Typography>
             </CardContent>
-            <CardActions disableSpacing>
-                <Rating name="read-only" value={rateValue} readOnly />
-                <ExpandMore
-                    expand={expanded}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
-                >
-                <ExpandMoreIcon />
-                </ExpandMore>
+            <CardActions>
+                <IconButton color="success" aria-label="add to shopping cart">
+                    <AddShoppingCartIcon />
+                </IconButton>
+
+                <IconButton sx={{ color: red[500] }} aria-label="add to shopping cart">
+                    <RemoveShoppingCart />
+                </IconButton>
+
             </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
-                <Typography paragraph>
-                    phone number : 09125478945
-                </Typography>
-                <Typography paragraph>
-                    Address : hell
-                </Typography>
-            </CardContent>
-        </Collapse>
         </Card>
     </div>
     );
