@@ -188,7 +188,7 @@ const RestaurantView = () =>
             </Toolbar>
             </AppBar>
         </Box>
-
+        
         <Card className='card-restaurant-view' sx={{ borderStyle: 'none'}}>
             <Grid container spacing={1} alignItems="center">
                 <CardHeader
@@ -251,7 +251,7 @@ const RestaurantView = () =>
                 </CardContent>
             </Collapse>
         </Card>
-
+        
         <Container>
             <Masonry
             breakpointCols={breakpoints}

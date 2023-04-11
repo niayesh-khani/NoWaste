@@ -15,6 +15,16 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 const Food = ({food}) => {
     const [count, setCount] = React.useState(0);
 
+    const handleAddToCartClick = () => {
+        setCount(count + 1);
+    }
+
+    const handleRemoveFromCartClick = () => {
+        if (count > 0) {
+            setCount(count - 1);
+        }
+    }
+
     React.useEffect(() => {
         localStorage.setItem('countOffood', JSON.stringify(count));
         }, [count]);
@@ -36,46 +46,25 @@ const Food = ({food}) => {
                 </Typography>
             </CardContent>
             <CardActions>
-                <IconButton color="success" aria-label="add to shopping cart">
+                <IconButton color="success" aria-label="add to shopping cart" onClick={handleAddToCartClick}>
                     <AddShoppingCartIcon />
                 </IconButton>
                 <TextField
-                    type='number'
-                    label="Outlined"
+                    type='text'
+                    label="count"
                     variant='outlined'
                     onChange={(e) => setCount(e.target.value)}
                     value={count}
-                />
-                {/* <OutlinedInput
-                    type='number'
-                    label="Outlined"
-                    onChange={(e) => setCount(e.target.value)}
-                    value={count}
-                    sx={{
-                        '& .MuiInputBase-input': {
-                            color: 'white',
-                            fontWeight: 'bold',
-                            textAlign: 'center'
-                        },
-                        '& .MuiInput-notchedOutline': {
-                            borderColor: 'white'
-                        },
-                        '&:hover .MuiInput-notchedOutline': {
-                            borderColor: 'white'
-                        },
-                        '&.Mui-focused .MuiInput-notchedOutline': {
-                            borderColor: 'white'
-                        }
+                    inputProps={{
+                        pattern: '[0-9]*'
                     }}
-                >
-                </OutlinedInput> */}
-                <IconButton sx={{ color: red[500] }} aria-label="add to shopping cart">
+                />
+                <IconButton sx={{ color: red[500] }} aria-label="add to shopping cart" onClick={handleRemoveFromCartClick}>
                     <RemoveShoppingCart />
                 </IconButton>
             </CardActions>
             </Card>
         </div>
     );
-    console.log(count);
 }
 export default Food;
