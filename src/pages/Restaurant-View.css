@@ -39,7 +39,7 @@
 }
 
 .favorite-restaurant-view{
-    margin-left: 120% !important;
+    margin-left: 100% !important;
 }
 
 .full-menu-restaurant-view {
@@ -66,3 +66,10 @@
 .my-masonry-grid_column > div { /* change div to reference your elements you put in <Masonry> */
     margin-bottom: 30px;
   }
+
+
+.css-8u9tfx-MuiButtonBase-root-MuiBottomNavigationAction-root{
+    padding: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+}
