@@ -37,6 +37,7 @@ import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import { Grid } from '@material-ui/core';
 import { Rating } from '@mui/material';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -133,6 +134,12 @@ const RestaurantView = () =>
     const [anchorEl, setAnchorEl] = React.useState('');
     const [expanded, setExpanded] = React.useState(false);
     const [rateValue, setRateValue] = React.useState(2);
+    const [color, setColor] = React.useState(false);
+
+
+    const handleColor = () => {
+        setColor(!color);
+    };
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -231,12 +238,19 @@ const RestaurantView = () =>
                 </CardHeader>
 
                 <Grid item>
-                    <BottomNavigation value={value} onChange={handleChange}>
-                        <BottomNavigationAction 
+
+                <BottomNavigation>
+                    <BottomNavigationAction 
                         value="favorites"
-                        icon={<FavoriteIcon sx={{ color: value === 'favorites' ? 'red' : 'inherit' }} />}
-                        />
-                    </BottomNavigation>
+                        icon={
+                        color ? 
+                        <FavoriteIcon className='favorite-restaurant-view' sx={{ color: 'red' }} onClick={handleColor} /> :
+                        <FavoriteBorderIcon className='favorite-restaurant-view' sx={{ color: 'inherit' }} onClick={handleColor} />
+                        }
+                    />
+                </BottomNavigation>
+                    
+
                 </Grid>
             </Grid>
 
@@ -273,7 +287,7 @@ const RestaurantView = () =>
             </Collapse>
         </Card>
 
-        <Grid>
+        <Grid >
             {getColumnsForRow()}
         </Grid>
     </div>
