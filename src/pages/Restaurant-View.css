@@ -4,9 +4,16 @@
     height: auto;
     
 }
+
 .MuiAppBar-root.header-restaurant-view {
     background-color: #911436;
 } 
+
+.css-8u9tfx-MuiButtonBase-root-MuiBottomNavigationAction-root{
+    padding: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+}
 
 .toolbar-restaurant-view {
     display: flex;
@@ -22,11 +29,9 @@
 .card-restaurant-view {
     height: auto;
     width: 25%;
-    /* max-width: 345; */
     margin-left: 1%;
     margin-top: 1%;
     border: none;
-    /* border-color: #911436 */
 }
 
 .last-icon-restaurant-view {
@@ -56,20 +61,15 @@
     display: flex;
     margin-left: -30px; /* gutter size offset */
     width: auto;
-  }
+}
+
 .my-masonry-grid_column {
     padding-left: 30px; /* gutter size */
     background-clip: padding-box;
-  }
-  
+}
   /* Style your items */
 .my-masonry-grid_column > div { /* change div to reference your elements you put in <Masonry> */
     margin-bottom: 30px;
-  }
-
-
-.css-8u9tfx-MuiButtonBase-root-MuiBottomNavigationAction-root{
-    padding: 0 !important;
-    min-width: 0 !important;
-    max-width: 0 !important;
 }
+
+

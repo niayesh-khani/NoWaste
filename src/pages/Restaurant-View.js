@@ -3,14 +3,8 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
-// import Row from 'react-bootstrap/Row';
-// import Col from 'react-bootstrap/Col';
 import Menu from '@mui/material/Menu';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
@@ -29,16 +23,13 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Button from '@mui/material/Button';
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import RemoveShoppingCart from '@material-ui/icons/RemoveShoppingCart';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import { Grid } from '@material-ui/core';
 import { Container, Rating } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Masonry from 'react-masonry-css';
+import Food from '../components/Food';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -98,38 +89,6 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
     }),
 }));
 
-const getColumnsForRow =()=>{
-    return ( 
-        <Card className= 'card-food'>
-        <CardMedia
-            sx={{ height: 140 }}
-            image="/food1.jpg"
-            title="green iguana"
-        />
-        <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-                Special Sultan's Kebab of Mohsen
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-                Premium leaf (300g) + Kebab Lqma (250g) + Grilled tomato without rice and side dishes (decorative picture).
-            </Typography>
-        </CardContent>
-        <CardActions>
-            <IconButton color="success" aria-label="add to shopping cart">
-                <AddShoppingCartIcon />
-            </IconButton>
-
-            <IconButton sx={{ color: red[500] }} aria-label="add to shopping cart">
-                <RemoveShoppingCart />
-            </IconButton>
-
-        </CardActions>
-        </Card>
-        );
-};
-
-
-
 const RestaurantView = () => 
 {
     const [auth, setAuth] = React.useState(true);
@@ -154,12 +113,6 @@ const RestaurantView = () =>
         setExpanded(!expanded);
     };
 
-    const [value, setValue] = React.useState('');
-
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-        setValue(newValue);
-    };
-
     //////----------------------------------------------
     const breakpoints = {
         default: 3,
@@ -167,7 +120,7 @@ const RestaurantView = () =>
         700:1
     }
 
-    const notes = ["jknj","l,klmdsf","sfksjfs", "sflsjfa33"]
+    const foods = ["food1","food2","food3", "food4", "food5", "food6", "food7"]
 
 
     return (
@@ -256,7 +209,7 @@ const RestaurantView = () =>
                         value="favorites"
                         icon={
                         color ? 
-                        <FavoriteIcon className='favorite-restaurant-view' sx={{ color: 'red' }} onClick={handleColor} /> :
+                        <FavoriteIcon className='favorite-restaurant-view' sx={{ color: 'red'}} onClick={handleColor} /> :
                         <FavoriteBorderIcon className='favorite-restaurant-view' sx={{ color: 'inherit' }} onClick={handleColor} />
                         }
                     />
@@ -305,9 +258,9 @@ const RestaurantView = () =>
             className="my-masonry-grid"
             columnClassName="my-masonry-grid_column"
         >
-            {notes.map(note => (
+            {foods.map(food => (
             <div item xs={3}>
-                {getColumnsForRow()}
+                <Food food={food}/>
             </div>
             ))}
         </Masonry>
