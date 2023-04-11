@@ -36,8 +36,9 @@ import RemoveShoppingCart from '@material-ui/icons/RemoveShoppingCart';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import { Grid } from '@material-ui/core';
-import { Rating } from '@mui/material';
+import { Container, Rating } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import Masonry from 'react-masonry-css';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -128,6 +129,7 @@ const getColumnsForRow =()=>{
 };
 
 
+
 const RestaurantView = () => 
 {
     const [auth, setAuth] = React.useState(true);
@@ -157,6 +159,16 @@ const RestaurantView = () =>
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
     };
+
+    //////----------------------------------------------
+    const breakpoints = {
+        default: 3,
+        1100: 2,
+        700:1
+    }
+
+    const notes = ["jknj","l,klmdsf","sfksjfs", "sflsjfa33"]
+
 
     return (
     <div>
@@ -287,9 +299,19 @@ const RestaurantView = () =>
             </Collapse>
         </Card>
 
-        <Grid >
-            {getColumnsForRow()}
-        </Grid>
+        <Container>
+            <Masonry
+            breakpointCols={breakpoints}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column"
+        >
+            {notes.map(note => (
+            <div item xs={3}>
+                {getColumnsForRow()}
+            </div>
+            ))}
+        </Masonry>
+        </Container>
     </div>
     );
 }
