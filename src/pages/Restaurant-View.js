@@ -247,7 +247,7 @@ const RestaurantView = (props: Props) =>
             ))}
         </Masonry>
         </MU.Container>
-
+        
         <BackToTop/>
     </div>
     );
