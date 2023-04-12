@@ -1,43 +1,25 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import InputBase from '@mui/material/InputBase';
+import * as MU from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { styled, alpha } from '@mui/material/styles';
-import {Badge } from "@material-ui/core";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import './Restaurant-View.css';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import Collapse from '@mui/material/Collapse';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import { Grid } from '@material-ui/core';
-import { Container, Rating } from '@mui/material';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { AccountCircle } from '@material-ui/icons';
 import Masonry from 'react-masonry-css';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Food from '../components/Food';
+import BackToTop from '../components/BackToTop';
 
 
-const Search = styled('div')(({ theme }) => ({
+const Search = MU.styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    backgroundColor: MU.alpha(theme.palette.common.white, 0.15),
     '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
+        backgroundColor: MU.alpha(theme.palette.common.white, 0.25),
     },
     marginLeft: 0, 
     marginRight: theme.spacing(8), 
@@ -48,8 +30,7 @@ const Search = styled('div')(({ theme }) => ({
     },
 }));
 
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+const SearchIconWrapper = MU.styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
     position: 'absolute',
@@ -59,7 +40,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
     justifyContent: 'center',
 }));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
+const StyledInputBase = MU.styled(MU.InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
@@ -79,7 +60,7 @@ interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
 }
 
-const ExpandMore = styled((props: ExpandMoreProps) => {
+const ExpandMore = MU.styled((props: ExpandMoreProps) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
 })(({ theme, expand }) => ({
@@ -91,7 +72,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 
-const RestaurantView = () => 
+const RestaurantView = (props: Props) => 
 {
     const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState('');
@@ -115,7 +96,6 @@ const RestaurantView = () =>
         setExpanded(!expanded);
     };
 
-    //////----------------------------------------------
     const breakpoints = {
         default: 3,
         1100: 2,
@@ -127,9 +107,9 @@ const RestaurantView = () =>
 
     return (
     <div>
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" className="header-restaurant-view">
-            <Toolbar className='toolbar-restaurant-view'>
+        <MU.Box sx={{ flexGrow: 1 }}>
+            <MU.AppBar position="static" className="header-restaurant-view">
+            <MU.Toolbar className='toolbar-restaurant-view'>
 
                 <img 
                     className='logo'
@@ -150,9 +130,9 @@ const RestaurantView = () =>
                 <div >
                     
                     <IconButton color='inherit'>
-                        <Badge badgeContent={2} color='error'>
+                        <MU.Badge badgeContent={2} color='error'>
                             <ShoppingCartIcon />
-                        </Badge>
+                        </MU.Badge>
                     </IconButton>
                     <IconButton
                     size="large"
@@ -166,7 +146,7 @@ const RestaurantView = () =>
                     <AccountCircle />
                     </IconButton>
                     
-                    <Menu
+                    <MU.Menu
                     id="menu-appbar"
                     anchorEl={anchorEl}
                     anchorOrigin={{
@@ -181,33 +161,33 @@ const RestaurantView = () =>
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                     >
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>Log out</MenuItem>
-                    </Menu>
+                    <MU.MenuItem onClick={handleClose}>Profile</MU.MenuItem>
+                    <MU.MenuItem onClick={handleClose}>Log out</MU.MenuItem>
+                    </MU.Menu>
 
                 </div>
                 )}
-            </Toolbar>
-            </AppBar>
-        </Box>
+            </MU.Toolbar>
+            </MU.AppBar>
+        </MU.Box>
         
-        <Card sx={{ borderStyle: 'none'}} className='card-restaurant-view'>
-            <Grid container spacing={1} alignItems="center" >
-                <CardHeader 
+        <MU.Card sx={{ borderStyle: 'none'}} className='card-restaurant-view'>
+            <MU.Grid container spacing={1} alignItems="center" >
+                <MU.CardHeader 
                         avatar={
-                            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                            <MU.Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
                             M
-                            </Avatar>
+                            </MU.Avatar>
                         }
                         title="Restaurant Mohsen"
                         subheader="From September 14, 2023"
                         >
-                </CardHeader>
+                </MU.CardHeader>
 
-                <Grid item>
+                <MU.Grid item>
 
-                <BottomNavigation>
-                    <BottomNavigationAction 
+                <MU.BottomNavigation>
+                    <MU.BottomNavigationAction 
                         value="favorites"
                         icon={
                         color ? 
@@ -215,24 +195,24 @@ const RestaurantView = () =>
                         <FavoriteBorderIcon className='favorite-restaurant-view' sx={{ color: 'inherit' }} onClick={handleColor} />
                         }
                     />
-                </BottomNavigation>
+                </MU.BottomNavigation>
                     
 
-                </Grid>
-            </Grid>
+                </MU.Grid>
+            </MU.Grid>
 
-                <CardMedia
+                <MU.CardMedia
                 component="img"
                 src="/mohsen.jpg"
                 alt="Restaurant1"
                 />
-                <CardContent>
-                <Typography variant="body2" className='Body2-restaurant-view' color="text.secondary">
+                <MU.CardContent>
+                <MU.Typography variant="body2" className='Body2-restaurant-view' color="text.secondary">
                     Restaurant Mohsen takes pride that since 1375 (1996/1997), the same time it started its activities, it has been maintaining its special quantity and quality with the full supervision of management and the support of an experienced team in the preparation of raw materials and cooking affairs.
-                </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                    <Rating name="read-only" value={rateValue} readOnly />
+                </MU.Typography>
+                </MU.CardContent>
+                <MU.CardActions disableSpacing>
+                    <MU.Rating name="read-only" value={rateValue} readOnly />
                     <ExpandMore
                         expand={expanded}
                         onClick={handleExpandClick}
@@ -241,20 +221,20 @@ const RestaurantView = () =>
                     >
                     <ExpandMoreIcon />
                     </ExpandMore>
-                </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                    <Typography paragraph>
+                </MU.CardActions>
+            <MU.Collapse in={expanded} timeout="auto" unmountOnExit>
+                <MU.CardContent>
+                    <MU.Typography paragraph>
                         phone number : 021 2284 5657
-                    </Typography>
-                    <Typography paragraph>
+                    </MU.Typography>
+                    <MU.Typography paragraph>
                         Address : Tehran Province, Tehran, Zarrabkhaneh, Qoba, QF52+P86
-                    </Typography>
-                </CardContent>
-            </Collapse>
-        </Card>
+                    </MU.Typography>
+                </MU.CardContent>
+            </MU.Collapse>
+        </MU.Card>
         
-        <Container>
+        <MU.Container>
             <Masonry
                 breakpointCols={breakpoints}
                 className="my-masonry-grid"
@@ -266,7 +246,9 @@ const RestaurantView = () =>
             </div>
             ))}
         </Masonry>
-        </Container>
+        </MU.Container>
+
+        <BackToTop/>
     </div>
     );
 }

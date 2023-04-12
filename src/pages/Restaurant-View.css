@@ -39,12 +39,6 @@
     margin-left: 10px !important;
 }
 
-.card-food {
-    width: 60%;
-    position: relative;
-    margin-bottom: 50px;
-}
-
 .favorite-restaurant-view{
     margin-left: 10rem !important;
 }
@@ -73,7 +67,6 @@
     /* margin-left: 10% !important; */
     margin-top: -510px !important;
 }
-
 
 
 

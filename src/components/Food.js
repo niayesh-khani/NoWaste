@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
-import '../pages/Restaurant-View.css';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
@@ -9,11 +8,11 @@ import { red } from '@mui/material/colors';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import RemoveShoppingCart from '@material-ui/icons/RemoveShoppingCart';
 import { TextField } from '@material-ui/core';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import Collapse from '@mui/material/Collapse';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import { styled, alpha } from '@mui/material/styles';
+import { styled} from '@mui/material/styles';
+import './Food.css';
 
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -37,7 +36,8 @@ const Food = ({food}) => {
 
 
     const handleAddToCartClick = () => {
-        setCount(count + 1);
+        const tmp = count + 1;
+        setCount(tmp);
     }
 
     const handleRemoveFromCartClick = () => {
@@ -62,8 +62,8 @@ const Food = ({food}) => {
                 image="/food1.jpg"
                 title="green iguana"
             />
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
+            <CardContent >
+                <Typography gutterBottom className='food-name-restaurant-view' >
                     Special Sultan's Kebab of Mohsen
                 </Typography>
                 {/* <Typography variant="body2" color="text.secondary">
@@ -75,14 +75,11 @@ const Food = ({food}) => {
                     <AddShoppingCartIcon />
                 </IconButton>
                 <TextField
-                    type='text'
+                    type='number'
                     label="count"
                     variant='outlined'
                     onChange={(e) => setCount(e.target.value)}
                     value={count}
-                    inputProps={{
-                        pattern: '[0-9]*'
-                    }}
                 />
                 <IconButton sx={{ color: red[500] }} aria-label="add to shopping cart" onClick={handleRemoveFromCartClick}>
                     <RemoveShoppingCart />
