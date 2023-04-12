@@ -78,6 +78,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
 }
+
 const ExpandMore = styled((props: ExpandMoreProps) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -88,6 +89,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
     duration: theme.transitions.duration.shortest,
     }),
 }));
+
 
 const RestaurantView = () => 
 {
@@ -189,9 +191,9 @@ const RestaurantView = () =>
             </AppBar>
         </Box>
         
-        <Card className='card-restaurant-view' sx={{ borderStyle: 'none'}}>
-            <Grid container spacing={1} alignItems="center">
-                <CardHeader
+        <Card sx={{ borderStyle: 'none'}} className='card-restaurant-view'>
+            <Grid container spacing={1} alignItems="center" >
+                <CardHeader 
                         avatar={
                             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
                             M
@@ -254,9 +256,9 @@ const RestaurantView = () =>
         
         <Container>
             <Masonry
-            breakpointCols={breakpoints}
-            className="my-masonry-grid"
-            columnClassName="my-masonry-grid_column"
+                breakpointCols={breakpoints}
+                className="my-masonry-grid"
+                columnClassName="my-masonry-grid_column"
         >
             {foods.map(food => (
             <div item xs={3}>
@@ -270,3 +272,4 @@ const RestaurantView = () =>
 }
 
 export default RestaurantView;
+

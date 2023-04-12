@@ -42,10 +42,11 @@
 .card-food {
     width: 60%;
     position: relative;
+    margin-bottom: 50px;
 }
 
 .favorite-restaurant-view{
-    margin-left: 100% !important;
+    margin-left: 10rem !important;
 }
 
 .full-menu-restaurant-view {
@@ -57,7 +58,8 @@
     display: -webkit-box; /* Not needed if autoprefixing */
     display: -ms-flexbox; /* Not needed if autoprefixing */
     display: flex;
-    margin-left: -30px; /* gutter size offset */
+    /* margin-left: -30px;  */
+    margin-left: 127px; 
     width: auto;
 }
 
@@ -65,6 +67,13 @@
     padding-left: 30px; /* gutter size */
     background-clip: padding-box;
 }
+
+.css-1oqqzyl-MuiContainer-root {
+    margin-left: 295px !important;
+    /* margin-left: 10% !important; */
+    margin-top: -510px !important;
+}
+
 
 
 

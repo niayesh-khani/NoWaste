@@ -8,12 +8,33 @@ import CardActions from '@mui/material/CardActions';
 import { red } from '@mui/material/colors';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import RemoveShoppingCart from '@material-ui/icons/RemoveShoppingCart';
-import IconButton from '@mui/material/IconButton';
 import { TextField } from '@material-ui/core';
 import OutlinedInput from '@mui/material/OutlinedInput';
+import Collapse from '@mui/material/Collapse';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+import { styled, alpha } from '@mui/material/styles';
+
+
+interface ExpandMoreProps extends IconButtonProps {
+    expand: boolean;
+}
+const ExpandMore = styled((props: ExpandMoreProps) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+    duration: theme.transitions.duration.shortest,
+    }),
+}));
+
 
 const Food = ({food}) => {
     const [count, setCount] = React.useState(0);
+    const [expanded, setExpanded] = React.useState(false);
+
 
     const handleAddToCartClick = () => {
         setCount(count + 1);
@@ -24,6 +45,10 @@ const Food = ({food}) => {
             setCount(count - 1);
         }
     }
+
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
 
     React.useEffect(() => {
         localStorage.setItem('countOffood', JSON.stringify(count));
@@ -41,9 +66,9 @@ const Food = ({food}) => {
                 <Typography gutterBottom variant="h5" component="div">
                     Special Sultan's Kebab of Mohsen
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                {/* <Typography variant="body2" color="text.secondary">
                     Premium leaf (300g) + Kebab Lqma (250g) + Grilled tomato without rice and side dishes (decorative picture).
-                </Typography>
+                </Typography> */}
             </CardContent>
             <CardActions>
                 <IconButton color="success" aria-label="add to shopping cart" onClick={handleAddToCartClick}>
@@ -63,6 +88,29 @@ const Food = ({food}) => {
                     <RemoveShoppingCart />
                 </IconButton>
             </CardActions>
+            
+
+            <CardActions disableSpacing>
+                    {/* <Rating name="read-only" value={rateValue} readOnly /> */}
+                    <ExpandMore
+                        expand={expanded}
+                        onClick={handleExpandClick}
+                        aria-expanded={expanded}
+                        aria-label="show more"
+                    >
+                    <ExpandMoreIcon />
+                    </ExpandMore>
+                </CardActions>
+
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <CardContent>
+                    <Typography paragraph>
+                    Premium leaf (300g) + Kebab Lqma (250g) + Grilled tomato without rice and side dishes (decorative picture).
+                    </Typography>
+                </CardContent>
+            </Collapse>
+
+
             </Card>
         </div>
     );
