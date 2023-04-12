@@ -75,12 +75,13 @@ const Food = ({food}) => {
                     <AddShoppingCartIcon />
                 </IconButton>
                 <TextField
-                    type='number'
+                    // type='number'
                     label="count"
                     variant='outlined'
                     onChange={(e) => setCount(e.target.value)}
                     value={count}
                 />
+                
                 <IconButton sx={{ color: red[500] }} aria-label="add to shopping cart" onClick={handleRemoveFromCartClick}>
                     <RemoveShoppingCart />
                 </IconButton>
