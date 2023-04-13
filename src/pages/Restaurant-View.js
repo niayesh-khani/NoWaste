@@ -12,6 +12,7 @@ import Masonry from 'react-masonry-css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Food from '../components/Food';
 import BackToTop from '../components/BackToTop';
+import Footer from '../components/Footer';
 
 
 const Search = MU.styled('div')(({ theme }) => ({
@@ -249,6 +250,9 @@ const RestaurantView = (props: Props) =>
         </MU.Container>
         
         <BackToTop/>
+
+        {/* <Footer/> */}
+
     </div>
     );
 }

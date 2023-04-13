@@ -34,11 +34,18 @@ const Food = ({food}) => {
     const [count, setCount] = React.useState(0);
     const [expanded, setExpanded] = React.useState(false);
 
+    const handleChange = (e) => {
+        setCount(e.target.value);
+    }
+    console.log(count);
 
     const handleAddToCartClick = () => {
-        const tmp = count + 1;
+        console.log(count);
+        var tmp = parseInt(count) + 1
+        console.log(tmp);
         setCount(tmp);
     }
+
 
     const handleRemoveFromCartClick = () => {
         if (count > 0) {
@@ -78,10 +85,9 @@ const Food = ({food}) => {
                     // type='number'
                     label="count"
                     variant='outlined'
-                    onChange={(e) => setCount(e.target.value)}
+                    onChange={handleChange}
                     value={count}
                 />
-                
                 <IconButton sx={{ color: red[500] }} aria-label="add to shopping cart" onClick={handleRemoveFromCartClick}>
                     <RemoveShoppingCart />
                 </IconButton>
