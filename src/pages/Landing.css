@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
-
+@import url('https://fonts.googleapis.com/css?family=Red+Hat+Display:900&display=swap');
 .landback {
     height: 100vh;
     width: 100vw;
     display: flex;
-    background-image: url(/public/bb.jpg);
+    background-image: url(/public/b.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -16,19 +16,21 @@
     position: relative;
 }   
 .landbox {
-    margin-bottom: 15%;
-    margin-right: 55%;
+    margin-bottom: 7%;
+    margin-right: 48%;
 }
 .landtext {
-    color: white;
-    font-weight: 400;
-    font-family: 'Raleway', sans-serif !important;
+    color: rgb(0, 0, 0);
+    font-weight: 600;
+    /* font-family: 'Raleway', sans-serif !important; */
+    font-family: 'Red Hat Display', sans-serif !important;
     text-align: left;
-    text-shadow: 5px 5px 5px #000000;
+    text-shadow: 5px 5px 5px #908c8c;
+    margin-left: 5% !important;
 }
 
 .button-order {
-    padding: 0.8em 4em;
+    padding: 1em 3em;
     border: none;
     outline: none;
     color: rgb(255, 255, 255);
@@ -41,10 +43,11 @@
     -webkit-user-select: none;
     touch-action: manipulation;
     margin-top: 5%;
-    font-size: 96%;
+    margin-left: 5%;
+    font-size: 110%;
     font-weight: bold;
     font-family: 'Raleway', sans-serif !important;
-    opacity: 0.8;
+    opacity: 0.9;
   }
   
   .button-order:before {
@@ -99,18 +102,47 @@
     border-radius: 50px;
 
   }
-
-  .navbar {
-    position: absolute;
-    top: 0;
-    right: 10px;
-  }
   
-  .navbar-right {
-    margin-top: 10px;
-    margin-right: 10px;
-  }
+.buttonland {
+  border-radius: 500px;
+  border-style: none;
+  box-sizing: border-box;
+  background-color: #000000;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 14px;
+  font-weight: bolder;
+  height: 50px;
+  line-height: 20px;
+  list-style: none;
+  outline: none;
+  padding: 0em 1.8em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin-right: 20px;
+  margin-top: 20px;
+}
 
-  .login{
-    margin-right: 20px; ;
-  }
+.buttonland:hover,
+.buttonland:focus {
+  background-color: #151414c0;
+}
+
+.navbar {
+  position: absolute;
+  top: 0;
+  right: 0 ;
+}
+
+.signup
+{
+  margin-right: 47px; ;
+}

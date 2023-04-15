@@ -29,6 +29,7 @@ function App() {
             <HomePage />
           </Route>
           <Route path="/landing">
+
             <Routing/>
           </Route>
           <Route path="/restaurant-view">
