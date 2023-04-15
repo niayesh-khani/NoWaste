@@ -13,6 +13,9 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Food from '../components/Food';
 import BackToTop from '../components/BackToTop';
 import Footer from '../components/Footer';
+import {useHistory } from "react-router-dom";
+import Header from './Header';
+
 
 
 const Search = MU.styled('div')(({ theme }) => ({
@@ -75,27 +78,20 @@ const ExpandMore = MU.styled((props: ExpandMoreProps) => {
 
 const RestaurantView = (props: Props) => 
 {
-    const [auth, setAuth] = React.useState(true);
-    const [anchorEl, setAnchorEl] = React.useState('');
     const [expanded, setExpanded] = React.useState(false);
     const [rateValue, setRateValue] = React.useState(2);
     const [color, setColor] = React.useState(false);
+    const history = useHistory();
 
 
     const handleColor = () => {
         setColor(!color);
     };
 
-    const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-    setAnchorEl(null);
-    };
-
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
+
 
     const breakpoints = {
         default: 3,
@@ -108,68 +104,7 @@ const RestaurantView = (props: Props) =>
 
     return (
     <div>
-        <MU.AppBar position="static" className="header-restaurant-view">
-            <MU.Toolbar className='toolbar-restaurant-view'>
-
-                <img 
-                    className='logo'
-                    src="/logo4.png"
-                    alt="NoWaste"
-                />
-
-                <Search>
-                    <SearchIconWrapper>
-                    <SearchIcon />
-                    </SearchIconWrapper>
-                    <StyledInputBase
-                    placeholder="Search…"
-                    inputProps={{ 'aria-label': 'search' }}
-                    />
-                </Search>
-                {auth && (
-                <div >
-                    
-                    <IconButton color='inherit'>
-                        <MU.Badge badgeContent={2} color='error'>
-                            <ShoppingCartIcon />
-                        </MU.Badge>
-                    </IconButton>
-                    <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    onClick={handleMenu}
-                    color="inherit"
-                    className='last-icon-restaurant-view'
-                    >
-                    <AccountCircle />
-                    </IconButton>
-                    
-                    <MU.Menu
-                    id="menu-appbar"
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                    >
-                    <MU.MenuItem onClick={handleClose}>Profile</MU.MenuItem>
-                    <MU.MenuItem onClick={handleClose}>Log out</MU.MenuItem>
-                    </MU.Menu>
-
-                </div>
-                )}
-            </MU.Toolbar>
-        </MU.AppBar>
-
+        <Header/>
         <MU.Grid container spacing={2} sx={{
             paddingTop:"2%"
         }}>
@@ -189,7 +124,7 @@ const RestaurantView = (props: Props) =>
                         </MU.CardHeader>
                         </MU.Grid>
                         <MU.Grid item sx={{
-                            paddingLeft:"15%"
+                            marginLeft:"10%"
                         }}>
 
                         <MU.BottomNavigation>
