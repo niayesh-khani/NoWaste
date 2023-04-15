@@ -108,8 +108,7 @@ const RestaurantView = (props: Props) =>
 
     return (
     <div>
-        <MU.Box sx={{ flexGrow: 1 }}>
-            <MU.AppBar position="static" className="header-restaurant-view">
+        <MU.AppBar position="static" className="header-restaurant-view">
             <MU.Toolbar className='toolbar-restaurant-view'>
 
                 <img 
@@ -169,87 +168,96 @@ const RestaurantView = (props: Props) =>
                 </div>
                 )}
             </MU.Toolbar>
-            </MU.AppBar>
-        </MU.Box>
-        
-        <MU.Card sx={{ borderStyle: 'none'}} className='card-restaurant-view'>
-            <MU.Grid container spacing={1} alignItems="center" >
-                <MU.CardHeader 
-                        avatar={
-                            <MU.Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                            M
-                            </MU.Avatar>
-                        }
-                        title="Restaurant Mohsen"
-                        subheader="From September 14, 2023"
-                        >
-                </MU.CardHeader>
+        </MU.AppBar>
 
-                <MU.Grid item>
+        <MU.Grid container spacing={2} sx={{
+            paddingTop:"2%"
+        }}>
+            <MU.Grid item md={3}>
+                <MU.Card sx={{ borderStyle: 'none'}} className='card-restaurant-view'>
+                    <MU.Grid container spacing={1} alignItems="center" >
+                    <MU.Grid item>
+                        <MU.CardHeader 
+                                avatar={
+                                    <MU.Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                    M
+                                    </MU.Avatar>
+                                }
+                                title="Restaurant Mohsen"
+                                subheader="From September 14, 2023"
+                                >
+                        </MU.CardHeader>
+                        </MU.Grid>
+                        <MU.Grid item sx={{
+                            paddingLeft:"15%"
+                        }}>
 
-                <MU.BottomNavigation>
-                    <MU.BottomNavigationAction 
-                        value="favorites"
-                        icon={
-                        color ? 
-                        <FavoriteIcon className='favorite-restaurant-view' sx={{ color: 'red'}} onClick={handleColor} /> :
-                        <FavoriteBorderIcon className='favorite-restaurant-view' sx={{ color: 'inherit' }} onClick={handleColor} />
-                        }
-                    />
-                </MU.BottomNavigation>
-                    
+                        <MU.BottomNavigation>
+                            <MU.BottomNavigationAction 
+                                value="favorites"
+                                icon={
+                                color ? 
+                                <FavoriteIcon className='favorite-restaurant-view' sx={{ color: 'red'}} onClick={handleColor} /> :
+                                <FavoriteBorderIcon className='favorite-restaurant-view' sx={{ color: 'inherit' }} onClick={handleColor} />
+                                }
+                            />
+                        </MU.BottomNavigation>
+                            
 
-                </MU.Grid>
+                        </MU.Grid>
+                    </MU.Grid>
+
+                        <MU.CardMedia
+                        component="img"
+                        src="/mohsen.jpg"
+                        alt="Restaurant1"
+                        />
+                        <MU.CardContent>
+                        <MU.Typography variant="body2" className='Body2-restaurant-view' color="text.secondary">
+                            Restaurant Mohsen takes pride that since 1375 (1996/1997), the same time it started its activities, it has been maintaining its special quantity and quality with the full supervision of management and the support of an experienced team in the preparation of raw materials and cooking affairs.
+                        </MU.Typography>
+                        </MU.CardContent>
+                        <MU.CardActions disableSpacing>
+                            <MU.Rating name="read-only" value={rateValue} readOnly />
+                            <ExpandMore
+                                expand={expanded}
+                                onClick={handleExpandClick}
+                                aria-expanded={expanded}
+                                aria-label="show more"
+                            >
+                            <ExpandMoreIcon />
+                            </ExpandMore>
+                        </MU.CardActions>
+                    <MU.Collapse in={expanded} timeout="auto" unmountOnExit>
+                        <MU.CardContent>
+                            <MU.Typography paragraph>
+                                phone number : 021 2284 5657
+                            </MU.Typography>
+                            <MU.Typography paragraph>
+                                Address : Tehran Province, Tehran, Zarrabkhaneh, Qoba, QF52+P86
+                            </MU.Typography>
+                        </MU.CardContent>
+                    </MU.Collapse>
+                </MU.Card>
             </MU.Grid>
-
-                <MU.CardMedia
-                component="img"
-                src="/mohsen.jpg"
-                alt="Restaurant1"
-                />
-                <MU.CardContent>
-                <MU.Typography variant="body2" className='Body2-restaurant-view' color="text.secondary">
-                    Restaurant Mohsen takes pride that since 1375 (1996/1997), the same time it started its activities, it has been maintaining its special quantity and quality with the full supervision of management and the support of an experienced team in the preparation of raw materials and cooking affairs.
-                </MU.Typography>
-                </MU.CardContent>
-                <MU.CardActions disableSpacing>
-                    <MU.Rating name="read-only" value={rateValue} readOnly />
-                    <ExpandMore
-                        expand={expanded}
-                        onClick={handleExpandClick}
-                        aria-expanded={expanded}
-                        aria-label="show more"
-                    >
-                    <ExpandMoreIcon />
-                    </ExpandMore>
-                </MU.CardActions>
-            <MU.Collapse in={expanded} timeout="auto" unmountOnExit>
-                <MU.CardContent>
-                    <MU.Typography paragraph>
-                        phone number : 021 2284 5657
-                    </MU.Typography>
-                    <MU.Typography paragraph>
-                        Address : Tehran Province, Tehran, Zarrabkhaneh, Qoba, QF52+P86
-                    </MU.Typography>
-                </MU.CardContent>
-            </MU.Collapse>
-        </MU.Card>
-        
-        <MU.Container>
-            <Masonry
-                breakpointCols={breakpoints}
-                className="my-masonry-grid"
-                columnClassName="my-masonry-grid_column"
-        >
-            {foods.map(food => (
-            <div item xs={3}>
-                <Food food={food}/>
-            </div>
-            ))}
-        </Masonry>
-        </MU.Container>
-        
-        <BackToTop/>
+            
+            <MU.Grid item md={9}>
+            {/* <MU.Container> */}
+                <Masonry
+                    breakpointCols={breakpoints}
+                    className="my-masonry-grid"
+                    columnClassName="my-masonry-grid_column"
+            >
+                {foods.map(food => (
+                <div item xs={3}>
+                    <Food food={food}/>
+                </div>
+                ))}
+            </Masonry>
+            {/* </MU.Container> */}
+            </MU.Grid>
+            <BackToTop/>
+        </MU.Grid>
 
         {/* <Footer/> */}
 

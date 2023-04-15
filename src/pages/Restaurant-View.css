@@ -28,9 +28,7 @@
 
 .card-restaurant-view {
     height: auto;
-    width: 25%;
-    margin-left: 1%;
-    margin-top: 1%;
+    width: auto;
     border: none;
     position: relative;
 }
@@ -40,33 +38,25 @@
 }
 
 .favorite-restaurant-view{
-    margin-left: 8rem !important;
+    margin-left: 15% !important;
 }
 
-.full-menu-restaurant-view {
+/* .full-menu-restaurant-view {
     display: flex;
     flex-direction: row;
-}
+} */
 
 .my-masonry-grid {
-    display: -webkit-box; 
-    display: -ms-flexbox; 
     display: flex;
     /* margin-left: -30px;  */
-    margin-left: 127px; 
+    padding-left: 10%;
     width: auto;
 }
 
 .my-masonry-grid_column {
-    padding-left: 30px; 
+    /* padding-left: 100px;  */
+    /* margin-left: 5%; */
     background-clip: padding-box;
 }
-
-.css-1oqqzyl-MuiContainer-root {
-    margin-left: 295px !important;
-    /* margin-left: 10% !important; */
-    margin-top: -510px !important;
-}
-
 
 
