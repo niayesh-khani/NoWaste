@@ -11,6 +11,7 @@ import Routing from './pages/Routing';
 import { SpinningBubbles } from "react-loading";
 import { useEffect, useState } from 'react';
 import { set } from 'date-fns';
+import RestaurantView from './pages/Restaurant-View';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -46,7 +47,11 @@ function App() {
             <HomePage />
           </Route>
           <Route path="/landing">
+
             <Routing/>
+          </Route>
+          <Route path="/restaurant-view">
+            <RestaurantView />
           </Route>
       </Router>
     //   )}
