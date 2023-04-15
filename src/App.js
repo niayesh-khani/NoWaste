@@ -8,6 +8,7 @@ import Verification from './pages/Verification';
 import HomePage  from './pages/Homepage';
 import Landing from './pages/Landing';
 import Routing from './pages/Routing';
+import RestaurantView from './pages/Restaurant-View';
 
 function App() {
   return (
@@ -29,6 +30,9 @@ function App() {
           </Route>
           <Route path="/landing">
             <Routing/>
+          </Route>
+          <Route path="/restaurant-view">
+            <RestaurantView />
           </Route>
       </Router>
   );
