@@ -8,9 +8,27 @@ import Verification from './pages/Verification';
 import HomePage  from './pages/Homepage';
 import Landing from './pages/Landing';
 import Routing from './pages/Routing';
+import { SpinningBubbles } from "react-loading";
+import { useEffect, useState } from 'react';
+import { set } from 'date-fns';
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    window.addEventListener("load", () => {
+      setLoading(false);
+    })
+  }, []);
+
   return (
+    // <div> 
+    //   {loading ? (
+    //     <div >
+    //       <SpinningBubbles></SpinningBubbles>
+    //       <SpinningBubbles color="#ffffff" />
+    //     </div>
+    //   ) : (
       <Router>
           <Route exact path="/sign-up">
             <SignUp />
@@ -18,7 +36,7 @@ function App() {
           <Route path="/login">
             <Login />
           </Route>
-          <Route path='/forgotpass'>
+          <Route path='/forgot-password'>
             <ForgotPass />
           </Route>
           <Route path="/verification">
@@ -31,6 +49,8 @@ function App() {
             <Routing/>
           </Route>
       </Router>
+    //   )}
+    // </div>
   );
 }
 
