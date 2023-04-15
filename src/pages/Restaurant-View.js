@@ -80,33 +80,30 @@ const ExpandMore = MU.styled((props: ExpandMoreProps) => {
     }),
 }));
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
+// const style = {
+//     position: 'absolute',
+//     top: '50%',
+//     left: '50%',
+//     transform: 'translate(-50%, -50%)',
+//     width: 400,
+//     bgcolor: 'background.paper',
+//     border: '2px solid #000',
+//     boxShadow: 24,
+//     p: 4,
+// };
 
 const RestaurantView = (props: Props) => 
 {
     const [expanded, setExpanded] = React.useState(false);
     const [rateValue, setRateValue] = React.useState(2);
     const [color, setColor] = React.useState(false);
-<<<<<<< HEAD
     const [open, setOpen] = React.useState(false);
 
     const handleOpenComment = () => setOpen(true);
     const handleCloseComment = () => setOpen(false);
 
     
-=======
     const history = useHistory();
->>>>>>> d30eb8e5f6170a458efcbfb4ce3b5db2454c7ae4
 
 
     const handleColor = () => {
@@ -201,7 +198,7 @@ const RestaurantView = (props: Props) =>
                 </MU.Card>
 
 
-                <Button 
+                {/* <Button 
                     variant="contained" 
                     type="submit" 
                     color="primary"
@@ -228,7 +225,7 @@ const RestaurantView = (props: Props) =>
                         </Typography>
                         </Box>
                     </Modal>
-                </div>
+                </div> */}
 
 
             </MU.Grid>
