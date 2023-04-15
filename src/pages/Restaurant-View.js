@@ -13,6 +13,12 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Food from '../components/Food';
 import BackToTop from '../components/BackToTop';
 import Footer from '../components/Footer';
+import NavigationIcon from '@material-ui/icons/Navigation';
+import { Button } from '@material-ui/core';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+
 
 
 const Search = MU.styled('div')(({ theme }) => ({
@@ -72,6 +78,17 @@ const ExpandMore = MU.styled((props: ExpandMoreProps) => {
     }),
 }));
 
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
 
 const RestaurantView = (props: Props) => 
 {
@@ -80,6 +97,12 @@ const RestaurantView = (props: Props) =>
     const [expanded, setExpanded] = React.useState(false);
     const [rateValue, setRateValue] = React.useState(2);
     const [color, setColor] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
+
+    const handleOpenComment = () => setOpen(true);
+    const handleCloseComment = () => setOpen(false);
+
+    
 
 
     const handleColor = () => {
@@ -239,6 +262,38 @@ const RestaurantView = (props: Props) =>
                         </MU.CardContent>
                     </MU.Collapse>
                 </MU.Card>
+
+
+                <Button 
+                    variant="contained" 
+                    type="submit" 
+                    color="primary"
+                    className="field-restaurant-view "
+                    id="submit"
+                >
+                    See comment
+                </Button>
+
+                <div>
+                    <Button onClick={handleOpenComment}>Open modal</Button>
+                    <Modal
+                        open={open}
+                        onClose={handleOpenComment}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <Box sx={style}>
+                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                            Text in a modal
+                        </Typography>
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                        </Typography>
+                        </Box>
+                    </Modal>
+                </div>
+
+
             </MU.Grid>
             
             <MU.Grid item md={9}>

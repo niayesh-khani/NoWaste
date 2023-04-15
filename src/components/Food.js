@@ -109,7 +109,7 @@ const Food = ({food}) => {
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <Typography paragraph>
-                    Premium leaf (300g) + Kebab Lqma (250g) + Grilled tomato without rice and side dishes (decorative picture).
+                        Premium leaf (300g) + Kebab Lqma (250g) + Grilled tomato without rice and side dishes (decorative picture).
                     </Typography>
                 </CardContent>
             </Collapse>
