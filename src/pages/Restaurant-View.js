@@ -20,8 +20,10 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import {useHistory } from "react-router-dom";
 import Header from './Header';
-
-
+import Slide from '@mui/material/Slide';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
 
 const Search = MU.styled('div')(({ theme }) => ({
     position: 'relative',
@@ -92,6 +94,7 @@ const ExpandMore = MU.styled((props: ExpandMoreProps) => {
 //     p: 4,
 // };
 
+
 const RestaurantView = (props: Props) => 
 {
     const [expanded, setExpanded] = React.useState(false);
@@ -101,20 +104,13 @@ const RestaurantView = (props: Props) =>
 
     const handleOpenComment = () => setOpen(true);
     const handleCloseComment = () => setOpen(false);
-
-    
     const history = useHistory();
-
-
     const handleColor = () => {
         setColor(!color);
     };
-
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
-
-
     const breakpoints = {
         default: 3,
         1100: 2,
@@ -126,7 +122,7 @@ const RestaurantView = (props: Props) =>
 
     return (
     <div>
-        <Header/>
+        <Header />
         <MU.Grid container spacing={2} sx={{
             paddingTop:"2%"
         }}>
