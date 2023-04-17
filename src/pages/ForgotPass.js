@@ -184,6 +184,10 @@ export default function ForgotPass(){
         });    
     };
 
+    const handleContinue = () => {
+        history.push('./new-password')
+    };
+
     return ( 
         <ThemeProvider theme={theme}>
             <div className="root">
@@ -246,7 +250,7 @@ export default function ForgotPass(){
                                 }}
                             />
                             <TextField 
-                                label="New password"
+                                label="Code"
                                 variant="outlined"
                                 color="secondary"
                                 required
@@ -281,7 +285,7 @@ export default function ForgotPass(){
                                 color="primary"
                                 className="field"
                                 id="submit"
-                                onClick={handleSubmit}
+                                onClick={handleContinue}
                                 disabled={!validInputs}
                             >
                                 Continue

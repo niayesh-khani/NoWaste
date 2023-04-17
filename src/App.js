@@ -12,6 +12,7 @@ import { SpinningBubbles } from "react-loading";
 import { useEffect, useState } from 'react';
 import { set } from 'date-fns';
 import RestaurantView from './pages/Restaurant-View';
+import NewPassword from './pages/NewPassword';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -39,6 +40,9 @@ function App() {
           </Route>
           <Route path='/forgot-password'>
             <ForgotPass />
+          </Route>
+          <Route path="/new-password">
+            <NewPassword />
           </Route>
           <Route path="/verification">
             <Verification />
