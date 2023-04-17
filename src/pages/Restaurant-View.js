@@ -10,7 +10,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AccountCircle } from '@material-ui/icons';
 import Masonry from 'react-masonry-css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import Food from '../components/Food';
+import Foods from '../components/Foods';
 import BackToTop from '../components/BackToTop';
 import Footer from '../components/Footer';
 import NavigationIcon from '@material-ui/icons/Navigation';
@@ -117,7 +117,6 @@ const RestaurantView = (props: Props) =>
         700:1
     }
 
-    const foods = ["food1","food2","food3", "food4", "food5", "food6", "food7"]
 
 
     return (
@@ -233,11 +232,9 @@ const RestaurantView = (props: Props) =>
                     className="my-masonry-grid"
                     columnClassName="my-masonry-grid_column"
             >
-                {foods.map(food => (
                 <div item xs={3}>
-                    <Food food={food}/>
+                    <Foods />
                 </div>
-                ))}
             </Masonry>
             {/* </MU.Container> */}
             </MU.Grid>

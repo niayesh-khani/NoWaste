@@ -31,7 +31,7 @@ function App() {
           <Route path="/landing">
             <Routing/>
           </Route>
-          <Route path="/restaurant-view">
+          <Route path="/restaurant-view/:id">
             <RestaurantView />
           </Route>
       </Router>
