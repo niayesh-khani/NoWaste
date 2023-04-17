@@ -53,7 +53,7 @@ export default function Landing(){
                             <span role="img" aria-label="eye"> 👀</span>
                     </Typography>
                     <form>
-                    <button class="button-order" role="button" formAction="./login">
+                    <button class="button-order" role="button" onClick={handlelogin}>
                         Let's Order !
                     </button>
                     </form>
