@@ -1,0 +1,6 @@
+header : red #CC3E20
+button , border : orange #EB7F30
+background : white #EFEFEF
+footer : black #474243
+green #809841
+yellow : #E0A238
