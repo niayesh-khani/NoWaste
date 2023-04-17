@@ -42,9 +42,11 @@ export default function Landing(){
                         style={{ fontSize: '20px', color: 'black'}}
                         >
                             <Typical
-                            loop={Infinity}
+                            // loop={Infinity}
+                            loop={1}
                             wrapper="b"
-                            steps={['Delicious food that won\'t break the bank.', 3000,'Affordable meals that won\'t sacrifice taste.',3000,'Good food shouldn\'t cost a fortune.',3000]}
+                            // steps={['Delicious food that won\'t break the bank.', 3000,'Affordable meals that won\'t sacrifice taste.',3000,'Good food shouldn\'t cost a fortune.',3000]}
+                            steps={['Good food shouldn\'t cost a fortune.',3000, 'Delicious food that won\'t break the bank !', 3000]}
                             />
                             <br></br>
                             Try us and see
