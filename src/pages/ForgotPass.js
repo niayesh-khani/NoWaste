@@ -161,7 +161,7 @@ export default function ForgotPass(){
             email: email
         };
         console.log(userData);
-        axios.post("http://nowaste39.pythonanywhere.com/user/login/", userData, {headers:{"Content-Type" : "application/json"}})
+        axios.post("http://nowaste39.pythonanywhere.com/user/fp-verify/", userData, {headers:{"Content-Type" : "application/json"}})
         .then((response) => {
             console.log(response);
             console.log(response.data.token);
