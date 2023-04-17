@@ -24,6 +24,8 @@ import Slide from '@mui/material/Slide';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const Search = MU.styled('div')(({ theme }) => ({
     position: 'relative',
@@ -101,10 +103,13 @@ const RestaurantView = (props: Props) =>
     const [rateValue, setRateValue] = React.useState(2);
     const [color, setColor] = React.useState(false);
     const [open, setOpen] = React.useState(false);
+    const [restaurant, setRestaurant] = React.useState();
 
     const handleOpenComment = () => setOpen(true);
     const handleCloseComment = () => setOpen(false);
     const history = useHistory();
+    const {id} = useParams();
+
     const handleColor = () => {
         setColor(!color);
     };
@@ -117,7 +122,16 @@ const RestaurantView = (props: Props) =>
         700:1
     }
 
-
+    React.useEffect(() => {
+        axios.get("http://127.0.0.1:8000/restaurant/restaurant_profile/" + id + '/')
+        .then((response) => {
+            console.log(response);
+            setRestaurant(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    });
 
     return (
     <div>
