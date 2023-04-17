@@ -35,6 +35,8 @@ export default function Verification(){
     const [code, setCode] = useState('');
     const [codeError, setCodeError] = useState(false);
     const [email, setEmail] = useState([]);
+    const [validInputs, setValidInputs] = useState(false);
+    const [open, setOpen] = useState(null);
 
     const handleCode = (e) => {
         setCode(e.target.value);
@@ -44,8 +46,6 @@ export default function Verification(){
             setCodeError(false);
         }
     }
-
-    const [validInputs, setValidInputs] = useState(false);
 
     useEffect(() => {
         let isValid = !codeError;
@@ -58,7 +58,6 @@ export default function Verification(){
         const image = document.querySelector('.background');
         image.style.height = `${boxHeight}px`;
     }
-    const [open, setOpen] = useState(null);
 
     const handleClose = () => {
         setOpen(false);
@@ -77,6 +76,7 @@ export default function Verification(){
             console.log(email);
         }
     }, []);
+
     useEffect(() => {
         setHeight(); 
         window.addEventListener('resize', setHeight);
@@ -94,26 +94,26 @@ export default function Verification(){
         const userData = {
             code: code,
             email: email
-            };
-            axios.post("https://nowaste39.pythonanywhere.com/user/verify-email/", userData, {headers:{"Content-Type" : "application/json"}})
-            .then((response) => {
-                console.log(response);
-                history.push("/homepage");
-            })
-            .catch((error) => {
-                setOpen(true);
-                if (error.response) {
-                    console.log(error.response);
-                    console.log("server responded");
-                } 
-                else if (error.request) {
-                    console.log("network error");
-                    console.log(error);
-                } 
-                else {
-                    console.log(error);
-                }
-            });
+        };
+        axios.post("https://nowaste39.pythonanywhere.com/user/verify-email/", userData, {headers:{"Content-Type" : "application/json"}})
+        .then((response) => {
+            console.log(response);
+            history.push("/homepage");
+        })
+        .catch((error) => {
+            setOpen(true);
+            if (error.response) {
+                console.log(error.response);
+                console.log("server responded");
+            } 
+            else if (error.request) {
+                console.log("network error");
+                console.log(error);
+            } 
+            else {
+                console.log(error);
+            }
+        });
     };
 
     return ( 

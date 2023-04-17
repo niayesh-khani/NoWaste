@@ -35,7 +35,10 @@ export default function Login(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [token, setToken] = useState('');
-
+    const [showPassword, setShowPassword] = useState(false);
+    const [validInputs, setValidInputs] = useState(false);
+    const [open, setOpen] = useState(null);
+    
     const handleEmail = (e) => {
         setEmail(e.target.value);
     };
@@ -44,14 +47,11 @@ export default function Login(){
         setPassword(e.target.value);
     };
 
-    const [showPassword, setShowPassword] = useState(false);
-
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
 
-    const [validInputs, setValidInputs] = useState(false);
     useEffect(() => {
         let isValid = email.trim().length > 0 && password.trim().length > 0;
         setValidInputs(isValid);
@@ -78,8 +78,8 @@ export default function Login(){
 
     useEffect(() => {
         localStorage.setItem('token', JSON.stringify(token));
-        }, [token]);
-    const [open, setOpen] = useState(null);
+    }, [token]);
+        
     const handleClose = () => {
         setOpen(false);
         setHeight();
@@ -144,7 +144,7 @@ export default function Login(){
                                 </Alert>
                             } 
                             <TextField 
-                                label="Email Address"
+                                label="Email address"
                                 variant="outlined"
                                 color="secondary"
                                 required
@@ -193,7 +193,7 @@ export default function Login(){
                                     )
                                 }}
                             />
-                            <FormControlLabel className="remember"
+                            {/* <FormControlLabel className="remember"
                                 control={<Checkbox 
                                     sx={{color: '#f18b72', '&.Mui-checked': {color: '#f18b72'},}}
                                     />}
@@ -202,8 +202,8 @@ export default function Login(){
                                             Remember me
                                         </Typography>
                                     }
-                            />
-                            <Link to="/forgotpass" className="forgetpassword">
+                            /> */}
+                            <Link to="/forgot-password" className="forgetpassword">
                                 <Typography>
                                     Forgot password?
                                 </Typography>

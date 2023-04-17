@@ -7,6 +7,7 @@ import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import './Login-Signup.css';
 import axios from "axios";
 import Checkbox from '@mui/material/Checkbox';
+import { SpinningBubbles } from "react-loading";
 
 const theme = createTheme({
     palette: {
@@ -33,9 +34,23 @@ export default function SignUp(){
 
     const [showPassword, setShowPassword] = useState(false);
     const [role, setRole] = useState('customer');
-
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState(false);
+    const [fullname, setFullname] = useState('')
+    const [fullnameError, setFullnameError] = useState(false);
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordMatch, setPasswordMatch] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
+    const [validInputs, setValidInputs] = useState(false);
+
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+      window.addEventListener("load", () => {
+        setLoading(false);
+      })
+    }, []);  
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -46,9 +61,6 @@ export default function SignUp(){
         }
     };
     
-    const [fullname, setFullname] = useState('')
-    const [fullnameError, setFullnameError] = useState(false);
-
     const handleFullname = (e) => {
         setFullname(e.target.value);
         if(!/^[a-zA-Z]+\s[a-zA-Z]+$/gm.test(e.target.value)){
@@ -57,11 +69,6 @@ export default function SignUp(){
             setFullnameError(false);
         }
     };
-
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [passwordMatch, setPasswordMatch] = useState(false);
-    const [passwordError, setPasswordError] = useState(false);
 
     const handleChangePassword = (e) => {
         setPassword(e.target.value);
@@ -80,8 +87,6 @@ export default function SignUp(){
     useEffect(() => {
         setPasswordMatch(password === confirmPassword);
     }, [password, confirmPassword]);
-
-    const [validInputs, setValidInputs] = useState(false);
 
     useEffect(() => {
         let isValid = !fullnameError && !emailError && !passwordError && passwordMatch 
@@ -138,7 +143,7 @@ export default function SignUp(){
 
     useEffect(() => {
         localStorage.setItem('email', JSON.stringify(email));
-        }, [email]);
+    }, [email]);
 
     return ( 
         <ThemeProvider theme={theme}>
@@ -289,6 +294,6 @@ export default function SignUp(){
                     </Box>
                 </Container>
             </div>
-        </ThemeProvider>
+        </ThemeProvider>        
     )
 }
