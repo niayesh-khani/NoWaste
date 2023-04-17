@@ -157,7 +157,7 @@ export default function ForgotPass(){
     const handleSubmit = (e) => {
         e.preventDefault();
         const userData = {
-            password: newPassword,
+            code: newPassword,
             email: email
         };
         console.log(userData);
@@ -167,9 +167,11 @@ export default function ForgotPass(){
             console.log(response.data.token);
             setToken(response.data.token);
             console.log(token);
-            history.push("/homepage");
+            history.push('./new-password')
         })
         .catch((error) => {
+            console.log(newPassword);
+            console.log(email);
             setOpen(true);
             if (error.response) {
                 console.log(error.response);
@@ -183,11 +185,6 @@ export default function ForgotPass(){
             }
         });    
     };
-
-    const handleContinue = () => {
-        history.push('./new-password')
-    };
-
     return ( 
         <ThemeProvider theme={theme}>
             <div className="root">
@@ -285,7 +282,7 @@ export default function ForgotPass(){
                                 color="primary"
                                 className="field"
                                 id="submit"
-                                onClick={handleContinue}
+                                onClick={handleSubmit}
                                 disabled={!validInputs}
                             >
                                 Continue

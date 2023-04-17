@@ -36,7 +36,7 @@ export default function SignUp(){
     const [role, setRole] = useState('customer');
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState(false);
-    const [fullname, setFullname] = useState('')
+    const [fullname, setFullname] = useState('');
     const [fullnameError, setFullnameError] = useState(false);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -118,9 +118,7 @@ export default function SignUp(){
         e.preventDefault();
         const userData = {
             name: fullname,
-            password: password,
-            email: email,
-            role: role
+            email: email
         };
         axios.post("http://nowaste39.pythonanywhere.com/user/signup/", userData, {headers:{"Content-Type" : "application/json"}})
         .then((response) => {
@@ -143,7 +141,10 @@ export default function SignUp(){
 
     useEffect(() => {
         localStorage.setItem('email', JSON.stringify(email));
-    }, [email]);
+        localStorage.setItem('role', JSON.stringify(role));
+        localStorage.setItem('password', JSON.stringify(password));
+        localStorage.setItem('fullname', JSON.stringify(fullname));
+    }, [email, role, password, fullname]);
 
     return ( 
         <ThemeProvider theme={theme}>

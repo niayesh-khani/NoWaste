@@ -38,6 +38,7 @@ export default function Verification(){
     const [validInputs, setValidInputs] = useState(false);
     const [open, setOpen] = useState(null);
 
+
     const handleCode = (e) => {
         setCode(e.target.value);
         if(!/^\d{6}$/.test(e.target.value)){
@@ -93,7 +94,10 @@ export default function Verification(){
         e.preventDefault();
         const userData = {
             code: code,
-            email: email
+            email: email,
+            name: JSON.parse(localStorage.getItem("fullname")),
+            role: JSON.parse(localStorage.getItem("role")),
+            password: JSON.parse(localStorage.getItem("password"))
         };
         axios.post("https://nowaste39.pythonanywhere.com/user/verify-email/", userData, {headers:{"Content-Type" : "application/json"}})
         .then((response) => {
