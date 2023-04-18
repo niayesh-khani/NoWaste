@@ -1,65 +1,104 @@
-// import { CDBFooter, CDBBox, CDBBtn, CDBIcon, CDBFooterLink } from 'cdbreact';
-// import * as React from 'react';
-// import * as MU from '@mui/material';
+import React from 'react';
+import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
+// import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import './Footer.css';
 
-// const Footer = () => {
-//     return ( 
-//         <CDBFooter className="shadow">
-//         <CDBBox display="flex" flex="column" className="mx-auto py-5" style={{ width: '90%' }}>
-//         <CDBBox display="flex" justifyContent="between" className="flex-wrap">
-//             <CDBBox alignSelf="center">
-//             <a href="/" className="d-flex align-items-center p-0 text-dark">
-//                 <img alt="logo" src="logo" width="30px" />
-//                 <span className="ms-3 h5 font-weight-bold">Devwares</span>
-//             </a>
-//             <CDBBox className="mt-5" display="flex">
-//                 <CDBBtn flat color="dark" className="p-2">
-//                 <CDBIcon fab icon="facebook-f" />
-//                 </CDBBtn>
-//                 <CDBBtn flat color="dark" className="mx-3 p-2">
-//                 <CDBIcon fab icon="twitter" />
-//                 </CDBBtn>
-//                 <CDBBtn flat color="dark" className="p-2">
-//                 <CDBIcon fab icon="instagram" />
-//                 </CDBBtn>
-//             </CDBBox>
-//             </CDBBox>
-//             <CDBBox>
-//             <p className="h5 mb-4" style={{ fontWeight: '600' }}>
-//                 Devwares
-//             </p>
-//             <CDBBox display="flex" flex="column" style={{ cursor: 'pointer' }}>
-//                 <CDBFooterLink href="/">Resources</CDBFooterLink>
-//                 <CDBFooterLink href="/">About Us</CDBFooterLink>
-//                 <CDBFooterLink href="/">Contact</CDBFooterLink>
-//                 <CDBFooterLink href="/">Blog</CDBFooterLink>
-//             </CDBBox>
-//             </CDBBox>
-//             <CDBBox>
-//             <p className="h5 mb-4" style={{ fontWeight: '600' }}>
-//                 Products
-//             </p>
-//             <CDBBox display="flex" flex="column" style={{ cursor: 'pointer' }}>
-//                 <CDBFooterLink href="/">Windframe</CDBFooterLink>
-//                 <CDBFooterLink href="/">Loop</CDBFooterLink>
-//                 <CDBFooterLink href="/">Contrast</CDBFooterLink>
-//             </CDBBox>
-//             </CDBBox>
-//             <CDBBox>
-//             <p className="h5 mb-4" style={{ fontWeight: '600' }}>
-//                 Help
-//             </p>
-//             <CDBBox display="flex" flex="column" style={{ cursor: 'pointer' }}>
-//                 <CDBFooterLink href="/">Support</CDBFooterLink>
-//                 <CDBFooterLink href="/">Sign Up</CDBFooterLink>
-//                 <CDBFooterLink href="/">Sign In</CDBFooterLink>
-//             </CDBBox>
-//             </CDBBox>
-//         </CDBBox>
-//         <small className="text-center mt-5">&copy; Devwares, 2023. All rights reserved.</small>
-//         </CDBBox>
-//     </CDBFooter>
-//     );
-// }
 
-// export default Footer;
+const Footer = () => {
+    return (
+        <MDBFooter bgColor='light' className='text-center text-lg-start text-muted'>
+        <section className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom'>
+            <div className='me-5 d-none d-lg-block'>
+            <span>Get connected with us on social networks:</span>
+            </div>
+
+            <div>
+            <a href='https://twitter.com/NoWaste39' className='me-4 text-reset'>
+                <MDBIcon fab icon="twitter" />
+            </a>
+            <a href='https://instagram.com/no_waste39?igshid=ZDdkNTZiNTM=' className='me-4 text-reset'>
+                <MDBIcon fab icon="instagram" />
+            </a>
+            </div>
+        </section>
+
+        <section className=''>
+            <MDBContainer className='text-center text-md-start mt-5'>
+            <MDBRow className='mt-3'>
+                <MDBCol md="3" lg="4" xl="3" className='mx-auto mb-4'>
+                <h6 className='text-uppercase fw-bold mb-4'>
+                    <MDBIcon icon="gem" className="me-3" />
+                    NoWaste
+                </h6>
+                <p>
+                    NoWaste is a food distribution app that sells extra high quality restaurant food at a lower price.
+                </p>
+                </MDBCol>
+
+                {/* <MDBCol md="2" lg="2" xl="2" className='mx-auto mb-4'>
+                <h6 className='text-uppercase fw-bold mb-4'>Products</h6>
+                <p>
+                    <a href='#!' className='text-reset'>
+                    Angular
+                    </a>
+                </p>
+                <p>
+                    <a href='#!' className='text-reset'>
+                    React
+                    </a>
+                </p>
+                <p>
+                    <a href='#!' className='text-reset'>
+                    Vue
+                    </a>
+                </p>
+                <p>
+                    <a href='#!' className='text-reset'>
+                    Laravel
+                    </a>
+                </p>
+                </MDBCol> */}
+
+                <MDBCol md="3" lg="2" xl="2" className='mx-auto mb-4'>
+                <h6 className='text-uppercase fw-bold mb-4'>Useful links</h6>
+                <p>
+                    <a href='#!' className='text-reset'>
+                        Ubout us
+                    </a>
+                </p>
+                <p>
+                    <a href='http://localhost:3000/edit-profile' className='text-reset'>
+                        Edit profile
+                    </a>
+                </p>
+                </MDBCol>
+
+                <MDBCol md="4" lg="3" xl="3" className='mx-auto mb-md-0 mb-4'>
+                <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
+                <p>
+                    <MDBIcon icon="home" className="me-2" />
+                    Iran, Tehran, IUST
+                </p>
+                <p>
+                    <MDBIcon icon="envelope" className="me-2" />
+                    NoWaste.39@gmail.com
+                </p>
+                <p>
+                    <MDBIcon icon="phone" className="me-1" /> + 98 912 909 127
+                </p>
+                </MDBCol>
+            </MDBRow>
+            </MDBContainer>
+        </section>
+
+        <div className='text-center p-4' style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
+            © 2023 Copyright:
+            <a className='text-reset fw-bold' href='http://localhost:3000/'>
+            NoWaste.ir
+            </a>
+        </div>
+        </MDBFooter>
+    );
+}
+export default Footer;

@@ -17,7 +17,6 @@ import NavigationIcon from '@material-ui/icons/Navigation';
 import { Button } from '@material-ui/core';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
 import {useHistory } from "react-router-dom";
 import Header from './Header';
 import Slide from '@mui/material/Slide';
@@ -26,6 +25,9 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import ShowComment from '../components/ShowComment';
+
+
 
 const Search = MU.styled('div')(({ theme }) => ({
     position: 'relative',
@@ -102,11 +104,12 @@ const RestaurantView = (props: Props) =>
     const [expanded, setExpanded] = React.useState(false);
     const [rateValue, setRateValue] = React.useState(2);
     const [color, setColor] = React.useState(false);
-    const [open, setOpen] = React.useState(false);
-    const [restaurant, setRestaurant] = React.useState();
+    // const [open, setOpen] = React.useState(false);
 
-    const handleOpenComment = () => setOpen(true);
-    const handleCloseComment = () => setOpen(false);
+    // const handleOpenComment = () => setOpen(true);
+    // const handleCloseComment = () => setOpen(false);
+
+    
     const history = useHistory();
     const {id} = useParams();
 
@@ -206,35 +209,28 @@ const RestaurantView = (props: Props) =>
                     </MU.Collapse>
                 </MU.Card>
 
-
-                {/* <Button 
-                    variant="contained" 
-                    type="submit" 
-                    color="primary"
-                    className="field-restaurant-view "
-                    id="submit"
-                >
-                    See comment
-                </Button>
-
-                <div>
-                    <Button onClick={handleOpenComment}>Open modal</Button>
+                {/* <div>
+                    <Button onClick={handleOpenComment} variant="contained" id="submit-restaurant-view" className="field-restaurant-view " color="primary" >
+                        See comment
+                    </Button>
                     <Modal
                         open={open}
-                        onClose={handleOpenComment}
+                        onClose={handleCloseComment}
                         aria-labelledby="modal-modal-title"
                         aria-describedby="modal-modal-description"
                     >
                         <Box sx={style}>
+                        
                         <Typography id="modal-modal-title" variant="h6" component="h2">
-                            Text in a modal
+                            User comment
                         </Typography>
                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                             Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
                         </Typography>
                         </Box>
                     </Modal>
-                </div> */}
+                </div>  */}
+                <ShowComment />
 
 
             </MU.Grid>
@@ -254,8 +250,7 @@ const RestaurantView = (props: Props) =>
             </MU.Grid>
             <BackToTop/>
         </MU.Grid>
-
-        {/* <Footer/> */}
+        <Footer/>
 
     </div>
     );
