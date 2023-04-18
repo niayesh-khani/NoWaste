@@ -5,9 +5,7 @@
     
 }
 
-.MuiAppBar-root.header-restaurant-view{
-    background-color: #911436;
-} 
+
 
 .css-8u9tfx-MuiButtonBase-root-MuiBottomNavigationAction-root{
     padding: 0 !important;
@@ -15,10 +13,7 @@
     max-width: 0 !important;
 }
 
-.toolbar-restaurant-view {
-    display: flex;
-    justify-content: space-between;
-}
+
 
 .toolbar-restaurant-view .icon-restaurant-view {
     display: flex;
@@ -34,9 +29,6 @@
     margin-left: 5%;
 }
 
-.last-icon-restaurant-view {
-    margin-left: 10px !important;
-}
 
 .favorite-restaurant-view{
     margin-left: 15% !important;
@@ -61,3 +53,22 @@
 }
 
 
+@media(max-width: 414px) {
+
+}
+
+@media(min-width: 415px) and (max-width: 576px){
+
+}    
+
+@media(min-width: 577px) and (max-width: 768px){
+
+}
+
+@media(min-width: 769px) and (max-width: 992px){
+
+}  
+
+@media(min-width: 993px) and (max-width: 1200px){
+
+}    

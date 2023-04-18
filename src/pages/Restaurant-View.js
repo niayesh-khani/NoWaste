@@ -18,7 +18,7 @@ import { Button } from '@material-ui/core';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {useHistory } from "react-router-dom";
-import Header from './Header';
+import Header from '../components/Header';
 import Slide from '@mui/material/Slide';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import PropTypes from 'prop-types';
@@ -217,34 +217,12 @@ const RestaurantView = (props: Props) =>
                     </MU.Collapse>
                 </MU.Card>
 
-                {/* <div>
-                    <Button onClick={handleOpenComment} variant="contained" id="submit-restaurant-view" className="field-restaurant-view " color="primary" >
-                        See comment
-                    </Button>
-                    <Modal
-                        open={open}
-                        onClose={handleCloseComment}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                    >
-                        <Box sx={style}>
-                        
-                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                            User comment
-                        </Typography>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                        </Typography>
-                        </Box>
-                    </Modal>
-                </div>  */}
                 <ShowComment />
 
 
             </MU.Grid>
             
             <MU.Grid item md={9}>
-            {/* <MU.Container> */}
                 <Masonry
                     breakpointCols={breakpoints}
                     className="my-masonry-grid"
@@ -254,7 +232,6 @@ const RestaurantView = (props: Props) =>
                     <Foods />
                 </div>
             </Masonry>
-            {/* </MU.Container> */}
             </MU.Grid>
             <BackToTop/>
         </MU.Grid>

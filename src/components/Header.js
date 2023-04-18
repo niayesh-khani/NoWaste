@@ -5,6 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { AccountCircle } from '@material-ui/icons';
 import { useState } from 'react';
+import '../components/Header.css';
 
 
 const Header = () => {
