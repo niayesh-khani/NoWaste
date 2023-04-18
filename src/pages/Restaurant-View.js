@@ -27,6 +27,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import ShowComment from '../components/ShowComment';
 import { useEffect } from 'react';
+import { react } from '@babel/types';
 
 
 
@@ -107,6 +108,7 @@ const RestaurantView = (props: Props) =>
     const [color, setColor] = React.useState(false);
     const [restaurant, setRestaurant] = React.useState();
     const [menu, setMenu] = React.useState([]);
+    const [nameRestaurant, setNameRestaurant] = react.useState("");
     // const [open, setOpen] = React.useState(false);
 
     // const handleOpenComment = () => setOpen(true);
@@ -139,6 +141,7 @@ const RestaurantView = (props: Props) =>
         });
     });
     console.log(restaurant);
+    // setNameRestaurant(restaurant.name);
     // setMenu(restaurant.menu);
     useEffect(() => {
         localStorage.setItem('menu', JSON.stringify(menu));
