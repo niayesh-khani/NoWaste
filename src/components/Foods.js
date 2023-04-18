@@ -36,8 +36,7 @@ const Foods = () => {
     const [count, setCount] = React.useState(0);
     const [expanded, setExpanded] = React.useState(false);
     const [foods, setFoods] = React.useState();
-    const {id} = useParams();
-    const f = ["food1"]
+    const f = JSON.parse(localStorage.getItem("menu"));
 
     const handleChange = (e) => {
         setCount(e.target.value);
@@ -66,16 +65,7 @@ const Foods = () => {
         localStorage.setItem('countOffood', JSON.stringify(count));
         }, [count]);
 
-    React.useEffect(() => {
-        axios.get("http://127.0.0.1:8000/restaurant/restaurant_profile/" + id + '/')
-        .then((response) => {
-            console.log(response);
-            setFoods(response.data);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    });
+    // setFoods(JSON.parse(localStorage.getItem("menu")));
 
     return ( 
         <div>

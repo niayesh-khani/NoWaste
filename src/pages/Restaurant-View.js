@@ -26,6 +26,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import ShowComment from '../components/ShowComment';
+import { useEffect } from 'react';
 
 
 
@@ -105,6 +106,7 @@ const RestaurantView = (props: Props) =>
     const [rateValue, setRateValue] = React.useState(2);
     const [color, setColor] = React.useState(false);
     const [restaurant, setRestaurant] = React.useState();
+    const [menu, setMenu] = React.useState([]);
     // const [open, setOpen] = React.useState(false);
 
     // const handleOpenComment = () => setOpen(true);
@@ -127,7 +129,7 @@ const RestaurantView = (props: Props) =>
     }
 
     React.useEffect(() => {
-        axios.get("http://127.0.0.1:8000/restaurant/restaurant_profile/" + id + '/')
+        axios.get("http://nowaste39.pythonanywhere.com/restaurant/restaurant_profile/" + id + '/')
         .then((response) => {
             console.log(response);
             setRestaurant(response.data);
@@ -136,7 +138,11 @@ const RestaurantView = (props: Props) =>
             console.log(error);
         });
     });
-
+    console.log(restaurant);
+    // setMenu(restaurant.menu);
+    useEffect(() => {
+        localStorage.setItem('menu', JSON.stringify(menu));
+        }, [menu]);
     return (
     <div>
         <Header />
@@ -153,7 +159,7 @@ const RestaurantView = (props: Props) =>
                                     M
                                     </MU.Avatar>
                                 }
-                                title="Restaurant Mohsen"
+                                title=""
                                 subheader="From September 14, 2023"
                                 >
                         </MU.CardHeader>
