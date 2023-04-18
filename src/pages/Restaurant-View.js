@@ -104,6 +104,7 @@ const RestaurantView = (props: Props) =>
     const [expanded, setExpanded] = React.useState(false);
     const [rateValue, setRateValue] = React.useState(2);
     const [color, setColor] = React.useState(false);
+    const [restaurant, setRestaurant] = React.useState();
     // const [open, setOpen] = React.useState(false);
 
     // const handleOpenComment = () => setOpen(true);
