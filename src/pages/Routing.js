@@ -6,10 +6,10 @@ import Landing from "./Landing";
 export default function Routing(){
     const history = useHistory();
     console.log(JSON.parse(localStorage.getItem("token")));
-    if(JSON.parse(localStorage.getItem("token")).length > 0)
+    if(JSON.parse(localStorage.getItem("token")) != null)
     {
         history.push("/homepage");
-        return(<Landing />);
+        return(<HomePage />);
     }
     else
     {
