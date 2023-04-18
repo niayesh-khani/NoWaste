@@ -60,11 +60,11 @@ const Header = () => {
         history.push("/landing");
     }
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
+            setAnchorEl(event.currentTarget);
         };
     
         const handleClose = () => {
-        setAnchorEl(null);
+            setAnchorEl(null);
         };
 
     return ( 
@@ -78,11 +78,11 @@ const Header = () => {
                 />
                 <Search>
                     <SearchIconWrapper>
-                    <SearchIcon />
+                        <SearchIcon />
                     </SearchIconWrapper>
                     <StyledInputBase
-                    placeholder="Search…"
-                    inputProps={{ 'aria-label': 'search' }}
+                        placeholder="Search…"
+                        inputProps={{ 'aria-label': 'search' }}
                     />
                 </Search>
                 {auth && (
@@ -94,34 +94,37 @@ const Header = () => {
                         </Badge>
                     </IconButton>
                     <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    onClick={handleMenu}
-                    color="inherit"
-                    className='last-icon-restaurant-view'
+                        size="large"
+                        aria-label="account of current user"
+                        aria-controls="menu-appbar"
+                        aria-haspopup="true"
+                        onClick={handleMenu}
+                        color="inherit"
+                        className='last-icon-restaurant-view'
                     >
-                    <AccountCircle />
+                        <AccountCircle />
                     </IconButton>
                     
                     <Menu
-                    id="menu-appbar"
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
+                        id="menu-appbar"
+                        sx={{
+                            mt:"50px"
+                        }}
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
                     >
-                    <MenuItem onClick={handleClickProfile}>Profile</MenuItem>
-                    <MenuItem onClick={handleClickLogOut}>Log out</MenuItem>
+                        <MenuItem onClick={handleClickProfile}>Profile</MenuItem>
+                        <MenuItem onClick={handleClickLogOut}>Log out</MenuItem>
                     </Menu>
 
                 </div>

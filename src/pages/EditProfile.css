@@ -1,0 +1,41 @@
+.edit-box {
+    background-color: rgba(237, 231, 225, 0.767);
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    border: 1px solid rgb(220, 81, 53);
+    margin: 5% 34% !important;
+    flex-direction: column;
+}
+.edit-root {
+    height: 100%;
+}
+.edit-field {
+    margin: 3% auto 3% auto !important;
+    /* margin-top: 10% !important; */
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+.edit-error {
+    font-size: 0.8em;
+    line-height: 1em;
+    height: 0.5em;
+}
+.edit-avatar {
+    margin-bottom: 10px;
+}
+#edit-button {
+    background-color: #f18b72;
+    /* margin-right: 25%; */
+    margin-left: 55%;
+    /* justify-content: flex-end; */
+    margin-bottom: 3%;
+    margin-top: 3%;
+}
+/* .phone-edit .react-tel-input .flag-dropdown{
+    position: absolute;
+} */
