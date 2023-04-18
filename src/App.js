@@ -54,7 +54,7 @@ function App() {
 
             <Routing/>
           </Route>
-          <Route path="/restaurant-view">
+          <Route path="/restaurant-view/:id">
             <RestaurantView />
           </Route>
       </Router>
