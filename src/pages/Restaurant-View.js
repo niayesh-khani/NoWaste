@@ -104,11 +104,11 @@ const ExpandMore = MU.styled((props: ExpandMoreProps) => {
 const RestaurantView = (props: Props) => 
 {
     const [expanded, setExpanded] = React.useState(false);
-    const [rateValue, setRateValue] = React.useState(2.6);
+    const [rateValue, setRateValue] = React.useState(0);
     const [color, setColor] = React.useState(false);
-    const [restaurant, setRestaurant] = React.useState();
+    const [restaurant, setRestaurant] = React.useState('');
     const [menu, setMenu] = React.useState([]);
-    // const [nameRestaurant, setNameRestaurant] = react.useState();
+    const [nameRestaurant, setNameRestaurant] = React.useState('');
     const history = useHistory();
     const {id} = useParams();
     // const [open, setOpen] = React.useState(false);
@@ -133,17 +133,15 @@ const RestaurantView = (props: Props) =>
         .then((response) => {
             console.log(response);
             setRestaurant(response.data);
+            setNameRestaurant(restaurant.name);
+            setMenu(restaurant.menu);
+            setRateValue(restaurant.rate);
         })
         .catch((error) => {
             console.log(error);
         });
     });
-    console.log(restaurant);
-    // setNameRestaurant(restaurant.name);
-    // setMenu(restaurant.menu);
-    useEffect(() => {
-        localStorage.setItem('menu', JSON.stringify(menu));
-        }, [menu]);
+    
     return (
     <div>
         <Header />
@@ -160,8 +158,8 @@ const RestaurantView = (props: Props) =>
                                     M
                                     </MU.Avatar>
                                 }
-                                title=""
-                                subheader="From September 14, 2023"
+                                title= {restaurant.name}
+                                subheader={restaurant.date_of_establishment}
                                 >
                         </MU.CardHeader>
                         </MU.Grid>
@@ -186,12 +184,12 @@ const RestaurantView = (props: Props) =>
 
                         <MU.CardMedia
                         component="img"
-                        src="/mohsen.jpg"
+                        src={"/mohsen.jpg"}
                         alt="Restaurant1"
                         />
                         <MU.CardContent>
                         <MU.Typography variant="body2" className='Body2-restaurant-view' color="text.secondary">
-                            Restaurant Mohsen takes pride that since 1375 (1996/1997), the same time it started its activities, it has been maintaining its special quantity and quality with the full supervision of management and the support of an experienced team in the preparation of raw materials and cooking affairs.
+                            {restaurant.description}
                         </MU.Typography>
                         </MU.CardContent>
                         <MU.CardActions disableSpacing>
@@ -211,7 +209,7 @@ const RestaurantView = (props: Props) =>
                                 phone number : 021 2284 5657
                             </MU.Typography>
                             <MU.Typography paragraph>
-                                Address : Tehran Province, Tehran, Zarrabkhaneh, Qoba, QF52+P86
+                                Address : {restaurant.address}
                             </MU.Typography>
                         </MU.CardContent>
                     </MU.Collapse>

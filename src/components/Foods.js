@@ -17,6 +17,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
 
+
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
 }
@@ -35,8 +36,9 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 const Foods = () => {
     const [count, setCount] = React.useState(0);
     const [expanded, setExpanded] = React.useState(false);
-    const [foods, setFoods] = React.useState();
-    const f = JSON.parse(localStorage.getItem("menu"));
+    const [restaurant, setRestaurant] = React.useState('');
+    const [menu, setMenu] = React.useState([]);
+    const {id} = useParams();
 
     const handleChange = (e) => {
         setCount(e.target.value);
@@ -65,60 +67,74 @@ const Foods = () => {
         localStorage.setItem('countOffood', JSON.stringify(count));
         }, [count]);
 
-    // setFoods(JSON.parse(localStorage.getItem("menu")));
-
+    // setFoods(JSON.parse(localStorage.getItem("menu") || 0));
+    React.useEffect(() => {
+        axios.get("http://nowaste39.pythonanywhere.com/restaurant/restaurant_profile/" + id + '/')
+        .then((response) => {
+            console.log(response);
+            setRestaurant(response.data);
+            setMenu(restaurant.menu);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    });
+    console.log(menu);
     return ( 
         <div>
-        {f.map((food) => (
             <Card className= 'card-food'>
-            <CardMedia
-                sx={{ height: 140 }}
-                image="/food1.jpg"
-                title="green iguana"
-            />
-            <CardContent >
-                <Typography gutterBottom className='food-name-restaurant-view' >
-                    Special Sultan's Kebab of Mohsen
-                </Typography>
-            </CardContent>
-            <CardActions>
-                <IconButton color="success" aria-label="add to shopping cart" onClick={handleAddToCartClick}>
-                    <AddShoppingCartIcon />
-                </IconButton>
-                <TextField
-                    // type='number'
-                    label="count"
-                    variant='outlined'
-                    onChange={handleChange}
-                    value={count}
+            {menu && menu.map((food) => (
+                <>
+                <CardMedia
+                    sx={{ height: 140 }}
+                    image="/food1.jpg"
+                    title={food.Type}
                 />
-                <IconButton sx={{ color: red[500] }} aria-label="add to shopping cart" onClick={handleRemoveFromCartClick}>
-                    <RemoveShoppingCart />
-                </IconButton>
-            </CardActions>
-            
-
-            <CardActions disableSpacing>
-                    {/* <Rating name="read-only" value={rateValue} readOnly /> */}
-                    <ExpandMore
-                        expand={expanded}
-                        onClick={handleExpandClick}
-                        aria-expanded={expanded}
-                        aria-label="show more"
-                    >
-                    <ExpandMoreIcon />
-                    </ExpandMore>
-                </CardActions>
-
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                    <Typography paragraph>
-                        Premium leaf (300g) + Kebab Lqma (250g) + Grilled tomato without rice and side dishes (decorative picture).
+                <CardContent >
+                    <Typography gutterBottom className='food-name-restaurant-view' >
+                        {food.name}
                     </Typography>
                 </CardContent>
-            </Collapse>
+                <CardActions>
+                    <IconButton color="success" aria-label="add to shopping cart" onClick={handleAddToCartClick}>
+                        <AddShoppingCartIcon />
+                    </IconButton>
+                    <TextField
+                        // type='number'
+                        label="count"
+                        variant='outlined'
+                        onChange={handleChange}
+                        value={count}
+                    />
+                    <IconButton sx={{ color: red[500] }} aria-label="add to shopping cart" onClick={handleRemoveFromCartClick}>
+                        <RemoveShoppingCart />
+                    </IconButton>
+                </CardActions>
+                
+
+                <CardActions disableSpacing>
+                        {/* <Rating name="read-only" value={rateValue} readOnly /> */}
+                        <ExpandMore
+                            expand={expanded}
+                            onClick={handleExpandClick}
+                            aria-expanded={expanded}
+                            aria-label="show more"
+                        >
+                        <ExpandMoreIcon />
+                        </ExpandMore>
+                    </CardActions>
+
+                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <CardContent>
+                        <Typography paragraph>
+                            {food.ingredients}
+                        </Typography>
+                    </CardContent>
+                </Collapse>
+                </>
+            ))}
             </Card>
-        ))}
+
         </div>
     );
 }
