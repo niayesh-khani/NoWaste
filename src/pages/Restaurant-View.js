@@ -104,19 +104,17 @@ const ExpandMore = MU.styled((props: ExpandMoreProps) => {
 const RestaurantView = (props: Props) => 
 {
     const [expanded, setExpanded] = React.useState(false);
-    const [rateValue, setRateValue] = React.useState(2);
+    const [rateValue, setRateValue] = React.useState(2.6);
     const [color, setColor] = React.useState(false);
     const [restaurant, setRestaurant] = React.useState();
     const [menu, setMenu] = React.useState([]);
-    const [nameRestaurant, setNameRestaurant] = react.useState("");
+    // const [nameRestaurant, setNameRestaurant] = react.useState();
+    const history = useHistory();
+    const {id} = useParams();
     // const [open, setOpen] = React.useState(false);
 
     // const handleOpenComment = () => setOpen(true);
     // const handleCloseComment = () => setOpen(false);
-
-    
-    const history = useHistory();
-    const {id} = useParams();
 
     const handleColor = () => {
         setColor(!color);
