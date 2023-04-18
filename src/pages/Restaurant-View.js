@@ -110,15 +110,22 @@ const RestaurantView = (props: Props) =>
     const [menu, setMenu] = React.useState([]);
     const [nameRestaurant, setNameRestaurant] = React.useState('');
     const history = useHistory();
+    const [email, setEmail] = React.useState("");
     const {id} = useParams();
     // const [open, setOpen] = React.useState(false);
 
     // const handleOpenComment = () => setOpen(true);
     // const handleCloseComment = () => setOpen(false);
 
-    const handleColor = () => {
-        setColor(!color);
-    };
+
+    useEffect(() => {
+        const email = JSON.parse(localStorage.getItem('email'));
+        if (email) {
+            setEmail(email);
+            console.log(email);
+        }
+    }, []);
+
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
@@ -141,6 +148,31 @@ const RestaurantView = (props: Props) =>
             console.log(error);
         });
     });
+
+    const handleColor = () => {
+        setColor(!color);
+        const userData = {
+            name: nameRestaurant,
+            email: email
+            };
+            console.log(userData);
+            axios.post("http://nowaste39.pythonanywhere.com/user/favorite-restaurant/", userData, {headers:{"Content-Type" : "application/json"}})
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response);
+                    console.log("server responded");
+                } 
+                else if (error.request) {
+                    console.log("network error");
+                } 
+                else {
+                    console.log(error);
+                }
+            });
+    };
     
     return (
     <div>

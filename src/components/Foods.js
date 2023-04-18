@@ -15,6 +15,7 @@ import { styled} from '@mui/material/styles';
 import './Foods.css';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { Grid } from '@mui/material';
 
 
 
@@ -67,7 +68,6 @@ const Foods = () => {
         localStorage.setItem('countOffood', JSON.stringify(count));
         }, [count]);
 
-    // setFoods(JSON.parse(localStorage.getItem("menu") || 0));
     React.useEffect(() => {
         axios.get("http://nowaste39.pythonanywhere.com/restaurant/restaurant_profile/" + id + '/')
         .then((response) => {
@@ -79,62 +79,64 @@ const Foods = () => {
             console.log(error);
         });
     });
+
     console.log(menu);
     return ( 
         <div>
-            <Card className= 'card-food'>
             {menu && menu.map((food) => (
-                <>
-                <CardMedia
-                    sx={{ height: 140 }}
-                    image="/food1.jpg"
-                    title={food.Type}
-                />
-                <CardContent >
-                    <Typography gutterBottom className='food-name-restaurant-view' >
-                        {food.name}
-                    </Typography>
-                </CardContent>
-                <CardActions>
-                    <IconButton color="success" aria-label="add to shopping cart" onClick={handleAddToCartClick}>
-                        <AddShoppingCartIcon />
-                    </IconButton>
-                    <TextField
-                        // type='number'
-                        label="count"
-                        variant='outlined'
-                        onChange={handleChange}
-                        value={count}
+                // <Grid container spacing={2}>
+                //     <Grid item xs= {12} sm={6}>
+                <Card className= 'card-food'>
+                    <CardMedia
+                        sx={{ height: 140 }}
+                        image="/food1.jpg"
+                        title={food.Type}
                     />
-                    <IconButton sx={{ color: red[500] }} aria-label="add to shopping cart" onClick={handleRemoveFromCartClick}>
-                        <RemoveShoppingCart />
-                    </IconButton>
-                </CardActions>
-                
-
-                <CardActions disableSpacing>
-                        {/* <Rating name="read-only" value={rateValue} readOnly /> */}
-                        <ExpandMore
-                            expand={expanded}
-                            onClick={handleExpandClick}
-                            aria-expanded={expanded}
-                            aria-label="show more"
-                        >
-                        <ExpandMoreIcon />
-                        </ExpandMore>
-                    </CardActions>
-
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <CardContent>
-                        <Typography paragraph>
-                            {food.ingredients}
+                    <CardContent >
+                        <Typography gutterBottom className='food-name-restaurant-view' >
+                            {food.name}
                         </Typography>
                     </CardContent>
-                </Collapse>
-                </>
-            ))}
-            </Card>
+                    <CardActions>
+                        <IconButton color="success" aria-label="add to shopping cart" onClick={handleAddToCartClick}>
+                            <AddShoppingCartIcon />
+                        </IconButton>
+                        <TextField
+                            // type='number'
+                            label="count"
+                            variant='outlined'
+                            onChange={handleChange}
+                            value={count}
+                        />
+                        <IconButton sx={{ color: red[500] }} aria-label="add to shopping cart" onClick={handleRemoveFromCartClick}>
+                            <RemoveShoppingCart />
+                        </IconButton>
+                    </CardActions>
+                    
 
+                    <CardActions disableSpacing>
+                            {/* <Rating name="read-only" value={rateValue} readOnly /> */}
+                            <ExpandMore
+                                expand={expanded}
+                                onClick={handleExpandClick}
+                                aria-expanded={expanded}
+                                aria-label="show more"
+                            >
+                            <ExpandMoreIcon />
+                            </ExpandMore>
+                        </CardActions>
+
+                    <Collapse in={expanded} timeout="auto" unmountOnExit>
+                        <CardContent>
+                            <Typography paragraph>
+                                {food.ingredients}
+                            </Typography>
+                        </CardContent>
+                    </Collapse>
+                </Card>
+            //     </Grid>
+            // </Grid>
+            ))}
         </div>
     );
 }
