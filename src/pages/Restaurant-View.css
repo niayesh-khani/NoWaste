@@ -31,7 +31,7 @@
 
 
 .favorite-restaurant-view{
-    margin-left: 15% !important;
+    margin-left: 7em !important;
 }
 
 /* .full-menu-restaurant-view {
@@ -41,14 +41,11 @@
 
 .my-masonry-grid {
     display: flex;
-    /* margin-left: -30px;  */
     padding-left: 10%;
     width: auto;
 }
 
 .my-masonry-grid_column {
-    /* padding-left: 100px;  */
-    /* margin-left: 5%; */
     background-clip: padding-box;
 }
 

@@ -10,7 +10,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AccountCircle } from '@material-ui/icons';
 import Masonry from 'react-masonry-css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import Foods from '../components/Foods';
+import Food from '../components/Food';
 import BackToTop from '../components/BackToTop';
 import Footer from '../components/Footer';
 import NavigationIcon from '@material-ui/icons/Navigation';
@@ -178,7 +178,7 @@ const RestaurantView = (props: Props) =>
     <div>
         <Header />
         <MU.Grid container spacing={2} sx={{
-            paddingTop:"2%"
+            paddingTop:"2%",
         }}>
             <MU.Grid item md={3}>
                 <MU.Card sx={{ borderStyle: 'none'}} className='card-restaurant-view'>
@@ -187,7 +187,7 @@ const RestaurantView = (props: Props) =>
                         <MU.CardHeader 
                                 avatar={
                                     <MU.Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                    M
+                                    {restaurant?.name ? restaurant.name.charAt(0) : "UD"}
                                     </MU.Avatar>
                                 }
                                 title= {restaurant.name}
@@ -238,7 +238,7 @@ const RestaurantView = (props: Props) =>
                     <MU.Collapse in={expanded} timeout="auto" unmountOnExit>
                         <MU.CardContent>
                             <MU.Typography paragraph>
-                                phone number : 021 2284 5657
+                                phone number : {restaurant.number}
                             </MU.Typography>
                             <MU.Typography paragraph>
                                 Address : {restaurant.address}
@@ -258,9 +258,12 @@ const RestaurantView = (props: Props) =>
                     className="my-masonry-grid"
                     columnClassName="my-masonry-grid_column"
             >
-                <div item xs={3}>
-                    <Foods />
-                </div>
+                {menu &&
+                    menu.map((food, index) => (
+                        <div key={index} className="my-masonry-grid_column" style={{ width: index % 3 === 0 ? '100%' : '' }}>
+                            <Food food={food} />
+                        </div>
+                    ))}
             </Masonry>
             </MU.Grid>
             <BackToTop/>

@@ -12,10 +12,11 @@ import Collapse from '@mui/material/Collapse';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { styled} from '@mui/material/styles';
-import './Foods.css';
+import './Food.css';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { Grid } from '@mui/material';
+import { Chip, Grid } from '@mui/material';
+import { Stack } from 'react-bootstrap';
 
 
 
@@ -34,12 +35,13 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 
-const Foods = () => {
+const Food = (props) => {
     const [count, setCount] = React.useState(0);
     const [expanded, setExpanded] = React.useState(false);
     const [restaurant, setRestaurant] = React.useState('');
     const [menu, setMenu] = React.useState([]);
     const {id} = useParams();
+    const food = props.food
 
     const handleChange = (e) => {
         setCount(e.target.value);
@@ -80,64 +82,60 @@ const Foods = () => {
         });
     });
 
-    console.log(menu);
     return ( 
         <div>
-            {menu && menu.map((food) => (
-                // <Grid container spacing={2}>
-                //     <Grid item xs= {12} sm={6}>
-                <Card className= 'card-food'>
-                    <CardMedia
-                        sx={{ height: 140 }}
-                        image="/food1.jpg"
-                        title={food.Type}
+            <Card className= 'card-food'>
+                <CardMedia
+                    sx={{ height: 140 }}
+                    image="/food1.jpg"
+                    title={food.Type}
+                />
+                <CardContent >
+                    <Typography gutterBottom className='food-name-restaurant-view' >
+                        {food.name}
+                        <Stack direction="vertical">
+                            <Chip label={parseInt(food.price) + " $"} sx={{backgroundColor: "#f18b72"}}  />
+                        </Stack>   
+                    </Typography>
+                </CardContent>
+                <CardActions>
+                    <IconButton color="success" aria-label="add to shopping cart" onClick={handleAddToCartClick}>
+                        <AddShoppingCartIcon />
+                    </IconButton>
+                    <TextField
+                        // type='number'
+                        label="count"
+                        variant='outlined'
+                        onChange={handleChange}
+                        value={count}
                     />
-                    <CardContent >
-                        <Typography gutterBottom className='food-name-restaurant-view' >
-                            {food.name}
+                    <IconButton sx={{ color: red[500] }} aria-label="add to shopping cart" onClick={handleRemoveFromCartClick}>
+                        <RemoveShoppingCart />
+                    </IconButton>
+                </CardActions>
+                
+
+                <CardActions disableSpacing>
+                        {/* <Rating name="read-only" value={rateValue} readOnly /> */}
+                        <ExpandMore
+                            expand={expanded}
+                            onClick={handleExpandClick}
+                            aria-expanded={expanded}
+                            aria-label="show more"
+                        >
+                        <ExpandMoreIcon />
+                        </ExpandMore>
+                    </CardActions>
+
+                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <CardContent>
+                        <Typography paragraph>
+                            Ingredients: {food.ingredients}
                         </Typography>
                     </CardContent>
-                    <CardActions>
-                        <IconButton color="success" aria-label="add to shopping cart" onClick={handleAddToCartClick}>
-                            <AddShoppingCartIcon />
-                        </IconButton>
-                        <TextField
-                            // type='number'
-                            label="count"
-                            variant='outlined'
-                            onChange={handleChange}
-                            value={count}
-                        />
-                        <IconButton sx={{ color: red[500] }} aria-label="add to shopping cart" onClick={handleRemoveFromCartClick}>
-                            <RemoveShoppingCart />
-                        </IconButton>
-                    </CardActions>
-                    
-
-                    <CardActions disableSpacing>
-                            {/* <Rating name="read-only" value={rateValue} readOnly /> */}
-                            <ExpandMore
-                                expand={expanded}
-                                onClick={handleExpandClick}
-                                aria-expanded={expanded}
-                                aria-label="show more"
-                            >
-                            <ExpandMoreIcon />
-                            </ExpandMore>
-                        </CardActions>
-
-                    <Collapse in={expanded} timeout="auto" unmountOnExit>
-                        <CardContent>
-                            <Typography paragraph>
-                                {food.ingredients}
-                            </Typography>
-                        </CardContent>
-                    </Collapse>
-                </Card>
-            //     </Grid>
-            // </Grid>
-            ))}
+                </Collapse>
+            </Card>
         </div>
     );
 }
-export default Foods;
+export default Food;
