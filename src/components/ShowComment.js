@@ -43,7 +43,7 @@ const ShowComment = () => {
                 See comments
             </Button> */}
             <Button onClick={() => setModalShow(true)} variant="contained" className="field-show-comment submit-show-comment" color="primary" >
-                See comment
+                See comments
             </Button>
         
             <MyVerticallyCenteredModal

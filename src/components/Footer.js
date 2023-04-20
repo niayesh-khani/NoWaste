@@ -64,7 +64,7 @@ const Footer = () => {
                 <h6 className='text-uppercase fw-bold mb-4'>Useful links</h6>
                 <p>
                     <a href='#!' className='text-reset'>
-                        Ubout us
+                        About us
                     </a>
                 </p>
                 <p>
@@ -85,7 +85,7 @@ const Footer = () => {
                     NoWaste.39@gmail.com
                 </p>
                 <p>
-                    <MDBIcon icon="phone" className="me-1" /> + 98 912 909 127
+                    <MDBIcon icon="phone" className="me-1" /> (+98) 912 909 127
                 </p>
                 </MDBCol>
             </MDBRow>
