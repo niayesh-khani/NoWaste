@@ -88,18 +88,6 @@ const ExpandMore = MU.styled((props: ExpandMoreProps) => {
     }),
 }));
 
-// const style = {
-//     position: 'absolute',
-//     top: '50%',
-//     left: '50%',
-//     transform: 'translate(-50%, -50%)',
-//     width: 400,
-//     bgcolor: 'background.paper',
-//     border: '2px solid #000',
-//     boxShadow: 24,
-//     p: 4,
-// };
-
 
 const RestaurantView = (props: Props) => 
 {
@@ -112,10 +100,6 @@ const RestaurantView = (props: Props) =>
     const history = useHistory();
     const [email, setEmail] = React.useState("");
     const {id} = useParams();
-    // const [open, setOpen] = React.useState(false);
-
-    // const handleOpenComment = () => setOpen(true);
-    // const handleCloseComment = () => setOpen(false);
 
 
     useEffect(() => {
@@ -196,7 +180,7 @@ const RestaurantView = (props: Props) =>
                         </MU.CardHeader>
                         </MU.Grid>
                         <MU.Grid item sx={{
-                            marginLeft:"10%"
+                            marginLeft:"35%"
                         }}>
 
                         <MU.BottomNavigation>
