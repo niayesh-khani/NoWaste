@@ -6,7 +6,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { AccountCircle } from '@material-ui/icons';
 
 
-const Header = () => {
+const Header = React.memo(() => {
     const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState('');
     const history = useHistory();
@@ -134,5 +134,5 @@ const Header = () => {
         </div>
     );
 }
-
+)
 export default Header;

@@ -1,3 +1,6 @@
+/* body {
+    overflow-y: scroll;
+} */
 .edit-box {
     background-color: rgba(237, 231, 225, 0.767);
     width: auto;
@@ -27,6 +30,8 @@
 }
 .edit-avatar {
     margin-bottom: 10px;
+    /* width: 100px;
+    height: 100px; */
 }
 #edit-button {
     background-color: #f18b72;
@@ -39,3 +44,14 @@
 /* .phone-edit .react-tel-input .flag-dropdown{
     position: absolute;
 } */
+/* .MuiList-root .MuiList-padding .MuiMenu-list .css-6hp17o-MuiList-root-MuiMenu-list {
+    width: 150px;
+} */
+/* .edit-field-half {
+    display: flex;
+    justify-content: space-between;
+    
+}
+.edit-field-half > div {
+    width: 10%;
+  } */

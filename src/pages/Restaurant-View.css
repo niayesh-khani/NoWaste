@@ -16,13 +16,13 @@
 }
 
 .toolbar-restaurant-view {
-    display: flex;
-    justify-content: space-between;
+    display: flex !important;
+    justify-content: space-between !important;
 }
 
 .toolbar-restaurant-view .icon-restaurant-view {
-    display: flex;
-    align-items: center;
+    display: flex !important;
+    align-items: center !important;
     /* justify-content: flex-end; */
 }
 

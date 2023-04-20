@@ -10,7 +10,6 @@ import Landing from './pages/Landing';
 import Routing from './pages/Routing';
 import RestaurantView from './pages/Restaurant-View';
 import EditProfile from './pages/EditProfile';
-import Edit from './pages/Test';
 
 function App() {
   return (
@@ -39,8 +38,8 @@ function App() {
           <Route path="/edit-profile">
             <EditProfile />
           </Route>
-          <Route path="/test">
-            <Edit />
+          <Route path="/change-password" >
+
           </Route>
       </Router>
   );
