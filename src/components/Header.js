@@ -78,7 +78,7 @@ const Header = () => {
                     src="/logo4.png"
                     alt="NoWaste"
                 />
-                <Search>
+                <Search >
                     <SearchIconWrapper>
                     <SearchIcon />
                     </SearchIconWrapper>
