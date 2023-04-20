@@ -38,7 +38,10 @@ export default function ForgotPass(){
     const [emailError, setEmailError] = useState(false);
     const [newPassword, setNewPassword] = useState('');
     const [token, setToken] = useState('');
-
+    const [showPassword, setShowPassword] = useState(false);
+    const [open, setOpen] = useState(null);
+    const [alertSeverity, setAlertSeverity] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -53,15 +56,11 @@ export default function ForgotPass(){
         setNewPassword(e.target.value);
     };
 
-    const [showPassword, setShowPassword] = useState(false);
-
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
-    
-    const [open, setOpen] = useState(null);
-    
+        
     const handleClose = () => {
         setOpen(false);
     }
@@ -78,9 +77,13 @@ export default function ForgotPass(){
     
 
     function setHeight() {
-        const box = document.querySelector('.box-forgot');
+        // const box = document.querySelector('.box-forgot');
+        
+        const box = document.querySelector('.box');
         const boxHeight = box.offsetHeight;
-        const image = document.querySelector('.desktop');
+        // const image = document.querySelector('.desktop');
+        
+        const image = document.querySelector('.background');
         image.style.height = `${boxHeight}px`;
     }
 
@@ -98,26 +101,22 @@ export default function ForgotPass(){
 
     useEffect(() => {
         localStorage.setItem('token', JSON.stringify(token));
-        }, [token]);
+    }, [token]);
 
     const history = useHistory();
-    const [alertSeverity, setAlertSeverity] = useState("");
-    const [alertMessage, setAlertMessage] = useState("");
     
     useEffect(() => {
         if(alertMessage !== "" && alertSeverity !== ""){
             if(alertSeverity === "success"){
                 toast.success(alertMessage, {
-                            position: toast.POSITION.TOP_RIGHT,
+                            position: toast.POSITION.TOP_CENTER,
                             title: "Success",
                             autoClose: 7000,
                             pauseOnHover: true,
-                            // className: "toast-success",
-                            // bodyClassName: "toast-success-body"
                         });
             } else {
                 toast.error(alertMessage, {
-                            position: toast.POSITION.TOP_RIGHT,
+                            position: toast.POSITION.TOP_CENTER,
                             title: "Error",
                             autoClose: 3000,
                             pauseOnHover: true
@@ -129,7 +128,6 @@ export default function ForgotPass(){
     }, [alertMessage, alertSeverity]);
         
     const handleClick = (e) => {
-        setOpen(true);
         e.preventDefault();
         const userData = {
             email: email
@@ -137,14 +135,8 @@ export default function ForgotPass(){
             axios.post("http://nowaste39.pythonanywhere.com/user/forgot-password/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
-                // setOpen(true);
-                // if(response.status === 200){
                     setAlertMessage("We've just sent you an email including your new password. Enter your new password to continue.");
                     setAlertSeverity("success");
-                    // toast.success(alertMessage, {position: toast.POSITION.TOP_RIGHT});
-                // } else {
-
-                // }
             })
             .catch((error) => {
                 setAlertMessage("An error occured. Please try agian later.");
@@ -163,21 +155,23 @@ export default function ForgotPass(){
             });
     };
     const handleSubmit = (e) => {
-    e.preventDefault();
-    const userData = {
-        password: newPassword,
-        email: email
+        e.preventDefault();
+        const userData = {
+            code: newPassword,
+            email: email
         };
         console.log(userData);
-        axios.post("http://nowaste39.pythonanywhere.com/user/login/", userData, {headers:{"Content-Type" : "application/json"}})
+        axios.post("http://nowaste39.pythonanywhere.com/user/fp-verify/", userData, {headers:{"Content-Type" : "application/json"}})
         .then((response) => {
             console.log(response);
             console.log(response.data.token);
             setToken(response.data.token);
             console.log(token);
-            history.push("/homepage");
+            history.push('./new-password')
         })
         .catch((error) => {
+            console.log(newPassword);
+            console.log(email);
             setOpen(true);
             if (error.response) {
                 console.log(error.response);
@@ -191,7 +185,6 @@ export default function ForgotPass(){
             }
         });    
     };
-
     return ( 
         <ThemeProvider theme={theme}>
             <div className="root">
@@ -201,11 +194,14 @@ export default function ForgotPass(){
                     </div>
 
                     <img
-                        className="desktop"
+                        // className="desktop"
+                        className="background"
                         src="/f2.jpg"
                         alt="NoWaste"
                     />
-                    <Box className="box-forgot">
+                    <Box className="box"
+                    // className="box-forgot"
+                    >
                         <Typography variant="h4" 
                             color="textPrimary"
                             gutterBottom
@@ -251,7 +247,7 @@ export default function ForgotPass(){
                                 }}
                             />
                             <TextField 
-                                label="New password"
+                                label="Code"
                                 variant="outlined"
                                 color="secondary"
                                 required

@@ -6,7 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import EmailIcon from '@mui/icons-material/Email';
 import './Homepage.css';
 import { Toolbar } from '@mui/material';
-import Header from './Header';
+import Header from '../components/Header';
 
 export default function HomePage(){
     return ( 

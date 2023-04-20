@@ -6,7 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import EmailIcon from '@mui/icons-material/Email';
 import './EditProfile.css';
 import { Toolbar } from '@mui/material';
-import Header from './Header';
+import Header from '../components/Header';
 import './Login-Signup.css';
 import './Restaurant-View.css';
 // import PhoneInput from 'react-phone-input-2';

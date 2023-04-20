@@ -139,6 +139,41 @@
     text-align: left;
     margin: 5% 15%;
 }
+
+/* loading */
+
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner .bubble {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    border-radius: 50%;
+    background-color: #000;
+    animation: spinner 1s ease-in-out infinite;
+}
+
+@keyframes spinner {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+
 @media(max-width: 414px) {
     .background {
         display: none;

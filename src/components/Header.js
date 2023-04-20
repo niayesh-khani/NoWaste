@@ -4,6 +4,8 @@ import {useHistory } from "react-router-dom";
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { AccountCircle } from '@material-ui/icons';
+import { useState } from 'react';
+import '../components/Header.css';
 
 
 const Header = React.memo(() => {
@@ -68,8 +70,8 @@ const Header = React.memo(() => {
         };
 
     return ( 
-        <div>
-        <AppBar position="static" className="header-restaurant-view">
+        <>
+        <AppBar sx={{position:"sticky"}} className="header-restaurant-view">
             <Toolbar className='toolbar-restaurant-view'>
                 <img 
                     className='logo'
@@ -131,7 +133,7 @@ const Header = React.memo(() => {
                 )}
             </Toolbar>
         </AppBar>
-        </div>
+        </>
     );
 }
 )
