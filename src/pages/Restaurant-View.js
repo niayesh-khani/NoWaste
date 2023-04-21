@@ -180,7 +180,7 @@ const RestaurantView = (props: Props) =>
                         </MU.CardHeader>
                         </MU.Grid>
                         <MU.Grid item sx={{
-                            marginLeft:"35%"
+                            marginLeft:"12%"
                         }}>
 
                         <MU.BottomNavigation>
