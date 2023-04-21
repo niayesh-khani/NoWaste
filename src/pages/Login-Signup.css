@@ -257,14 +257,6 @@
     }
 }
 @media(min-width: 577px) and (max-width: 768px){
-    .background {
-        width: 40%;
-        margin-left: 10%;
-    }
-    .box {
-        width: 40%;
-        margin-left: 50%;
-    }
     .remember {
         float: none;
         margin-bottom: 0%;
@@ -279,7 +271,8 @@
         font-size: 0.9em;
     }
     .error{
-        height: 4em;
+        height: 3.2em;
+        font-size: 0.75em;
     }
     .desktop {
         width: 47%;
