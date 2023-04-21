@@ -7,6 +7,7 @@ import { Link, useHistory } from "react-router-dom";
 import Checkbox from '@mui/material/Checkbox';
 import axios from "axios";
 import './Login-Signup.css'
+import { Alert, AlertTitle } from "@mui/material";
 
 const theme = createTheme({
     palette: {
@@ -33,7 +34,11 @@ export default function Login(){
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    const [token, setToken] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [validInputs, setValidInputs] = useState(false);
+    const [open, setOpen] = useState(null);
+    
     const handleEmail = (e) => {
         setEmail(e.target.value);
     };
@@ -42,14 +47,11 @@ export default function Login(){
         setPassword(e.target.value);
     };
 
-    const [showPassword, setShowPassword] = useState(false);
-
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
 
-    const [validInputs, setValidInputs] = useState(false);
     useEffect(() => {
         let isValid = email.trim().length > 0 && password.trim().length > 0;
         setValidInputs(isValid);
@@ -74,6 +76,19 @@ export default function Login(){
         };
     }, []);
 
+    useEffect(() => {
+        localStorage.setItem('token', JSON.stringify(token));
+    }, [token]);
+        
+    const handleClose = () => {
+        setOpen(false);
+        setHeight();
+    }
+
+    useEffect(() => {
+        setHeight();
+    }, [open]);
+
     const history = useHistory();
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -85,9 +100,12 @@ export default function Login(){
             axios.post("http://nowaste39.pythonanywhere.com/user/login/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
-                history.push("/");
+                setToken(response.data.token);
+                console.log(token);
+                history.push("/homepage");
             })
             .catch((error) => {
+                setOpen(true);
                 if (error.response) {
                     console.log(error.response);
                     console.log("server responded");
@@ -121,8 +139,12 @@ export default function Login(){
                             Login 
                         </Typography>
                         <form noValidate autoComplete="off" style={{textAlign: 'center'}}>
+                            {open && <Alert severity="error" open={open} onClose={handleClose} variant="outlined" className="alert-error filed">
+                                    Incorrect email address or password!
+                                </Alert>
+                            } 
                             <TextField 
-                                label="Email Address"
+                                label="Email address"
                                 variant="outlined"
                                 color="secondary"
                                 required
@@ -171,7 +193,7 @@ export default function Login(){
                                     )
                                 }}
                             />
-                            <FormControlLabel className="remember"
+                            {/* <FormControlLabel className="remember"
                                 control={<Checkbox 
                                     sx={{color: '#f18b72', '&.Mui-checked': {color: '#f18b72'},}}
                                     />}
@@ -180,8 +202,8 @@ export default function Login(){
                                             Remember me
                                         </Typography>
                                     }
-                            />
-                            <Link to="/forgotpass" className="forgetpassword">
+                            /> */}
+                            <Link to="/forgot-password" className="forgetpassword">
                                 <Typography>
                                     Forgot password?
                                 </Typography>

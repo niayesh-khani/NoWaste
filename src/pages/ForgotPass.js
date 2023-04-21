@@ -8,6 +8,8 @@ import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import './Login-Signup.css'
 import { Alert, AlertTitle } from "@mui/material";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const theme = createTheme({
     palette: {
@@ -35,6 +37,11 @@ export default function ForgotPass(){
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState(false);
     const [newPassword, setNewPassword] = useState('');
+    const [token, setToken] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [open, setOpen] = useState(null);
+    const [alertSeverity, setAlertSeverity] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -49,17 +56,18 @@ export default function ForgotPass(){
         setNewPassword(e.target.value);
     };
 
-    const [showPassword, setShowPassword] = useState(false);
-
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
-    
-    const [open, setOpen] = useState(null);
+        
     const handleClose = () => {
         setOpen(false);
     }
+
+    useEffect(() => {
+        setHeight();
+    }, [open]);
 
     const [validInputs, setValidInputs] = useState(false);
     useEffect(() => {
@@ -69,9 +77,13 @@ export default function ForgotPass(){
     
 
     function setHeight() {
-        const box = document.querySelector('.box-forgot');
+        // const box = document.querySelector('.box-forgot');
+        
+        const box = document.querySelector('.box');
         const boxHeight = box.offsetHeight;
-        const image = document.querySelector('.desktop');
+        // const image = document.querySelector('.desktop');
+        
+        const image = document.querySelector('.background');
         image.style.height = `${boxHeight}px`;
     }
 
@@ -87,7 +99,34 @@ export default function ForgotPass(){
         };
     }, []);
 
+    useEffect(() => {
+        localStorage.setItem('token', JSON.stringify(token));
+    }, [token]);
+
     const history = useHistory();
+    
+    useEffect(() => {
+        if(alertMessage !== "" && alertSeverity !== ""){
+            if(alertSeverity === "success"){
+                toast.success(alertMessage, {
+                            position: toast.POSITION.TOP_CENTER,
+                            title: "Success",
+                            autoClose: 7000,
+                            pauseOnHover: true,
+                        });
+            } else {
+                toast.error(alertMessage, {
+                            position: toast.POSITION.TOP_CENTER,
+                            title: "Error",
+                            autoClose: 3000,
+                            pauseOnHover: true
+                        });
+            }
+            setAlertMessage("");
+            setAlertSeverity("");
+        }
+    }, [alertMessage, alertSeverity]);
+        
     const handleClick = (e) => {
         e.preventDefault();
         const userData = {
@@ -96,9 +135,12 @@ export default function ForgotPass(){
             axios.post("http://nowaste39.pythonanywhere.com/user/forgot-password/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
-                setOpen(true);
+                    setAlertMessage("We've just sent you an email including your new password. Enter your new password to continue.");
+                    setAlertSeverity("success");
             })
             .catch((error) => {
+                setAlertMessage("An error occured. Please try agian later.");
+                setAlertSeverity("error");
                 if (error.response) {
                     console.log(error.response);
                     console.log("server responded");
@@ -114,26 +156,52 @@ export default function ForgotPass(){
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        history.push("/");
+        const userData = {
+            code: newPassword,
+            email: email
+        };
+        console.log(userData);
+        axios.post("http://nowaste39.pythonanywhere.com/user/login/", userData, {headers:{"Content-Type" : "application/json"}})
+        .then((response) => {
+            console.log(response);
+            console.log(response.data.token);
+            setToken(response.data.token);
+            console.log(token);
+            history.push('./new-password')
+        })
+        .catch((error) => {
+            console.log(newPassword);
+            console.log(email);
+            setOpen(true);
+            if (error.response) {
+                console.log(error.response);
+                console.log("server responded");
+            } 
+            else if (error.request) {
+                console.log("network error");
+            } 
+            else {
+                console.log(error);
+            }
+        });    
     };
-
     return ( 
         <ThemeProvider theme={theme}>
             <div className="root">
                 <Container className="container">
-                <div className="alert">
-                    {open && <Alert severity="success"  open={open} onClose={handleClose}>
-                        <AlertTitle>Success</AlertTitle>
-                            We've just sent you an email including your new password. Enter your new password to continue.
-                    </Alert>}
+                    <div >
+                        <ToastContainer />
                     </div>
 
                     <img
-                        className="desktop"
+                        // className="desktop"
+                        className="background"
                         src="/f2.jpg"
                         alt="NoWaste"
                     />
-                    <Box className="box-forgot">
+                    <Box className="box"
+                    // className="box-forgot"
+                    >
                         <Typography variant="h4" 
                             color="textPrimary"
                             gutterBottom
@@ -143,6 +211,10 @@ export default function ForgotPass(){
                             Forgot Your Password?
                         </Typography>
                         <form noValidate autoComplete="off" style={{textAlign: 'center'}}>
+                            {open && <Alert severity="error" open={open} onClose={handleClose} className="alert-error" variant="outlined">
+                                    Incorrect new password!
+                                </Alert>
+                            }
                             <TextField 
                                 label="Email Address"
                                 variant="outlined"
@@ -175,7 +247,7 @@ export default function ForgotPass(){
                                 }}
                             />
                             <TextField 
-                                label="New password"
+                                label="Code"
                                 variant="outlined"
                                 color="secondary"
                                 required

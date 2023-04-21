@@ -1,0 +1,71 @@
+.logo {
+    margin-left: 0;
+    width: 10% !important;
+    height: auto;
+    
+}
+
+.MuiAppBar-root.header-restaurant-view{
+    background-color: #911436;
+} 
+
+.css-8u9tfx-MuiButtonBase-root-MuiBottomNavigationAction-root{
+    padding: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+}
+
+.toolbar-restaurant-view {
+    display: flex;
+    justify-content: space-between;
+}
+
+.toolbar-restaurant-view .icon-restaurant-view {
+    display: flex;
+    align-items: center;
+    /* justify-content: flex-end; */
+}
+
+.card-restaurant-view {
+    height: auto;
+    width: auto;
+    border: none;
+    position: relative;
+}
+
+.last-icon-restaurant-view {
+    margin-left: 10px !important;
+}
+
+.favorite-restaurant-view{
+    margin-left: 15% !important;
+}
+
+/* .full-menu-restaurant-view {
+    display: flex;
+    flex-direction: row;
+} */
+
+.my-masonry-grid {
+    display: flex;
+    /* margin-left: -30px;  */
+    padding-left: 10%;
+    width: auto;
+}
+
+.my-masonry-grid_column {
+    /* padding-left: 100px;  */
+    /* margin-left: 5%; */
+    background-clip: padding-box;
+}
+
+
+.field-restaurant-view {
+    margin-top: 4%;
+    margin-bottom: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+}

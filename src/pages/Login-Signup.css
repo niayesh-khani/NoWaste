@@ -135,49 +135,46 @@
     height: 5%;
     width: 40%;
 }
-@media(max-width: 414px) {
-    .background {
-        display: none;
+.alert-error{
+    text-align: left;
+    margin: 5% 15%;
+}
+
+/* loading */
+
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner .bubble {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    border-radius: 50%;
+    background-color: #000;
+    animation: spinner 1s ease-in-out infinite;
+}
+
+@keyframes spinner {
+    0% {
+        transform: scale(1);
+        opacity: 1;
     }
-    .box {
-        border-bottom-left-radius: 10px;
-        border-top-left-radius: 10px;
-        position: static;
-        width: 80%;
-        margin: 10% 10%;
-        border: 1px solid rgb(197, 120, 58);
+    50% {
+        transform: scale(1.5);
+        opacity: 0.5;
     }
-    .remember {
-        float: none;
-        margin-bottom: 0%;
-        width: 50%;
-    }
-    .forgetpassword {
-        float: right;
-        width: 70%;
-        margin-bottom: 5%;
-    }
-    .error{
-        height: 4em;
-    }
-    .desktop
-    {
-        display: none;
-    }
-    .box-forgot{
-        border-bottom-left-radius: 10px;
-        border-top-left-radius: 10px;
-        position: static;
-        width: 70%;
-        margin: 1% 15%;
-        border: 1px solid rgb(197, 120, 58);
-    }
-    .alert {
-        margin: -40% 15% 0 12%;
-        width: 70%;
+    100% {
+        transform: scale(1);
+        opacity: 1;
     }
 }
-@media(min-width: 415) and (max-width: 576px){
+
+
+
+@media(max-width: 414px) {
     .background {
         display: none;
     }
@@ -214,7 +211,48 @@
         border: 1px solid rgb(197, 120, 58);
     }
     .alert {
-        margin: -25% 15% 0 12%;
+        margin: -40% 15% 0 12%;
+        width: 70%;
+    }
+}
+@media(min-width: 415px) and (max-width: 576px){
+    .background {
+        display: none;
+    }
+    .box {
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+        position: static;
+        width: 80%;
+        margin: 10% 10%;
+        border: 1px solid rgb(197, 120, 58);
+    }
+    .remember {
+        float: none;
+        margin-bottom: 0%;
+        width: 50%;
+    }
+    .forgetpassword {
+        float: right;
+        width: 70%;
+        margin-bottom: 5%;
+    }
+    .error{
+        height: 4em;
+    }
+    .desktop {
+        display: none;
+    }
+    .box-forgot{
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+        position: static;
+        width: 70%;
+        margin: 1% 15%;
+        border: 1px solid rgb(197, 120, 58);
+    }
+    .alert {
+        margin: -30% 15% 0 12%;
         width: 70%;
     }
 }

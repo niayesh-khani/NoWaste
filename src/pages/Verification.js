@@ -6,6 +6,7 @@ import './Login-Signup.css'
 import { tr } from "date-fns/locale";
 import axios from "axios";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { Alert } from "@mui/material";
 
 
 const theme = createTheme({
@@ -34,6 +35,9 @@ export default function Verification(){
     const [code, setCode] = useState('');
     const [codeError, setCodeError] = useState(false);
     const [email, setEmail] = useState([]);
+    const [validInputs, setValidInputs] = useState(false);
+    const [open, setOpen] = useState(null);
+
 
     const handleCode = (e) => {
         setCode(e.target.value);
@@ -44,7 +48,6 @@ export default function Verification(){
         }
     }
 
-    const [validInputs, setValidInputs] = useState(false);
     useEffect(() => {
         let isValid = !codeError;
         setValidInputs(isValid);
@@ -56,7 +59,17 @@ export default function Verification(){
         const image = document.querySelector('.background');
         image.style.height = `${boxHeight}px`;
     }
+
+    const handleClose = () => {
+        setOpen(false);
+    }
+
+    useEffect(() => {
+        setHeight();
+    }, [open]);
+
     const history = useHistory();
+
     useEffect(() => {
         const email = JSON.parse(localStorage.getItem('email'));
         if (email) {
@@ -64,6 +77,7 @@ export default function Verification(){
             console.log(email);
         }
     }, []);
+
     useEffect(() => {
         setHeight(); 
         window.addEventListener('resize', setHeight);
@@ -80,26 +94,30 @@ export default function Verification(){
         e.preventDefault();
         const userData = {
             code: code,
-            email: email
-            };
-            axios.post("https://nowaste39.pythonanywhere.com/user/verify-email/", userData, {headers:{"Content-Type" : "application/json"}})
-            .then((response) => {
-                console.log(response);
-                history.push("/");
-            })
-            .catch((error) => {
-                if (error.response) {
-                    console.log(error.response);
-                    console.log("server responded");
-                } 
-                else if (error.request) {
-                    console.log("network error");
-                    console.log(error);
-                } 
-                else {
-                    console.log(error);
-                }
-            });
+            email: email,
+            name: JSON.parse(localStorage.getItem("fullname")),
+            role: JSON.parse(localStorage.getItem("role")),
+            password: JSON.parse(localStorage.getItem("password"))
+        };
+        axios.post("https://nowaste39.pythonanywhere.com/user/verify-email/", userData, {headers:{"Content-Type" : "application/json"}})
+        .then((response) => {
+            console.log(response);
+            history.push("/homepage");
+        })
+        .catch((error) => {
+            setOpen(true);
+            if (error.response) {
+                console.log(error.response);
+                console.log("server responded");
+            } 
+            else if (error.request) {
+                console.log("network error");
+                console.log(error);
+            } 
+            else {
+                console.log(error);
+            }
+        });
     };
 
     return ( 
@@ -127,6 +145,10 @@ export default function Verification(){
                             Enter the verification code we just sent you on your email address.
                         </Typography>
                         <form noValidate autoComplete="off" style={{textAlign: 'center'}}>
+                            {open && <Alert severity="error" open={open} onClose={handleClose} className="alert-error" variant="outlined">
+                                    Incorrect code!
+                                </Alert>
+                            }
                             <TextField 
                                 label="Code"
                                 variant="outlined"
@@ -167,7 +189,7 @@ export default function Verification(){
                             style={{fontSize: '1em'}}
                             className="text"
                         >
-                        <Link to="/" className="link-pass">Resend code?</Link>
+                        {/* <Link to="/" className="link-pass">Resend code?</Link> */}
                         </Typography>
                     </Box>
                 </Container>
