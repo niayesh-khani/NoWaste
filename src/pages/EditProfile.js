@@ -71,23 +71,24 @@ function Edit(props){
     const [fullnameError, setFullnameError] = useState(false);
     const [emailError, setEmailError] = useState(false);
     const [color, setColor] = useState(localStorage.getItem('avatarColor') || getRandomColor());
+    const [update, setUpdate] = useState('');
 
     const handleFullname = (e) => {
-        setData({...data, fullname: e.target.value})
+        setUpdate({...update, name: e.target.value})
         if(!/^[a-zA-Z]+\s[a-zA-Z]+$/gm.test(e.target.value)){
             setFullnameError(true);
         } else {
             setFullnameError(false);
         }
     };
-    const handleEmail = (e) => {
-        setData({...data, email: e.target.value})
-        if(!/[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/.test(e.target.value)) {
-            setEmailError(true);
-        } else{
-            setEmailError(false);
-        }
-    }
+    // const handleEmail = (e) => {
+    //     // setData({...data, email: e.target.value})
+    //     if(!/[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/.test(e.target.value)) {
+    //         setEmailError(true);
+    //     } else{
+    //         setEmailError(false);
+    //     }
+    // }
     useEffect(() => {
         if(!localStorage.getItem('avatarColor')) {
             localStorage.setItem('avatarColor', color);
@@ -96,9 +97,42 @@ function Edit(props){
     const [phone, setPhone] = useState('');
 
     const handlePhoneChange = (value) => {
+        setUpdate({...update, phone_number : value});
         localStorage.setItem('phone', value);
         setPhone(value);
     };
+    const handleBirthdate = (date) => {
+        const formattedDate = dayjs(date).format('YYYY-MM-DD');
+        setUpdate({...update, date_of_birth : formattedDate});
+    }
+    const handleGender = (e) => {
+        setUpdate({...update, gender: e.target.value});
+    }
+    const [city, setCity] = useState('');
+    const [country, setCountry] = useState('');
+    const [address, setAddress] = useState('');
+    const handleCity = (e) => {
+        setCity(e.target.value);
+    }
+    const handleCountry = (e) => {
+        setCountry(e.target.value);
+    }
+    const handleAddress = (e) => {
+        setAddress(e.target.value);
+    }
+    useEffect(() => {
+        if(country===''){
+            setCountry('-');
+        }
+        if(city===''){
+            setCity('-');
+        }
+        if(address==='-'){
+            setAddress('-');
+        }
+        const temp = country + '$' + city + '$' + address;
+        setUpdate({...update, address : temp})
+    }, [country, city, address])
     const token = localStorage.getItem('token');
     const id = localStorage.getItem('id');
     const [data, setData] = useState('')
@@ -119,16 +153,35 @@ function Edit(props){
         })
         .catch((error) => console.log(error));
     },[]);
-
+    useEffect(() => {
+        const arr = data.address.split("$");
+        if(arr[0]==='-'){
+            setCountry('');
+        } else {
+            setCountry(arr[0])
+        }
+        if(arr[1]==='-'){
+            setCity('-')
+        } else{
+            setCity(arr[1]);
+        }
+        if(arr[2]==='-'){
+            setAddress('');
+        } else {
+            setAddress(arr[2]);
+        }
+    }, [data.address])
     const history = useHistory();
     const handleChange = () => {
         history.push('./change-password')
     };
-
+    // if(data.name){
+    const firstChar = data.name.charAt(0);
+    // }
     const handleUpdate = (e) => {
         e.preventDefault();
         axios.patch(
-            `http://nowaste39.pythonanywhere.com/user/customer_profile/${id}/`, data,
+            `http://nowaste39.pythonanywhere.com/user/customer_profile/${id}/`, update,
             {headers: {
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
@@ -164,7 +217,8 @@ function Edit(props){
                         src="public/3.jpg"
                         sx={{width:'15rem', height:'12rem'}}
                     >
-                        H
+                        {!firstChar ? firstChar : 'A'}
+                        {/* {!firstChar ? firstChar : "H"} */}
                     </Avatar>
                     {/* <Link to="/change-password">Change password</Link> */}
                     <FormControl className="edit-field">
@@ -192,7 +246,7 @@ function Edit(props){
                             color="secondary"
                             value={data.email}
                             // className="edit-field"
-                            onChange={handleEmail}
+                            // onChange={handleEmail}
                             InputLabelProps={{ shrink: true }}
                             // disabled
                             
@@ -223,6 +277,7 @@ function Edit(props){
                             defaultValue={data.gender}
                             InputLabelProps={{ shrink: true }}
                             style= {{textAlign: 'left', width:'100%'}}
+                            onChange={handleGender}
                         >
                             <MenuItem value="select" disabled>
                                 <em>Select gender</em>
@@ -239,10 +294,11 @@ function Edit(props){
                         <LocalizationProvider dateAdapter={AdapterDayjs} style={{width: '150%'}} InputLabelProps={{ shrink: true }}>
                             <DemoContainer components={['DatePicker']} >
                                 <DatePicker
-                                label="Date of birth"
-                                views={['year', 'month', 'day']}
-                                sx={{width: '100%'}}
-                                maxDate={dayjs()}
+                                    label="Date of birth"
+                                    views={['year', 'month', 'day']}
+                                    sx={{width: '100%'}}
+                                    maxDate={dayjs()}
+                                    onChange={handleBirthdate}
                                 />
                             </DemoContainer>
                         </LocalizationProvider>
@@ -254,9 +310,9 @@ function Edit(props){
                                     label="Country"
                                     variant="outlined"
                                     color="secondary"
-                                    value={data.address}
+                                    value={country}
                                     InputLabelProps={{ shrink: true }}
-                                    onChange={(e) => setData({...data, address: e.target.value})}
+                                    onChange={handleCountry}
                                 /> 
                             </Grid>
                             <Grid item xs={12} sm={6} >
@@ -264,9 +320,9 @@ function Edit(props){
                                     label="City"
                                     variant="outlined"
                                     color="secondary"
-                                    value={data.address}
+                                    value={city}
                                     InputLabelProps={{ shrink: true }}
-                                    onChange={(e) => setData({...data, address: e.target.value})}
+                                    onChange={handleCity}
                                 /> 
                             </Grid>
                         </Grid>
@@ -279,9 +335,9 @@ function Edit(props){
                             multiline
                             InputLabelProps={{ shrink: true }}
                             // rows={5}
-                            value={data.address}
+                            value={address}
                             // className="edit-field"
-                            onChange={(e) => setData({...data, address: e.target.value})}
+                            onChange={handleAddress}
                         /> 
                     </FormControl>
                     <Grid container spacing={2}>
