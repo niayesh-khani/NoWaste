@@ -20,7 +20,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import DateFnsAdapter from "@date-io/date-fns";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+
 
 const styles = theme => ({
     field: {
@@ -109,6 +110,11 @@ function Edit(props){
         axios.get(`http://nowaste39.pythonanywhere.com/user/customer_profile/${id}/`)
     }, [])
 
+    const history = useHistory();
+    const handleChange = () => {
+        history.push('./change-password')
+    };
+
     return(
         <ThemeProvider theme={theme}>
             <Header/>
@@ -132,7 +138,7 @@ function Edit(props){
                     >
                         H
                     </Avatar>
-                    <Link to="/change-password">Change password</Link>
+                    {/* <Link to="/change-password">Change password</Link> */}
                     <FormControl className="edit-field">
                         <TextField
                             label="Full name"
@@ -243,14 +249,14 @@ function Edit(props){
                             onChange={(e) => setData({...data, address: e.target.value})}
                         /> 
                     </FormControl>
-                    <Button
-                        variant="contained"
-                        type="submit"
-                        // color="secondary"
-                        id="edit-button"
-                    >
-                        Update
-                    </Button>
+                    <Grid container spacing={2}>
+                        <Grid item>
+                            <Button id="edit-button" variant="contained" onClick={handleChange}>Change Password</Button>
+                        </Grid>
+                        <Grid item>
+                            <Button type="submit" id="edit-update" variant="contained">Update</Button>
+                        </Grid>
+                    </Grid>
                 </Box>
 
             </div>
