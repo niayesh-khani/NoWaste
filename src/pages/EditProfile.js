@@ -154,7 +154,7 @@ function Edit(props){
         .catch((error) => console.log(error));
     },[]);
     useEffect(() => {
-        const arr = data.address.split("$");
+        const arr = data?.address?data?.address.split("$"):"";
         if(arr[0]==='-'){
             setCountry('');
         } else {
@@ -176,7 +176,7 @@ function Edit(props){
         history.push('./change-password')
     };
     // if(data.name){
-    const firstChar = data.name.charAt(0);
+    const firstChar = data?.name?data.name.charAt(0) : "UN";
     // }
     const handleUpdate = (e) => {
         e.preventDefault();
@@ -217,7 +217,7 @@ function Edit(props){
                         src="public/3.jpg"
                         sx={{width:'15rem', height:'12rem'}}
                     >
-                        {!firstChar ? firstChar : 'A'}
+                        {firstChar}
                         {/* {!firstChar ? firstChar : "H"} */}
                     </Avatar>
                     {/* <Link to="/change-password">Change password</Link> */}
