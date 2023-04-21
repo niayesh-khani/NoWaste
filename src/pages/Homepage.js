@@ -8,6 +8,7 @@ import './Homepage.css';
 import { Toolbar } from '@mui/material';
 import PulseLoader from "react-spinners/PulseLoader";
 import { useEffect, useState } from "react";
+import Header from '../components/Header';
 
 export default function HomePage(){
     const [data, setData] = useState([]);

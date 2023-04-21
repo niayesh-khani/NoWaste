@@ -6,6 +6,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { Link, useHistory } from "react-router-dom";
 import './Login-Signup.css'
+import axios from "axios";
 
 const theme = createTheme({
     palette: {
@@ -53,8 +54,27 @@ export default function NewPassword(){
         e.preventDefault();
         const userData = {
             password: password,
+            email: JSON.parse(localStorage.getItem('email'))
         };
-        history.push('./login')
+        console.log(userData);
+        axios.post("http://nowaste39.pythonanywhere.com/user/fp-newpassword/", userData, {headers:{"Content-Type" : "application/json"}})
+        .then((response) => {
+            console.log(response);
+            console.log(response.data.token);
+            history.push('./login')
+        })
+        .catch((error) => {
+            if (error.response) {
+                console.log(error.response);
+                console.log("server responded");
+            } 
+            else if (error.request) {
+                console.log("network error");
+            } 
+            else {
+                console.log(error);
+            }
+        });   
     }
     useEffect(() => {
         setPasswordMatch(password === confirmPassword);
@@ -88,9 +108,6 @@ export default function NewPassword(){
     }, []);
     const history = useHistory();
 
-    const handleSave = () => {
-        history.push('./login')
-    };
     return ( 
         <ThemeProvider theme={theme}>
             <div className="root">

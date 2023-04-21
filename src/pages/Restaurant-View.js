@@ -10,16 +10,24 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AccountCircle } from '@material-ui/icons';
 import Masonry from 'react-masonry-css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import Food from '../components/Food';
+import Foods from '../components/Foods';
 import BackToTop from '../components/BackToTop';
 import Footer from '../components/Footer';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import { Button } from '@material-ui/core';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
 import {useHistory } from "react-router-dom";
-import Header from './Header';
+import Header from '../components/Header';
+import Slide from '@mui/material/Slide';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import ShowComment from '../components/ShowComment';
+import { useEffect } from 'react';
+import { react } from '@babel/types';
 
 
 
@@ -92,41 +100,53 @@ const ExpandMore = MU.styled((props: ExpandMoreProps) => {
 //     p: 4,
 // };
 
+
 const RestaurantView = (props: Props) => 
 {
     const [expanded, setExpanded] = React.useState(false);
-    const [rateValue, setRateValue] = React.useState(2);
+    const [rateValue, setRateValue] = React.useState(2.6);
     const [color, setColor] = React.useState(false);
-    const [open, setOpen] = React.useState(false);
-
-    const handleOpenComment = () => setOpen(true);
-    const handleCloseComment = () => setOpen(false);
-
-    
+    const [restaurant, setRestaurant] = React.useState();
+    const [menu, setMenu] = React.useState([]);
+    // const [nameRestaurant, setNameRestaurant] = react.useState();
     const history = useHistory();
+    const {id} = useParams();
+    // const [open, setOpen] = React.useState(false);
 
+    // const handleOpenComment = () => setOpen(true);
+    // const handleCloseComment = () => setOpen(false);
 
     const handleColor = () => {
         setColor(!color);
     };
-
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
-
-
     const breakpoints = {
         default: 3,
         1100: 2,
         700:1
     }
 
-    const foods = ["food1","food2","food3", "food4", "food5", "food6", "food7"]
-
-
+    React.useEffect(() => {
+        axios.get("http://nowaste39.pythonanywhere.com/restaurant/restaurant_profile/" + id + '/')
+        .then((response) => {
+            console.log(response);
+            setRestaurant(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    });
+    console.log(restaurant);
+    // setNameRestaurant(restaurant.name);
+    // setMenu(restaurant.menu);
+    useEffect(() => {
+        localStorage.setItem('menu', JSON.stringify(menu));
+        }, [menu]);
     return (
     <div>
-        <Header/>
+        <Header />
         <MU.Grid container spacing={2} sx={{
             paddingTop:"2%"
         }}>
@@ -140,7 +160,7 @@ const RestaurantView = (props: Props) =>
                                     M
                                     </MU.Avatar>
                                 }
-                                title="Restaurant Mohsen"
+                                title=""
                                 subheader="From September 14, 2023"
                                 >
                         </MU.CardHeader>
@@ -197,58 +217,25 @@ const RestaurantView = (props: Props) =>
                     </MU.Collapse>
                 </MU.Card>
 
-
-                {/* <Button 
-                    variant="contained" 
-                    type="submit" 
-                    color="primary"
-                    className="field-restaurant-view "
-                    id="submit"
-                >
-                    See comment
-                </Button>
-
-                <div>
-                    <Button onClick={handleOpenComment}>Open modal</Button>
-                    <Modal
-                        open={open}
-                        onClose={handleOpenComment}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                    >
-                        <Box sx={style}>
-                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                            Text in a modal
-                        </Typography>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                        </Typography>
-                        </Box>
-                    </Modal>
-                </div> */}
+                <ShowComment />
 
 
             </MU.Grid>
             
             <MU.Grid item md={9}>
-            {/* <MU.Container> */}
                 <Masonry
                     breakpointCols={breakpoints}
                     className="my-masonry-grid"
                     columnClassName="my-masonry-grid_column"
             >
-                {foods.map(food => (
                 <div item xs={3}>
-                    <Food food={food}/>
+                    <Foods />
                 </div>
-                ))}
             </Masonry>
-            {/* </MU.Container> */}
             </MU.Grid>
             <BackToTop/>
         </MU.Grid>
-
-        {/* <Footer/> */}
+        <Footer/>
 
     </div>
     );
