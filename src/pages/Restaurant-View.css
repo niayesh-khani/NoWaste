@@ -57,9 +57,9 @@
         width: 80%;
     }
     /* .css-4w21zv-MuiGrid-root */
-    .css-1y40yz5-MuiGrid-root
+    .css-1y40yz5-MuiGrid-root 
     {
-        margin-left: 22% !important;
+        margin-left: -7% !important;
     }
 }  
 
@@ -76,7 +76,7 @@
     /* .css-4w21zv-MuiGrid-root */
     .css-1y40yz5-MuiGrid-root 
     {
-        margin-left: 26% !important;
+        margin-left: 6% !important;
     }
 
 }
@@ -85,7 +85,7 @@
     /* .css-4w21zv-MuiGrid-root */
     .css-1y40yz5-MuiGrid-root
     {
-        margin-left: 38% !important;
+        margin-left: 18% !important;
     }
 }    
 
@@ -93,7 +93,7 @@
     /* .css-4w21zv-MuiGrid-root */
     .css-1y40yz5-MuiGrid-root
     {
-        margin-left: 48% !important;
+        margin-left: 32% !important;
     }
 }
 
@@ -101,7 +101,7 @@
     /* .css-4w21zv-MuiGrid-root */
     .css-1y40yz5-MuiGrid-root 
     {
-        margin-left: 58% !important;
+        margin-left: 40% !important;
     }
 }  
 
@@ -109,7 +109,7 @@
     /* .css-4w21zv-MuiGrid-root */
     .css-1y40yz5-MuiGrid-root 
     {
-        margin-left: 58% !important;
+        margin-left: 45% !important;
     }
 }
 
@@ -117,7 +117,7 @@
     /* .css-4w21zv-MuiGrid-root */
     .css-1y40yz5-MuiGrid-root 
     {
-        margin-left: 65% !important;
+        margin-left: 51% !important;
     }
 }
 
@@ -131,7 +131,11 @@
     /* .css-4w21zv-MuiGrid-root */
     .css-1y40yz5-MuiGrid-root 
     {
-        margin-left: 30% !important;
+        margin-left: 9% !important;
+    }
+    .field-show-comment
+    {
+        margin-left: 11% !important;
     }
 }
 
@@ -147,6 +151,7 @@
     {
         margin-left: 30% !important;
     }
+    
 }
 
 @media(min-width: 930px) and (max-width: 990px){
@@ -159,6 +164,6 @@
 @media(min-width: 990px) and (max-width: 1170px){
     .field-show-comment
     {
-        margin-left: 48% !important;
+        margin-left: 44% !important;
     }
 }
