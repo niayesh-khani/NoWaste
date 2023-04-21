@@ -1,0 +1,13 @@
+.MuiAppBar-root.header-restaurant-view{
+    background-color: #7a0e0e;
+} 
+
+.toolbar-restaurant-view {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.last-icon-restaurant-view {
+    margin-left: 10px !important;
+}

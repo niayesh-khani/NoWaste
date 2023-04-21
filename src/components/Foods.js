@@ -12,7 +12,9 @@ import Collapse from '@mui/material/Collapse';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { styled} from '@mui/material/styles';
-import './Food.css';
+import './Foods.css';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -30,9 +32,11 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 
-const Food = ({food}) => {
+const Foods = () => {
     const [count, setCount] = React.useState(0);
     const [expanded, setExpanded] = React.useState(false);
+    const [foods, setFoods] = React.useState();
+    const f = JSON.parse(localStorage.getItem("menu"));
 
     const handleChange = (e) => {
         setCount(e.target.value);
@@ -61,8 +65,11 @@ const Food = ({food}) => {
         localStorage.setItem('countOffood', JSON.stringify(count));
         }, [count]);
 
+    // setFoods(JSON.parse(localStorage.getItem("menu")));
+
     return ( 
         <div>
+        {f.map((food) => (
             <Card className= 'card-food'>
             <CardMedia
                 sx={{ height: 140 }}
@@ -73,9 +80,6 @@ const Food = ({food}) => {
                 <Typography gutterBottom className='food-name-restaurant-view' >
                     Special Sultan's Kebab of Mohsen
                 </Typography>
-                {/* <Typography variant="body2" color="text.secondary">
-                    Premium leaf (300g) + Kebab Lqma (250g) + Grilled tomato without rice and side dishes (decorative picture).
-                </Typography> */}
             </CardContent>
             <CardActions>
                 <IconButton color="success" aria-label="add to shopping cart" onClick={handleAddToCartClick}>
@@ -113,10 +117,9 @@ const Food = ({food}) => {
                     </Typography>
                 </CardContent>
             </Collapse>
-
-
             </Card>
+        ))}
         </div>
     );
 }
-export default Food;
+export default Foods;

@@ -1,0 +1,78 @@
+/* body {
+    overflow-y: scroll;
+} */
+.edit-box {
+    /* background-color: rgba(237, 231, 225, 0.767); */
+    background-color: #EFEFEF;
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    /* border: 1px solid rgb(220, 81, 53); */
+    margin: 3% 34% !important;
+    flex-direction: column;
+    box-shadow:
+    2.8px 2.8px 2.2px rgba(122, 14, 14, 0.6),
+    6.7px 6.7px 5.3px rgba(122, 14, 14, 0.4),
+    12.5px 12.5px 10px rgba(122, 14, 14, 0.3),
+    22.3px 22.3px 17.9px rgba(122, 14, 14, 0.2),
+    41.8px 41.8px 33.4px rgba(122, 14, 14, 0.1),
+    100px 100px 80px rgba(122, 14, 14, 0.03)
+    ;
+}
+.edit-root {
+    height: 100%;
+}
+.edit-field {
+    margin: 3% auto 3% auto !important;
+    /* margin-top: 10% !important; */
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+.edit-error {
+    font-size: 0.8em;
+    line-height: 1em;
+    height: 0.5em;
+}
+.edit-avatar {
+    margin-bottom: 10px;
+    /* width: 100px;
+    height: 100px; */
+}
+#edit-button {
+    background-color: #f18b72;
+    margin-right: 25%;
+    margin-left: 25%;
+    width: 100%;
+    /* justify-content: flex-end; */
+    margin-bottom: 15%;
+    margin-top: 4%;
+    font-size: 14px;
+    /* font-weight: bolder; */
+}
+#edit-update{
+    background-color: #f18b72;
+    width: 100%;
+    /* margin-right: 25%; */
+    margin-left : 127%;
+    /* justify-content: flex-end; */
+    margin-bottom: 15%;
+    margin-top: 4%;
+    }
+/* .phone-edit .react-tel-input .flag-dropdown{
+    position: absolute;
+} */
+/* .MuiList-root .MuiList-padding .MuiMenu-list .css-6hp17o-MuiList-root-MuiMenu-list {
+    width: 150px;
+} */
+/* .edit-field-half {
+    display: flex;
+    justify-content: space-between;
+    
+}
+.edit-field-half > div {
+    width: 10%;
+  } */
