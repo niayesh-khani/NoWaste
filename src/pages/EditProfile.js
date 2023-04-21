@@ -96,24 +96,52 @@ function Edit(props){
     const [phone, setPhone] = useState('');
 
     const handlePhoneChange = (value) => {
+        localStorage.setItem('phone', value);
         setPhone(value);
     };
     const token = localStorage.getItem('token');
-    const id = token.id;
-    const [data, setData] = useState( {fullname: 'hni asadi',
-    email: 'hniasadi@gamil.com',
-    phonenumber: '3549953382',
-    gender: 'Male',
-    address: ''})
-
+    const id = localStorage.getItem('id');
+    const [data, setData] = useState('')
+    // console.log(id);
     useEffect(() =>{
-        axios.get(`http://nowaste39.pythonanywhere.com/user/customer_profile/${id}/`)
-    }, [])
+        axios.get(
+            `http://nowaste39.pythonanywhere.com/user/customer_profile/${id}/` , 
+            {headers :{
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "GET,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)
+            }}
+        )
+        .then((response) => {
+            console.log(response);
+            setData(response.data)
+        })
+        .catch((error) => console.log(error));
+    },[]);
 
     const history = useHistory();
     const handleChange = () => {
         history.push('./change-password')
     };
+
+    const handleUpdate = (e) => {
+        e.preventDefault();
+        axios.patch(
+            `http://nowaste39.pythonanywhere.com/user/customer_profile/${id}/`, data,
+            {headers: {
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "GET,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)   
+            }}
+        )
+        .then((response)=> {
+            console.log(response);
+            console.log("succesfully updated");
+        })
+        .catch((error) => console.log(error));
+    }
 
     return(
         <ThemeProvider theme={theme}>
@@ -134,7 +162,7 @@ function Edit(props){
                         className="edit-avatar"
                         style={{backgroundColor: color}}
                         src="public/3.jpg"
-                        // sx={{width:'200px', height:'100px'}}
+                        sx={{width:'15rem', height:'12rem'}}
                     >
                         H
                     </Avatar>
@@ -145,6 +173,7 @@ function Edit(props){
                             variant="outlined"
                             color="secondary"
                             value={data.name}
+                            InputLabelProps={{ shrink: true }}
                             // className="edit-field"
                             // onChange={(e) => setFormData({...formData, fullname: e.target.value})}
                             onChange={handleFullname}
@@ -164,6 +193,7 @@ function Edit(props){
                             value={data.email}
                             // className="edit-field"
                             onChange={handleEmail}
+                            InputLabelProps={{ shrink: true }}
                             // disabled
                             
                             InputProps={{
@@ -181,6 +211,7 @@ function Edit(props){
                             inputClass={classes.field}
                             style={{width: '100%'}}
                             variant="outlined"
+                            InputLabelProps={{ shrink: true }}
                         />
                     </FormControl>
                     <FormControl className="edit-field">
@@ -190,22 +221,23 @@ function Edit(props){
                             color="secondary"
                             variant="outlined"
                             defaultValue={data.gender}
+                            InputLabelProps={{ shrink: true }}
                             style= {{textAlign: 'left', width:'100%'}}
                         >
                             <MenuItem value="select" disabled>
                                 <em>Select gender</em>
                             </MenuItem>
-                            <MenuItem value="Male">
+                            <MenuItem value="male">
                                 Male
                             </MenuItem>
-                            <MenuItem value="Female">
+                            <MenuItem value="female">
                                 Female
                             </MenuItem>
                         </TextField>
                     </FormControl>
                     <FormControl className="edit-field">
-                        <LocalizationProvider dateAdapter={AdapterDayjs} style={{width: '150%'}}>
-                            <DemoContainer components={['DatePicker']}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} style={{width: '150%'}} InputLabelProps={{ shrink: true }}>
+                            <DemoContainer components={['DatePicker']} >
                                 <DatePicker
                                 label="Date of birth"
                                 views={['year', 'month', 'day']}
@@ -223,6 +255,7 @@ function Edit(props){
                                     variant="outlined"
                                     color="secondary"
                                     value={data.address}
+                                    InputLabelProps={{ shrink: true }}
                                     onChange={(e) => setData({...data, address: e.target.value})}
                                 /> 
                             </Grid>
@@ -232,6 +265,7 @@ function Edit(props){
                                     variant="outlined"
                                     color="secondary"
                                     value={data.address}
+                                    InputLabelProps={{ shrink: true }}
                                     onChange={(e) => setData({...data, address: e.target.value})}
                                 /> 
                             </Grid>
@@ -243,6 +277,7 @@ function Edit(props){
                             variant="outlined"
                             color="secondary"
                             multiline
+                            InputLabelProps={{ shrink: true }}
                             // rows={5}
                             value={data.address}
                             // className="edit-field"
@@ -254,7 +289,7 @@ function Edit(props){
                             <Button id="edit-button" variant="contained" onClick={handleChange}>Change Password</Button>
                         </Grid>
                         <Grid item>
-                            <Button type="submit" id="edit-update" variant="contained">Update</Button>
+                            <Button type="submit" id="edit-update" variant="contained" onClick={handleUpdate}>Update</Button>
                         </Grid>
                     </Grid>
                 </Box>
