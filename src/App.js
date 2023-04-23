@@ -17,7 +17,7 @@ function App() {
             <SignUp />
           </Route>
           <Route path="/login">
-            <Login />
+            <Routing/>
           </Route>
           <Route path='/forgotpass'>
             <ForgotPass />
@@ -29,8 +29,7 @@ function App() {
             <HomePage />
           </Route>
           <Route path="/landing">
-
-            <Routing/>
+            <Landing/>
           </Route>
           <Route path="/restaurant-view">
             <RestaurantView />
