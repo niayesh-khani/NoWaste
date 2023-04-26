@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AppBar, Avatar, Badge, BottomNavigation, Box, Button, Container, createTheme, FormControl, FormControlLabel, FormLabel, Grid, Icon, IconButton, InputAdornment, makeStyles, MenuItem, Radio, RadioGroup, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
+import { AppBar, Avatar, Badge, BottomNavigation, Box, Button, Container, createTheme, FormControl, FormControlLabel, FormLabel, Grid, Icon, IconButton, InputAdornment, InputLabel, makeStyles, MenuItem, Radio, RadioGroup, Select, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import PersonIcon from '@mui/icons-material/Person';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SearchIcon from '@mui/icons-material/Search';
@@ -102,7 +102,9 @@ function Edit(props){
         setPhone(value);
     };
     const handleBirthdate = (date) => {
+        console.log(data.date_of_birth);
         const formattedDate = dayjs(date).format('YYYY-MM-DD');
+        
         setUpdate({...update, date_of_birth : formattedDate});
     }
     const handleGender = (e) => {
@@ -121,15 +123,15 @@ function Edit(props){
         setAddress(e.target.value);
     }
     useEffect(() => {
-        if(country===''){
-            setCountry('-');
-        }
-        if(city===''){
-            setCity('-');
-        }
-        if(address==='-'){
-            setAddress('-');
-        }
+        // if(country===''){
+        //     setCountry('-');
+        // }
+        // if(city===''){
+        //     setCity('-');
+        // }
+        // if(address==='-'){
+        //     setAddress('-');
+        // }
         const temp = country + '$' + city + '$' + address;
         setUpdate({...update, address : temp})
     }, [country, city, address])
@@ -258,7 +260,7 @@ function Edit(props){
                     <FormControl className="edit-field">
                         <PhoneInput
                             label="Phone number"
-                            value={data.phonenumber}
+                            value={data.phone_number}
                             defaultCountry="ir"
                             color="secondary"
                             onChange={handlePhoneChange}
@@ -274,7 +276,8 @@ function Edit(props){
                             label="Gender"
                             color="secondary"
                             variant="outlined"
-                            defaultValue={data.gender}
+                            // defaultValue={data.gender}
+                            value={data.gender}
                             InputLabelProps={{ shrink: true }}
                             style= {{textAlign: 'left', width:'100%'}}
                             onChange={handleGender}
@@ -299,6 +302,8 @@ function Edit(props){
                                     sx={{width: '100%'}}
                                     maxDate={dayjs()}
                                     onChange={handleBirthdate}
+                                    defaultValue={data.date_of_birth}
+                                    // value={data.date_of_birth}
                                 />
                             </DemoContainer>
                         </LocalizationProvider>
@@ -340,12 +345,14 @@ function Edit(props){
                             onChange={handleAddress}
                         /> 
                     </FormControl>
-                    <Grid container spacing={2}>
+                    <Grid container justifyContent="space-between" alignItems="center" style={{
+                        margin: "10px"
+                    }} spacing={2}>
                         <Grid item>
-                            <Button id="edit-button" variant="contained" onClick={handleChange}>Change Password</Button>
+                            <Button id="" variant="contained" onClick={handleChange}>Change Password</Button>
                         </Grid>
                         <Grid item>
-                            <Button type="submit" id="edit-update" variant="contained" onClick={handleUpdate}>Update</Button>
+                            <Button id="" variant="contained" onClick={handleUpdate}>Update</Button>
                         </Grid>
                     </Grid>
                 </Box>
