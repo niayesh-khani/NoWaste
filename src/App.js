@@ -34,6 +34,9 @@ function App() {
     //     </div>
     //   ) : (
       <Router>
+          <Route>
+            <Landing/>
+          </Route>
           <Route exact path="/sign-up">
             <SignUp />
           </Route>
@@ -51,9 +54,6 @@ function App() {
           </Route>
           <Route exact path="/homepage">
             <HomePage />
-          </Route>
-          <Route path="/landing">
-            <Landing/>
           </Route>
           <Route path="/restaurant-view/:id">
             <RestaurantView />
