@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Box, Button, createTheme, FormControl, Grid, Icon, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
+import { Avatar, Box, Button, createTheme, FormControl, Grid, Icon, IconButton, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import './EditProfile.css';
 import Header from '../components/Header';
 import './Login-Signup.css';
@@ -17,6 +17,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 const styles = theme => ({
     field: {
@@ -69,6 +70,10 @@ function Edit(props){
     const [country, setCountry] = useState('');
     const [address, setAddress] = useState('');
     const [show, setShow] = useState(false);
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     
     const handleFullname = (e) => {
         setFullname(e.target.value);
@@ -162,6 +167,18 @@ function Edit(props){
     const handleChange = () => {
         history.push('./change-password')
     };
+    const handleClickShowCurrentPassword = () => setShowCurrentPassword(!showCurrentPassword);
+    const handleMouseDownCurrentPassword = (event) => {
+        event.preventDefault();
+    };
+    const handleClickShowNewPassword = () => setShowNewPassword(!showNewPassword);
+    const handleMouseDownNewPassword = (event) => {
+        event.preventDefault();
+    };
+    const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+    const handleMouseDownConfirmPassword = (event) => {
+        event.preventDefault();
+    };
 
     const firstChar = data?.name?data.name.charAt(0) : "UN";
 
@@ -242,7 +259,7 @@ function Edit(props){
                             inputClass={classes.field}
                             style={{width: '100%'}}
                             variant="outlined"
-                            InputLabelProps={{ shrink: true }}
+                            InputLabelProps={{ shrink: true, color: "error"}}
                         />
                     </FormControl>
                     <FormControl className="edit-field">
@@ -276,7 +293,7 @@ function Edit(props){
                                     sx={{width: '100%'}}
                                     maxDate={dayjs()}
                                     onChange={handleBirthdate}
-                                    value={dayjs(dob)}
+                                    // value={dayjs(dob)}
                                 />
                             </DemoContainer>
                         </LocalizationProvider>
@@ -315,7 +332,8 @@ function Edit(props){
                     </FormControl>
                     <Grid container style={{
                         marginBottom: "10px",
-                        justifyContent: "center"
+                        justifyContent: "center",
+                        marginLeft: "85px",
                     }} spacing={2}>
                         <Grid item>
                             <Button variant="contained" onClick={() => setShow(prev => !prev)}>Change Password </Button>
@@ -326,8 +344,8 @@ function Edit(props){
                                     variant="outlined"
                                     color="secondary"
                                     // onClick={handleCurrentPassword}
-                                    // type= {showPassword ? 'text' : 'password'}
-                                        InputProps={{
+                                    type= {showCurrentPassword ? 'text' : 'password'}
+                                    InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
                                                 <Icon>
@@ -335,6 +353,17 @@ function Edit(props){
                                                 </Icon> 
                                             </InputAdornment>
                                         ),
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton 
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowCurrentPassword}
+                                                    onMouseDown={handleMouseDownCurrentPassword}
+                                                >
+                                                    {showCurrentPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        )
                                     }}
 
                                 />
@@ -351,7 +380,7 @@ function Edit(props){
                                     //         {passwordError && 'Password must be mixture of letters and numbers.'}
                                     //     </div>
                                     // }
-                                    // type= {showPassword ? 'text' : 'password'}
+                                    type= {showNewPassword ? 'text' : 'password'}
                                         InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
@@ -360,6 +389,17 @@ function Edit(props){
                                                 </Icon> 
                                             </InputAdornment>
                                         ),
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton 
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowNewPassword}
+                                                    onMouseDown={handleMouseDownNewPassword}
+                                                >
+                                                    {showNewPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        )
                                     }}
                                 />
                             </FormControl>
@@ -374,7 +414,7 @@ function Edit(props){
                                     //         {!passwordMatch && 'Password do not match!'}
                                     //     </div>
                                     // }
-                                    // type= {showPassword ? 'text' : 'password'}
+                                    type= {showConfirmPassword ? 'text' : 'password'}
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
@@ -383,6 +423,17 @@ function Edit(props){
                                                 </Icon> 
                                             </InputAdornment>
                                         ),
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton 
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowConfirmPassword}
+                                                    onMouseDown={handleMouseDownConfirmPassword}
+                                                >
+                                                    {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        )
                                     }}
 
                                 />
