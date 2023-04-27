@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { AppBar, Avatar, Badge, BottomNavigation, Box, Button, Container, createTheme, FormControl, FormControlLabel, FormLabel, Grid, Icon, IconButton, InputAdornment, InputLabel, makeStyles, MenuItem, Radio, RadioGroup, Select, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
-import PersonIcon from '@mui/icons-material/Person';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import SearchIcon from '@mui/icons-material/Search';
-import EmailIcon from '@mui/icons-material/Email';
+import { Avatar, Box, Button, createTheme, FormControl, Grid, Icon, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import './EditProfile.css';
-import { Toolbar } from '@mui/material';
 import Header from '../components/Header';
 import './Login-Signup.css';
 import './Restaurant-View.css';
@@ -18,10 +13,10 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import AdapterDayjs from '@date-io/dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-import DateFnsAdapter from "@date-io/date-fns";
 import axios from "axios";
-import { Link, useHistory } from "react-router-dom";
-
+import { useHistory } from "react-router-dom";
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 const styles = theme => ({
     field: {
@@ -59,21 +54,24 @@ function getRandomColor() {
 }
 function Edit(props){
     const { value, defaultCountry, onChange, classes } = props;
-
-    // const data = {
-    //     fullname: 'hni asadi',
-    //     email: 'hniasadi@gamil.com',
-    //     phonenumber: '',
-    //     gender: 'Male',
-    //     address: '',
-    // }
-    // const [formData, setFormData] = useState(data);
+    const [fullname, setFullname] = useState('');
     const [fullnameError, setFullnameError] = useState(false);
-    const [emailError, setEmailError] = useState(false);
+    const [gender, setGender] = useState('');
+    const [dob, setDob] = useState('');
+    // const [emailError, setEmailError] = useState(false);
     const [color, setColor] = useState(localStorage.getItem('avatarColor') || getRandomColor());
     const [update, setUpdate] = useState('');
-
+    const [phone, setPhone] = useState('');
+    const token = localStorage.getItem('token');
+    const id = localStorage.getItem('id');
+    const [data, setData] = useState('');
+    const [city, setCity] = useState('');
+    const [country, setCountry] = useState('');
+    const [address, setAddress] = useState('');
+    const [show, setShow] = useState(false);
+    
     const handleFullname = (e) => {
+        setFullname(e.target.value);
         setUpdate({...update, name: e.target.value})
         if(!/^[a-zA-Z]+\s[a-zA-Z]+$/gm.test(e.target.value)){
             setFullnameError(true);
@@ -94,7 +92,6 @@ function Edit(props){
             localStorage.setItem('avatarColor', color);
         }
     }, [])
-    const [phone, setPhone] = useState('');
 
     const handlePhoneChange = (value) => {
         setUpdate({...update, phone_number : value});
@@ -102,17 +99,15 @@ function Edit(props){
         setPhone(value);
     };
     const handleBirthdate = (date) => {
+        setDob(date);
         console.log(data.date_of_birth);
         const formattedDate = dayjs(date).format('YYYY-MM-DD');
-        
         setUpdate({...update, date_of_birth : formattedDate});
     }
     const handleGender = (e) => {
+        setGender(e.target.value);
         setUpdate({...update, gender: e.target.value});
     }
-    const [city, setCity] = useState('');
-    const [country, setCountry] = useState('');
-    const [address, setAddress] = useState('');
     const handleCity = (e) => {
         setCity(e.target.value);
     }
@@ -123,22 +118,10 @@ function Edit(props){
         setAddress(e.target.value);
     }
     useEffect(() => {
-        // if(country===''){
-        //     setCountry('-');
-        // }
-        // if(city===''){
-        //     setCity('-');
-        // }
-        // if(address==='-'){
-        //     setAddress('-');
-        // }
         const temp = country + '$' + city + '$' + address;
         setUpdate({...update, address : temp})
     }, [country, city, address])
-    const token = localStorage.getItem('token');
-    const id = localStorage.getItem('id');
-    const [data, setData] = useState('')
-    // console.log(id);
+
     useEffect(() =>{
         axios.get(
             `http://nowaste39.pythonanywhere.com/user/customer_profile/${id}/` , 
@@ -155,31 +138,33 @@ function Edit(props){
         })
         .catch((error) => console.log(error));
     },[]);
+    
+    useEffect(() => {
+        setFullname(data.name);
+    }, [data.name]);
+
+    useEffect(() => {
+        setGender(data.gender);
+    }, [data.gender]);
+
+    useEffect(() => {
+        setDob(data.date_of_birth);
+    }, [data.date_of_birth]);
+
     useEffect(() => {
         const arr = data?.address?data?.address.split("$"):"";
-        if(arr[0]==='-'){
-            setCountry('');
-        } else {
-            setCountry(arr[0])
-        }
-        if(arr[1]==='-'){
-            setCity('-')
-        } else{
-            setCity(arr[1]);
-        }
-        if(arr[2]==='-'){
-            setAddress('');
-        } else {
-            setAddress(arr[2]);
-        }
-    }, [data.address])
+        setCountry(arr[0])
+        setCity(arr[1]);
+        setAddress(arr[2]);
+    }, [data.address]);
+
     const history = useHistory();
     const handleChange = () => {
         history.push('./change-password')
     };
-    // if(data.name){
+
     const firstChar = data?.name?data.name.charAt(0) : "UN";
-    // }
+
     const handleUpdate = (e) => {
         e.preventDefault();
         axios.patch(
@@ -208,8 +193,6 @@ function Edit(props){
                         color="textPrimary"
                         gutterBottom
                         className='text'
-                        // disabled
-                        // style={{textAlign: 'center', marginTop: '10%', marginBottom: '10%', fontWeight: 'bold'}}
                     >
                         Profile
                     </Typography>
@@ -220,18 +203,13 @@ function Edit(props){
                         sx={{width:'15rem', height:'12rem'}}
                     >
                         {firstChar}
-                        {/* {!firstChar ? firstChar : "H"} */}
                     </Avatar>
-                    {/* <Link to="/change-password">Change password</Link> */}
                     <FormControl className="edit-field">
                         <TextField
                             label="Full name"
                             variant="outlined"
                             color="secondary"
-                            value={data.name}
-                            InputLabelProps={{ shrink: true }}
-                            // className="edit-field"
-                            // onChange={(e) => setFormData({...formData, fullname: e.target.value})}
+                            value={fullname}
                             onChange={handleFullname}
                             error={fullnameError}
                             helperText={
@@ -247,11 +225,8 @@ function Edit(props){
                             variant="outlined"
                             color="secondary"
                             value={data.email}
-                            // className="edit-field"
-                            // onChange={handleEmail}
-                            InputLabelProps={{ shrink: true }}
-                            // disabled
-                            
+                            InputLabelProps={{ shrink: true }}  
+                            // disabled                          
                             InputProps={{
                                 readOnly: true
                             }}
@@ -276,8 +251,7 @@ function Edit(props){
                             label="Gender"
                             color="secondary"
                             variant="outlined"
-                            // defaultValue={data.gender}
-                            value={data.gender}
+                            value={gender}
                             InputLabelProps={{ shrink: true }}
                             style= {{textAlign: 'left', width:'100%'}}
                             onChange={handleGender}
@@ -302,8 +276,7 @@ function Edit(props){
                                     sx={{width: '100%'}}
                                     maxDate={dayjs()}
                                     onChange={handleBirthdate}
-                                    defaultValue={data.date_of_birth}
-                                    // value={data.date_of_birth}
+                                    value={dayjs(dob)}
                                 />
                             </DemoContainer>
                         </LocalizationProvider>
@@ -316,7 +289,6 @@ function Edit(props){
                                     variant="outlined"
                                     color="secondary"
                                     value={country}
-                                    InputLabelProps={{ shrink: true }}
                                     onChange={handleCountry}
                                 /> 
                             </Grid>
@@ -326,7 +298,6 @@ function Edit(props){
                                     variant="outlined"
                                     color="secondary"
                                     value={city}
-                                    InputLabelProps={{ shrink: true }}
                                     onChange={handleCity}
                                 /> 
                             </Grid>
@@ -338,21 +309,89 @@ function Edit(props){
                             variant="outlined"
                             color="secondary"
                             multiline
-                            InputLabelProps={{ shrink: true }}
-                            // rows={5}
                             value={address}
-                            // className="edit-field"
                             onChange={handleAddress}
                         /> 
                     </FormControl>
-                    <Grid container justifyContent="space-between" alignItems="center" style={{
-                        margin: "10px"
+                    <Grid container style={{
+                        marginBottom: "10px",
+                        justifyContent: "center"
                     }} spacing={2}>
                         <Grid item>
-                            <Button id="" variant="contained" onClick={handleChange}>Change Password</Button>
+                            <Button variant="contained" onClick={() => setShow(prev => !prev)}>Change Password </Button>
+                            {show && <div >
+                                <FormControl className="edit-field">
+                                <TextField
+                                    label="Current Passsword"
+                                    variant="outlined"
+                                    color="secondary"
+                                    // onClick={handleCurrentPassword}
+                                    // type= {showPassword ? 'text' : 'password'}
+                                        InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <Icon>
+                                                    <LockIcon />
+                                                </Icon> 
+                                            </InputAdornment>
+                                        ),
+                                    }}
+
+                                />
+                            </FormControl>
+                            <FormControl className="edit-field">
+                                <TextField
+                                    label="New Password"
+                                    variant="outlined"
+                                    color="secondary"
+                                    // onChange={handleChangePassword}
+                                    // error={passwordError}
+                                    // helperText={
+                                    //     <div className="error">
+                                    //         {passwordError && 'Password must be mixture of letters and numbers.'}
+                                    //     </div>
+                                    // }
+                                    // type= {showPassword ? 'text' : 'password'}
+                                        InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <Icon>
+                                                    <LockIcon />
+                                                </Icon> 
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </FormControl>
+                            <FormControl className="edit-field">
+                                <TextField
+                                    label="Confirm New Password"
+                                    // onChange={handleChangeConfirmPass}
+                                    variant="outlined"
+                                    // error={passwordMatch === false}
+                                    // helperText={
+                                    //     <div className="error">
+                                    //         {!passwordMatch && 'Password do not match!'}
+                                    //     </div>
+                                    // }
+                                    // type= {showPassword ? 'text' : 'password'}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <Icon>
+                                                    <LockOpenIcon />
+                                                </Icon> 
+                                            </InputAdornment>
+                                        ),
+                                    }}
+
+                                />
+                            </FormControl>
+                            </div>
+                            }
                         </Grid>
                         <Grid item>
-                            <Button id="" variant="contained" onClick={handleUpdate}>Update</Button>
+                            <Button variant="contained" onClick={handleUpdate}>Update</Button>
                         </Grid>
                     </Grid>
                 </Box>
