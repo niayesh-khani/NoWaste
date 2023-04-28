@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Box, Button, createTheme, FormControl, Grid, Icon, IconButton, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
+import { Avatar, Box, Button, createTheme, FormControl, Grid, Icon, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import './EditProfile.css';
 import Header from '../components/Header';
 import './Login-Signup.css';
@@ -17,7 +17,6 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
-import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 const styles = theme => ({
     field: {
@@ -70,10 +69,6 @@ function Edit(props){
     const [country, setCountry] = useState('');
     const [address, setAddress] = useState('');
     const [show, setShow] = useState(false);
-    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
-    const [showNewPassword, setShowNewPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
     
     const handleFullname = (e) => {
         setFullname(e.target.value);
@@ -167,18 +162,6 @@ function Edit(props){
     const handleChange = () => {
         history.push('./change-password')
     };
-    const handleClickShowCurrentPassword = () => setShowCurrentPassword(!showCurrentPassword);
-    const handleMouseDownCurrentPassword = (event) => {
-        event.preventDefault();
-    };
-    const handleClickShowNewPassword = () => setShowNewPassword(!showNewPassword);
-    const handleMouseDownNewPassword = (event) => {
-        event.preventDefault();
-    };
-    const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
-    const handleMouseDownConfirmPassword = (event) => {
-        event.preventDefault();
-    };
 
     const firstChar = data?.name?data.name.charAt(0) : "UN";
 
@@ -203,251 +186,178 @@ function Edit(props){
     return(
         <ThemeProvider theme={theme}>
             <Header/>
-            <div className="edit-root">
-                <Box className='edit-box'>
-                    <Typography
-                        variant='h4'
-                        color="textPrimary"
-                        gutterBottom
-                        className='text'
-                    >
-                        Profile
-                    </Typography>
-                    <Avatar
-                        className="edit-avatar"
-                        style={{backgroundColor: color}}
-                        src="public/3.jpg"
-                        sx={{width:'15rem', height:'12rem'}}
-                    >
-                        {firstChar}
-                    </Avatar>
-                    <FormControl className="edit-field">
-                        <TextField
-                            label="Full name"
-                            variant="outlined"
-                            color="secondary"
-                            value={fullname}
-                            onChange={handleFullname}
-                            error={fullnameError}
-                            helperText={
-                                <div className="edit-error">
-                                    {fullnameError && 'Your full name should have at least two words.'}
-                                </div>
-                            }
-                        />
-                    </FormControl>
-                    <FormControl className="edit-field">
-                        <TextField
-                            label="Email address"
-                            variant="outlined"
-                            color="secondary"
-                            value={data.email}
-                            InputLabelProps={{ shrink: true }}  
-                            // disabled                          
-                            InputProps={{
-                                readOnly: true
-                            }}
-                        />
-                    </FormControl>
-                    <FormControl className="edit-field">
-                        <PhoneInput
-                            label="Phone number"
-                            value={data.phone_number}
-                            defaultCountry="ir"
-                            color="secondary"
-                            onChange={handlePhoneChange}
-                            inputClass={classes.field}
-                            style={{width: '100%'}}
-                            variant="outlined"
-                            InputLabelProps={{ shrink: true, color: "error"}}
-                        />
-                    </FormControl>
-                    <FormControl className="edit-field">
-                        <TextField
-                            select
-                            label="Gender"
-                            color="secondary"
-                            variant="outlined"
-                            value={gender}
-                            InputLabelProps={{ shrink: true }}
-                            style= {{textAlign: 'left', width:'100%'}}
-                            onChange={handleGender}
+             <Grid container spacing={2} className="edit-grid">
+                <Grid item md={3}>
+                    <Box className="edit-box">
+                        <Typography variant="h5" 
+                            color="textPrimary"
+                            gutterBottom
+                            className="edit-title"
+                            // style={{fontWeight: 'bold', fontSize: '30px'}}
                         >
-                            <MenuItem value="select" disabled>
-                                <em>Select gender</em>
-                            </MenuItem>
-                            <MenuItem value="male">
-                                Male
-                            </MenuItem>
-                            <MenuItem value="female">
-                                Female
-                            </MenuItem>
-                        </TextField>
-                    </FormControl>
-                    <FormControl className="edit-field">
-                        <LocalizationProvider dateAdapter={AdapterDayjs} style={{width: '150%'}} InputLabelProps={{ shrink: true }}>
-                            <DemoContainer components={['DatePicker']} >
-                                <DatePicker
-                                    label="Date of birth"
-                                    views={['year', 'month', 'day']}
-                                    sx={{width: '100%'}}
-                                    maxDate={dayjs()}
-                                    onChange={handleBirthdate}
-                                    // value={dayjs(dob)}
-                                />
-                            </DemoContainer>
-                        </LocalizationProvider>
-                    </FormControl>
-                    <FormControl className="edit-field">
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6} >
-                                <TextField
-                                    label="Country"
-                                    variant="outlined"
-                                    color="secondary"
-                                    value={country}
-                                    onChange={handleCountry}
-                                /> 
+                            Profile picture
+                        </Typography>
+                        <Avatar
+                            className="edit-avatar"
+                            style={{backgroundColor: color}}
+                            src="public/3.jpg"
+                        >
+                            {firstChar}
+                        </Avatar>
+                    </Box>
+                </Grid>
+                <Grid item md={9}>
+                    <Box className="edit-box">
+                        <Typography variant="h5" 
+                            color="textPrimary"
+                            gutterBottom
+                            className="edit-title"
+                            // style={{fontWeight: 'bold', fontSize: '30px'}}
+                        >
+                            Account details 
+                        </Typography>
+                        <FormControl className="edit-field">
+                            <TextField
+                                label="Full name"
+                                variant="outlined"
+                                color="secondary"
+                                value={fullname}
+                                onChange={handleFullname}
+                                error={fullnameError}
+                                helperText={
+                                    <div className="edit-error">
+                                        {fullnameError && 'Your full name should have at least two words.'}
+                                    </div>
+                                }
+                            />
+                        </FormControl>
+                        <FormControl className="edit-field">
+                            <TextField
+                                label="Email address"
+                                variant="outlined"
+                                color="secondary"
+                                value={data.email}
+                                InputLabelProps={{ shrink: true }}  
+                                // disabled                          
+                                InputProps={{
+                                    readOnly: true
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl className="edit-field">
+                            <PhoneInput
+                                label="Phone number"
+                                value={data.phone_number}
+                                defaultCountry="ir"
+                                color="secondary"
+                                onChange={handlePhoneChange}
+                                inputClass={classes.field}
+                                style={{width: '100%'}}
+                                variant="outlined"
+                                InputLabelProps={{ shrink: true, color: "error"}}
+                            />
+                        </FormControl>
+                        <FormControl className="edit-field">
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6} md={6}>
+                                    <TextField
+                                        select
+                                        label="Gender"
+                                        color="secondary"
+                                        variant="outlined"
+                                        value={gender}
+                                        // InputLabelProps={{ shrink: true }}
+                                        // style= {{textAlign: 'left', width:'100%'}}
+                                        style={{width: '100%'}}
+                                        onChange={handleGender}
+                                    >
+                                        <MenuItem value="select" disabled>
+                                            <em>Select gender</em>
+                                        </MenuItem>
+                                        <MenuItem value="male">
+                                            Male
+                                        </MenuItem>
+                                        <MenuItem value="female">
+                                            Female
+                                        </MenuItem>
+                                    </TextField>
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={6} style={{paddingTop: '0'}}>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs} style={{width: '150%'}}
+                                    //  InputLabelProps={{ shrink: true }}
+                                    >
+                                        <DemoContainer components={['DatePicker']} >
+                                            <DatePicker
+                                                label="Date of birth"
+                                                views={['year', 'month', 'day']}
+                                                sx={{width: '100%'}}
+                                                maxDate={dayjs()}
+                                                onChange={handleBirthdate}
+                                                value={dayjs(dob)}
+                                            />
+                                        </DemoContainer>
+                                    </LocalizationProvider>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={12} sm={6} >
-                                <TextField
-                                    label="City"
-                                    variant="outlined"
-                                    color="secondary"
-                                    value={city}
-                                    onChange={handleCity}
-                                /> 
+                        </FormControl>
+                        <FormControl className="edit-field">
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6} md={6}>
+                                    <TextField
+                                        label="Country"
+                                        variant="outlined"
+                                        color="secondary"
+                                        value={country}
+                                        style={{width: '100%'}}
+                                        onChange={handleCountry}
+                                    /> 
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={6}>
+                                    <TextField
+                                        label="City"
+                                        variant="outlined"
+                                        color="secondary"
+                                        value={city}
+                                        style={{width: '100%'}}
+                                        onChange={handleCity}
+                                    /> 
+                                </Grid>
+                            </Grid>
+                        </FormControl>
+                        <FormControl className="edit-field">
+                            <TextField
+                                label="Address"
+                                variant="outlined"
+                                color="secondary"
+                                multiline
+                                value={address}
+                                onChange={handleAddress}
+                            /> 
+                        </FormControl>
+                        <Grid container spacing={2} className="edit-button-grid" wrap="nowrap">
+                            <Grid item>
+                                <Button className="edit-save-changepass-button"  id="edit-button" variant="contained" onClick={() => setShow(prev => !prev)}>Change Password </Button>
+                            </Grid>
+                            <Grid item container lg={5} md={6} sm={12}
+                            // style={{marginRight: "-10px"}}
+                            justifyContent="flex-end"
+                            >
+                                <Grid item style={{paddingRight: '5px'}}>
+                                    <Button className="edit-discard-button" id="edit-button" variant="contained" onClick={handleUpdate}
+                                        // style={{marginRight: "2%"}}
+                                        // style={{backgroundColor: '#E74C3C'}}
+                                    >Discard</Button>
+                                </Grid>
+                                <Grid item>
+                                    <Button className="edit-save-changepass-button" id="edit-button" variant="contained" onClick={handleUpdate}
+                                        // style={{marginRight: "-2%"}}
+                                    >Save changes</Button>
+                                </Grid>
                             </Grid>
                         </Grid>
-                    </FormControl>
-                    <FormControl className="edit-field">
-                        <TextField
-                            label="Address"
-                            variant="outlined"
-                            color="secondary"
-                            multiline
-                            value={address}
-                            onChange={handleAddress}
-                        /> 
-                    </FormControl>
-                    <Grid container style={{
-                        marginBottom: "10px",
-                        justifyContent: "center",
-                        marginLeft: "85px",
-                    }} spacing={2}>
-                        <Grid item>
-                            <Button variant="contained" onClick={() => setShow(prev => !prev)}>Change Password </Button>
-                            {show && <div >
-                                <FormControl className="edit-field">
-                                <TextField
-                                    label="Current Passsword"
-                                    variant="outlined"
-                                    color="secondary"
-                                    // onClick={handleCurrentPassword}
-                                    type= {showCurrentPassword ? 'text' : 'password'}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <Icon>
-                                                    <LockIcon />
-                                                </Icon> 
-                                            </InputAdornment>
-                                        ),
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <IconButton 
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowCurrentPassword}
-                                                    onMouseDown={handleMouseDownCurrentPassword}
-                                                >
-                                                    {showCurrentPassword ? <Visibility /> : <VisibilityOff />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        )
-                                    }}
-
-                                />
-                            </FormControl>
-                            <FormControl className="edit-field">
-                                <TextField
-                                    label="New Password"
-                                    variant="outlined"
-                                    color="secondary"
-                                    // onChange={handleChangePassword}
-                                    // error={passwordError}
-                                    // helperText={
-                                    //     <div className="error">
-                                    //         {passwordError && 'Password must be mixture of letters and numbers.'}
-                                    //     </div>
-                                    // }
-                                    type= {showNewPassword ? 'text' : 'password'}
-                                        InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <Icon>
-                                                    <LockIcon />
-                                                </Icon> 
-                                            </InputAdornment>
-                                        ),
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <IconButton 
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowNewPassword}
-                                                    onMouseDown={handleMouseDownNewPassword}
-                                                >
-                                                    {showNewPassword ? <Visibility /> : <VisibilityOff />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        )
-                                    }}
-                                />
-                            </FormControl>
-                            <FormControl className="edit-field">
-                                <TextField
-                                    label="Confirm New Password"
-                                    // onChange={handleChangeConfirmPass}
-                                    variant="outlined"
-                                    // error={passwordMatch === false}
-                                    // helperText={
-                                    //     <div className="error">
-                                    //         {!passwordMatch && 'Password do not match!'}
-                                    //     </div>
-                                    // }
-                                    type= {showConfirmPassword ? 'text' : 'password'}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <Icon>
-                                                    <LockOpenIcon />
-                                                </Icon> 
-                                            </InputAdornment>
-                                        ),
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <IconButton 
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowConfirmPassword}
-                                                    onMouseDown={handleMouseDownConfirmPassword}
-                                                >
-                                                    {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        )
-                                    }}
-
-                                />
-                            </FormControl>
-                            </div>
-                            }
-                        </Grid>
-                        <Grid item>
-                            <Button variant="contained" onClick={handleUpdate}>Update</Button>
-                        </Grid>
-                    </Grid>
-                </Box>
-
-            </div>
+                    </Box>
+                </Grid>
+            </Grid> 
         </ThemeProvider>
 
     )
