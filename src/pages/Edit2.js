@@ -198,6 +198,7 @@ function Edit(props){
             console.log("succesfully updated");
         })
         .catch((error) => console.log(error));
+
     }
 
     return(

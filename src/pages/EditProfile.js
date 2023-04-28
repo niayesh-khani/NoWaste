@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Box, Button, createTheme, FormControl, Grid, Icon, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
+import { Avatar, Box, Button, createTheme, FormControl, Grid, Icon, IconButton, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import './EditProfile.css';
 import Header from '../components/Header';
 import './Login-Signup.css';
@@ -17,6 +17,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 const styles = theme => ({
     field: {
@@ -68,7 +69,13 @@ function Edit(props){
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
     const [address, setAddress] = useState('');
+    const [password, setPassword] = useState();
+    const [Newpassword, setNewPassword] = useState();
+    const [Confirmpassword, setConfirmPassword] = useState();
     const [show, setShow] = useState(false);
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     
     const handleFullname = (e) => {
         setFullname(e.target.value);
@@ -117,6 +124,15 @@ function Edit(props){
     const handleAddress = (e) => {
         setAddress(e.target.value);
     }
+    const handlePassword = (e) => {
+        setPassword(e.target.value);
+    }
+    const handleNewPassword = (e) => {
+        setNewPassword(e.target.value);
+    }
+    const handleConfirmPassword = (e) => {
+        setConfirmPassword(e.target.value);
+    }
     useEffect(() => {
         const temp = country + '$' + city + '$' + address;
         setUpdate({...update, address : temp})
@@ -163,8 +179,20 @@ function Edit(props){
         history.push('./change-password')
     };
 
-    const firstChar = data?.name?data.name.charAt(0) : "UN";
+    const handleClickShowCurrentPassword = () => setShowCurrentPassword(!showCurrentPassword);
+    const handleMouseDownCurrentPassword = (event) => {
+        event.preventDefault();
+    };
+    const handleClickShowNewPassword = () => setShowNewPassword(!showNewPassword);
+    const handleMouseDownNewPassword = (event) => {
+        event.preventDefault();
+    };
+    const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+    const handleMouseDownConfirmPassword = (event) => {
+        event.preventDefault();
+    };
 
+    const firstChar = data?.name?data.name.charAt(0) : "UN";
     const handleUpdate = (e) => {
         e.preventDefault();
         axios.patch(
@@ -181,12 +209,32 @@ function Edit(props){
             console.log("succesfully updated");
         })
         .catch((error) => console.log(error));
+
+        if(Newpassword && password && Confirmpassword)
+        {
+            console.log("coming");
+            e.preventDefault();
+            axios.put(
+                `http://nowaste39.pythonanywhere.com/user/customer_profile/${id}/`, {"old_password": password, "password": Newpassword, "password2": Confirmpassword},
+                {headers: {
+                    'Content-Type' : 'application/json',
+                    "Access-Control-Allow-Origin" : "*",
+                    "Access-Control-Allow-Methods" : "PUT,PATCH",
+                    'Authorization' : "Token " + token.slice(1,-1)   
+                }}
+            )
+            .then((response)=> {
+                console.log(response);
+                console.log("succesfully updated password");
+            })
+            .catch((error) => console.log(error));
+        }
     }
 
     return(
         <ThemeProvider theme={theme}>
             <Header/>
-             <Grid container spacing={2} className="edit-grid">
+            <Grid container spacing={2} className="edit-grid">
                 <Grid item md={3}>
                     <Box className="edit-box">
                         <Typography variant="h5" 
@@ -293,7 +341,7 @@ function Edit(props){
                                                 sx={{width: '100%'}}
                                                 maxDate={dayjs()}
                                                 onChange={handleBirthdate}
-                                                value={dayjs(dob)}
+                                                value={null || dayjs(dob) }
                                             />
                                         </DemoContainer>
                                     </LocalizationProvider>
@@ -334,6 +382,103 @@ function Edit(props){
                                 onChange={handleAddress}
                             /> 
                         </FormControl>
+                            {show && <>
+                            <FormControl className="edit-field">
+                                <TextField
+                                    label="Current Passsword"
+                                    variant="outlined"
+                                    color="secondary"
+                                    onChange={handlePassword}
+                                    type= {showCurrentPassword ? 'text' : 'password'}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <Icon>
+                                                    <LockIcon />
+                                                </Icon> 
+                                            </InputAdornment>
+                                        ),
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton 
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowCurrentPassword}
+                                                    onMouseDown={handleMouseDownCurrentPassword}
+                                                >
+                                                    {showCurrentPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        )
+                                    }}
+
+                                />
+                            </FormControl>
+
+                            <FormControl className="edit-field">
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6} md={6}>
+                                <TextField
+                                    label="New Password"
+                                    variant="outlined"
+                                    style={{width: '100%'}}
+                                    color="secondary"
+                                    onChange={handleNewPassword}
+                                    type= {showNewPassword ? 'text' : 'password'}
+                                        InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <Icon>
+                                                    <LockIcon />
+                                                </Icon> 
+                                            </InputAdornment>
+                                        ),
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton 
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowNewPassword}
+                                                    onMouseDown={handleMouseDownNewPassword}
+                                                >
+                                                    {showNewPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                />
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={6}>
+                                    <TextField
+                                        label="Confirm New Password"
+                                        variant="outlined"
+                                        style={{width: '100%'}}
+                                        onChange={handleConfirmPassword}
+                                        type= {showConfirmPassword ? 'text' : 'password'}
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <Icon>
+                                                        <LockOpenIcon />
+                                                    </Icon> 
+                                                </InputAdornment>
+                                            ),
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <IconButton 
+                                                        aria-label="toggle password visibility"
+                                                        onClick={handleClickShowConfirmPassword}
+                                                        onMouseDown={handleMouseDownConfirmPassword}
+                                                    >
+                                                        {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            )
+                                        }}
+                                        />
+                                </Grid>
+                                </Grid>
+                            </FormControl>
+                            </>
+                            }
                         <Grid container spacing={2} className="edit-button-grid" wrap="nowrap">
                             <Grid item>
                                 <Button className="edit-save-changepass-button"  id="edit-button" variant="contained" onClick={() => setShow(prev => !prev)}>Change Password </Button>
@@ -355,6 +500,7 @@ function Edit(props){
                                 </Grid>
                             </Grid>
                         </Grid>
+
                     </Box>
                 </Grid>
             </Grid> 
