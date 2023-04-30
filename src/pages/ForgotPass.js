@@ -52,6 +52,7 @@ export default function ForgotPass(){
         }
     };
 
+
     const handleNewPassword = (e) => {
         setNewPassword(e.target.value);
     };
@@ -101,7 +102,8 @@ export default function ForgotPass(){
 
     useEffect(() => {
         localStorage.setItem('token', JSON.stringify(token));
-    }, [token]);
+        localStorage.setItem('email', JSON.stringify(email));
+    }, [token, email]);
 
     const history = useHistory();
     

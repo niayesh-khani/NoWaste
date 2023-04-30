@@ -35,6 +35,7 @@ export default function Login(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [token, setToken] = useState('');
+    const [id, setId] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
     const [open, setOpen] = useState(null);
@@ -78,8 +79,12 @@ export default function Login(){
 
     useEffect(() => {
         localStorage.setItem('token', JSON.stringify(token));
+        console.log(token);
     }, [token]);
-        
+    useEffect(() => {
+        localStorage.setItem('id', JSON.stringify(id));
+        console.log(id);
+    }, [id]);
     const handleClose = () => {
         setOpen(false);
         setHeight();
@@ -101,7 +106,9 @@ export default function Login(){
             .then((response) => {
                 console.log(response);
                 setToken(response.data.token);
+                setId(response.data.id);
                 console.log(token);
+                console.log(id);
                 history.push("/homepage");
             })
             .catch((error) => {
