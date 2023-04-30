@@ -11,6 +11,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import PasswordIcon from '@mui/icons-material/Password';
 import './Login-Signup.css'
+import axios from "axios";
 
 
 const theme = createTheme({
@@ -37,9 +38,16 @@ const theme = createTheme({
 export default function ChangePass(){
     const [showPassword, setShowPassword] = useState(false);
     const [password, setPassword] = useState('');
+    const [currentpassword, setCurrentPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordMatch, setPasswordMatch] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+    const id = localStorage.getItem('id');
+    const token = localStorage.getItem('token');
+
+    const handleCurrentPassword = (e) => {
+        setCurrentPassword(e.target.value);
+    }
 
     const handleChangePassword = (e) => {
         setPassword(e.target.value);
@@ -57,6 +65,24 @@ export default function ChangePass(){
         setPasswordMatch(password === confirmPassword);
     }, [confirmPassword]);
 
+    const history = useHistory();
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        axios.put(
+            `http://nowaste39.pythonanywhere.com/user/customer_profile/${id}/`, {"old_password": currentpassword, "password": password, "password2": confirmPassword},
+            {headers: {
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "PUT,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)   
+            }}
+        )
+        .then((response)=> {
+            console.log(response);
+            history.push("/edit-profile");
+        })
+        .catch((error) => console.log(error));
+    }
     return(
         <ThemeProvider theme={theme}>
             <Header/>
@@ -77,11 +103,13 @@ export default function ChangePass(){
                             label="Current Passsword"
                             variant="outlined"
                             color="secondary"
-                            InputProps={{
+                            onClick={handleCurrentPassword}
+                            type= {showPassword ? 'text' : 'password'}
+                                InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         <Icon>
-                                            <PasswordIcon />
+                                            <LockIcon />
                                         </Icon> 
                                     </InputAdornment>
                                 ),
@@ -144,6 +172,7 @@ export default function ChangePass(){
                         className="field"
                         style={{marginTop:'0%', marginBottom: '10%'}}
                         id = "submit"
+                        onClick={handleSubmit}
                     >
                         Change Password
                     </Button>
