@@ -28,8 +28,10 @@ import ShowComment from '../components/ShowComment';
 import { useEffect } from 'react';
 import { react } from '@babel/types';
 import { Grid, createTheme } from '@mui/material';
-import { ThemeProvider } from '@emotion/react';
+import { ThemeProvider } from '@mui/styles';
+import "./HomepageCustomer.css";
 
+{/* <hr></hr> */}
 const theme = createTheme({
     palette: {
         primary: {
@@ -38,36 +40,41 @@ const theme = createTheme({
         secondary: {
             main: '#a44704',
         }
-    }
+    },
 })
-
-{/* <hr></hr> */}
-
 const HomepageCustomer = () => {
     return ( 
         // <div>
         <ThemeProvider theme={theme}>
-            <Header />
-            <Grid container spacing={2}
-                className='grid-homepage-customer'
-            // sx={{
-            //     paddingTop:"2%",
-            // }}
-            >
-                <Grid item md={3}>
-                    <Box className="filter-hompage-customer">
-                        <Typography>
-                            fdjslkfaj
-                        </Typography>
-                    </Box>
-                </Grid>
-                <Grid item md={9}>
-                    <Typography>hfsdasdd</Typography>
-                </Grid>
-                <BackToTop/>
-            </Grid>
-            </ThemeProvider>
+        <Header />
+        <Grid container spacing={2} sx={{
+            paddingTop:"2%",
+        }}
+        className='grid-homepage-customer'>
+            <Grid item md={3}>
+                <Box className="filter-hompage-customer">
+                    <Typography className='filter-type'>
+                        Rating
+                    </Typography>
+                    <hr className='hr-tag'
+                    // style={{borderTop: "2px solid black", width: "50px"}}
+                    />
+                    <Typography className='filter-type'>
+                        Discount
+                    </Typography>
+                </Box>
 
+
+            </Grid>
+            
+            <Grid item md={9}>
+
+            </Grid>
+            <BackToTop/>
+        </Grid>
+        {/* <Footer/> */}
+        {/* </div> */}
+        </ThemeProvider>
     );
 }
 

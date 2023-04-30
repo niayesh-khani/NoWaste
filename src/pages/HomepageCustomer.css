@@ -1,34 +1,19 @@
 .filter-hompage-customer {
-    /* width: 80% !important; */
-    /* background-color: aquamarine !important; */
-    /* height: 50% !important;
-    border-color:black ;
-    display: flex;
-    color: aquamarine !important;
-    justify-content: center;
-    align-items: center;
-    margin: 10% 10% !important;
-    box-sizing: border-box; */
-    background-color: #EFEFEF;
     width: auto;
-    /* height: auto; */
-    margin: auto 0% auto 2%;
+    margin: auto 0% auto 2% !important;
     padding: 10px 15px 0 15px;
     display: flex;
+    justify-content: left !important;
+    align-items: left !important;
+    border-radius: 10px;
+    border: 1px solid rgb(202, 196, 195) !important;
+    flex-direction: column;
+}
+.hr-tag {
+    width: 90%;
+    display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 10px;
-    border: 1px solid rgb(220, 81, 53);
-    /* margin: 3% 34% !important; */
-    flex-direction: column;
-    /* box-shadow:
-    2.8px 2.8px 2.2px rgba(122, 14, 14, 0.6),
-    6.7px 6.7px 5.3px rgba(122, 14, 14, 0.4),
-    12.5px 12.5px 10px rgba(122, 14, 14, 0.3),
-    22.3px 22.3px 17.9px rgba(122, 14, 14, 0.2),
-    41.8px 41.8px 33.4px rgba(122, 14, 14, 0.1),
-    100px 100px 80px rgba(122, 14, 14, 0.03)
-    ; */
 }
 .grid-homepage-customer {
     width: 100% !important;
@@ -36,4 +21,9 @@
     margin-top: 3% !important;
     padding-left: 5%;
     padding-right: 5%;
+}
+
+.filter-type {
+    margin: 10px auto !important;
+
 }
