@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Box, Button, createTheme, FormControl, Grid, Icon, IconButton, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
+import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import './EditProfile.css';
 import Header from '../components/Header';
 import './Login-Signup.css';
