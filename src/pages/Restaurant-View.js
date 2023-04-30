@@ -25,7 +25,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import ShowComment from '../components/ShowComment';
+import ShowComments from '../components/ShowComments';
 import { useEffect } from 'react';
 import { react } from '@babel/types';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -281,7 +281,7 @@ const RestaurantView = (props: Props) =>
                     </MU.Collapse>
                 </MU.Card>
 
-                <ShowComment />
+                <ShowComments />
 
 
             </MU.Grid>
