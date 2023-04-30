@@ -1,0 +1,19 @@
+.cooment-field {
+    margin-top: 4%;
+    margin-bottom: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+#cooment-submit {
+    margin-top: 5%;
+    margin-left: 18%;
+    background-color: #f18b72;
+    border-radius: 70px;
+    margin-bottom: 20px;
+}
+#cooment-submit:hover {
+    background-color: rgb(244, 84, 48);
+}
