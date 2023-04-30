@@ -1,5 +1,7 @@
 .MuiAppBar-root.header-restaurant-view{
-    background-color: #911436;
+    /* background-color: #911436; */
+    background-color: #141414;
+    opacity: 0.97;
 } 
 
 .toolbar-restaurant-view {

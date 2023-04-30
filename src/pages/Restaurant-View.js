@@ -25,11 +25,17 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import ShowComment from '../components/ShowComment';
+// import ShowComment from '../components/ShowComment';
 import { useEffect } from 'react';
 import { react } from '@babel/types';
-
-
+import PhoneIcon from '@mui/icons-material/Phone';
+import MdPhone from '@mui/icons-material/Phone';
+import Chip from '@mui/material/Chip';
+import Icon from '@mui/material/Icon';
+import PlaceIcon from '@mui/icons-material/Place';
+import { FaRegClipboard } from 'react-icons/fa';
+import DoneIcon from '@mui/icons-material/Done';
+import { add } from 'date-fns';
 
 const Search = MU.styled('div')(({ theme }) => ({
     position: 'relative',
@@ -155,11 +161,39 @@ const RestaurantView = (props: Props) =>
                 else {
                     console.log(error);
                 }
-            });
+            },);
     };
     
+    const [phoneCopied, setPhoneCopied] = useState(false);
+    const [addressCopied, setAddressCopied] = useState(false);
+
+    const handlePhoneChip = (text) => {
+        navigator.clipboard.writeText(restaurant.number);
+        setPhoneCopied(true);
+        setTimeout(() => {
+            setPhoneCopied(false);
+          }, 1000);
+      };
+      
+    const handleAddressChip = () => {
+        navigator.clipboard.writeText(restaurant.address);
+        setAddressCopied(true);
+        setTimeout(() => {
+            setAddressCopied(false);
+          }, 1000);
+
+    };
+    const handlePhoneCopied = () => {
+        setPhoneCopied(false);
+    };
+    const handleAddressCopied = () => {
+        setAddressCopied(false);
+    };
+        
+    const [textCopied, setTextCopied] = useState(false);
+            
     return (
-    <div>
+    <div className='myback'>
         <Header />
         <MU.Grid container spacing={2} sx={{
             paddingTop:"2%",
@@ -168,7 +202,7 @@ const RestaurantView = (props: Props) =>
                 <MU.Card sx={{ borderStyle: 'none'}} className='card-restaurant-view'>
                     <MU.Grid container spacing={1} alignItems="center" >
                     <MU.Grid item>
-                        <MU.CardHeader 
+                        <MU.CardHeader className="restaurant-header"
                                 avatar={
                                     <MU.Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
                                     {restaurant?.name ? restaurant.name.charAt(0) : "UD"}
@@ -200,7 +234,7 @@ const RestaurantView = (props: Props) =>
 
                         <MU.CardMedia
                         component="img"
-                        src={"/mohsen.jpg"}
+                        src={"/downt.jpg"}
                         alt="Restaurant1"
                         />
                         <MU.CardContent>
@@ -221,17 +255,33 @@ const RestaurantView = (props: Props) =>
                         </MU.CardActions>
                     <MU.Collapse in={expanded} timeout="auto" unmountOnExit>
                         <MU.CardContent>
-                            <MU.Typography paragraph>
-                                phone number : {restaurant.number}
-                            </MU.Typography>
-                            <MU.Typography paragraph>
-                                Address : {restaurant.address}
-                            </MU.Typography>
+                            <Box className='info' paragraph>
+                                <Chip
+                                    icon={<MdPhone/>}
+                                    sx={{mb:1}}
+                                    onClick={handlePhoneChip}       
+                                    label={phoneCopied ? "Copied!" : restaurant.number}
+                                    clickable
+                                    className={phoneCopied ? "copied" : ""}
+                                    onDelete={phoneCopied ? handlePhoneCopied : null}
+                                    deleteIcon={<DoneIcon />}
+                                />
+
+                                <Chip
+                                    icon={<PlaceIcon />}
+                                    onClick={handleAddressChip}
+                                    label={addressCopied ? "Copied!" : restaurant.address}
+                                    clickable
+                                    className={addressCopied ? "copied" : ""}
+                                    onDelete={addressCopied ? handleAddressCopied : null}
+                                    deleteIcon={<DoneIcon />}
+                                />
+                            </Box>
                         </MU.CardContent>
                     </MU.Collapse>
                 </MU.Card>
 
-                <ShowComment />
+                {/* <ShowComment /> */}
 
 
             </MU.Grid>
