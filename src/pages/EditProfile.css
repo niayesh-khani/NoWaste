@@ -1,36 +1,56 @@
 /* body {
     overflow-y: scroll;
 } */
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
+
+.edit-grid {
+    width: 100% !important;
+    /* margin-left: 5% !important; */
+    margin-top: 3% !important;
+    padding-left: 5%;
+    padding-right: 5%;
+    
+}
 .edit-box {
     /* background-color: rgba(237, 231, 225, 0.767); */
     background-color: #EFEFEF;
     width: auto;
-    height: auto;
+    /* height: auto; */
+    margin: auto 0% auto 2%;
+    padding: 10px 15px 0 15px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    /* border: 1px solid rgb(220, 81, 53); */
-    margin: 3% 34% !important;
+    border: 1px solid rgb(220, 81, 53);
+    /* margin: 3% 34% !important; */
     flex-direction: column;
-    box-shadow:
+    /* box-shadow:
     2.8px 2.8px 2.2px rgba(122, 14, 14, 0.6),
     6.7px 6.7px 5.3px rgba(122, 14, 14, 0.4),
     12.5px 12.5px 10px rgba(122, 14, 14, 0.3),
     22.3px 22.3px 17.9px rgba(122, 14, 14, 0.2),
     41.8px 41.8px 33.4px rgba(122, 14, 14, 0.1),
     100px 100px 80px rgba(122, 14, 14, 0.03)
-    ;
+    ; */
+}
+.edit-title{
+    font-weight: 400;
+    width: 90%;
+    font-family: 'Staatliches', cursive !important;
+    /* text-align: left; */
+    /* margin: 5% !important; */
+    margin: 10px auto !important;
 }
 .edit-root {
     height: 100%;
 }
 .edit-field {
-    margin: 3% auto 3% auto !important;
+    margin: 1% auto 1% auto !important;
     /* margin-top: 10% !important; */
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 90%;
 }
 .edit-error {
     font-size: 0.8em;
@@ -39,19 +59,41 @@
 }
 .edit-avatar {
     margin-bottom: 10px;
-    /* width: 100px;
-    height: 100px; */
+    margin-top: 20px;
+    /* display: flex; */
+    /* flex-direction: row; */
+    /* align-items: flex-start; */
+    /* justify-content: center; */
+    width: 150px !important;
+    height: 150px !important;
+}
+.edit-button-grid{
+    justify-content: space-between;
+    /* padding: 0 1%; */
+    /* margin-right: -5%; */
+    width: 90% !important;
+    
+    /* margin: 10px 50px 10px 50px !important; */
 }
 #edit-button {
-    background-color: #f18b72;
-    margin-right: 25%;
-    margin-left: 25%;
+    justify-content: space-between;
+    /* background-color: #f18b72; */
+    /* margin-right: 10% !important;
+    margin-left: 30%; */
     width: 100%;
     /* justify-content: flex-end; */
     margin-bottom: 15%;
-    margin-top: 4%;
+    /* margin-right: 5px !important; */
+    /* margin-left: 10px !important; */
+    /* margin-top: 4%; */
     font-size: 14px;
     /* font-weight: bolder; */
+}
+.edit-discard-button {
+    background-color: #E74C3C !important;
+}
+.edit-save-changepass-button{
+    background-color: #FFA600 !important;
 }
 #edit-update{
     background-color: #f18b72;
@@ -62,6 +104,14 @@
     margin-bottom: 15%;
     margin-top: 4%;
     }
+
+.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #E74C3C !important;
+    }
+/* .MuiInputLabel-root {
+    color: black !important;
+    }  */
+
 /* .phone-edit .react-tel-input .flag-dropdown{
     position: absolute;
 } */
