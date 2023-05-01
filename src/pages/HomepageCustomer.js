@@ -7,7 +7,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { styled } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { ExpandMore, ExpandLess} from '@mui/icons-material';
 import { AccountCircle } from '@material-ui/icons';
 import Masonry from 'react-masonry-css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -29,7 +29,7 @@ import { useParams } from 'react-router-dom';
 import ShowComment from '../components/ShowComment';
 import { useEffect } from 'react';
 import { react } from '@babel/types';
-import { Grid, createTheme } from '@mui/material';
+import { Collapse, Grid, createTheme } from '@mui/material';
 import { ThemeProvider } from '@mui/styles';
 import Switch from '@mui/material/Switch';
 import "./HomepageCustomer.css";
@@ -99,6 +99,7 @@ const IOSSwitch = styled((props) => (
 const HomepageCustomer = () => {
     const [valueR, setValueR] = React.useState([0, 5]);
     const [valueD, setValueD] = React.useState([0, 100]);
+    const [open, setOpen] = React.useState(false);
 
     const handleChangeRate = (event, newValue) => {
         setValueR(newValue);
@@ -106,74 +107,124 @@ const HomepageCustomer = () => {
     const handleChangeDiscount = (event, newValue) => {
         setValueD(newValue);
     };
+    const handleToggle = () => {
+        setOpen((prevOpen) => !prevOpen);
+    }
     return ( 
         // <div>
         <ThemeProvider theme={theme}>
-        <Header />
-        <Grid container spacing={2} sx={{
-            paddingTop:"2%",
-        }}
-        className='grid-homepage-customer'>
-            <Grid item md={3}>
-                <Box className="filter-hompage-customer">
-                    <Typography className='filter-type'>
-                        Rating
-                    </Typography>
-                    <Slider
-                        getAriaLabel={() => 'rate range'}
-                        value={valueR}
-                        onChange={handleChangeRate}
-                        valueLabelDisplay="auto"
-                        max={5}
-                        className="range-homepage-customer"
-                    />
-                    <hr className='hr-tag'
-                    />
-                    <Typography className='filter-type'>
-                        Discount
-                    </Typography>
-                    <Slider
-                        getAriaLabel={() => 'rate range'}
-                        value={valueD}
-                        onChange={handleChangeDiscount}
-                        valueLabelDisplay="auto"
-                        max={100}
-                        step={5}
-                        className="range-homepage-customer"
-                    />
-                    <hr className='hr-tag'
-                    />
-                    <FormControlLabel
-                        control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
-                        label="Iranian"
-                        labelPlacement="start"
-                    />
-                    <hr className='hr-tag'
-                    />
-                    <FormControlLabel
-                        control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
-                        label="Foreign"
-                        labelPlacement="start"
-                    />
-                    <hr className='hr-tag'
-                    />
-                    <FormControlLabel
-                        control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
-                        label="Drink"
-                        labelPlacement="start"
-                    />
-                </Box>
+            <Header />
+            <Grid container spacing={2} sx={{ paddingTop:"2%" }}
+                className='grid-homepage-customer'
+            >
+                <Grid item md={3}>
+                    <Box className="filter-hompage-customer">
+                        <Typography className='filter-type'>
+                            Rating
+                        </Typography>
+                        <Slider
+                            getAriaLabel={() => 'rate range'}
+                            value={valueR}
+                            onChange={handleChangeRate}
+                            valueLabelDisplay="off"
+                            step={0.1}
+                            max={5}
+                            className="range-homepage-customer"
+                        />
+                        <hr className='hr-tag' />
+                        <Grid container spacing={2} className='grid'>
+                            <Grid item>
+                                <Typography className='filter-type'>
+                                    Discount
+                                </Typography>
+                            </Grid>
+                            <Grid item lg={2} md={3}>
+                                <IconButton onClick={handleToggle} aria-label='Show more' aria-expanded={open}>
+                                    {open ? <ExpandLess /> : <ExpandMore />}
+                                </IconButton>
+                                <Collapse in={open} timeout="auto" unmountOnExit 
+                                // className='range-homepage-customer'
+                                >
+                                    <Slider
+                                        getAriaLabel={() => 'rate range'}
+                                        value={valueD}
+                                        onChange={handleChangeDiscount}
+                                        valueLabelDisplay="off"
+                                        max={100}
+                                        step={1}
+                                        className="range-homepage-customer"
+                                    />
+                                </Collapse>
+                            </Grid>
+                            
+                            <Grid item lg={12}>
+                                <Collapse in={open} timeout="auto" unmountOnExit 
+                                // className='range-homepage-customer'
+                                style={{width: '100%'}}
+                                >
+                                    <Slider
+                                        getAriaLabel={() => 'rate range'}
+                                        value={valueD}
+                                        onChange={handleChangeDiscount}
+                                        valueLabelDisplay="off"
+                                        max={100}
+                                        step={1}
+                                        className="range-homepage-customer"
+                                    />
+                                </Collapse>
+                            </Grid>
+                        </Grid>
+                        <hr className='hr-tag'/>
+                        <Grid container spacing={2} className='grid'>
+                            <Grid item>
+                                <Typography>
+                                    Iranian
+                                </Typography>
+                            </Grid>
+                            <Grid item lg={3} md={4}>
+                                <FormControlLabel
+                                    control={<IOSSwitch />}
+                                    labelPlacement="start"
+                                />
+                            </Grid>
+                        </Grid>
+                        <hr className='hr-tag'/>
+                        <Grid container spacing={2} className='grid'>
+                            <Grid item>
+                                <Typography>
+                                    Foriegn
+                                </Typography>
+                            </Grid>
+                            <Grid item lg={3} md={4}>
+                                <FormControlLabel
+                                    control={<IOSSwitch />}
+                                    labelPlacement="start"
+                                />
+                            </Grid>
+                        </Grid>
+                        <hr className='hr-tag'/>
+                        <Grid container spacing={2} className='grid'>
+                            <Grid item>
+                                <Typography >
+                                    Drink
+                                </Typography>
+                            </Grid>
+                            <Grid item lg={3} md={4}>
+                                <FormControlLabel 
+                                    control={<IOSSwitch />}
+                                    labelPlacement="start"
+                                />
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </Grid>
+                
+                <Grid item md={9}>
 
-
-            </Grid>
-            
-            <Grid item md={9}>
-
-            </Grid>
+                </Grid>
             <BackToTop/>
         </Grid>
         {/* <Footer/> */}
-        {/* </div> */}
         </ThemeProvider>
     );
 }

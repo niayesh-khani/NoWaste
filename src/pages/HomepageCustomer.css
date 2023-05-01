@@ -3,18 +3,19 @@
     margin: auto;
     padding: 10px 15px 0 15px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
-    text-align: center;
+    /* text-align: left; */
     border-radius: 10px;
     border: 1px solid rgb(202, 196, 195);
     flex-direction: column;
 }
 .hr-tag {
     width: 90%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    /* display: flex;
+    justify-content: flex-start;
+    align-items: start; */
+    margin: 0 !important;
 }
 .grid-homepage-customer {
     width: 100% !important;
@@ -25,11 +26,14 @@
 
 .filter-type {
     margin: 10px auto !important;
-
+    /* text-align: left; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .range-homepage-customer {
-    width: 50% !important;
+    width: 90% !important;
     display: flex !important;
     justify-content: center !important;
     color: #dd9d46 !important;
@@ -39,4 +43,10 @@
 .MuiSlider-thumb {
     width: 12px !important;
     height: 12px !important;
+}
+.grid {
+    justify-content: space-between;
+    width: 90% !important;
+    padding: 7% 0% 7% 0%;
+    /* margin: 2% auto 2% auto !important; */
 }
