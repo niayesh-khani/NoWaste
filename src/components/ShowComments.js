@@ -41,11 +41,10 @@ export default function ShowComments() {
                     onClick={handleOpen} 
                     variant="contained"
                     // className="field-show-comments submit-show-comments"
-                    className='cooment-field'
-                    id='cooment-submit'
-                    color="primary"
+                    // className='cooment-field'
+                    id='comment-submit'
                 >
-                    See comments
+                    Comments
                 </Button>
                 <Modal
                     open={open}
