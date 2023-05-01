@@ -15,7 +15,7 @@ import Food from '../components/Food';
 import BackToTop from '../components/BackToTop';
 import Footer from '../components/Footer';
 import NavigationIcon from '@material-ui/icons/Navigation';
-import { Button } from '@material-ui/core';
+import { Button, InputLabel, FormControl } from '@material-ui/core';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {useHistory } from "react-router-dom";
@@ -29,9 +29,10 @@ import { useParams } from 'react-router-dom';
 import ShowComment from '../components/ShowComment';
 import { useEffect } from 'react';
 import { react } from '@babel/types';
-import { Collapse, Grid, createTheme } from '@mui/material';
+import { Collapse, Grid, MenuItem, TextField, createTheme } from '@mui/material';
 import { ThemeProvider } from '@mui/styles';
 import Switch from '@mui/material/Switch';
+import Select from '@mui/material/Select';
 import "./HomepageCustomer.css";
 
 const theme = createTheme({
@@ -100,6 +101,11 @@ const HomepageCustomer = () => {
     const [valueR, setValueR] = React.useState([0, 5]);
     const [valueD, setValueD] = React.useState([0, 100]);
     const [open, setOpen] = React.useState(false);
+    const [sort, setSort] = React.useState('');
+
+    const handleChange = (event) => {
+        setSort(event.target.value);
+    };
 
     const handleChangeRate = (event, newValue) => {
         setValueR(newValue);
@@ -218,9 +224,30 @@ const HomepageCustomer = () => {
                         </Grid>
                     </Box>
                 </Grid>
-                
                 <Grid item md={9}>
-
+                    <Grid container spacing={2}>
+                        <Grid item md={9}></Grid>
+                        <Grid item md={3}>
+                        <FormControl className='formcontrol-sorting'style={{width: "100%"}}>
+                            <TextField
+                                select
+                                label="Sort"
+                                color="secondary"
+                                variant="outlined"
+                                value={sort}
+                                // InputLabelProps={{ shrink: true }}
+                                // style= {{textAlign: 'left', width:'100%'}}
+                                style={{width: '100%'}}
+                                onChange={handleChange}
+                                    >
+                            <MenuItem value="Item1">Newest</MenuItem>
+                            <MenuItem value="Item2">Latest</MenuItem>
+                            <MenuItem value="Item3">Rate</MenuItem>
+                            <MenuItem value="Item4">Discount</MenuItem>
+                            </TextField>
+                        </FormControl>
+                        </Grid>
+                    </Grid>
                 </Grid>
             <BackToTop/>
         </Grid>
