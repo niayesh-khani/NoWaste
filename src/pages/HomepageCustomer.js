@@ -100,7 +100,8 @@ const IOSSwitch = styled((props) => (
 const HomepageCustomer = () => {
     const [valueR, setValueR] = React.useState([0, 5]);
     const [valueD, setValueD] = React.useState([0, 100]);
-    const [open, setOpen] = React.useState(false);
+    const [expandRating, setExpandRating] = React.useState(false);
+    const [expandDiscount, setExpandDiscount] = React.useState(false);
     const [sort, setSort] = React.useState('');
 
     const handleChange = (event) => {
@@ -113,8 +114,11 @@ const HomepageCustomer = () => {
     const handleChangeDiscount = (event, newValue) => {
         setValueD(newValue);
     };
-    const handleToggle = () => {
-        setOpen((prevOpen) => !prevOpen);
+    const handleExpandRating = () => {
+        setExpandRating((prevExpand) => !prevExpand);
+    }
+    const handleExpandDiscount = () => {
+        setExpandDiscount((prevExpand) => !prevExpand);
     }
     return ( 
         // <div>
@@ -125,126 +129,153 @@ const HomepageCustomer = () => {
             >
                 <Grid item md={3}>
                     <Box className="filter-hompage-customer">
-                        <Typography className='filter-type'>
-                            Rating
+                        <Typography variant='h5'> 
+                            Filters
                         </Typography>
-                        <Slider
-                            getAriaLabel={() => 'rate range'}
-                            value={valueR}
-                            onChange={handleChangeRate}
-                            valueLabelDisplay="off"
-                            step={0.1}
-                            max={5}
-                            className="range-homepage-customer"
-                        />
-                        <hr className='hr-tag' />
-                        <Grid container spacing={2} className='grid' 
-                        // alignItems="center"
-                        >
-                            <Grid item>
-                                <Typography 
-                                className='filter-type'
-                                >
-                                    Discount
-                                </Typography>
-                            </Grid>
-                            <Grid item lg={2} md={3}>
-                                <IconButton onClick={handleToggle} aria-label='Show more' aria-expanded={open}>
-                                    {open ? <ExpandLess /> : <ExpandMore />}
-                                </IconButton>
-                            </Grid>
-                            <Grid item lg={12} style={{
-                                marginTop: '-10px', marginLeft: '10px',
-                                //  width: '90%'
-                                 }}>
-                                {open ? (
-                                    <Collapse in={open} timeout="auto" unmountOnExit 
-                                    // style={{ width: '100%' }}
+                        <Grid container spacing={2} className='grid' id='grid-margin'
+                            // alignItems="center"
+                            >
+                                <Grid item>
+                                    <Typography 
+                                    className='filter-type'
                                     >
-                                    <Slider
-                                        getAriaLabel={() => 'rate range'}
-                                        value={valueD}
-                                        onChange={handleChangeDiscount}
-                                        valueLabelDisplay="off"
-                                        max={100}
-                                        step={1}
-                                        className="range-homepage-customer"
+                                        Rating
+                                    </Typography>
+                                </Grid>
+                                <Grid item lg={2} md={3}>
+                                    <IconButton onClick={handleExpandRating} aria-label='Show more' aria-expanded={setExpandRating}>
+                                        {expandRating ? <ExpandLess /> : <ExpandMore />}
+                                    </IconButton>
+                                </Grid>
+                                <Grid item lg={12} style={{
+                                    marginTop: '-10px', marginLeft: '10px',
+                                    //  width: '90%'
+                                    }}>
+                                    {expandRating ? (
+                                        <Collapse in={expandRating} timeout="auto" unmountOnExit 
+                                        // style={{ width: '100%' }}
+                                        >
+                                        <Slider
+                                            getAriaLabel={() => 'rate range'}
+                                            value={valueD}
+                                            onChange={handleChangeDiscount}
+                                            valueLabelDisplay="off"
+                                            max={5}
+                                            step={0.1}
+                                            className="range-homepage-customer"
+                                        />
+                                        </Collapse>
+                                    ) : null}
+                                </Grid> 
+                            </Grid>
+                            <hr className='hr-tag' />
+                            <Grid container spacing={2} className='grid' id='grid-margin'
+                            // alignItems="center"
+                            >
+                                <Grid item>
+                                    <Typography 
+                                    className='filter-type'
+                                    >
+                                        Discount
+                                    </Typography>
+                                </Grid>
+                                <Grid item lg={2} md={3}>
+                                    <IconButton onClick={handleExpandDiscount} aria-label='Show more' aria-expanded={setExpandDiscount}>
+                                        {expandDiscount ? <ExpandLess /> : <ExpandMore />}
+                                    </IconButton>
+                                </Grid>
+                                <Grid item lg={12} style={{
+                                    marginTop: '-10px', marginLeft: '10px',
+                                    //  width: '90%'
+                                    }}>
+                                    {expandDiscount ? (
+                                        <Collapse in={expandDiscount} timeout="auto" unmountOnExit 
+                                        // style={{ width: '100%' }}
+                                        >
+                                        <Slider
+                                            getAriaLabel={() => 'rate range'}
+                                            value={valueD}
+                                            onChange={handleChangeDiscount}
+                                            valueLabelDisplay="off"
+                                            max={100}
+                                            step={1}
+                                            className="range-homepage-customer"
+                                        />
+                                        </Collapse>
+                                    ) : null}
+                                </Grid> 
+                            </Grid>
+                            <hr className='hr-tag'/>
+                            <Grid container spacing={2} className='grid'>
+                                <Grid item>
+                                    <Typography>
+                                        Iranian
+                                    </Typography>
+                                </Grid>
+                                <Grid item lg={3} md={4}>
+                                    <FormControlLabel
+                                        control={<IOSSwitch />}
+                                        labelPlacement="start"
                                     />
-                                    </Collapse>
-                                ) : null}
-                            </Grid> 
-                        </Grid>
-                        <hr className='hr-tag'/>
-                        <Grid container spacing={2} className='grid'>
-                            <Grid item>
-                                <Typography>
-                                    Iranian
-                                </Typography>
+                                </Grid>
                             </Grid>
-                            <Grid item lg={3} md={4}>
-                                <FormControlLabel
-                                    control={<IOSSwitch />}
-                                    labelPlacement="start"
-                                />
+                            <hr className='hr-tag'/>
+                            <Grid container spacing={2} className='grid'>
+                                <Grid item>
+                                    <Typography>
+                                        Foriegn
+                                    </Typography>
+                                </Grid>
+                                <Grid item lg={3} md={4}>
+                                    <FormControlLabel
+                                        control={<IOSSwitch />}
+                                        labelPlacement="start"
+                                    />
+                                </Grid>
                             </Grid>
-                        </Grid>
-                        <hr className='hr-tag'/>
-                        <Grid container spacing={2} className='grid'>
-                            <Grid item>
-                                <Typography>
-                                    Foriegn
-                                </Typography>
+                            <hr className='hr-tag'/>
+                            <Grid container spacing={2} className='grid'>
+                                <Grid item>
+                                    <Typography >
+                                        Drink
+                                    </Typography>
+                                </Grid>
+                                <Grid item lg={3} md={4}>
+                                    <FormControlLabel 
+                                        control={<IOSSwitch />}
+                                        labelPlacement="start"
+                                    />
+                                </Grid>
                             </Grid>
-                            <Grid item lg={3} md={4}>
-                                <FormControlLabel
-                                    control={<IOSSwitch />}
-                                    labelPlacement="start"
-                                />
-                            </Grid>
-                        </Grid>
-                        <hr className='hr-tag'/>
-                        <Grid container spacing={2} className='grid'>
-                            <Grid item>
-                                <Typography >
-                                    Drink
-                                </Typography>
-                            </Grid>
-                            <Grid item lg={3} md={4}>
-                                <FormControlLabel 
-                                    control={<IOSSwitch />}
-                                    labelPlacement="start"
-                                />
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </Grid>
-                <Grid item md={9}>
-                    <Grid container spacing={2}>
-                        <Grid item md={9}></Grid>
-                        <Grid item md={3}>
-                        <FormControl className='formcontrol-sorting'style={{width: "100%"}}>
-                            <TextField
-                                select
-                                label="Sort"
-                                color="secondary"
-                                variant="outlined"
-                                value={sort}
-                                // InputLabelProps={{ shrink: true }}
-                                // style= {{textAlign: 'left', width:'100%'}}
-                                style={{width: '100%'}}
-                                onChange={handleChange}
-                                    >
-                            <MenuItem value="Item1">Newest</MenuItem>
-                            <MenuItem value="Item2">Latest</MenuItem>
-                            <MenuItem value="Item3">Rate</MenuItem>
-                            <MenuItem value="Item4">Discount</MenuItem>
-                            </TextField>
-                        </FormControl>
-                        </Grid>
+                        </Box>
                     </Grid>
+                    <Grid item md={9}>
+                        <Grid container spacing={2}>
+                            <Grid item md={9}></Grid>
+                            <Grid item md={3}>
+                            <FormControl className='formcontrol-sorting'style={{width: "100%"}}>
+                                <TextField
+                                    select
+                                    label="Sort"
+                                    color="secondary"
+                                    variant="outlined"
+                                    value={sort}
+                                    // InputLabelProps={{ shrink: true }}
+                                    // style= {{textAlign: 'left', width:'100%'}}
+                                    style={{width: '100%'}}
+                                    onChange={handleChange}
+                                        >
+                                <MenuItem value="Item1">Newest</MenuItem>
+                                <MenuItem value="Item2">Latest</MenuItem>
+                                <MenuItem value="Item3">Rate</MenuItem>
+                                <MenuItem value="Item4">Discount</MenuItem>
+                                </TextField>
+                            </FormControl>
+                            </Grid>
+                        </Grid>
                 </Grid>
             <BackToTop/>
-        </Grid>
+            </Grid>
         {/* <Footer/> */}
         </ThemeProvider>
     );
