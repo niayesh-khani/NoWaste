@@ -22,14 +22,11 @@
     "bootstrap": "^5.2.3",
     "classnames": "^2.3.2",
     "date-fns": "^2.29.3",
-<<<<<<< HEAD
     "gulp": "^4.0.2",
     "gulp-less": "^5.0.0",
     "gulp-sass": "^5.1.0",
-=======
     "dayjs": "^1.11.7",
     "material-ui-phone-number": "^3.0.0",
->>>>>>> develop
     "mdb-react-ui-kit": "^6.0.0",
     "react": "^17.0.1",
     "react-bootstrap": "^2.7.4",
