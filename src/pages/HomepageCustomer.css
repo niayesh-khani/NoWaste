@@ -25,7 +25,7 @@
 }
 
 .filter-type {
-    margin: 10px auto !important;
+    /* margin: 10px auto !important; */
     /* text-align: left; */
     display: flex;
     justify-content: space-between;
@@ -48,6 +48,8 @@
     justify-content: space-between;
     width: 90% !important;
     padding: 7% 0% 7% 0%;
+    display: flex;
+    align-items: center;
     /* margin: 2% auto 2% auto !important; */
 }
 
@@ -62,4 +64,8 @@
 .inputlabel-sorting {
     /* justify-content: center;
     align-items: center; */
+}
+#grid-margin{
+    margin-top: -10px;
+    margin-bottom: -10px;
 }

@@ -138,9 +138,13 @@ const HomepageCustomer = () => {
                             className="range-homepage-customer"
                         />
                         <hr className='hr-tag' />
-                        <Grid container spacing={2} className='grid'>
+                        <Grid container spacing={2} className='grid' 
+                        // alignItems="center"
+                        >
                             <Grid item>
-                                <Typography className='filter-type'>
+                                <Typography 
+                                className='filter-type'
+                                >
                                     Discount
                                 </Typography>
                             </Grid>
@@ -148,9 +152,15 @@ const HomepageCustomer = () => {
                                 <IconButton onClick={handleToggle} aria-label='Show more' aria-expanded={open}>
                                     {open ? <ExpandLess /> : <ExpandMore />}
                                 </IconButton>
-                                <Collapse in={open} timeout="auto" unmountOnExit 
-                                // className='range-homepage-customer'
-                                >
+                            </Grid>
+                            <Grid item lg={12} style={{
+                                marginTop: '-10px', marginLeft: '10px',
+                                //  width: '90%'
+                                 }}>
+                                {open ? (
+                                    <Collapse in={open} timeout="auto" unmountOnExit 
+                                    // style={{ width: '100%' }}
+                                    >
                                     <Slider
                                         getAriaLabel={() => 'rate range'}
                                         value={valueD}
@@ -160,25 +170,9 @@ const HomepageCustomer = () => {
                                         step={1}
                                         className="range-homepage-customer"
                                     />
-                                </Collapse>
-                            </Grid>
-                            
-                            <Grid item lg={12}>
-                                <Collapse in={open} timeout="auto" unmountOnExit 
-                                // className='range-homepage-customer'
-                                style={{width: '100%'}}
-                                >
-                                    <Slider
-                                        getAriaLabel={() => 'rate range'}
-                                        value={valueD}
-                                        onChange={handleChangeDiscount}
-                                        valueLabelDisplay="off"
-                                        max={100}
-                                        step={1}
-                                        className="range-homepage-customer"
-                                    />
-                                </Collapse>
-                            </Grid>
+                                    </Collapse>
+                                ) : null}
+                            </Grid> 
                         </Grid>
                         <hr className='hr-tag'/>
                         <Grid container spacing={2} className='grid'>
