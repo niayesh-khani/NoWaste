@@ -57,7 +57,7 @@ export default function NewPassword(){
             email: JSON.parse(localStorage.getItem('email'))
         };
         console.log(userData);
-        axios.post("http://nowaste39.pythonanywhere.com/user/fp-newpassword/", userData, {headers:{"Content-Type" : "application/json"}})
+        axios.post("http://5.34.195.16/user/fp-newpassword/", userData, {headers:{"Content-Type" : "application/json"}})
         .then((response) => {
             console.log(response);
             console.log(response.data.token);

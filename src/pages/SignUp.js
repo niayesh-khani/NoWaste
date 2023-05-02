@@ -120,7 +120,7 @@ export default function SignUp(){
             name: fullname,
             email: email
         };
-        axios.post("http://nowaste39.pythonanywhere.com/user/signup/", userData, {headers:{"Content-Type" : "application/json"}})
+        axios.post("http://5.34.195.16/user/signup/", userData, {headers:{"Content-Type" : "application/json"}})
         .then((response) => {
             console.log(response);
             history.push("/verification");
