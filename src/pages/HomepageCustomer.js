@@ -128,6 +128,48 @@ const HomepageCustomer = () => {
         1100: 2,
         700:1
     }
+
+    const handleClickRate = () => {      //
+        axios.get('http://5.34.195.16/restaurant/restaurant-search/?ordering=-rate')
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch((error) => {
+            console.log(error.response);
+        });
+    };
+
+    const handleClickDiscount = () => {      //
+        axios.get('http://5.34.195.16/restaurant/restaurant-search/?ordering=-discount')
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch((error) => {
+            console.log(error.response);
+        });
+    };
+
+    const handleClickNewest = () => {      //
+        axios.get('http://5.34.195.16/restaurant/restaurant-search/?ordering=-date_of_establishment')
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch((error) => {
+            console.log(error.response);
+        });
+    };
+
+    const handleClickLatest = () => {      //
+        axios.get('http://5.34.195.16/restaurant/restaurant-search/?ordering=date_of_establishment')
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch((error) => {
+            console.log(error.response);
+        });
+    };
+
+
     return ( 
         // <div>
         <ThemeProvider theme={theme}>
@@ -281,10 +323,10 @@ const HomepageCustomer = () => {
                                     style={{width: '100%'}}
                                     onChange={handleChange}
                                         >
-                                <MenuItem value="Item1">Newest</MenuItem>
-                                <MenuItem value="Item2">Latest</MenuItem>
-                                <MenuItem value="Item3">Rate</MenuItem>
-                                <MenuItem value="Item4">Discount</MenuItem>
+                                <MenuItem onClick={handleClickNewest} value="Item1">Newest</MenuItem>
+                                <MenuItem onClick={handleClickLatest} value="Item2">Latest</MenuItem>
+                                <MenuItem onClick={handleClickRate} value="Item3">Rate</MenuItem>
+                                <MenuItem onClick={handleClickDiscount} value="Item4">Discount</MenuItem>
                                 </TextField>
                             </FormControl>
                             </Grid>
