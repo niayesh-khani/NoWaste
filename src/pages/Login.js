@@ -102,7 +102,7 @@ export default function Login(){
             email: email
             };
             console.log(userData);
-            axios.post("http://nowaste39.pythonanywhere.com/user/login/", userData, {headers:{"Content-Type" : "application/json"}})
+            axios.post("http://5.34.195.16/user/login/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
                 setToken(response.data.token);

@@ -1,5 +1,7 @@
 .MuiAppBar-root.header-restaurant-view{
-    background-color: #7a0e0e;
+    /* background-color: #911436; */
+    background-color: #141414;
+    opacity: 0.97;
 } 
 
 .toolbar-restaurant-view {
@@ -11,3 +13,69 @@
 .last-icon-restaurant-view {
     margin-left: 10px !important;
 }
+
+.css-1bevcj6
+{
+    margin-right: -10% !important;
+}
+
+@media(max-width: 360px) {
+    .css-1bevcj6
+    {
+        width: 30% !important;
+    }
+    .css-7mt4h1-MuiInputBase-root
+    {
+        font-size: 0rem !important;
+    } 
+    .css-1iz4iln
+    {
+        padding: 0.9px !important;
+    }
+    .logo{
+        width: 20% !important;
+    }
+}    
+
+@media(min-width: 360px) and (max-width: 412px) {
+    .css-7mt4h1-MuiInputBase-root
+    {
+        font-size: 0.8rem !important;
+    } 
+    .css-7mt4h1-MuiInputBase-root .MuiInputBase-input           /*search */
+    {
+        padding-left: calc(0.4em + 30px) !important;      
+    }
+    .MuiSvgIcon-root                         /*svg */
+    {
+        width: 0.9em !important;
+    }
+    .css-1iz4iln
+    {
+        width: 32%;
+        padding: 4% !important;
+    }
+    .css-1bevcj6
+    {
+        width: 30% !important;
+    }
+    .logo{
+        width: 20% !important;
+    }
+}  
+
+@media(min-width: 413px) and (max-width: 768px){
+    .css-1bevcj6
+    {
+        width: 30% !important;
+    }
+    .css-7mt4h1-MuiInputBase-root
+    {
+        font-size: 0.9rem !important;
+    } 
+    .logo{
+        width: 15% !important;
+    }
+}    
+
+
