@@ -134,7 +134,7 @@ export default function ForgotPass(){
         const userData = {
             email: email
             };
-            axios.post("http://nowaste39.pythonanywhere.com/user/forgot-password/", userData, {headers:{"Content-Type" : "application/json"}})
+            axios.post("http://5.34.195.16/user/forgot-password/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
                     setAlertMessage("We've just sent you an email including your new password. Enter your new password to continue.");
@@ -163,7 +163,7 @@ export default function ForgotPass(){
             email: email
         };
         console.log(userData);
-        axios.post("http://nowaste39.pythonanywhere.com/user/fp-verify/", userData, {headers:{"Content-Type" : "application/json"}})
+        axios.post("http://5.34.195.16/user/fp-verify/", userData, {headers:{"Content-Type" : "application/json"}})
         .then((response) => {
             console.log(response);
             console.log(response.data.token);
