@@ -126,7 +126,7 @@ const RestaurantView = (props: Props) =>
     }
 
     React.useEffect(() => {
-        axios.get("https://nowaste39.pythonanywhere.com/restaurant/restaurant_view/" + id + '/')
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/" + id + '/')
         .then((response) => {
             console.log(response);
             setRestaurant(response.data);
@@ -146,7 +146,7 @@ const RestaurantView = (props: Props) =>
             email: email
             };
             console.log(userData);
-            axios.post("http://nowaste39.pythonanywhere.com/user/favorite-restaurant/", userData, {headers:{"Content-Type" : "application/json"}})
+            axios.post("http://5.34.195.16/user/favorite-restaurant/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
             })

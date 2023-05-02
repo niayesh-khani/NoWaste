@@ -71,7 +71,7 @@ const Food = (props) => {
         }, [count]);
 
     React.useEffect(() => {
-        axios.get("https://nowaste39.pythonanywhere.com/restaurant/restaurant_view/" + id + '/')
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/" + id + '/')
         .then((response) => {
             console.log(response);
             setRestaurant(response.data);
