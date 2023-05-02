@@ -35,6 +35,7 @@ import Switch from '@mui/material/Switch';
 import Select from '@mui/material/Select';
 import "./HomepageCustomer.css";
 import RestaurantCard from '../components/RestaurantCard';
+import { Container, Row } from 'react-bootstrap';
 
 const theme = createTheme({
     palette: {
@@ -258,7 +259,15 @@ const HomepageCustomer = () => {
                     </Grid>
                     <Grid item md={9}>
                         <Grid container spacing={2}>
-                            <Grid item md={9}></Grid>
+                            <Grid item md={9}>
+                                <div style={{marginTop: "110px"}}></div>
+                                {/* {Rs &&
+                                Rs.map((r, index) => (
+                                    <div key={index}  style={{ width: index % 3 === 0 ? '100%' : '' }}> */}
+                                        <RestaurantCard/>
+                                    {/* </div>
+                                ))} */}
+                            </Grid>
                             <Grid item md={3}>
                             <FormControl className='formcontrol-sorting'style={{width: "100%"}}>
                                 <TextField

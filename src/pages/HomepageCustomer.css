@@ -33,6 +33,7 @@
 }
 
 .range-homepage-customer {
+    margin-right: 10px;
     width: 90% !important;
     display: flex !important;
     justify-content: center !important;
@@ -68,4 +69,8 @@
 #grid-margin{
     margin-top: -20px !important;
     margin-bottom: -10px;
+}
+
+.MuiPaper-root {
+    /* color: white !important; */
 }
