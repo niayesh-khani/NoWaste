@@ -34,6 +34,7 @@ import { ThemeProvider } from '@mui/styles';
 import Switch from '@mui/material/Switch';
 import Select from '@mui/material/Select';
 import "./HomepageCustomer.css";
+import RestaurantCard from '../components/RestaurantCard';
 
 const theme = createTheme({
     palette: {
@@ -103,6 +104,7 @@ const HomepageCustomer = () => {
     const [expandRating, setExpandRating] = React.useState(false);
     const [expandDiscount, setExpandDiscount] = React.useState(false);
     const [sort, setSort] = React.useState('');
+    const Rs = ["1", "2", "3", "4"];
 
     const handleChange = (event) => {
         setSort(event.target.value);
@@ -119,6 +121,11 @@ const HomepageCustomer = () => {
     }
     const handleExpandDiscount = () => {
         setExpandDiscount((prevExpand) => !prevExpand);
+    }
+    const breakpoints = {
+        default: 3,
+        1100: 2,
+        700:1
     }
     return ( 
         // <div>
