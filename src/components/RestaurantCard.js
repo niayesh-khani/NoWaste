@@ -2,7 +2,7 @@ import * as React from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import { red } from '@mui/material/colors';
+import { yellow } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import './RestaurantCard.css';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -29,6 +29,10 @@ import { useEffect } from 'react';
 import { react } from '@babel/types';
 import { Avatar, BottomNavigation, BottomNavigationAction, CardActions, CardContent, CardHeader, CardMedia, Chip, Collapse, Grid, Rating } from '@mui/material';
 import { ExpandMore } from '@mui/icons-material';
+import CardActionArea from '@mui/material/CardActionArea';
+import Icon from '@mui/material/Icon';
+import DiscountIcon from '@mui/icons-material/Discount';
+import StarIcon from '@mui/icons-material/Star';
 
 const RestaurantCard = () => {
     const history = useHistory();
@@ -36,56 +40,37 @@ const RestaurantCard = () => {
     const handleclick = () => {
     }
     return ( 
-        <>
-        {/* <div>
-            <Card className='card-restaurant-homepage'>
-                <Grid container spacing={1}>
-                    <Grid item>
-                        <CardMedia 
-                            component="img"
-                            src='/mohsen.jpg'
-                            alt='restaurant'
-                        />
-                    </Grid>
-                    <Grid item>
-                        <CardHeader 
-                            title="Name"
-                            subheader="2023-05-02"
-                            className='header-restaurant-homepage'
-                        />
-                        <CardActions disableSpacing>
-                            <Rating name='read-only' readOnly className='rating-restaurant-homepage' value={rateValue}/>
-                        </CardActions>
-                        <CardContent>
-                            <Typography className='description-restaurant-homepage'>
-                                Description
-                            </Typography>
-                        </CardContent>
-                        <CardContent>
-                        <Button className='showmore-restaurant-homepage'>See More</Button>
-                        </CardContent>
-                    </Grid>
-                </Grid>
-            </Card>
-        </div> */}
-        <Card className='card-restaurant-homepage'>
-        {/* <div className='Container-card'> */}
-            
-        <CardMedia 
-            component="img"
-            src='/mohsen.jpg'
-            alt='restaurant'
-        />
-            <div className='Containerwithoutimg'>
-            <div className='nameandrating'> <div style={{fontSize: "large"}}>Name</div>
-            <Rating style={{fontSize: 'large', marginLeft: "60px", marginTop:"3px"}} readOnly value={rateValue}/></div>
-            <div className='Desc'>Lorem ipsum dolor sit amet consectetur</div>
-            <hr className='hr-homepage'></hr>
-            <div className='Discountandmore'><div className='Discount'>Discount</div><div className='seemore'><a href='http://google.com'> <font style={{color: 'black'}}>See More</font></a></div></div>
-            </div>
-        {/* </div> */}
+        <div>
+        <Card sx={{ borderRadius: 2 }} className= 'homepage-custumer-card-restaurant'>
+            <CardActionArea>
+                <CardMedia
+                    component="img"
+                    sx={{ height: 140 }}
+                    image="/mohsen.jpg"
+                    // title={food.Type}
+                />
+                <CardContent sx={{ height: 150}}>
+                    <Grid><Typography gutterBottom className='restaurant-name-hemepage-customer'>Piano Restaurant </Typography>
+                    {/* <Rating style={{fontSize: 'large', marginTop:"3px"}} readOnly value={rateValue}/> */}
+                    {/* <Chip icon={<StarIcon />} sx={{ color: 'warning.main' }} className='star'/>4.5 */}
+                    <Chip icon={<StarIcon/>} sx={{ color: yellow[500] }} className='homepage-customer-icone'/>4.5</Grid>
+                    <div><Chip icon={<DiscountIcon />} />60%</div>
+                    <Typography variant="body2" color="text.secondary">This is a best restaurant in Narmak that you can order everything you want.</Typography>
+                </CardContent>
+
+         
+
+                
+                </CardActionArea>
+            <CardActions>
+                {/* <Typography className='homepage-custumer-resutaurant-price'>99</Typography> */}
+                
+            </CardActions>
         </Card>
-        </>
+    </div>
+
+
+        
    );
 }
 

@@ -362,7 +362,7 @@ const HomepageCustomer = () => {
                 </Grid>
             <BackToTop/>
             </Grid>
-        {/* <Footer/> */}
+        <Footer/>
         </ThemeProvider>
     );
 }
