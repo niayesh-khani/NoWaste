@@ -105,29 +105,57 @@ const HomepageCustomer = () => {
     const [expandRating, setExpandRating] = React.useState(false);
     const [expandDiscount, setExpandDiscount] = React.useState(false);
     const [sort, setSort] = React.useState('');
-    const Rs = ["1", "2", "3", "4"];
+    const minDistance = 1;
+    // const [rate, setRate] = useState([0, 5]);
+    // const [discount, setDiscount] = useState([0, 100]);    const minDistance = 1;
+    // const [rate, setRate] = useState([0, 5]);
+    // const [discount, setDiscount] = useState([0, 100]);    const Rs = ["1", "2", "3", "4"];
 
     const handleChange = (event) => {
         setSort(event.target.value);
     };
 
     const handleChangeRate = (event, newValue) => {
-        setValueR(newValue);
+        if (newValue[0] > newValue[1]) {
+            setValueR([newValue[1], newValue[1]]);
+        } else {
+            if (newValue[0] > newValue[1]) {
+            setValueR([newValue[1], newValue[1]]);
+        } else {
+            setValueR(newValue);
+        }
+        // setValueR(newValue);
+        }
+        // setValueR(newValue);
     };
-    const handleChangeDiscount = (event, newValue) => {
-        setValueD(newValue);
+    const handleChangeDiscount = (event, newValue, activeThumb) => {
+        if (!Array.isArray(newValue)) {
+            return;
+        }
+        if (activeThumb === 0) {
+            setValueD([Math.min(newValue[0], valueD[1] - minDistance), valueD[1]]);
+        } else {
+            if (!Array.isArray(newValue)) {
+            return;
+        }
+        if (activeThumb === 0) {
+            setValueD([Math.min(newValue[0], valueD[1] - minDistance), valueD[1]]);
+        } else {
+            setValueD([valueD[0], Math.max([valueD[0], Math.max(newValue[1], valueD[0] + minDistance)][1], valueD[0] + minDistance)]);
+        }
+        }
     };
     const handleExpandRating = () => {
         setExpandRating((prevExpand) => !prevExpand);
-    }
+    };;
     const handleExpandDiscount = () => {
         setExpandDiscount((prevExpand) => !prevExpand);
-    }
+    };
     const breakpoints = {
         default: 3,
         1100: 2,
         700:1
-    }
+    };
 
     const handleClickRate = () => {      //
         axios.get('http://5.34.195.16/restaurant/restaurant-search/?ordering=-rate')
@@ -207,8 +235,8 @@ const HomepageCustomer = () => {
                                         >
                                         <Slider
                                             getAriaLabel={() => 'rate range'}
-                                            value={valueD}
-                                            onChange={handleChangeDiscount}
+                                            value={valueR}
+                                            onChange={handleChangeRate}
                                             valueLabelDisplay="off"
                                             max={5}
                                             step={0.1}
