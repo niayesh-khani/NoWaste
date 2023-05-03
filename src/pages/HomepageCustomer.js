@@ -30,12 +30,13 @@ import ShowComment from '../components/ShowComment';
 import { useEffect } from 'react';
 import { react } from '@babel/types';
 import { Collapse, Grid, MenuItem, TextField, createTheme } from '@mui/material';
-import { ThemeProvider } from '@mui/styles';
+import { ThemeProvider, makeStyles } from '@mui/styles';
 import Switch from '@mui/material/Switch';
 import Select from '@mui/material/Select';
 import "./HomepageCustomer.css";
 import RestaurantCard from '../components/RestaurantCard';
 import { Container, Row } from 'react-bootstrap';
+import StarRateIcon from '@mui/icons-material/StarRate';
 
 const theme = createTheme({
     palette: {
@@ -98,7 +99,27 @@ const IOSSwitch = styled((props) => (
         }),
     },
     }));
-
+const useStyles = makeStyles({
+    markLabel: {
+        fontSize: '0.75rem',
+    },
+    markLabelActive: {
+        fontSize: '0.5rem',
+    },
+});
+const rateMarks = [
+    {
+        value: 0.0,
+        label: "Least reted",
+    },
+    {
+        value: 5.0,
+        label: "Most rated",
+    }
+];
+function rateValueText(rateMarks) {
+    return `${rateMarks}`;
+}
 const HomepageCustomer = () => {
     const [valueR, setValueR] = React.useState([0, 5]);
     const [valueD, setValueD] = React.useState([0, 100]);
@@ -106,6 +127,7 @@ const HomepageCustomer = () => {
     const [expandDiscount, setExpandDiscount] = React.useState(false);
     const [sort, setSort] = React.useState('');
     const minDistance = 1;
+    const classes = useStyles();
     // const [rate, setRate] = useState([0, 5]);
     // const [discount, setDiscount] = useState([0, 100]);    const minDistance = 1;
     // const [rate, setRate] = useState([0, 5]);
@@ -230,18 +252,71 @@ const HomepageCustomer = () => {
                                     //  width: '90%'
                                     }}>
                                     {expandRating ? (
-                                        <Collapse in={expandRating} timeout="auto" unmountOnExit 
-                                        // style={{ width: '100%' }}
-                                        >
-                                        <Slider
-                                            getAriaLabel={() => 'rate range'}
-                                            value={valueR}
-                                            onChange={handleChangeRate}
-                                            valueLabelDisplay="off"
-                                            max={5}
-                                            step={0.1}
-                                            className="range-homepage-customer"
-                                        />
+                                        <Collapse in={expandRating} timeout="auto" unmountOnExit>
+                                            <Grid container spacing={2} className='grid-details'>
+                                                <Grid item xs={12} sm={6} container alignItems='center'>
+                                                    <Typography id='details'>
+                                                    From
+                                                    </Typography>
+                                                    <Typography id='details'>
+                                                        {valueR[0].toFixed(1)}
+                                                    </Typography>
+                                                    <StarRateIcon style={{ color: '#faaf00', marginLeft: '-20px', marginTop: '15px'}} />
+                                                </Grid>
+                                                <Grid item xs={12} sm={6} container alignItems='center'>
+                                                    <Typography id='details'>
+                                                        To
+                                                    </Typography>
+                                                    <Typography id='details'>
+                                                        {valueR[1].toFixed(1)}
+                                                    </Typography>
+                                                    <StarRateIcon style={{ color: '#faaf00', marginLeft: '-20px', marginTop: '15px'}} />
+                                                </Grid>
+                                            </Grid>
+
+                                            {/* <Grid container spacing={2} className='grid-details'
+                                            style={{alignItems: 'center'}}>
+                                                <Grid item>
+                                                    <Typography id='details'>
+                                                        From
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item container 
+                                                style={{alignItems: 'center', marginTop: '-20px'}} 
+                                                lg={1}>
+                                                    <Typography id='details'>
+                                                        {valueR[1]}
+                                                    </Typography>
+                                                    <StarRateIcon style={{ color: '#faaf00' }} />
+                                                </Grid>
+                                            </Grid>
+                                            <Grid container spacing={2} className='grid-details'>
+                                                <Grid item>
+                                                    <Typography id='details'>
+                                                        To
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item container alignItems='center' lg={1}>
+                                                    <Typography id='details'>
+                                                        {valueR[1]}
+                                                    </Typography>
+                                                    <StarRateIcon style={{ color: '#faaf00' }} />
+                                                </Grid>
+                                            </Grid> */}
+                                            <Slider
+                                                getAriaLabel={rateValueText}
+                                                marks={rateMarks}
+                                                value={valueR}
+                                                onChange={handleChangeRate}
+                                                // valueLabelDisplay="off"
+                                                max={5}
+                                                step={0.1}
+                                                className="range-homepage-customer"
+                                                classes={{
+                                                    markLabel: classes.markLabel,
+                                                    markLabelActive: classes.markLabelActive,
+                                                }}
+                                            />
                                         </Collapse>
                                     ) : null}
                                 </Grid> 
@@ -267,18 +342,34 @@ const HomepageCustomer = () => {
                                     //  width: '90%'
                                     }}>
                                     {expandDiscount ? (
-                                        <Collapse in={expandDiscount} timeout="auto" unmountOnExit 
-                                        // style={{ width: '100%' }}
-                                        >
-                                        <Slider
-                                            getAriaLabel={() => 'rate range'}
-                                            value={valueD}
-                                            onChange={handleChangeDiscount}
-                                            valueLabelDisplay="off"
-                                            max={100}
-                                            step={1}
-                                            className="range-homepage-customer"
-                                        />
+                                        <Collapse in={expandDiscount} timeout="auto" unmountOnExit >
+                                                <Grid container spacing={2} className='grid-details' style={{ marginBottom: '20px', marginTop: '15px'}}>
+                                                    <Grid item xs={12} sm={6} container alignItems='center' >
+                                                        <Typography id='details'>
+                                                        From
+                                                        </Typography>
+                                                        <Typography id='details'>
+                                                            {valueD[0].toFixed(1)}%
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6} container alignItems='center'>
+                                                        <Typography id='details'>
+                                                            To
+                                                        </Typography>
+                                                        <Typography id='details'>
+                                                            {valueD[1].toFixed(1)}%
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>                                            
+                                                <Slider
+                                                getAriaLabel={() => 'rate range'}
+                                                value={valueD}
+                                                onChange={handleChangeDiscount}
+                                                valueLabelDisplay="off"
+                                                max={100}
+                                                step={1}
+                                                className="range-homepage-customer"
+                                            />
                                         </Collapse>
                                     ) : null}
                                 </Grid> 
