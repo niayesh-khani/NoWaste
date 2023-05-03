@@ -140,7 +140,7 @@ function Edit(props){
 
     useEffect(() =>{
         axios.get(
-            `http://nowaste39.pythonanywhere.com/user/customer_profile/${id}/` , 
+            `http://5.34.195.16/user/customer_profile/${id}/` , 
             {headers :{
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
@@ -196,7 +196,7 @@ function Edit(props){
     const handleUpdate = (e) => {
         e.preventDefault();
         axios.patch(
-            `http://nowaste39.pythonanywhere.com/user/customer_profile/${id}/`, update,
+            `http://5.34.195.16/user/customer_profile/${id}/`, update,
             {headers: {
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
@@ -215,7 +215,7 @@ function Edit(props){
             console.log("coming");
             e.preventDefault();
             axios.put(
-                `http://nowaste39.pythonanywhere.com/user/customer_profile/${id}/`, {"old_password": password, "password": Newpassword, "password2": Confirmpassword},
+                `http://5.34.195.16/user/change_password/${id}/`, {"old_password": password, "password": Newpassword, "password2": Confirmpassword},
                 {headers: {
                     'Content-Type' : 'application/json',
                     "Access-Control-Allow-Origin" : "*",
