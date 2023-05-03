@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { AppBar, Avatar, Badge, BottomNavigation, Box, Button, Container, createTheme, FormControl, FormControlLabel, FormLabel, Grid, Icon, IconButton, InputAdornment, makeStyles, MenuItem, Radio, RadioGroup, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
-import PersonIcon from '@mui/icons-material/Person';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import SearchIcon from '@mui/icons-material/Search';
-import EmailIcon from '@mui/icons-material/Email';
+import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import './EditProfile.css';
-import { Toolbar } from '@mui/material';
 import Header from '../components/Header';
 import './Login-Signup.css';
 import './Restaurant-View.css';
@@ -18,10 +13,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import AdapterDayjs from '@date-io/dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-import DateFnsAdapter from "@date-io/date-fns";
 import axios from "axios";
-import { Link, useHistory } from "react-router-dom";
-
+import { useHistory } from "react-router-dom";
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 const styles = theme => ({
     field: {
@@ -59,207 +55,455 @@ function getRandomColor() {
 }
 function Edit(props){
     const { value, defaultCountry, onChange, classes } = props;
-
-    // const data = {
-    //     fullname: 'hni asadi',
-    //     email: 'hniasadi@gamil.com',
-    //     phonenumber: '',
-    //     gender: 'Male',
-    //     address: '',
-    // }
-    // const [formData, setFormData] = useState(data);
+    const [fullname, setFullname] = useState('');
     const [fullnameError, setFullnameError] = useState(false);
-    const [emailError, setEmailError] = useState(false);
+    const [gender, setGender] = useState('');
+    const [dob, setDob] = useState('');
+    // const [emailError, setEmailError] = useState(false);
     const [color, setColor] = useState(localStorage.getItem('avatarColor') || getRandomColor());
-
+    const [update, setUpdate] = useState('');
+    const [phone, setPhone] = useState('');
+    const token = localStorage.getItem('token');
+    const id = localStorage.getItem('id');
+    const [data, setData] = useState('');
+    const [city, setCity] = useState('');
+    const [country, setCountry] = useState('');
+    const [address, setAddress] = useState('');
+    const [password, setPassword] = useState();
+    const [Newpassword, setNewPassword] = useState();
+    const [Confirmpassword, setConfirmPassword] = useState();
+    const [show, setShow] = useState(false);
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    
     const handleFullname = (e) => {
-        setData({...data, fullname: e.target.value})
+        setFullname(e.target.value);
+        setUpdate({...update, name: e.target.value})
         if(!/^[a-zA-Z]+\s[a-zA-Z]+$/gm.test(e.target.value)){
             setFullnameError(true);
         } else {
             setFullnameError(false);
         }
     };
-    const handleEmail = (e) => {
-        setData({...data, email: e.target.value})
-        if(!/[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/.test(e.target.value)) {
-            setEmailError(true);
-        } else{
-            setEmailError(false);
-        }
-    }
+    // const handleEmail = (e) => {
+    //     // setData({...data, email: e.target.value})
+    //     if(!/[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/.test(e.target.value)) {
+    //         setEmailError(true);
+    //     } else{
+    //         setEmailError(false);
+    //     }
+    // }
     useEffect(() => {
         if(!localStorage.getItem('avatarColor')) {
             localStorage.setItem('avatarColor', color);
         }
     }, [])
-    const [phone, setPhone] = useState('');
 
     const handlePhoneChange = (value) => {
+        setUpdate({...update, phone_number : value});
+        localStorage.setItem('phone', value);
         setPhone(value);
     };
-    const token = localStorage.getItem('token');
-    const id = token.id;
-    const [data, setData] = useState( {fullname: 'hni asadi',
-    email: 'hniasadi@gamil.com',
-    phonenumber: '3549953382',
-    gender: 'Male',
-    address: ''})
+    const handleBirthdate = (date) => {
+        setDob(date);
+        console.log(data.date_of_birth);
+        const formattedDate = dayjs(date).format('YYYY-MM-DD');
+        setUpdate({...update, date_of_birth : formattedDate});
+    }
+    const handleGender = (e) => {
+        setGender(e.target.value);
+        setUpdate({...update, gender: e.target.value});
+    }
+    const handleCity = (e) => {
+        setCity(e.target.value);
+    }
+    const handleCountry = (e) => {
+        setCountry(e.target.value);
+    }
+    const handleAddress = (e) => {
+        setAddress(e.target.value);
+    }
+    const handlePassword = (e) => {
+        setPassword(e.target.value);
+    }
+    const handleNewPassword = (e) => {
+        setNewPassword(e.target.value);
+    }
+    const handleConfirmPassword = (e) => {
+        setConfirmPassword(e.target.value);
+    }
+    useEffect(() => {
+        const temp = country + '$' + city + '$' + address;
+        setUpdate({...update, address : temp})
+    }, [country, city, address])
 
     useEffect(() =>{
-        axios.get(`http://nowaste39.pythonanywhere.com/user/customer_profile/${id}/`)
-    }, [])
+        axios.get(
+            `http://nowaste39.pythonanywhere.com/user/customer_profile/${id}/` , 
+            {headers :{
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "GET,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)
+            }}
+        )
+        .then((response) => {
+            console.log(response);
+            setData(response.data)
+        })
+        .catch((error) => console.log(error));
+    },[]);
+    
+    useEffect(() => {
+        setFullname(data.name);
+    }, [data.name]);
+
+    useEffect(() => {
+        setGender(data.gender);
+    }, [data.gender]);
+
+    useEffect(() => {
+        setDob(data.date_of_birth);
+    }, [data.date_of_birth]);
+
+    useEffect(() => {
+        const arr = data?.address?data?.address.split("$"):"";
+        setCountry(arr[0])
+        setCity(arr[1]);
+        setAddress(arr[2]);
+    }, [data.address]);
 
     const history = useHistory();
     const handleChange = () => {
         history.push('./change-password')
     };
 
+    const handleClickShowCurrentPassword = () => setShowCurrentPassword(!showCurrentPassword);
+    const handleMouseDownCurrentPassword = (event) => {
+        event.preventDefault();
+    };
+    const handleClickShowNewPassword = () => setShowNewPassword(!showNewPassword);
+    const handleMouseDownNewPassword = (event) => {
+        event.preventDefault();
+    };
+    const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+    const handleMouseDownConfirmPassword = (event) => {
+        event.preventDefault();
+    };
+
+    const firstChar = data?.name?data.name.charAt(0) : "UN";
+    const handleUpdate = (e) => {
+        e.preventDefault();
+        axios.patch(
+            `http://nowaste39.pythonanywhere.com/user/customer_profile/${id}/`, update,
+            {headers: {
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "GET,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)   
+            }}
+        )
+        .then((response)=> {
+            console.log(response);
+            console.log("succesfully updated");
+        })
+        .catch((error) => console.log(error));
+
+        if(Newpassword && password && Confirmpassword)
+        {
+            console.log("coming");
+            e.preventDefault();
+            axios.put(
+                `http://nowaste39.pythonanywhere.com/user/customer_profile/${id}/`, {"old_password": password, "password": Newpassword, "password2": Confirmpassword},
+                {headers: {
+                    'Content-Type' : 'application/json',
+                    "Access-Control-Allow-Origin" : "*",
+                    "Access-Control-Allow-Methods" : "PUT,PATCH",
+                    'Authorization' : "Token " + token.slice(1,-1)   
+                }}
+            )
+            .then((response)=> {
+                console.log(response);
+                console.log("succesfully updated password");
+            })
+            .catch((error) => console.log(error));
+        }
+    }
+
     return(
         <ThemeProvider theme={theme}>
             <Header/>
-            <div className="edit-root">
-                <Box className='edit-box'>
-                    <Typography
-                        variant='h4'
-                        color="textPrimary"
-                        gutterBottom
-                        className='text'
-                        // disabled
-                        // style={{textAlign: 'center', marginTop: '10%', marginBottom: '10%', fontWeight: 'bold'}}
-                    >
-                        Profile
-                    </Typography>
-                    <Avatar
-                        className="edit-avatar"
-                        style={{backgroundColor: color}}
-                        src="public/3.jpg"
-                        // sx={{width:'200px', height:'100px'}}
-                    >
-                        H
-                    </Avatar>
-                    {/* <Link to="/change-password">Change password</Link> */}
-                    <FormControl className="edit-field">
-                        <TextField
-                            label="Full name"
-                            variant="outlined"
-                            color="secondary"
-                            value={data.name}
-                            // className="edit-field"
-                            // onChange={(e) => setFormData({...formData, fullname: e.target.value})}
-                            onChange={handleFullname}
-                            error={fullnameError}
-                            helperText={
-                                <div className="edit-error">
-                                    {fullnameError && 'Your full name should have at least two words.'}
-                                </div>
-                            }
-                        />
-                    </FormControl>
-                    <FormControl className="edit-field">
-                        <TextField
-                            label="Email address"
-                            variant="outlined"
-                            color="secondary"
-                            value={data.email}
-                            // className="edit-field"
-                            onChange={handleEmail}
-                            // disabled
-                            
-                            InputProps={{
-                                readOnly: true
-                            }}
-                        />
-                    </FormControl>
-                    <FormControl className="edit-field">
-                        <PhoneInput
-                            label="Phone number"
-                            value={data.phonenumber}
-                            defaultCountry="ir"
-                            color="secondary"
-                            onChange={handlePhoneChange}
-                            inputClass={classes.field}
-                            style={{width: '100%'}}
-                            variant="outlined"
-                        />
-                    </FormControl>
-                    <FormControl className="edit-field">
-                        <TextField
-                            select
-                            label="Gender"
-                            color="secondary"
-                            variant="outlined"
-                            defaultValue={data.gender}
-                            style= {{textAlign: 'left', width:'100%'}}
+            <Grid container spacing={2} className="edit-grid">
+                <Grid item md={3}>
+                    <Box className="edit-box">
+                        <Typography variant="h5" 
+                            color="textPrimary"
+                            gutterBottom
+                            className="edit-title"
+                            // style={{fontWeight: 'bold', fontSize: '30px'}}
                         >
-                            <MenuItem value="select" disabled>
-                                <em>Select gender</em>
-                            </MenuItem>
-                            <MenuItem value="Male">
-                                Male
-                            </MenuItem>
-                            <MenuItem value="Female">
-                                Female
-                            </MenuItem>
-                        </TextField>
-                    </FormControl>
-                    <FormControl className="edit-field">
-                        <LocalizationProvider dateAdapter={AdapterDayjs} style={{width: '150%'}}>
-                            <DemoContainer components={['DatePicker']}>
-                                <DatePicker
-                                label="Date of birth"
-                                views={['year', 'month', 'day']}
-                                sx={{width: '100%'}}
-                                maxDate={dayjs()}
-                                />
-                            </DemoContainer>
-                        </LocalizationProvider>
-                    </FormControl>
-                    <FormControl className="edit-field">
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6} >
+                            Profile picture
+                        </Typography>
+                        <Avatar
+                            className="edit-avatar"
+                            style={{backgroundColor: color}}
+                            src="public/3.jpg"
+                        >
+                            {firstChar}
+                        </Avatar>
+                    </Box>
+                </Grid>
+                <Grid item md={9}>
+                    <Box className="edit-box">
+                        <Typography variant="h5" 
+                            color="textPrimary"
+                            gutterBottom
+                            className="edit-title"
+                            // style={{fontWeight: 'bold', fontSize: '30px'}}
+                        >
+                            Account details 
+                        </Typography>
+                        <FormControl className="edit-field">
+                            <TextField
+                                label="Full name"
+                                variant="outlined"
+                                color="secondary"
+                                value={fullname}
+                                onChange={handleFullname}
+                                error={fullnameError}
+                                helperText={
+                                    <div className="edit-error">
+                                        {fullnameError && 'Your full name should have at least two words.'}
+                                    </div>
+                                }
+                            />
+                        </FormControl>
+                        <FormControl className="edit-field">
+                            <TextField
+                                label="Email address"
+                                variant="outlined"
+                                color="secondary"
+                                value={data.email}
+                                InputLabelProps={{ shrink: true }}  
+                                // disabled                          
+                                InputProps={{
+                                    readOnly: true
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl className="edit-field">
+                            <PhoneInput
+                                label="Phone number"
+                                value={data.phone_number}
+                                defaultCountry="ir"
+                                color="secondary"
+                                onChange={handlePhoneChange}
+                                inputClass={classes.field}
+                                style={{width: '100%'}}
+                                variant="outlined"
+                                InputLabelProps={{ shrink: true, color: "error"}}
+                            />
+                        </FormControl>
+                        <FormControl className="edit-field">
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6} md={6}>
+                                    <TextField
+                                        select
+                                        label="Gender"
+                                        color="secondary"
+                                        variant="outlined"
+                                        value={gender}
+                                        // InputLabelProps={{ shrink: true }}
+                                        // style= {{textAlign: 'left', width:'100%'}}
+                                        style={{width: '100%'}}
+                                        onChange={handleGender}
+                                    >
+                                        <MenuItem value="select" disabled>
+                                            <em>Select gender</em>
+                                        </MenuItem>
+                                        <MenuItem value="male">
+                                            Male
+                                        </MenuItem>
+                                        <MenuItem value="female">
+                                            Female
+                                        </MenuItem>
+                                    </TextField>
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={6} style={{paddingTop: '0'}}>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs} style={{width: '150%'}}
+                                    //  InputLabelProps={{ shrink: true }}
+                                    >
+                                        <DemoContainer components={['DatePicker']} >
+                                            <DatePicker
+                                                label="Date of birth"
+                                                views={['year', 'month', 'day']}
+                                                sx={{width: '100%'}}
+                                                maxDate={dayjs()}
+                                                onChange={handleBirthdate}
+                                                value={null || dayjs(dob) }
+                                            />
+                                        </DemoContainer>
+                                    </LocalizationProvider>
+                                </Grid>
+                            </Grid>
+                        </FormControl>
+                        <FormControl className="edit-field">
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6} md={6}>
+                                    <TextField
+                                        label="Country"
+                                        variant="outlined"
+                                        color="secondary"
+                                        value={country}
+                                        style={{width: '100%'}}
+                                        onChange={handleCountry}
+                                    /> 
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={6}>
+                                    <TextField
+                                        label="City"
+                                        variant="outlined"
+                                        color="secondary"
+                                        value={city}
+                                        style={{width: '100%'}}
+                                        onChange={handleCity}
+                                    /> 
+                                </Grid>
+                            </Grid>
+                        </FormControl>
+                        <FormControl className="edit-field">
+                            <TextField
+                                label="Address"
+                                variant="outlined"
+                                color="secondary"
+                                multiline
+                                value={address}
+                                onChange={handleAddress}
+                            /> 
+                        </FormControl>
+                            {show && <>
+                            <FormControl className="edit-field">
                                 <TextField
-                                    label="Country"
+                                    label="Current Passsword"
                                     variant="outlined"
                                     color="secondary"
-                                    value={data.address}
-                                    onChange={(e) => setData({...data, address: e.target.value})}
-                                /> 
-                            </Grid>
-                            <Grid item xs={12} sm={6} >
-                                <TextField
-                                    label="City"
-                                    variant="outlined"
-                                    color="secondary"
-                                    value={data.address}
-                                    onChange={(e) => setData({...data, address: e.target.value})}
-                                /> 
-                            </Grid>
-                        </Grid>
-                    </FormControl>
-                    <FormControl className="edit-field">
-                        <TextField
-                            label="Address"
-                            variant="outlined"
-                            color="secondary"
-                            multiline
-                            // rows={5}
-                            value={data.address}
-                            // className="edit-field"
-                            onChange={(e) => setData({...data, address: e.target.value})}
-                        /> 
-                    </FormControl>
-                    <Grid container spacing={2}>
-                        <Grid item>
-                            <Button id="edit-button" variant="contained" onClick={handleChange}>Change Password</Button>
-                        </Grid>
-                        <Grid item>
-                            <Button type="submit" id="edit-update" variant="contained">Update</Button>
-                        </Grid>
-                    </Grid>
-                </Box>
+                                    onChange={handlePassword}
+                                    type= {showCurrentPassword ? 'text' : 'password'}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <Icon>
+                                                    <LockIcon />
+                                                </Icon> 
+                                            </InputAdornment>
+                                        ),
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton 
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowCurrentPassword}
+                                                    onMouseDown={handleMouseDownCurrentPassword}
+                                                >
+                                                    {showCurrentPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        )
+                                    }}
 
-            </div>
+                                />
+                            </FormControl>
+
+                            <FormControl className="edit-field">
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6} md={6}>
+                                <TextField
+                                    label="New Password"
+                                    variant="outlined"
+                                    style={{width: '100%'}}
+                                    color="secondary"
+                                    onChange={handleNewPassword}
+                                    type= {showNewPassword ? 'text' : 'password'}
+                                        InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <Icon>
+                                                    <LockIcon />
+                                                </Icon> 
+                                            </InputAdornment>
+                                        ),
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton 
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowNewPassword}
+                                                    onMouseDown={handleMouseDownNewPassword}
+                                                >
+                                                    {showNewPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                />
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={6}>
+                                    <TextField
+                                        label="Confirm New Password"
+                                        variant="outlined"
+                                        style={{width: '100%'}}
+                                        onChange={handleConfirmPassword}
+                                        type= {showConfirmPassword ? 'text' : 'password'}
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <Icon>
+                                                        <LockOpenIcon />
+                                                    </Icon> 
+                                                </InputAdornment>
+                                            ),
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <IconButton 
+                                                        aria-label="toggle password visibility"
+                                                        onClick={handleClickShowConfirmPassword}
+                                                        onMouseDown={handleMouseDownConfirmPassword}
+                                                    >
+                                                        {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            )
+                                        }}
+                                        />
+                                </Grid>
+                                </Grid>
+                            </FormControl>
+                            </>
+                            }
+                        <Grid container spacing={2} className="edit-button-grid" wrap="nowrap">
+                            <Grid item>
+                                <Button className="edit-save-changepass-button"  id="edit-button" variant="contained" onClick={() => setShow(prev => !prev)}>Change Password </Button>
+                            </Grid>
+                            <Grid item container lg={5} md={6} sm={12}
+                            // style={{marginRight: "-10px"}}
+                            justifyContent="flex-end"
+                            >
+                                <Grid item style={{paddingRight: '5px'}}>
+                                    <Button className="edit-discard-button" id="edit-button" variant="contained" onClick={handleUpdate}
+                                        // style={{marginRight: "2%"}}
+                                        // style={{backgroundColor: '#E74C3C'}}
+                                    >Discard</Button>
+                                </Grid>
+                                <Grid item>
+                                    <Button className="edit-save-changepass-button" id="edit-button" variant="contained" onClick={handleUpdate}
+                                        // style={{marginRight: "-2%"}}
+                                    >Save changes</Button>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+
+                    </Box>
+                </Grid>
+            </Grid> 
         </ThemeProvider>
 
     )

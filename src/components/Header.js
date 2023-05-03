@@ -78,7 +78,7 @@ const Header = React.memo(() => {
                     src="/logo4.png"
                     alt="NoWaste"
                 />
-                <Search>
+                <Search >
                     <SearchIconWrapper>
                         <SearchIcon />
                     </SearchIconWrapper>

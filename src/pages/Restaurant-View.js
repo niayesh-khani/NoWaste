@@ -10,7 +10,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AccountCircle } from '@material-ui/icons';
 import Masonry from 'react-masonry-css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import Foods from '../components/Foods';
+import Food from '../components/Food';
 import BackToTop from '../components/BackToTop';
 import Footer from '../components/Footer';
 import NavigationIcon from '@material-ui/icons/Navigation';
@@ -25,11 +25,17 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import ShowComment from '../components/ShowComment';
+import ShowComments from '../components/ShowComments';
 import { useEffect } from 'react';
 import { react } from '@babel/types';
-
-
+import PhoneIcon from '@mui/icons-material/Phone';
+import MdPhone from '@mui/icons-material/Phone';
+import Chip from '@mui/material/Chip';
+import Icon from '@mui/material/Icon';
+import PlaceIcon from '@mui/icons-material/Place';
+import { FaRegClipboard } from 'react-icons/fa';
+import DoneIcon from '@mui/icons-material/Done';
+import { add } from 'date-fns';
 
 const Search = MU.styled('div')(({ theme }) => ({
     position: 'relative',
@@ -88,37 +94,28 @@ const ExpandMore = MU.styled((props: ExpandMoreProps) => {
     }),
 }));
 
-// const style = {
-//     position: 'absolute',
-//     top: '50%',
-//     left: '50%',
-//     transform: 'translate(-50%, -50%)',
-//     width: 400,
-//     bgcolor: 'background.paper',
-//     border: '2px solid #000',
-//     boxShadow: 24,
-//     p: 4,
-// };
-
 
 const RestaurantView = (props: Props) => 
 {
     const [expanded, setExpanded] = React.useState(false);
-    const [rateValue, setRateValue] = React.useState(2.6);
+    const [rateValue, setRateValue] = React.useState(0);
     const [color, setColor] = React.useState(false);
-    const [restaurant, setRestaurant] = React.useState();
+    const [restaurant, setRestaurant] = React.useState('');
     const [menu, setMenu] = React.useState([]);
-    // const [nameRestaurant, setNameRestaurant] = react.useState();
+    const [nameRestaurant, setNameRestaurant] = React.useState('');
     const history = useHistory();
+    const [email, setEmail] = React.useState("");
     const {id} = useParams();
-    // const [open, setOpen] = React.useState(false);
 
-    // const handleOpenComment = () => setOpen(true);
-    // const handleCloseComment = () => setOpen(false);
 
-    const handleColor = () => {
-        setColor(!color);
-    };
+    useEffect(() => {
+        const email = JSON.parse(localStorage.getItem('email'));
+        if (email) {
+            setEmail(email);
+            console.log(email);
+        }
+    }, []);
+
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
@@ -129,44 +126,95 @@ const RestaurantView = (props: Props) =>
     }
 
     React.useEffect(() => {
-        axios.get("http://nowaste39.pythonanywhere.com/restaurant/restaurant_profile/" + id + '/')
+        axios.get("https://nowaste39.pythonanywhere.com/restaurant/restaurant_view/" + id + '/')
         .then((response) => {
             console.log(response);
             setRestaurant(response.data);
+            setNameRestaurant(restaurant.name);
+            setMenu(restaurant.menu);
+            setRateValue(restaurant.rate);
         })
         .catch((error) => {
             console.log(error);
         });
     });
-    console.log(restaurant);
-    // setNameRestaurant(restaurant.name);
-    // setMenu(restaurant.menu);
-    useEffect(() => {
-        localStorage.setItem('menu', JSON.stringify(menu));
-        }, [menu]);
+
+    const handleColor = () => {
+        setColor(!color);
+        const userData = {
+            name: nameRestaurant,
+            email: email
+            };
+            console.log(userData);
+            axios.post("http://nowaste39.pythonanywhere.com/user/favorite-restaurant/", userData, {headers:{"Content-Type" : "application/json"}})
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response);
+                    console.log("server responded");
+                } 
+                else if (error.request) {
+                    console.log("network error");
+                } 
+                else {
+                    console.log(error);
+                }
+            },);
+    };
+    
+    const [phoneCopied, setPhoneCopied] = useState(false);
+    const [addressCopied, setAddressCopied] = useState(false);
+
+    const handlePhoneChip = (text) => {
+        navigator.clipboard.writeText(restaurant.number);
+        setPhoneCopied(true);
+        setTimeout(() => {
+            setPhoneCopied(false);
+          }, 1000);
+      };
+      
+    const handleAddressChip = () => {
+        navigator.clipboard.writeText(restaurant.address);
+        setAddressCopied(true);
+        setTimeout(() => {
+            setAddressCopied(false);
+          }, 1000);
+
+    };
+    const handlePhoneCopied = () => {
+        setPhoneCopied(false);
+    };
+    const handleAddressCopied = () => {
+        setAddressCopied(false);
+    };
+        
+    const [textCopied, setTextCopied] = useState(false);
+            
     return (
-    <div>
+    <div className='myback'>
         <Header />
         <MU.Grid container spacing={2} sx={{
-            paddingTop:"2%"
+            paddingTop:"2%",
         }}>
             <MU.Grid item md={3}>
                 <MU.Card sx={{ borderStyle: 'none'}} className='card-restaurant-view'>
                     <MU.Grid container spacing={1} alignItems="center" >
                     <MU.Grid item>
-                        <MU.CardHeader 
+                        <MU.CardHeader className="restaurant-header"
                                 avatar={
                                     <MU.Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                    M
+                                    {restaurant?.name ? restaurant.name.charAt(0) : "UD"}
                                     </MU.Avatar>
                                 }
-                                title=""
-                                subheader="From September 14, 2023"
+                                title= {restaurant.name}
+                                subheader={restaurant.date_of_establishment}
                                 >
                         </MU.CardHeader>
                         </MU.Grid>
                         <MU.Grid item sx={{
-                            marginLeft:"10%"
+                            marginLeft:"12%"
                         }}>
 
                         <MU.BottomNavigation>
@@ -186,12 +234,12 @@ const RestaurantView = (props: Props) =>
 
                         <MU.CardMedia
                         component="img"
-                        src="/mohsen.jpg"
+                        src={"/downt.jpg"}
                         alt="Restaurant1"
                         />
                         <MU.CardContent>
                         <MU.Typography variant="body2" className='Body2-restaurant-view' color="text.secondary">
-                            Restaurant Mohsen takes pride that since 1375 (1996/1997), the same time it started its activities, it has been maintaining its special quantity and quality with the full supervision of management and the support of an experienced team in the preparation of raw materials and cooking affairs.
+                            {restaurant.description}
                         </MU.Typography>
                         </MU.CardContent>
                         <MU.CardActions disableSpacing>
@@ -207,17 +255,33 @@ const RestaurantView = (props: Props) =>
                         </MU.CardActions>
                     <MU.Collapse in={expanded} timeout="auto" unmountOnExit>
                         <MU.CardContent>
-                            <MU.Typography paragraph>
-                                phone number : 021 2284 5657
-                            </MU.Typography>
-                            <MU.Typography paragraph>
-                                Address : Tehran Province, Tehran, Zarrabkhaneh, Qoba, QF52+P86
-                            </MU.Typography>
+                            <Box className='info' paragraph>
+                                <Chip
+                                    icon={<MdPhone/>}
+                                    sx={{mb:1}}
+                                    onClick={handlePhoneChip}       
+                                    label={phoneCopied ? "Copied!" : restaurant.number}
+                                    clickable
+                                    className={phoneCopied ? "copied" : ""}
+                                    onDelete={phoneCopied ? handlePhoneCopied : null}
+                                    deleteIcon={<DoneIcon />}
+                                />
+
+                                <Chip
+                                    icon={<PlaceIcon />}
+                                    onClick={handleAddressChip}
+                                    label={addressCopied ? "Copied!" : restaurant.address}
+                                    clickable
+                                    className={addressCopied ? "copied" : ""}
+                                    onDelete={addressCopied ? handleAddressCopied : null}
+                                    deleteIcon={<DoneIcon />}
+                                />
+                            </Box>
                         </MU.CardContent>
                     </MU.Collapse>
                 </MU.Card>
 
-                <ShowComment />
+                <ShowComments />
 
 
             </MU.Grid>
@@ -228,9 +292,12 @@ const RestaurantView = (props: Props) =>
                     className="my-masonry-grid"
                     columnClassName="my-masonry-grid_column"
             >
-                <div item xs={3}>
-                    <Foods />
-                </div>
+                {menu &&
+                    menu.map((food, index) => (
+                        <div key={index} className="my-masonry-grid_column" style={{ width: index % 3 === 0 ? '100%' : '' }}>
+                            <Food food={food} />
+                        </div>
+                    ))}
             </Masonry>
             </MU.Grid>
             <BackToTop/>
