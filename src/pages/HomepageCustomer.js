@@ -148,10 +148,6 @@ const HomepageCustomer = () => {
     const [sort, setSort] = React.useState('');
     const minDistance = 1;
     const classes = useStyles();
-    // const [rate, setRate] = useState([0, 5]);
-    // const [discount, setDiscount] = useState([0, 100]);    const minDistance = 1;
-    // const [rate, setRate] = useState([0, 5]);
-    // const [discount, setDiscount] = useState([0, 100]);    const Rs = ["1", "2", "3", "4"];
 
     const handleChange = (event) => {
         setSort(event.target.value);
@@ -166,9 +162,7 @@ const HomepageCustomer = () => {
             } else {
                 setValueR(newValue);
             }
-        // setValueR(newValue);
         }
-        // setValueR(newValue);
     };
     const handleChangeDiscount = (event, newValue, activeThumb) => {
         if (!Array.isArray(newValue)) {
