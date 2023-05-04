@@ -204,11 +204,11 @@ export default function ForgotPass(){
                     <Box className="box"
                     // className="box-forgot"
                     >
-                        <Typography variant="h4" 
+                        <Typography variant="h5" 
                             color="textPrimary"
                             gutterBottom
                             className="text"
-                            style={{fontWeight: 'bold'}}
+                            style={{fontWeight: 'bold', fontSize: '30px'}}
                         >
                             Forgot Your Password?
                         </Typography>

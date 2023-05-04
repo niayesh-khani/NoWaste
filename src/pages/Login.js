@@ -130,11 +130,11 @@ export default function Login(){
                         borderRadius="25px"
                     />
                     <Box className="box">
-                        <Typography variant="h4" 
+                        <Typography variant="h5" 
                             color="textPrimary"
                             gutterBottom
                             className="text"
-                            style={{textAlign: 'center', marginTop: '10%', marginBottom: '10%', fontWeight: 'bold'}}
+                            style={{fontWeight: 'bold', fontSize: '30px'}}
                         >
                             Login 
                         </Typography>
