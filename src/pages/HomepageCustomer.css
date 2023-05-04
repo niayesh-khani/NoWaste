@@ -34,7 +34,7 @@
 
 .range-homepage-customer {
     margin-right: 10px;
-    width: 90% !important;
+    width: 100% !important;
     display: flex !important;
     justify-content: center !important;
     color: #dd9d46 !important;
@@ -81,17 +81,21 @@
     margin-bottom: -25px !important;
     margin-right: 20px !important;
     padding: 0 !important;
-    /* display: flex;
-    flex-direction: column; */
 }
 .grid-details {
     justify-content: space-between;
     width: 100% !important;
-    /* display: flex;
-    flex-direction: column; */
-    /* padding: 7% 0% 7% 0%; */
     margin-top: -30px !important;
     display: flex;
     align-items: center;
-    /* align-content: center; */
+}
+.css-1tfve6q-MuiSlider-mark {
+    width: 0 !important;
+    height: 0 !important;
+}
+.submit {
+    margin: 15px !important;
+    background-color: #FFA600 !important;
+    border-radius: 70px !important;
+    width: 70% !important;
 }

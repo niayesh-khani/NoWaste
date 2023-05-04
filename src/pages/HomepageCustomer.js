@@ -101,10 +101,17 @@ const IOSSwitch = styled((props) => (
     }));
 const useStyles = makeStyles({
     markLabel: {
-        fontSize: '0.75rem',
+        fontSize: '0.6rem !important',
+        width: '0 !important',
+        height: '0 !important',
+        alignContent: 'center',
+        alignItems: 'center',
+        transform: "translateX(-25px) !important"
     },
     markLabelActive: {
         fontSize: '0.5rem',
+        width: '0 !important',
+        height: '0 !important',
     },
 });
 const rateMarks = [
@@ -119,6 +126,19 @@ const rateMarks = [
 ];
 function rateValueText(rateMarks) {
     return `${rateMarks}`;
+}
+const discountMarks = [
+    {
+        value: 0,
+        label: "Least discount"
+    },
+    {
+        value: 100,
+        label: "Most discount"
+    }
+];
+function discountValueText(discountMarks) {
+    return `${discountMarks}`;
 }
 const HomepageCustomer = () => {
     const [valueR, setValueR] = React.useState([0, 5]);
@@ -143,9 +163,9 @@ const HomepageCustomer = () => {
         } else {
             if (newValue[0] > newValue[1]) {
             setValueR([newValue[1], newValue[1]]);
-        } else {
-            setValueR(newValue);
-        }
+            } else {
+                setValueR(newValue);
+            }
         // setValueR(newValue);
         }
         // setValueR(newValue);
@@ -159,12 +179,11 @@ const HomepageCustomer = () => {
         } else {
             if (!Array.isArray(newValue)) {
             return;
-        }
-        if (activeThumb === 0) {
-            setValueD([Math.min(newValue[0], valueD[1] - minDistance), valueD[1]]);
-        } else {
-            setValueD([valueD[0], Math.max([valueD[0], Math.max(newValue[1], valueD[0] + minDistance)][1], valueD[0] + minDistance)]);
-        }
+            } if (activeThumb === 0) {
+                setValueD([Math.min(newValue[0], valueD[1] - minDistance), valueD[1]]);
+            } else {
+                setValueD([valueD[0], Math.max([valueD[0], Math.max(newValue[1], valueD[0] + minDistance)][1], valueD[0] + minDistance)]);
+            }
         }
     };
     const handleExpandRating = () => {
@@ -219,26 +238,18 @@ const HomepageCustomer = () => {
         });
     };
 
-
     return ( 
-        // <div>
         <ThemeProvider theme={theme}>
             <Header />
-            <Grid container spacing={2} sx={{ paddingTop:"2%" }}
-                className='grid-homepage-customer'
-            >
+            <Grid container spacing={2} sx={{ paddingTop:"2%" }} className='grid-homepage-customer'>
                 <Grid item md={3}>
                     <Box className="filter-hompage-customer">
                         <Typography variant='h5'> 
                             Filters
                         </Typography>
-                        <Grid container spacing={2} className='grid' id='grid-margin'
-                            // alignItems="center"
-                            >
+                        <Grid container spacing={2} className='grid' id='grid-margin'>
                                 <Grid item>
-                                    <Typography 
-                                    className='filter-type'
-                                    >
+                                    <Typography className='filter-type'>
                                         Rating
                                     </Typography>
                                 </Grid>
@@ -247,16 +258,13 @@ const HomepageCustomer = () => {
                                         {expandRating ? <ExpandLess /> : <ExpandMore />}
                                     </IconButton>
                                 </Grid>
-                                <Grid item lg={12} style={{
-                                    marginTop: '-10px', marginLeft: '10px',
-                                    //  width: '90%'
-                                    }}>
+                                <Grid item lg={12} style={{ marginTop: '-10px', marginLeft: '10px'}}>
                                     {expandRating ? (
                                         <Collapse in={expandRating} timeout="auto" unmountOnExit>
                                             <Grid container spacing={2} className='grid-details'>
                                                 <Grid item xs={12} sm={6} container alignItems='center'>
                                                     <Typography id='details'>
-                                                    From
+                                                        From
                                                     </Typography>
                                                     <Typography id='details'>
                                                         {valueR[0].toFixed(1)}
@@ -273,42 +281,11 @@ const HomepageCustomer = () => {
                                                     <StarRateIcon style={{ color: '#faaf00', marginLeft: '-20px', marginTop: '15px'}} />
                                                 </Grid>
                                             </Grid>
-
-                                            {/* <Grid container spacing={2} className='grid-details'
-                                            style={{alignItems: 'center'}}>
-                                                <Grid item>
-                                                    <Typography id='details'>
-                                                        From
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item container 
-                                                style={{alignItems: 'center', marginTop: '-20px'}} 
-                                                lg={1}>
-                                                    <Typography id='details'>
-                                                        {valueR[1]}
-                                                    </Typography>
-                                                    <StarRateIcon style={{ color: '#faaf00' }} />
-                                                </Grid>
-                                            </Grid>
-                                            <Grid container spacing={2} className='grid-details'>
-                                                <Grid item>
-                                                    <Typography id='details'>
-                                                        To
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item container alignItems='center' lg={1}>
-                                                    <Typography id='details'>
-                                                        {valueR[1]}
-                                                    </Typography>
-                                                    <StarRateIcon style={{ color: '#faaf00' }} />
-                                                </Grid>
-                                            </Grid> */}
                                             <Slider
                                                 getAriaLabel={rateValueText}
                                                 marks={rateMarks}
                                                 value={valueR}
                                                 onChange={handleChangeRate}
-                                                // valueLabelDisplay="off"
                                                 max={5}
                                                 step={0.1}
                                                 className="range-homepage-customer"
@@ -322,13 +299,9 @@ const HomepageCustomer = () => {
                                 </Grid> 
                             </Grid>
                             <hr className='hr-tag' />
-                            <Grid container spacing={2} className='grid' id='grid-margin'
-                            // alignItems="center"
-                            >
+                            <Grid container spacing={2} className='grid' id='grid-margin'>
                                 <Grid item>
-                                    <Typography 
-                                    className='filter-type'
-                                    >
+                                    <Typography className='filter-type'>
                                         Discount
                                     </Typography>
                                 </Grid>
@@ -337,38 +310,39 @@ const HomepageCustomer = () => {
                                         {expandDiscount ? <ExpandLess /> : <ExpandMore />}
                                     </IconButton>
                                 </Grid>
-                                <Grid item lg={12} style={{
-                                    marginTop: '-10px', marginLeft: '10px',
-                                    //  width: '90%'
-                                    }}>
+                                <Grid item lg={12} style={{ marginTop: '-10px', marginLeft: '10px'}}>
                                     {expandDiscount ? (
-                                        <Collapse in={expandDiscount} timeout="auto" unmountOnExit >
-                                                <Grid container spacing={2} className='grid-details' style={{ marginBottom: '20px', marginTop: '15px'}}>
-                                                    <Grid item xs={12} sm={6} container alignItems='center' >
-                                                        <Typography id='details'>
+                                        <Collapse in={expandDiscount} timeout="auto" unmountOnExit style={{marginTop: '20px'}}>
+                                            <Grid container spacing={2} className='grid-details' style={{marginBottom: '10px', marginTop: '-15px !important'}}>
+                                                <Grid item xs={12} sm={6} container alignItems='center'>
+                                                    <Typography id='details'>
                                                         From
-                                                        </Typography>
-                                                        <Typography id='details'>
-                                                            {valueD[0].toFixed(1)}%
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item xs={12} sm={6} container alignItems='center'>
-                                                        <Typography id='details'>
-                                                            To
-                                                        </Typography>
-                                                        <Typography id='details'>
-                                                            {valueD[1].toFixed(1)}%
-                                                        </Typography>
-                                                    </Grid>
-                                                </Grid>                                            
-                                                <Slider
-                                                getAriaLabel={() => 'rate range'}
+                                                    </Typography>
+                                                    <Typography id='details'>
+                                                        {valueD[0]}%
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item xs={12} sm={6} container alignItems='center'>
+                                                    <Typography id='details'>
+                                                        To
+                                                    </Typography>
+                                                    <Typography id='details'>
+                                                        {valueD[1]}%
+                                                    </Typography>
+                                                </Grid>
+                                            </Grid>
+                                            <Slider
+                                                getAriaLabel={discountValueText}
+                                                marks={discountMarks}
                                                 value={valueD}
                                                 onChange={handleChangeDiscount}
-                                                valueLabelDisplay="off"
                                                 max={100}
                                                 step={1}
                                                 className="range-homepage-customer"
+                                                classes={{
+                                                    markLabel: classes.markLabel,
+                                                    markLabelActive: classes.markLabelActive,
+                                                }}
                                             />
                                         </Collapse>
                                     ) : null}
@@ -416,6 +390,9 @@ const HomepageCustomer = () => {
                                     />
                                 </Grid>
                             </Grid>
+                            <Button className='submit'>
+                                Apply
+                            </Button>
                         </Box>
                     </Grid>
                     <Grid item md={9}>
