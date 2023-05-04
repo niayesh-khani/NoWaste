@@ -72,7 +72,7 @@
     margin-left: 13% !important;
 }
 .forgetpassword {
-    color: #c5663a;
+    color: #E74C3C;
     margin-top: 5%;
     margin-right: 15% !important;
     float: right;
@@ -121,7 +121,7 @@
     text-decoration:underline;
 }
 .link#signup, .link#login {
-    color: #c5663a;
+    color: #E74C3C;
 }
 .error#forget, .error#verify {
     height: 2em;

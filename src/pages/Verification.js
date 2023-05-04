@@ -102,7 +102,7 @@ export default function Verification(){
         axios.post("http://5.34.195.16/user/verify-email/", userData, {headers:{"Content-Type" : "application/json"}})
         .then((response) => {
             console.log(response);
-            history.push("/homepage");
+            history.push("/homepage-customer");
         })
         .catch((error) => {
             setOpen(true);

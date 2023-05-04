@@ -160,7 +160,7 @@ export default function SignUp(){
                             color="textPrimary"
                             gutterBottom
                             className="text"
-                            style={{fontWeight: 'bold', fontSize: '30px'}}
+                            style={{fontWeight: '600', fontSize: '30px'}}
                         >
                             Sign Up 
                         </Typography>
@@ -266,7 +266,7 @@ export default function SignUp(){
                             
                             <FormControlLabel className='checkbox' 
                                 control={<Checkbox 
-                                            sx={{color: '#f18b72', '&.Mui-checked': {color: '#f18b72',},}}
+                                            sx={{color: '#f18b72', '&.Mui-checked': {color: '#E74C3C',},}}
                                         />}
                                 label={
                                 <Typography className="text" id="signupcheck"

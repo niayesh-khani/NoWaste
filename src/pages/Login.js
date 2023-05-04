@@ -109,7 +109,7 @@ export default function Login(){
                 setId(response.data.id);
                 console.log(token);
                 console.log(id);
-                history.push("/homepage");
+                history.push("/homepage-customer");
             })
             .catch((error) => {
                 setOpen(true);
