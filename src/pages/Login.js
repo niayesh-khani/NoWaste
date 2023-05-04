@@ -12,7 +12,7 @@ import { Alert, AlertTitle } from "@mui/material";
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#dd9d46',
+            main: '#E74C3c',
         },
         secondary: {
             main: '#a44704',
@@ -204,14 +204,14 @@ export default function Login(){
                                     }
                             /> */}
                             <Link to="/forgot-password" className="forgetpassword">
-                                <Typography>
+                                <Typography style={{ fontFamily: 'Montserrat, sans-serif'}}>
                                     Forgot password?
                                 </Typography>
                             </Link>
                             <Button 
                                 variant="contained" 
                                 type="submit" 
-                                color="primary"
+                                // color="primary"
                                 className="field"
                                 id="submit"
                                 onClick={handleSubmit}
