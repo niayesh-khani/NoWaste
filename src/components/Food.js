@@ -101,13 +101,20 @@ const Food = (props) => {
                         </Typography> */}
                         <Typography gutterBottom className='food-name-restaurant-view'>{food.name}</Typography>
                         <Typography variant="body2" color="text.secondary">{food.ingredients}</Typography>
+                        <hr className='food-hr'/>
                     </CardContent>
                     </CardActionArea>
                 <CardActions>
-                    <Typography className='food-price'>{parseInt(food.price)}</Typography>
-                    <button className='button__wrapper' onClick={handleRemoveFromCartClick}>-</button>
-                    <h4 onChnge={handleChange}>{count}</h4>
-                    <button className='button__wrapper' onClick={handleAddToCartClick}>+</button>
+                    <Grid container spacing={3.5} className='food-card-grid'>
+                        <Grid item>
+                            <Typography className='food-price'>${parseInt(food.price)}</Typography>
+                        </Grid>
+                        <Grid item lg={5} md={5} sm={5} className='count-buttons'>
+                            <button className='button__wrapper' onClick={handleRemoveFromCartClick}>-</button>
+                            <h5 onChange={handleChange}>{count}</h5>
+                            <button className='button__wrapper' onClick={handleAddToCartClick}>+</button>
+                        </Grid>
+                    </Grid>
                 </CardActions>
                 {/* <CardActions> */}
                     {/* <IconButton color="success" aria-label="add to shopping cart" onClick={handleAddToCartClick}>
