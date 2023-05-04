@@ -8,14 +8,14 @@ import { styled } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { ExpandMore, ExpandLess} from '@mui/icons-material';
-import { AccountCircle } from '@material-ui/icons';
+import { AccountCircle, Search } from '@material-ui/icons';
 import Masonry from 'react-masonry-css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Food from '../components/Food';
 import BackToTop from '../components/BackToTop';
 import Footer from '../components/Footer';
 import NavigationIcon from '@material-ui/icons/Navigation';
-import { Button, InputLabel, FormControl } from '@material-ui/core';
+import { Button, InputLabel, FormControl, Paper } from '@material-ui/core';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {useHistory } from "react-router-dom";
@@ -37,6 +37,7 @@ import "./HomepageCustomer.css";
 import RestaurantCard from '../components/RestaurantCard';
 import { Container, Row } from 'react-bootstrap';
 import StarRateIcon from '@mui/icons-material/StarRate';
+import {InputBase} from '@mui/material';
 
 const theme = createTheme({
     palette: {
@@ -99,6 +100,7 @@ const IOSSwitch = styled((props) => (
         }),
     },
     }));
+
 const useStyles = makeStyles({
     markLabel: {
         fontSize: '0.6rem !important',
@@ -140,12 +142,39 @@ const discountMarks = [
 function discountValueText(discountMarks) {
     return `${discountMarks}`;
 }
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: 'inherit',
+    '& .MuiInputBase-input': {
+        padding: theme.spacing(1, 1, 1, 0),
+        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+        width: '12ch',
+        '&:focus': {
+            width: '20ch',
+        },
+        },
+},
+}));
 const HomepageCustomer = () => {
     const [valueR, setValueR] = React.useState([0, 5]);
     const [valueD, setValueD] = React.useState([0, 100]);
     const [expandRating, setExpandRating] = React.useState(false);
     const [expandDiscount, setExpandDiscount] = React.useState(false);
     const [sort, setSort] = React.useState('');
+    const [search, setSearch] = useState('');                 
     const minDistance = 1;
     const classes = useStyles();
 
@@ -392,16 +421,28 @@ const HomepageCustomer = () => {
                     <Grid item md={9}>
                         <Grid container spacing={2}>
                             <Grid item md={9}>
-                                <div style={{marginTop: "110px"}}></div>
-                                {/* {Rs &&
-                                Rs.map((r, index) => (
-                                    <div key={index}  style={{ width: index % 3 === 0 ? '100%' : '' }}> */}
-                                        <RestaurantCard/>
-                                    {/* </div>
-                                ))} */}
+                                <Grid>
+                                <Paper
+                                    component="form"
+                                    className='search-homepage-customer'
+                                    sx={{ p: '2px 4px'}}
+                                    >
+                                    <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                                        <SearchIcon />
+                                    </IconButton>
+                                    <InputBase
+                                        sx={{ ml: 1, flex: 1 }}
+                                        placeholder="Search"
+                                        inputProps={{ 'aria-label': 'search' }}
+                                    />
+                                </Paper>
+                                </Grid>
+                                <Grid>
+                                <RestaurantCard/>
+                                </Grid>
                             </Grid>
                             <Grid item md={3}>
-                            <FormControl className='formcontrol-sorting'style={{width: "100%"}}>
+                            <FormControl className='formcontrol-sorting'style={{width: "80%"}}>
                                 <TextField
                                     select
                                     label="Sort"
@@ -410,7 +451,7 @@ const HomepageCustomer = () => {
                                     value={sort}
                                     // InputLabelProps={{ shrink: true }}
                                     // style= {{textAlign: 'left', width:'100%'}}
-                                    style={{width: '100%'}}
+                                    style={{width: '70%', marginLeft: '35%'}}
                                     onChange={handleChange}
                                         >
                                 <MenuItem onClick={handleClickNewest} value="Item1">Newest</MenuItem>

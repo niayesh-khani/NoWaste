@@ -32,16 +32,24 @@ import { ExpandMore } from '@mui/icons-material';
 import CardActionArea from '@mui/material/CardActionArea';
 import Icon from '@mui/material/Icon';
 import DiscountIcon from '@mui/icons-material/Discount';
-import StarIcon from '@mui/icons-material/Star';
+import StarRateIcon from '@mui/icons-material/StarRate';
+
 
 const RestaurantCard = () => {
     const history = useHistory();
     const [rateValue, setRateValue] = React.useState(2.5);
+    const userId = localStorage.getItem("id");
     const handleclick = () => {
+
     }
+
+    const handleShow = () => {
+        history.push("http://5.34.195.16/restaurant/restaurant_view/" + userId);
+    }
+
     return ( 
         <div>
-        <Card sx={{ borderRadius: 2 }} className= 'homepage-custumer-card-restaurant'>
+        <Card sx={{ borderRadius: 4 }} className= 'homepage-custumer-card-restaurant' onClick={handleShow}>
             <CardActionArea>
                 <CardMedia
                     component="img"
@@ -50,28 +58,22 @@ const RestaurantCard = () => {
                     // title={food.Type}
                 />
                 <CardContent sx={{ height: 150}}>
-                    <Grid><Typography gutterBottom className='restaurant-name-hemepage-customer'>Piano Restaurant </Typography>
-                    {/* <Rating style={{fontSize: 'large', marginTop:"3px"}} readOnly value={rateValue}/> */}
-                    {/* <Chip icon={<StarIcon />} sx={{ color: 'warning.main' }} className='star'/>4.5 */}
-                    <Chip icon={<StarIcon/>} sx={{ color: yellow[500] }} className='homepage-customer-icone'/>4.5</Grid>
-                    <div><Chip icon={<DiscountIcon />} />60%</div>
-                    <Typography variant="body2" color="text.secondary">This is a best restaurant in Narmak that you can order everything you want.</Typography>
+                    <Grid>
+                        <Typography gutterBottom className='restaurant-name-hemepage-customer'>Piano Restaurant
+                            <Typography style={{marginLeft: '75%', marginTop: '-10%'}}>
+                                {rateValue}
+                                <StarRateIcon style={{ color: '#faaf00', marginTop: '-10%'}} />
+                            </Typography>
+                        </Typography>
+                    </Grid>
+                    <Typography variant="description-homepage-customer" color="text.secondary">This is a best restaurant in Narmak that you can order everything you want.</Typography>
                 </CardContent>
-
-         
-
-                
                 </CardActionArea>
             <CardActions>
-                {/* <Typography className='homepage-custumer-resutaurant-price'>99</Typography> */}
-                
             </CardActions>
         </Card>
     </div>
-
-
-        
-   );
+    );
 }
 
 export default RestaurantCard;

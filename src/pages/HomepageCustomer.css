@@ -99,3 +99,12 @@
     border-radius: 70px !important;
     width: 70% !important;
 }
+
+.search-homepage-customer {
+    border-radius: 4px;
+    width: 80%;
+    margin-left: 5%;
+    height: 85%;
+    align-items: center;
+    display: flex;
+}

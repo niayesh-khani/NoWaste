@@ -1,8 +1,10 @@
 .homepage-custumer-card-restaurant {
-    /* width: 86%; */
+    width: 35%;
     height: auto;
     position: relative !important;
     margin-bottom: 10%;
+    margin-top: 5%;
+    margin-left: 5%;
     margin-right: 50%;
     overflow: hidden;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px !important;
@@ -17,66 +19,31 @@
     font-weight: bolder !important;
     font-family: 'Montserrat', sans-serif !important;
 }
-.homepage-custumer-resutaurant-price{
-    padding: 10px;
-    color: #ffa600;
-    font-size: 0.9em !important;
-    font-weight: bold !important;
-    font-family: 'Montserrat', sans-serif !important;
-    margin-left: -0.5% !important;
-    margin-right: 38% !important;
 
-}
 h4
 {
     width: 1.7rem;
     text-align: center;
 }
-.button__wrapper {
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    gap: 0.5rem;
-    border: none;
-    background-color: white;
-    box-shadow: 0px 0px 10px #ccc;
-    font-weight: bold;
-    font-size: 1rem;
-    color: inherit;
-    border-radius: 50%;
-    outline: none;
-    height: 1.8rem;
-    width: 1.8rem;
-    cursor: pointer;
-    transition: background-color 250ms ease-in-out, transform 50ms ease-in-out;
-    margin-left: 0% !important;
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
   }
-  
-  .button__wrapper:hover {
-    background-color: #ccc;
+  50% {
+    transform: scale(1.2);
   }
-  
-  .button__wrapper:active {
-    transform: scale(0.9);
-  }
-  
-  .button__wrapper:focus {
-    box-shadow: 0 0 0 2px #9999995c;
-  }
-    
-  @keyframes pulse {
-    0%, 100% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.2);
-    }
-  }
-.css-w66kx-MuiChip-root{
-    background-color: rgba(0, 0, 0, 0) !important;
 }
 
-.homepage-customer-icone{
+.homepage-customer-icon{
     background-color: rgba(0, 0, 0, 0) !important;
+    margin-left: 25%;
+    margin-right: 0%;
+  }
+
+.description-homepage-customer {
+  display: flex;
+  position: relative;
 }
+
 
