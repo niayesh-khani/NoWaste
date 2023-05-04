@@ -5,7 +5,6 @@ import './Restaurant-View.css';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { styled } from '@mui/material/styles';
-import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { ExpandMore, ExpandLess} from '@mui/icons-material';
 import { AccountCircle, Search } from '@material-ui/icons';
@@ -178,6 +177,74 @@ const HomepageCustomer = () => {
     const minDistance = 1;
     const classes = useStyles();
 
+    const [nameList, setNameList] = useState([]);       //
+    const [mysearch, setMySearch] = useState('');                 
+    useEffect(() => {
+        if (mysearch) {
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?search=${mysearch}`)
+            .then((response) => {
+            console.log(response.data);
+            setNameList(response.data);
+            })
+            .catch((error) => {
+            console.log(error.response);
+            });
+        }
+    }, [mysearch]);
+    const handleClickSearch = (e) => {                   //
+        setMySearch(e.target.value);
+        console.log('search: ');
+    };
+
+    const handleClickFilterRate = () => {
+        const fromR = valueR[0].toFixed(1);
+        const toR = valueR[1].toFixed(1);
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?rate__gt=${fromR}&rate__lt=${toR}`)
+            .then((response) => {
+                
+                console.log(response.data);
+                setNameList(response.data);
+            })
+            .catch((error) => {
+                console.log(error.response);
+            });
+        };
+
+        const handleClickFilterDiscount = () => {
+            const fromD = valueD[0]*0.01;
+            const toD = valueD[1]*0.01;
+            axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}`)
+                .then((response) => {
+                    console.log(response.data);
+                    setNameList(response.data);
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
+            };
+
+            const handleClickApplyFilter = () => {
+                const fromR = valueR[0].toFixed(1);
+                const toR = valueR[1].toFixed(1);
+                const fromD = valueD[0] * 0.01;
+                const toD = valueD[1] * 0.01;
+                axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&rate__lt=${toR}&rate__gt=${fromR}`)
+                .then((response) => {
+                    console.log("toD" + toD);
+                    console.log("fromD" + fromD);
+                    console.log("toR" + toR);
+                    console.log("formR" + fromR);
+                    console.log(response.data);
+                    setNameList(response.data);
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
+                }; 
+                
+                
+    
+
     const handleChange = (event) => {
         setSort(event.target.value);
     };
@@ -309,6 +376,7 @@ const HomepageCustomer = () => {
                                                 marks={rateMarks}
                                                 value={valueR}
                                                 onChange={handleChangeRate}
+                                                ////
                                                 max={5}
                                                 step={0.1}
                                                 className="range-homepage-customer"
@@ -413,7 +481,10 @@ const HomepageCustomer = () => {
                                     />
                                 </Grid>
                             </Grid>
-                            <Button className='submit'>
+                            {/* <Button className='submit' onClick={handleClickFilterRate} >
+                                Apply
+                            </Button> */}
+                            <Button className='submit' onClick={handleClickApplyFilter} >
                                 Apply
                             </Button>
                         </Box>
@@ -434,6 +505,7 @@ const HomepageCustomer = () => {
                                         sx={{ ml: 1, flex: 1 }}
                                         placeholder="Search"
                                         inputProps={{ 'aria-label': 'search' }}
+                                        onChange={handleClickSearch}        //
                                     />
                                 </Paper>
                                 </Grid>
