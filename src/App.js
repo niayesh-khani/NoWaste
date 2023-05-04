@@ -34,11 +34,11 @@ function App() {
     //     </div>
     //   ) : (
       <Router>
-          <Route exact path="/sign-up">
+          <Route path="/sign-up">
             <SignUp />
           </Route>
           <Route path="/login">
-            <Routing/>
+            <Login/>
           </Route>
           <Route path='/forgot-password'>
             <ForgotPass />
@@ -52,7 +52,7 @@ function App() {
           <Route exact path="/homepage">
             <HomePage />
           </Route>
-          <Route path="/landing">
+          <Route exact path="/">
             <Landing/>
           </Route>
           <Route path="/restaurant-view/:id">

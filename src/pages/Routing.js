@@ -6,15 +6,16 @@ import Login from "./Login";
 
 export default function Routing(){
     const history = useHistory();
-    console.log(JSON.parse(localStorage.getItem("token")));
-    if(JSON.parse(localStorage.getItem("token")) !== '')
-    {
-        history.push("/homepage");
-        return(<HomePage />);
-    }
-    else
+    // console.log(JSON.parse(localStorage.getItem("token")));
+    const token = localStorage.getItem("token")
+    if(token === '' || token === 'undefined' || token == null)
     {
         history.push("/login");
         return(<Login />);
+    }
+    else
+    {
+        history.push("/homepage");
+        return(<HomePage />);
     }
 };
