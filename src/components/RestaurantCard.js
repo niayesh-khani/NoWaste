@@ -39,6 +39,7 @@ const RestaurantCard = () => {
     const history = useHistory();
     const [rateValue, setRateValue] = React.useState(2.5);
     const userId = localStorage.getItem("id");
+    const [discount, setDiscount] = useState(20);
     const handleclick = () => {
 
     }
@@ -49,20 +50,33 @@ const RestaurantCard = () => {
 
     return ( 
         <div>
-        <Card sx={{ borderRadius: 4 }} className= 'homepage-custumer-card-restaurant' onClick={handleShow}>
+        <Card className= 'homepage-custumer-card-restaurant' onClick={handleShow}>
             <CardActionArea>
+            <div style={{ position: 'relative' }}>
+
                 <CardMedia
                     component="img"
                     sx={{ height: 140 }}
                     image="/mohsen.jpg"
                     // title={food.Type}
                 />
+                <div style={{
+                position: 'absolute',
+                top: '0',
+                left: '0',
+                backgroundColor: '#E74C3C',
+                color: 'white',
+                padding: '5px'
+                }}>
+                    {discount + "%"}
+                </div>
+                </div>
                 <CardContent sx={{ height: 150}}>
                     <Grid>
                         <Typography gutterBottom className='restaurant-name-hemepage-customer'>Piano Restaurant
-                            <Typography style={{marginLeft: '75%', marginTop: '-10%'}}>
+                            <Typography style={{marginLeft: '75%', marginTop: '-11%', fontSize: '1.1em'}}>
                                 {rateValue}
-                                <StarRateIcon style={{ color: '#faaf00', marginTop: '-10%'}} />
+                                <StarRateIcon style={{ color: '#faaf00', marginTop: '-11%'}} />
                             </Typography>
                         </Typography>
                     </Grid>
