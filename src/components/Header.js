@@ -70,25 +70,25 @@ const Header = React.memo(() => {
         setAnchorEl(null);
     };
 
-    const [nameList, setNameList] = useState([]);       //
-    const [search, setSearch] = useState('');                 
-    useEffect(() => {
-        if (search) {
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?search=${search}`)
-            .then((response) => {
-            console.log(response.data);
-            setNameList(response.data);
-            })
-            .catch((error) => {
-            console.log(error.response);
-            });
-        }
-    }, [search]);
+    // const [nameList, setNameList] = useState([]);       //
+    // const [search, setSearch] = useState('');                 
+    // useEffect(() => {
+    //     if (search) {
+    //     axios.get(`http://5.34.195.16/restaurant/restaurant-search/?search=${search}`)
+    //         .then((response) => {
+    //         console.log(response.data);
+    //         setNameList(response.data);
+    //         })
+    //         .catch((error) => {
+    //         console.log(error.response);
+    //         });
+    //     }
+    // }, [search]);
 
-    const handleChange = (e) => {
-        setSearch(e.target.value);
-        console.log('search: ' + search);
-    };
+    // const handleChange = (e) => {
+    //     setSearch(e.target.value);
+    //     console.log('search: ' + search);
+    // };
 
     return ( 
         <>
@@ -106,7 +106,7 @@ const Header = React.memo(() => {
                     <StyledInputBase
                         placeholder="Search…"
                         inputProps={{ 'aria-label': 'search' }}
-                        onChange={handleChange}
+                        // onChange={handleChange}
                     />
                 </Search>
                 {auth && (
