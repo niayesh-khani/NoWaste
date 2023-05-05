@@ -122,15 +122,17 @@ export default function Login(){
                 if (error.response) {
                     console.log(error.response);
                     console.log("server responded");
+                    setOpen(true);
+                    console.log(error);
                 } 
                 else if (error.request) {
                     setOpenNetwork(true);
                     console.log("network error");
                 } 
-                else {
-                    setOpen(true);
-                    console.log(error);
-                }
+                // else {
+                //     setOpen(true);
+                //     console.log(error);
+                // }
             });
         };
     
