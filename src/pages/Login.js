@@ -1,18 +1,17 @@
-import { Box, Button, Container, createTheme, FormControlLabel, Icon, IconButton, InputAdornment, TextField, ThemeProvider, Typography } from "@material-ui/core";
+import { Box, Button, Container, createTheme, Icon, IconButton, InputAdornment, TextField, ThemeProvider, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material"
 import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
 import { Link, useHistory } from "react-router-dom";
-import Checkbox from '@mui/material/Checkbox';
 import axios from "axios";
 import './Login-Signup.css'
-import { Alert, AlertTitle } from "@mui/material";
+import { Alert } from "@mui/material";
 
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#dd9d46',
+            main: '#E74C3c',
         },
         secondary: {
             main: '#a44704',
@@ -39,6 +38,7 @@ export default function Login(){
     const [showPassword, setShowPassword] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
     const [open, setOpen] = useState(null);
+    const [openNetwork, setOpenNetwork] = useState(null);
     
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -89,10 +89,17 @@ export default function Login(){
         setOpen(false);
         setHeight();
     }
+    const handleCloseNetwork = () => {
+        setOpenNetwork(false);
+        setHeight();
+    }
 
     useEffect(() => {
         setHeight();
     }, [open]);
+    useEffect(() => {
+        setHeight();
+    }, [openNetwork]);
 
     const history = useHistory();
     const handleSubmit = (e) => {
@@ -109,20 +116,23 @@ export default function Login(){
                 setId(response.data.id);
                 console.log(token);
                 console.log(id);
-                history.push("/homepage");
+                history.push("/homepage-customer");
             })
             .catch((error) => {
-                setOpen(true);
                 if (error.response) {
                     console.log(error.response);
                     console.log("server responded");
+                    setOpen(true);
+                    console.log(error);
                 } 
                 else if (error.request) {
+                    setOpenNetwork(true);
                     console.log("network error");
                 } 
-                else {
-                    console.log(error);
-                }
+                // else {
+                //     setOpen(true);
+                //     console.log(error);
+                // }
             });
         };
     
@@ -137,17 +147,21 @@ export default function Login(){
                         borderRadius="25px"
                     />
                     <Box className="box">
-                        <Typography variant="h4" 
+                        <Typography variant="h5" 
                             color="textPrimary"
                             gutterBottom
                             className="text"
-                            style={{textAlign: 'center', marginTop: '10%', marginBottom: '10%', fontWeight: 'bold'}}
+                            style={{fontWeight: 'bold', fontSize: '30px'}}
                         >
                             Login 
                         </Typography>
                         <form noValidate autoComplete="off" style={{textAlign: 'center'}}>
                             {open && <Alert severity="error" open={open} onClose={handleClose} variant="outlined" className="alert-error filed">
                                     Incorrect email address or password!
+                                </Alert>
+                            } 
+                            {openNetwork && <Alert severity="error" open={openNetwork} onClose={handleCloseNetwork} variant="outlined" className="alert-error filed">
+                                    Network error!
                                 </Alert>
                             } 
                             <TextField 
@@ -211,14 +225,14 @@ export default function Login(){
                                     }
                             /> */}
                             <Link to="/forgot-password" className="forgetpassword">
-                                <Typography>
+                                <Typography style={{ fontFamily: 'Montserrat, sans-serif'}}>
                                     Forgot password?
                                 </Typography>
                             </Link>
                             <Button 
                                 variant="contained" 
                                 type="submit" 
-                                color="primary"
+                                // color="primary"
                                 className="field"
                                 id="submit"
                                 onClick={handleSubmit}

@@ -1,9 +1,7 @@
-import { Box, Button, Container, createTheme, Icon, IconButton, InputAdornment, TextField, ThemeProvider, Typography } from "@material-ui/core";
+import { Box, Button, Container, createTheme, Icon, InputAdornment, TextField, ThemeProvider, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import CodeIcon from '@mui/icons-material/Code';
-import { Link } from "react-router-dom";
 import './Login-Signup.css'
-import { tr } from "date-fns/locale";
 import axios from "axios";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { Alert } from "@mui/material";
@@ -37,6 +35,7 @@ export default function Verification(){
     const [email, setEmail] = useState([]);
     const [validInputs, setValidInputs] = useState(false);
     const [open, setOpen] = useState(null);
+    const [openNetwork, setOpenNetwork] = useState(null);
 
 
     const handleCode = (e) => {
@@ -64,9 +63,18 @@ export default function Verification(){
         setOpen(false);
     }
 
+    const handleCloseNetwork = () => {
+        setOpenNetwork(false);
+        setHeight();
+    }
+
     useEffect(() => {
         setHeight();
     }, [open]);
+
+    useEffect(() => {
+        setHeight();
+    }, [openNetwork]);
 
     const history = useHistory();
 
@@ -102,21 +110,24 @@ export default function Verification(){
         axios.post("http://5.34.195.16/user/verify-email/", userData, {headers:{"Content-Type" : "application/json"}})
         .then((response) => {
             console.log(response);
-            history.push("/homepage");
+            history.push("/homepage-customer");
         })
         .catch((error) => {
-            setOpen(true);
             if (error.response) {
                 console.log(error.response);
                 console.log("server responded");
+                setOpen(true);
+                console.log(error);
             } 
             else if (error.request) {
+                setOpenNetwork(true);
                 console.log("network error");
                 console.log(error);
             } 
-            else {
-                console.log(error);
-            }
+            // else {
+            //     setOpen(true);
+            //     console.log(error);
+            // }
         });
     };
 
@@ -130,11 +141,11 @@ export default function Verification(){
                         alt="NoWaste"
                     />
                     <Box className="box">
-                        <Typography variant="h4" 
+                        <Typography variant="h5" 
                             color="textPrimary"
                             gutterBottom
                             className="text"
-                            style={{fontWeight: 'bold'}}
+                            style={{fontWeight: 'bold', fontSize: '30px'}}
                         >
                             Verification
                         </Typography>
@@ -149,6 +160,10 @@ export default function Verification(){
                                     Incorrect code!
                                 </Alert>
                             }
+                            {openNetwork && <Alert severity="error" open={openNetwork} onClose={handleCloseNetwork} variant="outlined" className="alert-error filed">
+                                    Network error!
+                                </Alert>
+                            } 
                             <TextField 
                                 label="Code"
                                 variant="outlined"

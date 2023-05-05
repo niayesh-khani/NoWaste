@@ -4,8 +4,9 @@ import {useHistory } from "react-router-dom";
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { AccountCircle } from '@material-ui/icons';
-import { useState } from 'react';
 import '../components/Header.css';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 
 const Header = React.memo(() => {
@@ -65,9 +66,29 @@ const Header = React.memo(() => {
             setAnchorEl(event.currentTarget);
         };
     
-        const handleClose = () => {
-            setAnchorEl(null);
-        };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    // const [nameList, setNameList] = useState([]);       //
+    // const [search, setSearch] = useState('');                 
+    // useEffect(() => {
+    //     if (search) {
+    //     axios.get(`http://5.34.195.16/restaurant/restaurant-search/?search=${search}`)
+    //         .then((response) => {
+    //         console.log(response.data);
+    //         setNameList(response.data);
+    //         })
+    //         .catch((error) => {
+    //         console.log(error.response);
+    //         });
+    //     }
+    // }, [search]);
+
+    // const handleChange = (e) => {
+    //     setSearch(e.target.value);
+    //     console.log('search: ' + search);
+    // };
 
     return ( 
         <>
@@ -85,6 +106,7 @@ const Header = React.memo(() => {
                     <StyledInputBase
                         placeholder="Search…"
                         inputProps={{ 'aria-label': 'search' }}
+                        // onChange={handleChange}
                     />
                 </Search>
                 {auth && (

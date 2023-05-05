@@ -1,12 +1,11 @@
-import { Box, Button, Container, createTheme, Icon, IconButton, InputAdornment, TextField, ThemeProvider, Typography } from "@material-ui/core";
+import { Box, Button, Container, createTheme, Icon, InputAdornment, TextField, ThemeProvider, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { Password, Visibility, VisibilityOff } from "@mui/icons-material"
-import SyncLockIcon from '@mui/icons-material/SyncLock';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
-import { Link, useHistory } from "react-router-dom";
+import {useHistory } from "react-router-dom";
 import './Login-Signup.css'
 import axios from "axios";
+import { Alert } from "@mui/material";
 
 const theme = createTheme({
     palette: {
@@ -37,6 +36,7 @@ export default function NewPassword(){
     const [passwordMatch, setPasswordMatch] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
+    const [openNetwork, setOpenNetwork] = useState(null);
 
     const handleChangePassword = (e) => {
         setPassword(e.target.value);
@@ -50,6 +50,10 @@ export default function NewPassword(){
         const value = e.target.value;
         setConfirmPassword(value);
     };
+    const handleCloseNetwork = () => {
+        setOpenNetwork(false);
+        setHeight();
+    }
     const handleSubmit = (e) => {
         e.preventDefault();
         const userData = {
@@ -69,6 +73,7 @@ export default function NewPassword(){
                 console.log("server responded");
             } 
             else if (error.request) {
+                setOpenNetwork(true);
                 console.log("network error");
             } 
             else {
@@ -79,6 +84,9 @@ export default function NewPassword(){
     useEffect(() => {
         setPasswordMatch(password === confirmPassword);
     }, [confirmPassword]);
+    useEffect(() => {
+        setHeight();
+    }, [openNetwork]);
 
     useEffect(() => {
         let isValid = !passwordError && passwordMatch && password.trim().length > 0 && confirmPassword.trim().length > 0;
@@ -127,6 +135,10 @@ export default function NewPassword(){
                             Reset your password
                         </Typography>
                         <form noValidate autoComplete="off" style={{textAlign: 'center'}}>
+                            {openNetwork && <Alert severity="error" open={openNetwork} onClose={handleCloseNetwork} variant="outlined" className="alert-error filed">
+                                    Network error!
+                                </Alert>
+                            } 
                             <TextField 
                                     label="New password"
                                     variant="outlined"
