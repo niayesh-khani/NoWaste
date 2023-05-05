@@ -141,11 +141,11 @@ export default function Verification(){
                         alt="NoWaste"
                     />
                     <Box className="box">
-                        <Typography variant="h4" 
+                        <Typography variant="h5" 
                             color="textPrimary"
                             gutterBottom
                             className="text"
-                            style={{fontWeight: 'bold', fontSize: '30px', textAlign: 'center'}}
+                            style={{fontWeight: 'bold', fontSize: '30px'}}
                         >
                             Verification
                         </Typography>
