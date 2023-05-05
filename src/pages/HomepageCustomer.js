@@ -26,7 +26,6 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import ShowComment from '../components/ShowComment';
 import { useEffect } from 'react';
 import { react } from '@babel/types';
 import { Collapse, Grid, MenuItem, TextField, createTheme } from '@mui/material';
@@ -264,7 +263,7 @@ const HomepageCustomer = () => {
     return ( 
         <ThemeProvider theme={theme}>
             <Header />
-            <Grid container spacing={2} sx={{ paddingTop:"2%" }} className='grid-homepage-customer'>
+            <Grid container spacing={2} sx={{ paddingBottom:"1%"}} className='grid-homepage-customer'>
                 <Grid item md={3}>
                     <Box className="filter-hompage-customer">
                         <Typography variant='h5'> 
@@ -426,8 +425,9 @@ const HomepageCustomer = () => {
                                     component="form"
                                     className='search-homepage-customer'
                                     sx={{ p: '2px 4px'}}
+                                    variant='outlined'
                                     >
-                                    <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                                    <IconButton type="button" sx={{ p: '15px'}} aria-label="search">
                                         <SearchIcon />
                                     </IconButton>
                                     <InputBase
@@ -442,7 +442,7 @@ const HomepageCustomer = () => {
                                 </Grid>
                             </Grid>
                             <Grid item md={3}>
-                            <FormControl className='formcontrol-sorting'style={{width: "80%"}}>
+                            <FormControl className='formcontrol-sorting'style={{width: "80%", height: "50%"}}>
                                 <TextField
                                     select
                                     label="Sort"
@@ -451,7 +451,7 @@ const HomepageCustomer = () => {
                                     value={sort}
                                     // InputLabelProps={{ shrink: true }}
                                     // style= {{textAlign: 'left', width:'100%'}}
-                                    style={{width: '70%', marginLeft: '35%'}}
+                                    style={{width: '70%', marginLeft: '35%', backgroundColor: "rgba(117, 115, 111, 0.05)"}}
                                     onChange={handleChange}
                                         >
                                 <MenuItem onClick={handleClickNewest} value="Item1">Newest</MenuItem>

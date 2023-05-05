@@ -6,9 +6,10 @@
     justify-content: space-between;
     align-items: center;
     /* text-align: left; */
-    border-radius: 10px;
+    border-radius: 13px;
     border: 1px solid rgb(202, 196, 195);
     flex-direction: column;
+    background-color: rgba(117, 115, 111, 0.05);
 }
 .hr-tag {
     width: 90%;
@@ -19,7 +20,7 @@
 }
 .grid-homepage-customer {
     width: 100% !important;
-    margin-top: 3% !important;
+    margin-top: 2% !important;
     padding-left: 5%;
     padding-right: 5%;
 }
@@ -54,26 +55,11 @@
     /* margin: 2% auto 2% auto !important; */
 }
 
-/* .formcontrol-sorting {
-    width: 20%;
-    border-radius: 10px;
-    border: 1px solid rgb(202, 196, 195);
-    margin: auto;
-    margin-left: 20%;
-}
- */
-.inputlabel-sorting {
-    /* justify-content: center;
-    align-items: center; */
-}
 #grid-margin{
     margin-top: -20px !important;
     margin-bottom: -10px;
 }
 
-.MuiPaper-root {
-    /* color: white !important; */
-}
 #details {
     font-size: 12px !important;
     margin-top: -10px !important;
@@ -107,4 +93,5 @@
     height: 85%;
     align-items: center;
     display: flex;
+    background-color: rgba(117, 115, 111, 0.05) !important;
 }

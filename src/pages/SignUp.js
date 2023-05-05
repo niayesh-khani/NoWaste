@@ -8,6 +8,8 @@ import './Login-Signup.css';
 import axios from "axios";
 import Checkbox from '@mui/material/Checkbox';
 import { SpinningBubbles } from "react-loading";
+import { Alert} from "@mui/material";
+
 
 const theme = createTheme({
     palette: {
@@ -43,8 +45,9 @@ export default function SignUp(){
     const [passwordMatch, setPasswordMatch] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
-
     const [loading, setLoading] = useState(true);
+    const [open, setOpen] = useState(null);
+    const [openNetwork, setOpenNetwork] = useState(null);
 
     useEffect(() => {
       window.addEventListener("load", () => {
@@ -84,6 +87,15 @@ export default function SignUp(){
         setConfirmPassword(value);
     };
 
+        const handleClose = () => {
+        setOpen(false);
+        setHeight();
+    }
+    const handleCloseNetwork = () => {
+        setOpenNetwork(false);
+        setHeight();
+    }
+
     useEffect(() => {
         setPasswordMatch(password === confirmPassword);
     }, [password, confirmPassword]);
@@ -112,6 +124,13 @@ export default function SignUp(){
             window.onpopstate = null;
         };
     }, []);
+
+    useEffect(() => {
+        setHeight();
+    }, [open]);
+    useEffect(() => {
+        setHeight();
+    }, [openNetwork]);
     
     const history = useHistory();
     const handleSubmit = (e) => {
@@ -131,9 +150,11 @@ export default function SignUp(){
             console.log("server responded");
             } 
             else if (error.request) {
+            setOpenNetwork(true);
             console.log("network error");
             } 
             else {
+            setOpen(true);
             console.log(error);
             }
         });
@@ -165,6 +186,14 @@ export default function SignUp(){
                             Sign Up 
                         </Typography>
                         <form noValidate autoComplete="off" style={{textAlign: 'center'}}>
+                            {open && <Alert severity="error" open={open} onClose={handleClose} variant="outlined" className="alert-error filed">
+                                    Email is invalid or already taken!
+                                </Alert>
+                            } 
+                            {openNetwork && <Alert severity="error" open={openNetwork} onClose={handleCloseNetwork} variant="outlined" className="alert-error filed">
+                                    Network error!
+                                </Alert>
+                            } 
                             <TextField 
                                 className="field"
                                 label="Full name"
