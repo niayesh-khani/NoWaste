@@ -55,4 +55,16 @@
   #comment-submit:hover::before {
     width: 100%;
   }
-  
+.title-show-comments{
+  margin-top: -3% ;
+}  
+
+.comment-date{
+  font-size: 69%;
+  margin-bottom: -1%;
+}
+
+.close-comment{
+  background-color: #000000 !important;
+  color: white !important;
+}

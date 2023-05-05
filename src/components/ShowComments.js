@@ -54,19 +54,30 @@ export default function ShowComments() {
                 >
                     <Box sx={style} className="comment-box">
                         {/* <Avatar></Avatar> */}
+                        <h2 className='title-show-comments'>User comments</h2>
                         <Typography className='comment-title' id="modal-modal-title" variant="h6" component="h2" >
                             Ali
                         </Typography>
+                        <h6 className='comment-date'>2020-04-03</h6>
                         <Typography  className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
                             It was very delicious. Thank you!
                         </Typography>
-
+                        <hr></hr>
                         <Typography className='comment-title' id="modal-modal-title" variant="h6" component="h2">
                             Negin
                         </Typography>
+                        <h6 className='comment-date'>2016-02-11</h6>
                         <Typography className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
                             Not bad. I suggest.
                         </Typography>
+                        <hr></hr>
+                        <Button 
+                            onClick={handleClose} 
+                            variant="contained"
+                            className='close-comment'
+                        >
+                            Close
+                        </Button>
                     </Box>
                 </Modal>
             </div>
