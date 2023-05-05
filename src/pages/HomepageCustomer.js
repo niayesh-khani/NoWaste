@@ -497,7 +497,7 @@ const HomepageCustomer = () => {
                                     className='search-homepage-customer'
                                     sx={{ p: '2px 4px'}}
                                     >
-                                    <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                                    <IconButton type="button" sx={{ p: '15px' }} aria-label="search">
                                         <SearchIcon />
                                     </IconButton>
                                     <InputBase

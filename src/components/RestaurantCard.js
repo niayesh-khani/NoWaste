@@ -72,9 +72,9 @@ const RestaurantCard = () => {
                 <CardContent sx={{ height: 130}}>
                     <Grid>
                         <Typography gutterBottom className='restaurant-name-hemepage-customer'>Piano Restaurant
-                            <Typography style={{marginLeft: '75%', marginTop: '-13%', fontSize: '1em'}}>
+                            <Typography style={{marginLeft: '75%', marginTop: '-10%', fontSize: '1em'}}>
                                 {rateValue}
-                                <StarRateIcon className='startIcon-homepage' style={{ color: '#faaf00', marginTop: "2"}} />
+                                <StarRateIcon className='startIcon-homepage' style={{ color: '#faaf00', marginTop: "-11%"}} />
                             </Typography>
                         </Typography>
                     </Grid>
