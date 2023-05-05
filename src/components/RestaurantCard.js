@@ -24,7 +24,6 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import ShowComment from '../components/ShowComment';
 import { useEffect } from 'react';
 import { react } from '@babel/types';
 import { Avatar, BottomNavigation, BottomNavigationAction, CardActions, CardContent, CardHeader, CardMedia, Chip, Collapse, Grid, Rating } from '@mui/material';

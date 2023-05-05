@@ -6,8 +6,9 @@ import Login from "./Login";
 
 export default function Routing(){
     const history = useHistory();
-    console.log(JSON.parse(localStorage.getItem("token")));
-    if(JSON.parse(localStorage.getItem("token")) !== '')
+    // console.log(JSON.parse(localStorage.getItem("token")));
+    const token = localStorage.getItem("token");
+    if(token == null || token === "" || token === 'undefined')
     {
         history.push("/homepage");
         return(<HomePage />);
