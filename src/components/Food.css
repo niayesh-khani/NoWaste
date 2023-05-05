@@ -15,22 +15,39 @@
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(187, 32, 32, 0.585) 0px 8px 16px -8px !important;
 
 }
+.food-card-grid{
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    margin-top: 1px !important;
+    font-family: 'Montserrat', sans-serif !important;
+}
 .food-name-restaurant-view {
     font-size: 0.95em !important;
     font-weight: bolder !important;
     font-family: 'Montserrat', sans-serif !important;
 }
+.food-hr{
+    width: 90% !important;
+    margin-top: 10px !important;
+}
+.count-buttons{
+    display: flex;
+    align-items: center;
+}
 .food-price{
     padding: 10px;
-    color: #ffa600;
+    /* color: #ffa600; */
+    color: #e74c3c;
     font-size: 0.9em !important;
     font-weight: bold !important;
     font-family: 'Montserrat', sans-serif !important;
     margin-left: -0.5 !important;
     margin-right: 38% !important;
+    margin-top: auto !important;
 
 }
-h4
+h5
 {
     width: 1.7rem;
     text-align: center;
@@ -39,12 +56,12 @@ h4
     align-items: center;
     justify-content: center;
     display: flex;
-    gap: 0.5rem;
     border: none;
     background-color: white;
     box-shadow: 0px 0px 10px #ccc;
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 1.2rem;
+    font-family: 'Montserrat', sans-serif !important;
     color: inherit;
     border-radius: 50%;
     outline: none;
@@ -52,7 +69,6 @@ h4
     width: 1.8rem;
     cursor: pointer;
     transition: background-color 250ms ease-in-out, transform 50ms ease-in-out;
-    margin-left: 0% !important;
   }
   
   .button__wrapper:hover {

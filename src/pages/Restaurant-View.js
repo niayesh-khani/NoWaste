@@ -126,7 +126,7 @@ const RestaurantView = (props: Props) =>
     }
 
     React.useEffect(() => {
-        axios.get("https://nowaste39.pythonanywhere.com/restaurant/restaurant_view/" + id + '/')
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/" + id + '/')
         .then((response) => {
             console.log(response);
             setRestaurant(response.data);
@@ -146,7 +146,7 @@ const RestaurantView = (props: Props) =>
             email: email
             };
             console.log(userData);
-            axios.post("http://nowaste39.pythonanywhere.com/user/favorite-restaurant/", userData, {headers:{"Content-Type" : "application/json"}})
+            axios.post("http://5.34.195.16/user/favorite-restaurant/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
             })
@@ -200,47 +200,42 @@ const RestaurantView = (props: Props) =>
         }}>
             <MU.Grid item md={3}>
                 <MU.Card sx={{ borderStyle: 'none'}} className='card-restaurant-view'>
-                    <MU.Grid container spacing={1} alignItems="center" >
-                    <MU.Grid item>
-                        <MU.CardHeader className="restaurant-header"
-                                avatar={
-                                    <MU.Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                    {restaurant?.name ? restaurant.name.charAt(0) : "UD"}
-                                    </MU.Avatar>
-                                }
-                                title= {restaurant.name}
-                                subheader={restaurant.date_of_establishment}
-                                >
-                        </MU.CardHeader>
+                    <MU.Grid container spacing={2} className='restaurant-card-grid'>
+                        <MU.Grid item>
+                            <MU.CardHeader className="restaurant-header"
+                                    avatar={
+                                        <MU.Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                        {restaurant?.name ? restaurant.name.charAt(0) : "UD"}
+                                        </MU.Avatar>
+                                    }
+                                    title= {restaurant.name}
+                                    subheader={restaurant.date_of_establishment}
+                                    >
+                            </MU.CardHeader>
                         </MU.Grid>
-                        <MU.Grid item sx={{
-                            marginLeft:"12%"
-                        }}>
-
-                        <MU.BottomNavigation>
-                            <MU.BottomNavigationAction 
-                                value="favorites"
-                                icon={
-                                color ? 
-                                <FavoriteIcon className='favorite-restaurant-view' sx={{ color: 'red'}} onClick={handleColor} /> :
-                                <FavoriteBorderIcon className='favorite-restaurant-view' sx={{ color: 'inherit' }} onClick={handleColor} />
-                                }
-                            />
-                        </MU.BottomNavigation>
-                            
-
+                        <MU.Grid item lg={1} >
+                            <MU.BottomNavigation>
+                                <MU.BottomNavigationAction 
+                                    value="favorites"
+                                    icon={
+                                    color ? 
+                                    <FavoriteIcon className='favorite-restaurant-view' sx={{ color: 'red'}} onClick={handleColor} /> :
+                                    <FavoriteBorderIcon className='favorite-restaurant-view' sx={{ color: 'inherit' }} onClick={handleColor} />
+                                    }
+                                />
+                            </MU.BottomNavigation>
                         </MU.Grid>
                     </MU.Grid>
 
-                        <MU.CardMedia
+                    <MU.CardMedia
                         component="img"
                         src={"/downt.jpg"}
                         alt="Restaurant1"
-                        />
-                        <MU.CardContent>
-                        <MU.Typography variant="body2" className='Body2-restaurant-view' color="text.secondary">
-                            {restaurant.description}
-                        </MU.Typography>
+                    />
+                    <MU.CardContent>
+                    <MU.Typography variant="body2" className='Body2-restaurant-view' color="text.secondary">
+                        {restaurant.description}
+                    </MU.Typography>
                         </MU.CardContent>
                         <MU.CardActions disableSpacing>
                             <MU.Rating name="read-only" value={rateValue} readOnly />

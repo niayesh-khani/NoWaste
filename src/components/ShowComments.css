@@ -1,19 +1,73 @@
-.cooment-field {
-    margin-top: 4%;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+.comment-box{
+  border-radius: 20px;
+  border: none !important;
+}
+.comment-title{
+  /* margin-bottom: -5% !important; */
+  font-weight: bold;
+  font-family: 'Montserrat', sans-serif !important;
+}
+.comment-text{
+  margin-bottom: 5% !important; 
+  font-family: 'Montserrat', sans-serif !important;
+}
+#comment-submit {
+    margin-top: 6%;
+    margin-left: 25%;
     margin-bottom: 10%;
-    margin-left: auto;
-    margin-right: auto;
     width: 70%;
-    display: flex;
-    flex-direction: column;
-}
-#cooment-submit {
-    margin-top: 5%;
-    margin-left: 18%;
-    background-color: #f18b72;
+    text-transform:none;
+    font-family: 'Montserrat', sans-serif !important;
+    display: inline-block;
     border-radius: 70px;
-    margin-bottom: 20px;
+    color: aliceblue;
+    text-align: center;
+    background: linear-gradient(to right, #333333, #000000);
+    transition: all .7s;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+  
+  #comment-submit::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    /* background: linear-gradient(to right, #ffa600, #e74c3c); */
+    color: #000000;
+    transition: all .7s;
+    border-radius: 10rem;
+    z-index: -1;
+  }
+  
+  #comment-submit:hover {
+    /* background: linear-gradient(to right, #ffa600, #e74c3c); */
+    transform:scale(1.06);
+    color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.1);
+  }
+  
+  #comment-submit:hover::before {
+    width: 100%;
+  }
+.title-show-comments{
+  margin-top: -3% ;
+}  
+
+.comment-date{
+  font-size: 69%;
+  margin-bottom: -1%;
+  margin-top: 3%;
 }
-#cooment-submit:hover {
-    background-color: rgb(244, 84, 48);
+
+.close-comment{
+  background-color: #000000 !important;
+  color: white !important;
+  margin-left: 80% !important;
 }
+

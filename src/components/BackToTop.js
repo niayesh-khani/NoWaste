@@ -1,5 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import './BackToTop.css';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 const BackToTop = () => {
     const [backToTopButton, setBackToTopButton] = useState(false);
@@ -25,10 +27,13 @@ const BackToTop = () => {
     return ( 
         <div>
             {backToTopButton && (
-                <button 
+                <button
+                    className="back-to-top"
                     onClick={scrollUp} 
-                    style={{position: "fixed", bottom: "20px", right: "20px", height: "40px", width: "40px", fontSize: "40px", fontFamily: "revert"}}
-                >^</button>
+                    style={{position: "fixed", bottom: "20px", right: "20px", height: "40px", width: "40px"}}
+                >
+                    <KeyboardArrowUpIcon/>
+                </button>
             )}
         </div>
     );
