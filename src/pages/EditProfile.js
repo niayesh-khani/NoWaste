@@ -404,7 +404,7 @@ function Edit(props){
                                             className="phone-input"
                                             style={{width: '100%'}}
                                             variant="outlined"
-                                            focused={true}
+                                            // focused={true}
                                         />
                                     </Grid>
                                 </Grid>
