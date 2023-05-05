@@ -4,6 +4,7 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
+import CardActionArea from '@mui/material/CardActionArea'
 import { red } from '@mui/material/colors';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import RemoveShoppingCart from '@material-ui/icons/RemoveShoppingCart';
@@ -15,10 +16,9 @@ import { styled} from '@mui/material/styles';
 import './Food.css';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { Chip, Grid } from '@mui/material';
+import { Chip, Divider, Grid } from '@mui/material';
 import { Stack } from 'react-bootstrap';
-
-
+import AddIcon from '@mui/icons-material/Add';
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -84,40 +84,52 @@ const Food = (props) => {
 
     return ( 
         <div>
-            <Card className= 'card-food'>
-                <CardMedia
-                    sx={{ height: 140 }}
-                    image="/food1.jpg"
-                    title={food.Type}
-                />
-                <CardContent >
-                    <Typography gutterBottom className='food-name-restaurant-view' >
-                        {food.name}
-                        <Stack direction="vertical">
-                            <Chip label={parseInt(food.price) + " $"} sx={{backgroundColor: "#f18b72"}}  />
-                        </Stack>   
-                    </Typography>
-                </CardContent>
+            <Card sx={{ borderRadius: 2 }} className= 'card-food'>
+                <CardActionArea>
+                    <CardMedia
+                        component="img"
+                        sx={{ height: 140 }}
+                        image="/food2.jpg"
+                        title={food.Type}
+                    />
+                    <CardContent sx={{ height: 25}}>
+                        {/* <Typography gutterBottom className='food-name-restaurant-view' >
+                            {food.name}
+                            <Stack direction="vertical">
+                                <Chip label={parseInt(food.price) + " $"} sx={{backgroundColor: "#f18b72"}}  />
+                            </Stack>   
+                        </Typography> */}
+                        <Typography gutterBottom className='food-name-restaurant-view'>{food.name}</Typography>
+                        <Typography variant="body2" color="text.secondary">{food.ingredients}</Typography>
+                    </CardContent>
+                    </CardActionArea>
                 <CardActions>
-                    <IconButton color="success" aria-label="add to shopping cart" onClick={handleAddToCartClick}>
-                        <AddShoppingCartIcon />
+                    <Typography className='food-price'>{parseInt(food.price)}</Typography>
+                    <button className='button__wrapper' onClick={handleRemoveFromCartClick}>-</button>
+                    <h4 onChnge={handleChange}>{count}</h4>
+                    <button className='button__wrapper' onClick={handleAddToCartClick}>+</button>
+                </CardActions>
+                {/* <CardActions> */}
+                    {/* <IconButton color="success" aria-label="add to shopping cart" onClick={handleAddToCartClick}>
+                        <AddShoppingCartIcon/>
                     </IconButton>
                     <TextField
                         // type='number'
-                        label="count"
-                        variant='outlined'
-                        onChange={handleChange}
-                        value={count}
+                        // label="count"
+                        // variant="standard" 
+                        // onChange={handleChange}
+                        // value={count}
+                        id="standard-basic" label="Standard" variant="standard" size='smaller' sx={{ mx: 1, maxWidth: 50 }}
                     />
-                    <IconButton sx={{ color: red[500] }} aria-label="add to shopping cart" onClick={handleRemoveFromCartClick}>
-                        <RemoveShoppingCart />
-                    </IconButton>
+                    <IconButton sx={{ height: 2, width: 2 }} aria-label="add to shopping cart" onClick={handleRemoveFromCartClick}> */}
+                        {/* <RemoveShoppingCart sx={{fontSize: "small "}}/> */}
+                    {/* </IconButton>
                 </CardActions>
                 
 
-                <CardActions disableSpacing>
+                {/* <CardActions disableSpacing> */}
                         {/* <Rating name="read-only" value={rateValue} readOnly /> */}
-                        <ExpandMore
+                        {/* <ExpandMore
                             expand={expanded}
                             onClick={handleExpandClick}
                             aria-expanded={expanded}
@@ -126,14 +138,14 @@ const Food = (props) => {
                         <ExpandMoreIcon />
                         </ExpandMore>
                     </CardActions>
-
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
+ */}
+                {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent>
                         <Typography paragraph>
                             Ingredients: {food.ingredients}
                         </Typography>
                     </CardContent>
-                </Collapse>
+                </Collapse> */}
             </Card>
         </div>
     );

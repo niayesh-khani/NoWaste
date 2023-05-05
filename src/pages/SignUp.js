@@ -120,7 +120,7 @@ export default function SignUp(){
             name: fullname,
             email: email
         };
-        axios.post("http://nowaste39.pythonanywhere.com/user/signup/", userData, {headers:{"Content-Type" : "application/json"}})
+        axios.post("http://5.34.195.16/user/signup/", userData, {headers:{"Content-Type" : "application/json"}})
         .then((response) => {
             console.log(response);
             history.push("/verification");
@@ -160,7 +160,7 @@ export default function SignUp(){
                             color="textPrimary"
                             gutterBottom
                             className="text"
-                            style={{fontWeight: 'bold', fontSize: '30px'}}
+                            style={{fontWeight: '600', fontSize: '30px'}}
                         >
                             Sign Up 
                         </Typography>
@@ -266,7 +266,7 @@ export default function SignUp(){
                             
                             <FormControlLabel className='checkbox' 
                                 control={<Checkbox 
-                                            sx={{color: '#f18b72', '&.Mui-checked': {color: '#f18b72',},}}
+                                            sx={{color: '#f18b72', '&.Mui-checked': {color: '#E74C3C',},}}
                                         />}
                                 label={
                                 <Typography className="text" id="signupcheck"

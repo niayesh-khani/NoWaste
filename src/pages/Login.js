@@ -12,7 +12,7 @@ import { Alert, AlertTitle } from "@mui/material";
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#dd9d46',
+            main: '#E74C3c',
         },
         secondary: {
             main: '#a44704',
@@ -102,14 +102,14 @@ export default function Login(){
             email: email
             };
             console.log(userData);
-            axios.post("http://nowaste39.pythonanywhere.com/user/login/", userData, {headers:{"Content-Type" : "application/json"}})
+            axios.post("http://5.34.195.16/user/login/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
                 setToken(response.data.token);
                 setId(response.data.id);
                 console.log(token);
                 console.log(id);
-                history.push("/homepage");
+                history.push("/homepage-customer");
             })
             .catch((error) => {
                 setOpen(true);
@@ -137,11 +137,11 @@ export default function Login(){
                         borderRadius="25px"
                     />
                     <Box className="box">
-                        <Typography variant="h4" 
+                        <Typography variant="h5" 
                             color="textPrimary"
                             gutterBottom
                             className="text"
-                            style={{textAlign: 'center', marginTop: '10%', marginBottom: '10%', fontWeight: 'bold'}}
+                            style={{fontWeight: 'bold', fontSize: '30px'}}
                         >
                             Login 
                         </Typography>
@@ -211,14 +211,14 @@ export default function Login(){
                                     }
                             /> */}
                             <Link to="/forgot-password" className="forgetpassword">
-                                <Typography>
+                                <Typography style={{ fontFamily: 'Montserrat, sans-serif'}}>
                                     Forgot password?
                                 </Typography>
                             </Link>
                             <Button 
                                 variant="contained" 
                                 type="submit" 
-                                color="primary"
+                                // color="primary"
                                 className="field"
                                 id="submit"
                                 onClick={handleSubmit}

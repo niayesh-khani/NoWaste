@@ -99,10 +99,10 @@ export default function Verification(){
             role: JSON.parse(localStorage.getItem("role")),
             password: JSON.parse(localStorage.getItem("password"))
         };
-        axios.post("https://nowaste39.pythonanywhere.com/user/verify-email/", userData, {headers:{"Content-Type" : "application/json"}})
+        axios.post("http://5.34.195.16/user/verify-email/", userData, {headers:{"Content-Type" : "application/json"}})
         .then((response) => {
             console.log(response);
-            history.push("/homepage");
+            history.push("/homepage-customer");
         })
         .catch((error) => {
             setOpen(true);

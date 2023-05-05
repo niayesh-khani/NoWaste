@@ -18,6 +18,7 @@ import { useHistory } from "react-router-dom";
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { Visibility, VisibilityOff } from "@material-ui/icons";
+import Footer from "../components/Footer";
 
 const styles = theme => ({
     field: {
@@ -140,7 +141,7 @@ function Edit(props){
 
     useEffect(() =>{
         axios.get(
-            `http://nowaste39.pythonanywhere.com/user/customer_profile/${id}/` , 
+            `http://5.34.195.16/user/customer_profile/${id}/` , 
             {headers :{
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
@@ -196,7 +197,7 @@ function Edit(props){
     const handleUpdate = (e) => {
         e.preventDefault();
         axios.patch(
-            `http://nowaste39.pythonanywhere.com/user/customer_profile/${id}/`, update,
+            `http://5.34.195.16/user/customer_profile/${id}/`, update,
             {headers: {
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
@@ -207,6 +208,7 @@ function Edit(props){
         .then((response)=> {
             console.log(response);
             console.log("succesfully updated");
+            window.location.reload(false);
         })
         .catch((error) => console.log(error));
 
@@ -214,8 +216,8 @@ function Edit(props){
         {
             console.log("coming");
             e.preventDefault();
-            axios.put(
-                `http://nowaste39.pythonanywhere.com/user/customer_profile/${id}/`, {"old_password": password, "password": Newpassword, "password2": Confirmpassword},
+            axios.patch(
+                `http://5.34.195.16/user/change_password/${id}/`, {"old_password": password, "password": Newpassword, "password2": Confirmpassword},
                 {headers: {
                     'Content-Type' : 'application/json',
                     "Access-Control-Allow-Origin" : "*",
@@ -226,9 +228,14 @@ function Edit(props){
             .then((response)=> {
                 console.log(response);
                 console.log("succesfully updated password");
+                window.location.reload(false);
             })
             .catch((error) => console.log(error));
         }
+    }
+
+    const handleDiscard = () => {
+        window.location.reload(false);
     }
 
     return(
@@ -488,7 +495,7 @@ function Edit(props){
                             justifyContent="flex-end"
                             >
                                 <Grid item style={{paddingRight: '5px'}}>
-                                    <Button className="edit-discard-button" id="edit-button" variant="contained" onClick={handleUpdate}
+                                    <Button className="edit-discard-button" id="edit-button" variant="contained" onClick={handleDiscard}
                                         // style={{marginRight: "2%"}}
                                         // style={{backgroundColor: '#E74C3C'}}
                                     >Discard</Button>
@@ -504,6 +511,7 @@ function Edit(props){
                     </Box>
                 </Grid>
             </Grid> 
+            <Footer/>
         </ThemeProvider>
 
     )
