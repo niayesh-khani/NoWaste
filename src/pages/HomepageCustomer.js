@@ -484,7 +484,7 @@ const HomepageCustomer = () => {
                             </Button> */}
                             <Button className='submit' onClick={handleClickApplyFilter} >      
                                 Apply
-                            </Button>          //
+                            </Button>          
                         </Box>
                     </Grid>
                     <Grid item md={9}>
