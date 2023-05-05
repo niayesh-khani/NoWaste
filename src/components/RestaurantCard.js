@@ -52,7 +52,6 @@ const RestaurantCard = () => {
         <Card className= 'homepage-custumer-card-restaurant' onClick={handleShow}>
             <CardActionArea>
             <div style={{ position: 'relative' }}>
-
                 <CardMedia
                     component="img"
                     sx={{ height: 140 }}
@@ -70,16 +69,16 @@ const RestaurantCard = () => {
                     {discount + "%"}
                 </div>
                 </div>
-                <CardContent sx={{ height: 150}}>
+                <CardContent sx={{ height: 130}}>
                     <Grid>
                         <Typography gutterBottom className='restaurant-name-hemepage-customer'>Piano Restaurant
-                            <Typography style={{marginLeft: '75%', marginTop: '-11%', fontSize: '1.1em'}}>
+                            <Typography style={{marginLeft: '75%', marginTop: '-13%', fontSize: '1em'}}>
                                 {rateValue}
-                                <StarRateIcon style={{ color: '#faaf00', marginTop: '-11%'}} />
+                                <StarRateIcon className='startIcon-homepage' style={{ color: '#faaf00', marginTop: "2"}} />
                             </Typography>
                         </Typography>
                     </Grid>
-                    <Typography variant="description-homepage-customer" color="text.secondary">This is a best restaurant in Narmak that you can order everything you want.</Typography>
+                    <Typography className="description-homepage-customer" color="text.secondary">This is a best restaurant in Narmak that you can order everything you want.</Typography>
                 </CardContent>
                 </CardActionArea>
             <CardActions>
