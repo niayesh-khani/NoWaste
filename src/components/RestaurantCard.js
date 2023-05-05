@@ -42,7 +42,7 @@ const RestaurantCard = (props) => {
     const restaurant= props.restaurant;
 
     const handleShow = () => {
-        history.push("http://5.34.195.16/restaurant/restaurant_view/" + userId);
+        history.push("http://5.34.195.16/restaurant/restaurant_view/" + restaurant.id);
     }
 
     return ( 
