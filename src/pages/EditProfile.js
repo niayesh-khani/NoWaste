@@ -288,7 +288,10 @@ function Edit(props){
             })
             .catch((error) => {
                 console.log(error);
-                if (error.request) {
+                if (error.response) {
+                    setOpenWrongPass(true);
+                    console.log("wrong password");
+                } else if (error.request){
                     setOpenNetwork(true);
                     console.log("network error");
                 }
