@@ -5,7 +5,7 @@
   border: none !important;
 }
 .comment-title{
-  margin-bottom: -5% !important;
+  /* margin-bottom: -5% !important; */
   font-weight: bold;
   font-family: 'Montserrat', sans-serif !important;
 }
@@ -62,9 +62,12 @@
 .comment-date{
   font-size: 69%;
   margin-bottom: -1%;
+  margin-top: 3%;
 }
 
 .close-comment{
   background-color: #000000 !important;
   color: white !important;
+  margin-left: 80% !important;
 }
+

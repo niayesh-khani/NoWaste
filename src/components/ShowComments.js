@@ -5,7 +5,9 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import "./ShowComments.css";
 import { createTheme } from '@material-ui/core';
-import { Avatar, ThemeProvider } from '@mui/material';
+import { Avatar, Grid, ThemeProvider } from '@mui/material';
+import { deepOrange, deepPurple,grey } from '@mui/material/colors';
+import Stack from '@mui/material/Stack';
 
 const theme = createTheme({
     palette: {
@@ -54,18 +56,25 @@ export default function ShowComments() {
                 >
                     <Box sx={style} className="comment-box">
                         {/* <Avatar></Avatar> */}
-                        <h2 className='title-show-comments'>User comments</h2>
-                        <Typography className='comment-title' id="modal-modal-title" variant="h6" component="h2" >
-                            Ali
-                        </Typography>
+                        <h2 className='title-show-comments'>Users comments</h2>
+                        <Stack direction="row" spacing={2}>
+                            <Avatar sx={{ bgcolor: grey[900] }}>A</Avatar>
+                            <Typography className='comment-title'  variant="h6" component="h2">
+                                Ali 
+                            </Typography>
+                        </Stack>
                         <h6 className='comment-date'>2020-04-03</h6>
                         <Typography  className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
                             It was very delicious. Thank you!
                         </Typography>
+
                         <hr></hr>
-                        <Typography className='comment-title' id="modal-modal-title" variant="h6" component="h2">
-                            Negin
-                        </Typography>
+                        <Stack direction="row" spacing={2}>
+                            <Avatar sx={{ bgcolor: grey[900] }}>N</Avatar>
+                            <Typography className='comment-title' variant="h6" component="h2">
+                                Negin
+                            </Typography>
+                        </Stack>
                         <h6 className='comment-date'>2016-02-11</h6>
                         <Typography className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
                             Not bad. I suggest.
