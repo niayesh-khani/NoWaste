@@ -67,11 +67,6 @@ const Footer = () => {
                         About us
                     </a>
                 </p>
-                <p>
-                    <a href='http://localhost:3000/edit-profile' className='text-reset'>
-                        Edit profile
-                    </a>
-                </p>
                 </MDBCol>
 
                 <MDBCol md="4" lg="3" xl="3" className='mx-auto mb-md-0 mb-4'>

@@ -95,3 +95,7 @@
     display: flex;
     background-color: rgba(117, 115, 111, 0.05) !important;
 }
+
+.res-column-homepage-customer {
+    background-clip: padding-box;
+}
