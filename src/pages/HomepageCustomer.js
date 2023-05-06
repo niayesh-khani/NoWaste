@@ -236,9 +236,7 @@ const HomepageCustomer = () => {
                     console.log(error.response);
                 });
                 }; 
-                
-                
-    
+
 
     const handleChange = (event) => {
         setSort(event.target.value);
@@ -273,7 +271,7 @@ const HomepageCustomer = () => {
     };
     const handleExpandRating = () => {
         setExpandRating((prevExpand) => !prevExpand);
-    };;
+    };
     const handleExpandDiscount = () => {
         setExpandDiscount((prevExpand) => !prevExpand);
     };
@@ -315,7 +313,6 @@ const HomepageCustomer = () => {
             console.log(error.response);
         });
     };
-
     const handleClickLatest = () => {      //
         axios.get('http://5.34.195.16/restaurant/restaurant-search/?ordering=date_of_establishment')
         .then((response) => {
@@ -326,7 +323,7 @@ const HomepageCustomer = () => {
             console.log(error.response);
         });
     };
-
+    
     return ( 
         <ThemeProvider theme={theme}>
             <Header />
@@ -509,6 +506,7 @@ const HomepageCustomer = () => {
                                 </Grid>
                                 <Grid>
                                 {/* <RestaurantCard/> */}
+                                
                                 {restaurant && restaurant.map((res, index) => (        //
                                         <div key={index} className="res-column-homepage-customer" style={{ width: index % 2 === 0 ? '100%' : '' }}>
                                             <RestaurantCard res={res} />
