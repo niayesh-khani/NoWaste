@@ -520,16 +520,14 @@ const HomepageCustomer = () => {
                                 <TextField
                                     select
                                     label="Sort"
-                                    color="secondary"
                                     variant="outlined"
                                     value={sort}
                                     // InputLabelProps={{ shrink: true }}
                                     // style= {{textAlign: 'left', width:'100%'}}
                                     style={{width: '70%', marginLeft: '35%', backgroundColor: "rgba(117, 115, 111, 0.05)"}}
-                                    style={{width: '70%', marginLeft: '35%', backgroundColor: "rgba(117, 115, 111, 0.05)"}}
                                     onChange={handleChange}
                                         >
-                                <MenuItem onClick={handleClickNewest} value="Item1">Newest</MenuItem>        //
+                                <MenuItem onClick={handleClickNewest} value="Item1">Newest</MenuItem>
                                 <MenuItem onClick={handleClickLatest} value="Item2">Latest</MenuItem>
                                 <MenuItem onClick={handleClickRate} value="Item3">Rate</MenuItem>
                                 <MenuItem onClick={handleClickDiscount} value="Item4">Discount</MenuItem>
