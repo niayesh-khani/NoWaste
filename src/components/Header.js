@@ -92,7 +92,9 @@ const Header = React.memo(() => {
 
     return ( 
         <>
-        <AppBar sx={{position:"sticky"}} className="header-restaurant-view">
+        <AppBar 
+        sx={{position:"sticky", width:'fixed', padding: '0 !important'}} 
+        className="header-restaurant-view">
             <Toolbar className='toolbar-restaurant-view'>
                 <img 
                     className='logo'
@@ -132,7 +134,7 @@ const Header = React.memo(() => {
                     <Menu
                         id="menu-appbar"
                         sx={{
-                            mt:"50px"
+                            mt:"45px"
                         }}
                         anchorEl={anchorEl}
                         anchorOrigin={{

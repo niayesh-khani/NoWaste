@@ -329,7 +329,7 @@ function Edit(props){
                                 JPG or PNG no larger than 5 MB
                             </Typography>
                             {open && <Alert severity="error" open={open} onClose={handleClose} className="image-alert" variant="outlined" >
-                                        File size is too large. Please choose a smaller file.
+                                        File size is too large.
                                     </Alert>
                             }
                             <input
