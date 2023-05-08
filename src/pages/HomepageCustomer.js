@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as MU from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import './Restaurant-View.css';
@@ -176,6 +177,19 @@ const HomepageCustomer = () => {
     const minDistance = 1;
     const classes = useStyles();
 
+    const [restaurant2, setRestaurant2] = useState([]); 
+    useEffect(()=>{
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/`)
+            .then((response) => {
+            setRestaurant2(response.data);
+            })
+            .catch((error) => {
+            console.log(error.response);
+            });
+    },[])
+    
+    
+
     const [restaurant, setRestaurant] = useState([]);       //
     const [mysearch, setMySearch] = useState('');                 
     useEffect(() => {                //
@@ -183,7 +197,7 @@ const HomepageCustomer = () => {
         axios.get(`http://5.34.195.16/restaurant/restaurant-search/?search=${mysearch}`)
             .then((response) => {
             console.log(response.data);
-            setRestaurant(response.data);
+            setRestaurant2(response.data);
             })
             .catch((error) => {
             console.log(error.response);
@@ -230,13 +244,15 @@ const HomepageCustomer = () => {
                 axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&rate__lt=${toR}&rate__gt=${fromR}`)
                 .then((response) => {
                     console.log(response.data);
-                    setRestaurant(response.data);
+                    setRestaurant2(response.data);
                 })
                 .catch((error) => {
                     console.log(error.response);
                 });
                 }; 
-
+                
+                
+    
 
     const handleChange = (event) => {
         setSort(event.target.value);
@@ -271,7 +287,7 @@ const HomepageCustomer = () => {
     };
     const handleExpandRating = () => {
         setExpandRating((prevExpand) => !prevExpand);
-    };
+    };;
     const handleExpandDiscount = () => {
         setExpandDiscount((prevExpand) => !prevExpand);
     };
@@ -283,9 +299,10 @@ const HomepageCustomer = () => {
 
     const handleClickRate = () => {      //
         axios.get('http://5.34.195.16/restaurant/restaurant-search/?ordering=-rate')
+        // axios.get('http://5.34.195.16/restaurant/restaurant-search/', { params: { ordering: '-rate' } })
         .then((response) => {
             console.log(response.data);
-            setRestaurant(response.data);
+            setRestaurant2(response.data);
         })
         .catch((error) => {
             console.log(error.response);
@@ -295,7 +312,7 @@ const HomepageCustomer = () => {
     const handleClickDiscount = () => {      //
         axios.get('http://5.34.195.16/restaurant/restaurant-search/?ordering=-discount')
         .then((response) => {
-            setRestaurant(response.data);
+            setRestaurant2(response.data);
             console.log(response.data);
         })
         .catch((error) => {
@@ -307,27 +324,28 @@ const HomepageCustomer = () => {
         axios.get('http://5.34.195.16/restaurant/restaurant-search/?ordering=-date_of_establishment')
         .then((response) => {
             console.log(response.data);
-            setRestaurant(response.data);
+            setRestaurant2(response.data);
         })
         .catch((error) => {
             console.log(error.response);
         });
     };
+
     const handleClickLatest = () => {      //
         axios.get('http://5.34.195.16/restaurant/restaurant-search/?ordering=date_of_establishment')
         .then((response) => {
             console.log(response.data);
-            setRestaurant(response.data);
+            setRestaurant2(response.data);
         })
         .catch((error) => {
             console.log(error.response);
         });
     };
-    
+
     return ( 
         <ThemeProvider theme={theme}>
             <Header />
-            <Grid container spacing={2} sx={{ paddingBottom:"1%"}} className='grid-homepage-customer'>
+            <Grid container spacing={2} sx={{ paddingBottom:"1%" }} className='grid-homepage-customer'>
                 <Grid item md={3}>
                     <Box className="filter-hompage-customer">
                         <Typography variant='h5'> 
@@ -483,18 +501,18 @@ const HomepageCustomer = () => {
                                 Apply
                             </Button>          
                         </Box>
-                    </Grid>
-                    <Grid item md={9}>
-                        <Grid container spacing={2}>
-                            <Grid item md={9}>
-                                <Grid>
-                                <Paper
-                                    component="form"
-                                    className='search-homepage-customer'
-                                    sx={{ p: '2px 4px'}}
-                                    variant='outlined'
+                </Grid>
+                <Grid item lg={9} md={9}>
+                    <Grid container spacing={2}>
+                        <Grid item md={12}>
+                            <Grid container spacing={2}>
+                                <Grid item md={10}>
+                                    <Paper
+                                        component="form"
+                                        className='search-homepage-customer'
+                                        sx={{ p: '2px 4px'}}
                                     >
-                                    <IconButton type="button" sx={{ p: '15px'}} aria-label="search">
+                                    <IconButton type="button" sx={{ p: '15px' }} aria-label="search">
                                         <SearchIcon />
                                     </IconButton>
                                     <InputBase
@@ -503,38 +521,46 @@ const HomepageCustomer = () => {
                                         inputProps={{ 'aria-label': 'search' }}
                                         onChange={handleClickSearch}        //
                                     />
-                                </Paper>
+                                    </Paper>
                                 </Grid>
-                                <Grid>
-                                {/* <RestaurantCard/> */}
-                                
-                                {restaurant && restaurant.map((res, index) => (        //
-                                        <div key={index} className="res-column-homepage-customer" style={{ width: index % 2 === 0 ? '100%' : '' }}>
-                                            <RestaurantCard res={res} />
-                                        </div>
-                                    ))}
-                                </Grid>
-                            </Grid>
-                            <Grid item md={3}>
-                            <FormControl className='formcontrol-sorting'style={{width: "80%", height: "50%"}}>
-                                <TextField
-                                    select
-                                    label="Sort"
-                                    variant="outlined"
-                                    value={sort}
-                                    // InputLabelProps={{ shrink: true }}
-                                    // style= {{textAlign: 'left', width:'100%'}}
-                                    style={{width: '70%', marginLeft: '35%', backgroundColor: "rgba(117, 115, 111, 0.05)"}}
-                                    onChange={handleChange}
+                                <Grid item md={2}>
+                                    <FormControl className='formcontrol-sorting'style={{width: "100%"}}>
+                                        <TextField
+                                            select
+                                            label="Sort"
+                                            color="secondary"
+                                            variant="outlined"
+                                            value={sort}
+                                            // InputLabelProps={{ shrink: true }}
+                                            // style= {{textAlign: 'left', width:'100%'}}
+                                            style={{width: '100%', backgroundColor: "rgba(117, 115, 111, 0.05)"}}
+                                            onChange={handleChange}
                                         >
-                                <MenuItem onClick={handleClickNewest} value="Item1">Newest</MenuItem>
-                                <MenuItem onClick={handleClickLatest} value="Item2">Latest</MenuItem>
-                                <MenuItem onClick={handleClickRate} value="Item3">Rate</MenuItem>
-                                <MenuItem onClick={handleClickDiscount} value="Item4">Discount</MenuItem>
-                                </TextField>
-                            </FormControl>
+                                            <MenuItem onClick={handleClickNewest} value="Item1">Newest</MenuItem>        //
+                                            <MenuItem onClick={handleClickLatest} value="Item2">Latest</MenuItem>
+                                            <MenuItem onClick={handleClickRate} value="Item3">Rate</MenuItem>
+                                            <MenuItem onClick={handleClickDiscount} value="Item4">Discount</MenuItem>
+                                        </TextField>
+                                    </FormControl>
+                                </Grid>
                             </Grid>
                         </Grid>
+                    </Grid>
+                    <Grid container spacing={3}>
+                        <MU.Grid item>
+                            <Masonry
+                                breakpointCols={breakpoints}
+                                className="homepage-my-masonry-grid"
+                            >
+                                {restaurant2 && restaurant2.map((res, index) => (
+                                    <div key={index} style={{ width: index % 3 === 0 ? '100%' : '' }}>
+                                        <RestaurantCard name={res.name} rate={res.rate} discount={res.discount}
+                                        />
+                                    </div>
+                                ))}
+                            </Masonry>
+                        </MU.Grid>
+                    </Grid>
                 </Grid>
             <BackToTop/>
             </Grid>

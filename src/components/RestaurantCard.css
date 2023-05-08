@@ -1,5 +1,7 @@
 .homepage-custumer-card-restaurant {
-    width: 35%;
+  /* flex-basis: calc(60%/3); */
+
+    width: 90%;
     height: auto;
     position: relative !important;
     margin-bottom: 10%;
@@ -7,7 +9,7 @@
     margin-left: 5%;
     margin-right: 50%;
     overflow: hidden;
-    border-radius: 2 !important;
+    border-radius: 5 !important;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px !important;
   }
 .homepage-custumer-card-restaurant:hover{
@@ -47,6 +49,12 @@ h4
   position: relative !important;
   margin-top: 3% !important;
   font-size: medium !important;
+}
+
+.homepage-my-masonry-grid {
+  display: flex;
+  padding-left: 5%;
+  width: auto;
 }
 
 

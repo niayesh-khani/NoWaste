@@ -65,15 +65,15 @@ const RestaurantCard = (props) => {
                 padding: '5px'
                 }}>
                     {/* {discount + "%"} */}
-                    {restaurant.discount + "%"}
+                    {props.discount *100 + "%"}
                 </div>
                 </div>
                 <CardContent sx={{ height: 130}}>
                     <Grid>
-                        <Typography gutterBottom className='restaurant-name-hemepage-customer'>{restaurant.name}
+                        <Typography gutterBottom className='restaurant-name-hemepage-customer'>{props.name}
                             <Typography style={{marginLeft: '75%', marginTop: '-10%', fontSize: '1em'}}>
                                 {/* {rateValue} */}
-                                {restaurant.rate}
+                                {props.rate}
                                 <StarRateIcon className='startIcon-homepage' style={{ color: '#faaf00', marginTop: "-11%"}} />
                             </Typography>
                         </Typography>
