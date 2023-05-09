@@ -56,6 +56,8 @@
   }
 .title-show-comments{
   margin-top: -3% ;
+  font-family: 'Montserrat', sans-serif !important;
+  margin-bottom: 5%;
 }  
 
 .comment-date{
@@ -69,7 +71,9 @@
   margin-left: 82% !important; 
   text-transform: none !important;
   font-size: 98% !important;
-  border-radius: 12% !important;
+  border-radius: 50px !important;
+  margin-bottom: -4% !important;
+  font-family: 'Montserrat', sans-serif !important;
 }
 
 .comment-stack{

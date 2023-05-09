@@ -56,7 +56,7 @@ export default function ShowComments() {
                 >
                     <Box sx={style} className="comment-box">
                         {/* <Avatar></Avatar> */}
-                        <h2 className='title-show-comments'>Users comments</h2>
+                        <h2 className='title-show-comments'>Users Comments</h2>
                         <Stack direction="row" spacing={2} >
                             <Avatar sx={{ bgcolor: grey[900] }} className='comment-avatar'>A</Avatar>
                             <Stack direction="column" spacing={2} >
