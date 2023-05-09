@@ -177,56 +177,26 @@ const HomepageCustomer = () => {
     const minDistance = 1;
     const classes = useStyles();
 
-    const [restaurant2, setRestaurant2] = useState([]); 
+    const [restaurant, setRestaurant] = useState([]); 
     useEffect(()=>{
         axios.get(`http://5.34.195.16/restaurant/restaurant-search/`)
             .then((response) => {
-            setRestaurant2(response.data);
+            setRestaurant(response.data);
             })
             .catch((error) => {
             console.log(error.response);
             });
     },[])
     
+
+    // const handleClickSearch = (e) => {
+    //     setMySearch(e.target.value);
+    // };
     
-
-    const [restaurant, setRestaurant] = useState([]);       //
     const [mysearch, setMySearch] = useState('');                 
-    useEffect(() => {                //
+    useEffect(() => {
         if (mysearch) {
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?search=${mysearch}`)
-            .then((response) => {
-            console.log(response.data);
-            setRestaurant2(response.data);
-            })
-            .catch((error) => {
-            console.log(error.response);
-            });
-        }
-    }, [mysearch]);
-    const handleClickSearch = (e) => {  
-        console.log('search: ');                 
-        setMySearch(e.target.value);
-    };
-
-    const handleClickFilterRate = () => {
-        const fromR = valueR[0].toFixed(1);
-        const toR = valueR[1].toFixed(1);
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?rate__gt=${fromR}&rate__lt=${toR}`)
-            .then((response) => {
-                
-                console.log(response.data);
-                setRestaurant(response.data);
-            })
-            .catch((error) => {
-                console.log(error.response);
-            });
-        };
-
-        const handleClickFilterDiscount = () => {
-            const fromD = valueD[0]*0.01;
-            const toD = valueD[1]*0.01;
-            axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}`)
+            axios.get(`http://5.34.195.16/restaurant/restaurant-search/?search=${mysearch}`)
                 .then((response) => {
                     console.log(response.data);
                     setRestaurant(response.data);
@@ -234,24 +204,42 @@ const HomepageCustomer = () => {
                 .catch((error) => {
                     console.log(error.response);
                 });
-            };
-
-            const handleClickApplyFilter = () => {
-                const fromR = valueR[0].toFixed(1);
-                const toR = valueR[1].toFixed(1);
-                const fromD = valueD[0] * 0.01;
-                const toD = valueD[1] * 0.01;
-                axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&rate__lt=${toR}&rate__gt=${fromR}`)
+        }
+        else {
+            axios.get(`http://5.34.195.16/restaurant/restaurant-search/`)
                 .then((response) => {
                     console.log(response.data);
-                    setRestaurant2(response.data);
+                    setRestaurant(response.data);
                 })
                 .catch((error) => {
                     console.log(error.response);
                 });
-                }; 
-                
-                
+        }
+    }, [mysearch]);
+    
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            // handleClickSearch();
+            e.preventDefault();
+            setMySearch(e.target.value);
+            }
+        };
+
+
+    const handleClickApplyFilter = () => {
+        const fromR = valueR[0].toFixed(1);
+        const toR = valueR[1].toFixed(1);
+        const fromD = valueD[0] * 0.01;
+        const toD = valueD[1] * 0.01;
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&rate__lt=${toR}&rate__gt=${fromR}`)
+        .then((response) => {
+            console.log(response.data);
+            setRestaurant(response.data);
+        })
+        .catch((error) => {
+            console.log(error.response);
+        });
+    };         
     
 
     const handleChange = (event) => {
@@ -297,12 +285,15 @@ const HomepageCustomer = () => {
         700:1
     };
 
-    const handleClickRate = () => {      //
-        axios.get('http://5.34.195.16/restaurant/restaurant-search/?ordering=-rate')
-        // axios.get('http://5.34.195.16/restaurant/restaurant-search/', { params: { ordering: '-rate' } })
+    const handleClickRate = () => {   
+        const fromR = valueR[0].toFixed(1);
+        const toR = valueR[1].toFixed(1);
+        const fromD = valueD[0] * 0.01;
+        const toD = valueD[1] * 0.01;
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-rate&rate__gt=${fromR}&rate__lt=${toR}`)
         .then((response) => {
             console.log(response.data);
-            setRestaurant2(response.data);
+            setRestaurant(response.data);
         })
         .catch((error) => {
             console.log(error.response);
@@ -310,9 +301,13 @@ const HomepageCustomer = () => {
     };
 
     const handleClickDiscount = () => {      //
-        axios.get('http://5.34.195.16/restaurant/restaurant-search/?ordering=-discount')
+        const fromR = valueR[0].toFixed(1);
+        const toR = valueR[1].toFixed(1);
+        const fromD = valueD[0] * 0.01;
+        const toD = valueD[1] * 0.01;
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-discount&rate__gt=${fromR}&rate__lt=${toR}`)
         .then((response) => {
-            setRestaurant2(response.data);
+            setRestaurant(response.data);
             console.log(response.data);
         })
         .catch((error) => {
@@ -321,10 +316,14 @@ const HomepageCustomer = () => {
     };
 
     const handleClickNewest = () => {      //
-        axios.get('http://5.34.195.16/restaurant/restaurant-search/?ordering=-date_of_establishment')
+        const fromR = valueR[0].toFixed(1);
+        const toR = valueR[1].toFixed(1);
+        const fromD = valueD[0] * 0.01;
+        const toD = valueD[1] * 0.01;
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-date_of_establishment&rate__gt=${fromR}&rate__lt=${toR}`)
         .then((response) => {
             console.log(response.data);
-            setRestaurant2(response.data);
+            setRestaurant(response.data);
         })
         .catch((error) => {
             console.log(error.response);
@@ -332,10 +331,14 @@ const HomepageCustomer = () => {
     };
 
     const handleClickLatest = () => {      //
-        axios.get('http://5.34.195.16/restaurant/restaurant-search/?ordering=date_of_establishment')
+        const fromR = valueR[0].toFixed(1);
+        const toR = valueR[1].toFixed(1);
+        const fromD = valueD[0] * 0.01;
+        const toD = valueD[1] * 0.01;
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=date_of_establishment&rate__gt=${fromR}&rate__lt=${toR}`)
         .then((response) => {
             console.log(response.data);
-            setRestaurant2(response.data);
+            setRestaurant(response.data);
         })
         .catch((error) => {
             console.log(error.response);
@@ -519,7 +522,8 @@ const HomepageCustomer = () => {
                                         sx={{ ml: 1, flex: 1 }}
                                         placeholder="Search"
                                         inputProps={{ 'aria-label': 'search' }}
-                                        onChange={handleClickSearch}        //
+                                        // onChange={handleClickSearch}        
+                                        onKeyPress={handleKeyPress}
                                     />
                                     </Paper>
                                 </Grid>
@@ -550,11 +554,11 @@ const HomepageCustomer = () => {
                         <MU.Grid item>
                             <Masonry
                                 breakpointCols={breakpoints}
-                                className="homepage-my-masonry-grid"
+                                // className="homepage-my-masonry-grid"
                             >
-                                {restaurant2 && restaurant2.map((res, index) => (
+                                {restaurant && restaurant.map((res, index) => (
                                     <div key={index} style={{ width: index % 3 === 0 ? '100%' : '' }}>
-                                        <RestaurantCard name={res.name} rate={res.rate} discount={res.discount}
+                                        <RestaurantCard name={res.name} rate={res.rate} discount={res.discount} id={res.id}
                                         />
                                     </div>
                                 ))}

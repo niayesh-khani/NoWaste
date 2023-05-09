@@ -37,13 +37,17 @@ import StarRateIcon from '@mui/icons-material/StarRate';
 const RestaurantCard = (props) => {
     const history = useHistory();
     const [rateValue, setRateValue] = React.useState(2.5);
-    const userId = localStorage.getItem("id");
     const [discount, setDiscount] = useState(20);
-    const restaurant= props.restaurant;
 
     const handleShow = () => {
-        history.push("http://5.34.195.16/restaurant/restaurant_view/" + restaurant.id);
+        history.push(`restaurant-view/${props.id}/`);
     }
+
+    const numSearchResults = props.numSearchResults || 0;
+    console.log(numSearchResults);
+    const isSingleResult = numSearchResults === 1;
+    const cardWidth = isSingleResult ? '100%' : '90%';
+    console.log(cardWidth);
 
     return ( 
         <div>
