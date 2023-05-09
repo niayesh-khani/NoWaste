@@ -15,6 +15,7 @@ import RestaurantView from './pages/Restaurant-View';
 import EditProfile from './pages/EditProfile';
 import NewPassword from './pages/NewPassword';
 import HomepageCustomer from './pages/HomepageCustomer';
+import HomepageRestaurant from './pages/HomepageRestaurant';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -63,6 +64,9 @@ function App() {
           </Route>
           <Route path="/homepage-customer" >
             <HomepageCustomer />
+          </Route>
+          <Route path="/homepage-restaurant" >
+            <HomepageRestaurant />
           </Route>
       </Router>
     //   )}

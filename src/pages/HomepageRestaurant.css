@@ -1,0 +1,49 @@
+.grid-homepage-restaurant {
+    width: 100% !important;
+    margin-top: 2% !important;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.button-new-restaurant-homepage-restaurant {
+    margin: 0;
+    text-align: center;
+    font-size: medium !important;
+    margin-left: -2% !important;
+}
+
+.add-box {
+    width: 60% !important;
+    margin-left: -5px;
+    padding: 10px 15px 0 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    flex-direction: column;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.phone-input {
+    color: #E74C3C !important;
+    width: 100%;
+}
+
+.discard-button {
+    background-color: #E74C3C !important;
+}
+.discard-button:hover{
+    transform: scale(1.01);
+}
+
+.add-button{
+    background-color: #FFA600 !important;
+}
+.add-button:hover{
+    transform: scale(1.01);
+}
+
+.new-restaurant-button-grid{
+    justify-content: space-between;
+    margin-top: 3% !important;
+}
