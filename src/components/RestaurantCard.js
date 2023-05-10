@@ -43,15 +43,10 @@ const RestaurantCard = (props) => {
         history.push(`restaurant-view/${props.id}/`);
     }
 
-    const numSearchResults = props.numSearchResults || 0;
-    console.log(numSearchResults);
-    const isSingleResult = numSearchResults === 1;
-    const cardWidth = isSingleResult ? '100%' : '90%';
-    console.log(cardWidth);
-
     return ( 
         <div>
-        <Card className= 'homepage-custumer-card-restaurant' onClick={handleShow}>
+        {/* <Card className= 'homepage-custumer-card-restaurant' onClick={handleShow}> */}
+        <Card className={`homepage-custumer-card-restaurant${props.isSingleResult ? '-single' : ''}`} onClick={handleShow}>
             <CardActionArea>
             <div style={{ position: 'relative' }}>
                 <CardMedia

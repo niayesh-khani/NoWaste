@@ -497,9 +497,6 @@ const HomepageCustomer = () => {
                                     />
                                 </Grid>
                             </Grid>
-                            {/* <Button className='submit' onClick={handleClickFilterRate} >
-                                Apply
-                            </Button> */}
                             <Button className='submit' onClick={handleClickApplyFilter} >      
                                 Apply
                             </Button>          
@@ -556,12 +553,18 @@ const HomepageCustomer = () => {
                                 breakpointCols={breakpoints}
                                 // className="homepage-my-masonry-grid"
                             >
-                                {restaurant && restaurant.map((res, index) => (
+                                {/* {restaurant && restaurant.map((res, index) => (
                                     <div key={index} style={{ width: index % 3 === 0 ? '100%' : '' }}>
-                                        <RestaurantCard name={res.name} rate={res.rate} discount={res.discount} id={res.id}
-                                        />
+                                        <RestaurantCard name={res.name} rate={res.rate} discount={res.discount} id={res.id}/>
                                     </div>
-                                ))}
+                                ))} */}
+                                {restaurant.length==1 ? (<RestaurantCard name={restaurant[0].name} rate={restaurant[0].rate} discount={restaurant[0].discount} id={restaurant[0].id} isSingleResult={true}/>) :
+                                (restaurant && restaurant.map((res, index) => (
+                                    <div key={index} style={{ width: index % 3 === 0 ? '100%' : '' }}>
+                                        <RestaurantCard name={res.name} rate={res.rate} discount={res.discount} id={res.id}/>
+                                    </div>
+                                )))}
+                                
                             </Masonry>
                         </MU.Grid>
                     </Grid>
