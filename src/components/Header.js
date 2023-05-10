@@ -207,6 +207,11 @@ const Header = React.memo(() => {
                                     <Item>20$</Item>
                                     <Item>30$</Item>
                                 </Stack>
+                                <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px'}}>
+                                <button className='button__wrapper' style={{ display: 'inline-block' }}>-</button>
+                                <h3 style={{ display: 'inline-block', margin: '0 10px' }}>20$</h3>
+                                <button className='button__wrapper' style={{ display: 'inline-block' }}>+</button>
+                                </div>
                             </Box>
                         </Modal>
                         <MenuItem onClick={handleClose} className='profile-font'>
