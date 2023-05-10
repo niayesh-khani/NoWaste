@@ -47,3 +47,7 @@
     justify-content: space-between;
     margin-top: 3% !important;
 }
+
+.MuiPaper-root {
+    color: white !important;
+}

@@ -37,6 +37,8 @@ import { Container, Row } from 'react-bootstrap';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import {InputBase} from '@mui/material';
 import PhoneInput from 'react-phone-input-2';
+import OwnRestaurantCard from '../components/OwnRestaurantCard';
+import '../components/OwnRestaurantCard.css';
 
 const theme = createTheme({
     palette: {
@@ -168,6 +170,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 },
 }));
 
+const breakpoints = {
+    default: 2,
+    1100: 2,
+    700:1
+};
+
 const HomepageRestaurant = () => {
     const [show, setShow] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
@@ -175,6 +183,7 @@ const HomepageRestaurant = () => {
     const [newPhone, setNewPhone] = useState('');
     const [newAddress, setNewAdress] = useState('');
     const [newDiscount, setNewDiscount] = useState('');
+    const r = ["1", "2" , "3"];
 
 
 
@@ -245,8 +254,19 @@ const HomepageRestaurant = () => {
                 </Box>
                 }
                 {/* <Footer/> */}
+            </Grid>
+            <Grid item md={9}>
+                <Grid item>
+                    <Masonry style={{paddingLeft: "0%"}} breakpointCols={breakpoints}>
+                        {r && r.map((res, index) => (
+                            <div key={index} style={{ width: index % 2 === 0 ? '100%' : '' }}>
+                                <OwnRestaurantCard />
+                            </div>
+                        ))}
+                    </Masonry>
+                </Grid>
+            </Grid>
         </Grid>
-    </Grid>
 
     </ThemeProvider>
     );
