@@ -1,19 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 .MuiAppBar-root.header-restaurant-view{
     /* background-color: #911436; */
     background-color: #141414;
     opacity: 0.97;
 } 
-
+.balance{
+    color: #797979;
+    font-size: 12px;
+    margin-left: 50px;
+    margin-right: 10%;
+}
 .toolbar-restaurant-view {
     display: flex;
     justify-content: space-between;
 }
+.profile-font{
+    color: #4c4b4b !important;
+    font-weight: bold !important;
+    font-size: 80% !important;
+    font-family: 'Montserrat', sans-serif !important;
 
-
+}
+.profile-icons{
+    margin-right: 5%;
+    font-size: 180% !important;
+}
 .last-icon-restaurant-view {
     margin-left: 10px !important;
+    padding: 0px !important;
 }
 
+.credit-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+    height: 50%;
+    background-color: #f8f8f8;
+    border-radius: 5%;
+    box-shadow: 24;
+    padding: 2%;
+}
+h2{
+    text-align: center;
+    font-family: 'Montserrat', sans-serif !important;
+    margin-top: -1%;
+}
+h5{
+    font-family: 'Montserrat', sans-serif !important;
+}
 .css-1bevcj6
 {
     margin-right: -10% !important;
