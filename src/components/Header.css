@@ -36,8 +36,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 30%;
-    height: 50%;
+    width: 26%;
+    height: 46%;
     background-color: #f8f8f8;
     border-radius: 5%;
     box-shadow: 24;
@@ -54,6 +54,63 @@ h5{
 .css-1bevcj6
 {
     margin-right: -10% !important;
+}
+
+.blance-header{
+    margin-bottom: 8%;
+    font-family: 'Montserrat', sans-serif !important;
+}
+.add-amount-header{
+    width: 30%;
+    color: rgba(255, 255, 255,0) !important;
+}
+
+.item-header{
+    background-color: black !important;
+    color: white !important;
+}
+
+#payment-submit {
+    margin-top: 6%;
+    /* margin-left: 25%; */
+    margin-bottom: 10%;
+    width: 70%;
+    text-transform:none;
+    font-family: 'Montserrat', sans-serif !important;
+    display: inline-block;
+    border-radius: 70px;
+    color: aliceblue;
+    text-align: center;
+    background: linear-gradient(to right, #333333, #000000);
+    transition: all .7s;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+#payment-submit::before {
+content: '';
+position: absolute;
+bottom: 0;
+left: 0;
+width: 0%;
+height: 100%;
+/* background: linear-gradient(to right, #ffa600, #e74c3c); */
+color: #000000;
+transition: all .7s;
+border-radius: 10rem;
+z-index: -1;
+}
+
+#payment-submit:hover {
+/* background: linear-gradient(to right, #ffa600, #e74c3c); */
+transform:scale(1.06);
+color: rgb(255, 255, 255);
+box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.1);
+}
+
+#payment-submit:hover::before {
+width: 100%;
 }
 
 @media(max-width: 360px) {

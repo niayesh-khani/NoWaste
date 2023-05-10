@@ -20,6 +20,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 
 const Header = React.memo(() => {
     const [auth, setAuth] = React.useState(true);
@@ -89,6 +90,18 @@ const Header = React.memo(() => {
     const [openWallet, setOpenWallet] = React.useState(false);
     const handleOpenWallet = () => setOpenWallet(true);
     const handleCloseWallet= () => setOpenWallet(false);
+
+    const [balance, setBalance] = useState(0);              //
+    const [selectedAmount, setSelectedAmount] = useState(0);
+
+    const handleAddAmount = (amount) => {
+        setSelectedAmount(amount);
+    };
+
+    const handleIncreaseBalance = () => {
+        setBalance((prevBalance) => prevBalance + selectedAmount);
+        setSelectedAmount(0);
+    };
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -193,7 +206,7 @@ const Header = React.memo(() => {
                         </MenuItem>
                         <MenuItem onClick={handleOpenWallet} className='profile-font'>
                         <AccountBalanceWalletIcon className='profile-icons'/> Wallet
-                        <div className='balance'>0$</div>
+                        <div className='balance'>{balance}$</div>
                         </MenuItem>
                         <Modal
                             // className='credit-box'
@@ -203,18 +216,39 @@ const Header = React.memo(() => {
                             aria-describedby="modal-modal-description"
                         >
                             <Box className='credit-box'>
-                                <h2>Credit</h2>
-                                <h5>Balance : 10$</h5>
-                                <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
-                                    <Item>10$</Item>
+                                <h2>Increase credit</h2>
+                                {/* <h5>Current Balance : 10$</h5> */}
+                                <div className='blance-header'>Current Balance : {balance}$</div>
+                                <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap" sx={{ marginTop: '20px' }}>
+                                    {/* <Item>10$</Item>
                                     <Item>20$</Item>
-                                    <Item>30$</Item>
+                                    <Item>30$</Item> */}
+                                    {/* <Item>
+                                        <button onClick={() => handleAddAmount(10)} className='add-amount-header'>10$</button>
+                                    </Item>
+                                    <Item>
+                                        <button onClick={() => handleAddAmount(20)} className='add-amount-header'>20$</button>
+                                    </Item>
+                                    <Item>
+                                        <button onClick={() => handleAddAmount(30)} className='add-amount-header'>30$</button>
+                                    </Item> */}
+                                    <Button onClick={() => handleAddAmount(10)} className='add-amount-header'><Item className='item-header'>10$</Item></Button>
+                                    <Button onClick={() => handleAddAmount(20)} className='add-amount-header'><Item className='item-header'>20$</Item></Button>
+                                    <Button onClick={() => handleAddAmount(30)} className='add-amount-header'><Item className='item-header'>30$</Item></Button> 
+                                    
+                                
                                 </Stack>
-                                <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px'}}>
-                                <button className='button__wrapper' style={{ display: 'inline-block' }}>-</button>
-                                <h3 style={{ display: 'inline-block', margin: '0 10px' }}>20$</h3>
-                                <button className='button__wrapper' style={{ display: 'inline-block' }}>+</button>
+                                <div style={{ display: 'flex', alignItems: 'center', marginTop: '59px' ,justifyContent: 'center'}}>
+                                <button className='button__wrapper' style={{ display: 'inline-block' }} onClick={() => setSelectedAmount((prevAmount) => prevAmount - 1)} disabled={selectedAmount <= 1}>-</button>
+                                <h3 style={{ display: 'inline-block', margin: '0 10px' }}>{selectedAmount}$</h3>
+                                <button className='button__wrapper' style={{ display: 'inline-block' }} onClick={() => setSelectedAmount((prevAmount) => prevAmount + 1)}>+</button>
                                 </div>
+                                <div style={{display: 'flex', justifyContent: 'center' , alignItems: 'center'}}>
+                                    <Button variant="contained" id='payment-submit' onClick={handleIncreaseBalance}>
+                                        Payment
+                                    </Button>
+                                </div>
+                                
                             </Box>
                         </Modal>
                         <MenuItem onClick={handleClose} className='profile-font'>
