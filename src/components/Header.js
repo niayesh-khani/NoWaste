@@ -1,16 +1,28 @@
-import { AppBar, Toolbar, styled, Menu, alpha, InputBase, IconButton, Badge, MenuItem } from '@mui/material';
+import { AppBar, Toolbar, styled, Menu, alpha, InputBase, IconButton, Badge, MenuItem, Modal } from '@mui/material';
 import * as React from 'react';
 import {useHistory } from "react-router-dom";
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { AccountCircle } from '@material-ui/icons';
+import PersonIcon from '@mui/icons-material/Person';
 import { useState } from 'react';
 import '../components/Header.css';
-
+import Avatar from '@mui/material/Avatar';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
+import Tooltip from '@mui/material/Tooltip';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import Logout from '@mui/icons-material/Logout';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import LogoutIcon from '@mui/icons-material/Logout';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 
 const Header = React.memo(() => {
     const [auth, setAuth] = React.useState(true);
-    const [anchorEl, setAnchorEl] = React.useState('');
     const history = useHistory();
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
@@ -65,10 +77,39 @@ const Header = React.memo(() => {
             setAnchorEl(event.currentTarget);
         };
     
-        const handleClose = () => {
-            setAnchorEl(null);
-        };
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
+    const [openWallet, setOpenWallet] = React.useState(false);
+    const handleOpenWallet = () => setOpenWallet(true);
+    const handleCloseWallet= () => setOpenWallet(false);
+
+    const Item = styled(Paper)(({ theme }) => ({
+        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+        ...theme.typography.body2,
+        padding: theme.spacing(1),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+        flexGrow: 1,
+      }));
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
+    
     return ( 
         <>
         <AppBar sx={{position:"sticky"}} className="header-restaurant-view">
@@ -96,7 +137,7 @@ const Header = React.memo(() => {
                         </Badge>
                     </IconButton>
                     <IconButton
-                        size="large"
+                        size='large'
                         aria-label="account of current user"
                         aria-controls="menu-appbar"
                         aria-haspopup="true"
@@ -104,31 +145,77 @@ const Header = React.memo(() => {
                         color="inherit"
                         className='last-icon-restaurant-view'
                     >
-                        <AccountCircle />
+                        <PersonIcon fontSize="normal"/>
                     </IconButton>
                     
                     <Menu
-                        id="menu-appbar"
-                        sx={{
-                            mt:"50px"
-                        }}
                         anchorEl={anchorEl}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        open={Boolean(anchorEl)}
+                        id="account-menu"
+                        open={open}
                         onClose={handleClose}
+                        // onClick={handleClose}
+                        PaperProps={{
+                        elevation: 0,
+                        sx: {
+                            width : 170,
+                            borderRadius : 3,
+                            overflow: 'visible',
+                            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                            mt: 1,
+                            '& .MuiAvatar-root': {
+                            width: 32,
+                            height: 32,
+                            ml: -0.5,
+                            mr: 1,
+                            },
+                            '&:before': {
+                            content: '""',
+                            display: 'block',
+                            position: 'absolute',
+                            top: 0,
+                            right: 12,
+                            width: 11,
+                            height: 10,
+                            bgcolor: 'background.paper',
+                            transform: 'translateY(-50%) rotate(45deg)',
+                            zIndex: 0,
+                            },
+                        },
+                        }}
+                        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                     >
-                        <MenuItem onClick={handleClickProfile}>Profile</MenuItem>
-                        <MenuItem onClick={handleClickLogOut}>Log out</MenuItem>
+                        <MenuItem onClick={handleClickProfile} className='profile-font'>
+                        <AccountBoxIcon className='profile-icons'/> Profile
+                        </MenuItem>
+                        <MenuItem onClick={handleOpenWallet} className='profile-font'>
+                        <AccountBalanceWalletIcon className='profile-icons'/> Wallet
+                        <div className='balance'>0$</div>
+                        </MenuItem>
+                        <Modal
+                            // className='credit-box'
+                            open={openWallet}
+                            onClose={handleCloseWallet}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
+                        >
+                            <Box className='credit-box'>
+                                <h2>Credit</h2>
+                                <h5>Balance : 10$</h5>
+                                <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
+                                    <Item>10$</Item>
+                                    <Item>20$</Item>
+                                    <Item>30$</Item>
+                                </Stack>
+                            </Box>
+                        </Modal>
+                        <MenuItem onClick={handleClose} className='profile-font'>
+                        <DashboardIcon className='profile-icons'/> Dashboard
+                        </MenuItem>
+                        <MenuItem onClick={handleClickLogOut} className='profile-font'>
+                        <LogoutIcon className='profile-icons'/> Logout
+                        </MenuItem>
                     </Menu>
-
                 </div>
                 )}
             </Toolbar>
