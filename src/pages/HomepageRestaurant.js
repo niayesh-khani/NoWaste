@@ -1,7 +1,6 @@
 import * as React from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import './Restaurant-View.css';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { styled } from '@mui/material/styles';
