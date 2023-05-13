@@ -43,21 +43,16 @@ const RestaurantCard = (props) => {
         history.push(`restaurant-view/${props.id}/`);
     }
 
-    const numSearchResults = props.numSearchResults || 0;
-    console.log(numSearchResults);
-    const isSingleResult = numSearchResults === 1;
-    const cardWidth = isSingleResult ? '100%' : '90%';
-    console.log(cardWidth);
-
     return ( 
         <div>
-        <Card className= 'homepage-custumer-card-restaurant' onClick={handleShow}>
+        {/* <Card className= 'homepage-custumer-card-restaurant' onClick={handleShow}> */}
+        <Card className={`homepage-custumer-card-restaurant${props.isSingleResult ? '-single' : ''}`} onClick={handleShow}>
             <CardActionArea>
             <div style={{ position: 'relative' }}>
                 <CardMedia
                     component="img"
                     sx={{ height: 140 }}
-                    image="/mohsen.jpg"
+                    image="/mohsen.jpg"        //props.restaurant_image
                     // title={food.Type}
                 />
                 <div style={{
@@ -82,7 +77,7 @@ const RestaurantCard = (props) => {
                             </Typography>
                         </Typography>
                     </Grid>
-                    <Typography className="description-homepage-customer" color="text.secondary">This is a best restaurant in Narmak that you can order everything you want.</Typography> 
+                    <Typography className="description-homepage-customer" color="text.secondary">{props.description}</Typography> 
                 </CardContent>
                 </CardActionArea>
             <CardActions>
