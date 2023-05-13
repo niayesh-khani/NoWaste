@@ -9,6 +9,7 @@ import PlaceIcon from '@mui/icons-material/Place';
 import WalletIcon from '@mui/icons-material/Wallet';
 import CircleChecked from '@mui/icons-material/CheckCircleOutline';
 import { CheckBox, CircleCheckedFilled, CircleUnchecked } from "@material-ui/icons";
+import axios from 'axios';
 
 const theme = createTheme({
     palette: {
@@ -22,6 +23,20 @@ const theme = createTheme({
 })
 
 export default function OrderPage(){
+    const [shoppingCard, setShoppingCard] = useState([]);  
+    const [menu, setMenu] = useState([]);
+    useEffect(()=>{                                                 //
+        axios.get(``)
+            .then((response) => {
+                setShoppingCard(response.data);
+                setMenu(shoppingCard.menu);
+            })
+            .catch((error) => {
+            console.log(error.response);
+            });
+    },[])
+
+
     return(
         <ThemeProvider theme={theme}>
             <Header />
@@ -36,6 +51,21 @@ export default function OrderPage(){
                             <span style={{color:"#E74C3C"}}>(2)</span>
                         </Typography>
                         <div className="orderpage-details-div">
+
+                            <Grid container spacing={2} className="orderpage-grid">      //
+                                {menu.map((item, index) => (
+                                    <div key={index}>
+                                        <Grid item>
+                                            <Typography>{item.name}</Typography>
+                                        </Grid>
+                                        <Grid item>
+                                            <Typography><span style={{color: '#8a8686'}}>{item.quantity}×</span>{item.price}$</Typography>
+                                        </Grid>
+                                    </div>
+                                ))}
+                            </Grid>
+
+
                             <Grid container spacing={2} className="orderpage-grid">
                                 <Grid item>
                                     <Typography>Ghormeh sabzi</Typography>
@@ -92,6 +122,7 @@ export default function OrderPage(){
                             </Grid>
                             <Grid item>
                                 <Typography> 205$ </Typography>
+                                {/* <Typography> {shoppingCard.subtotal}$ </Typography>        // */}
                             </Grid>
                         </Grid>
                         <hr className="hr-tag" />
@@ -101,6 +132,8 @@ export default function OrderPage(){
                             </Grid>
                             <Grid item >
                                 <Typography> {"15"+"%"} </Typography>
+                                {/* <Typography> {shoppingCard.discount }% </Typography>     // */}
+
                             </Grid>
                         </Grid>
                         <hr className="hr-tag" />
@@ -110,6 +143,7 @@ export default function OrderPage(){
                             </Grid>
                             <Grid item>
                                 <Typography> {205*0.85} </Typography>
+                                {/* <Typography> {shoppingCard.total} </Typography>          //*/}
                             </Grid>
                         </Grid> 
                         <Button className="order-submit">
@@ -134,6 +168,7 @@ export default function OrderPage(){
                             <Typography style={{display: "flex", alignSelf: 'flex-start', justifyContent: 'center'}}>
                                 <PlaceIcon className="icon-order-page" />
                                 Iran, Tehran, IUST
+                                {/* {shoppingCard.adress}         //*/}
                                 <CheckBox className="checkbox-orderpage" defaultChecked/>
                             </Typography>
                             
@@ -149,7 +184,6 @@ export default function OrderPage(){
                                 Wallet
                                 <CheckBox className="checkbox-orderpage" defaultChecked/>
                             </Typography>
-
                         </Box>
                     </Box>
                 </Grid>
