@@ -22,18 +22,17 @@ const theme = createTheme({
 })
 
 export default function OrderPage(){
-    
     return(
         <ThemeProvider theme={theme}>
             <Header />
             <Grid container spacing={2} sx={{paddingBottom: "1%"}} className="orderpage-root">
-                <Grid item lg={4} md={4} sm={12}>
+                <Grid item lg={4} md={4} sm={12} style={{paddingLeft: "3%"}}>
                     <Box className="orderpage-box" style={{justifyContent: 'space-between'}}>
                         <Typography variant="h5"
                             gutterBottom
                             className="orderpage-title"
                         >
-                            Shopping card
+                            Shopping Card
                             <span style={{color:"#E74C3C"}}>(2)</span>
                         </Typography>
                         <div className="orderpage-details-div">
@@ -101,7 +100,7 @@ export default function OrderPage(){
                                 <Typography>Discount</Typography>
                             </Grid>
                             <Grid item >
-                                <Typography> 15$ </Typography>
+                                <Typography> {"15"+"%"} </Typography>
                             </Grid>
                         </Grid>
                         <hr className="hr-tag" />
@@ -110,7 +109,7 @@ export default function OrderPage(){
                                 <Typography>Grand total</Typography>
                             </Grid>
                             <Grid item>
-                                <Typography> 190$ </Typography>
+                                <Typography> {205*0.85} </Typography>
                             </Grid>
                         </Grid> 
                         <Button className="order-submit">
@@ -118,13 +117,13 @@ export default function OrderPage(){
                         </Button>
                     </Box>
                 </Grid>
-                <Grid item lg={8} md={8} sm={12}>
+                <Grid item lg={8} md={8} sm={12} style={{paddingLeft: "2%"}}>
                     <Box className="orderpage-box">
                         <Typography variant="h5"
                             gutterBottom
                             className="orderpage-title"
                         >
-                            Shopping info
+                            Shopping Info
                         </Typography>
                         <Typography
                             style={{alignSelf: 'flex-start', fontSize: '20px'}}
@@ -132,10 +131,12 @@ export default function OrderPage(){
                             Address
                         </Typography>
                         <Box className="orderpage-shopinfo-box">
-                            <Typography style={{alignSelf: 'flex-start', justifyContent: 'center'}}>
-                                <PlaceIcon style={{marginTop: '10px'}} />
+                            <Typography style={{display: "flex", alignSelf: 'flex-start', justifyContent: 'center'}}>
+                                <PlaceIcon className="icon-order-page" />
                                 Iran, Tehran, IUST
+                                <CheckBox className="checkbox-orderpage" defaultChecked/>
                             </Typography>
+                            
                         </Box>
                         <Typography
                             style={{alignSelf: 'flex-start', fontSize: '20px', marginTop: "30px"}}
@@ -143,11 +144,12 @@ export default function OrderPage(){
                             Payment method
                         </Typography>
                         <Box className="orderpage-shopinfo-box">
-                            <Typography style={{alignSelf: 'flex-start', justifyContent: 'center'}}>
-                                <WalletIcon style={{marginTop: '1px'}} color="secondary"/>
+                            <Typography style={{display:'flex', alignSelf: 'flex-start', justifyContent: 'center'}}>
+                                <WalletIcon className="icon-order-page"/>
                                 Wallet
-                                
+                                <CheckBox className="checkbox-orderpage" defaultChecked/>
                             </Typography>
+
                         </Box>
                     </Box>
                 </Grid>
