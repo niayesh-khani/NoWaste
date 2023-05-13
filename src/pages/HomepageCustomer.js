@@ -231,7 +231,7 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&rate__lt=${toR}&rate__gt=${fromR}`)
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gte=${fromD}&discount__lte=${toD}&rate__lte=${toR}&rate__gte=${fromR}`)
         .then((response) => {
             console.log(response.data);
             setRestaurant(response.data);
@@ -290,7 +290,7 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-rate&rate__gt=${fromR}&rate__lt=${toR}`)
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gte=${fromD}&discount__lte=${toD}&ordering=-rate&rate__gte=${fromR}&rate__lte=${toR}`)
         .then((response) => {
             console.log(response.data);
             setRestaurant(response.data);
@@ -305,7 +305,7 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-discount&rate__gt=${fromR}&rate__lt=${toR}`)
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gte=${fromD}&discount__lte=${toD}&ordering=-discount&rate__gte=${fromR}&rate__lte=${toR}`)
         .then((response) => {
             setRestaurant(response.data);
             console.log(response.data);
@@ -320,7 +320,7 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-date_of_establishment&rate__gt=${fromR}&rate__lt=${toR}`)
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gte=${fromD}&discount__lte=${toD}&ordering=-date_of_establishment&rate__gte=${fromR}&rate__lte=${toR}`)
         .then((response) => {
             console.log(response.data);
             setRestaurant(response.data);
@@ -335,7 +335,7 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=date_of_establishment&rate__gt=${fromR}&rate__lt=${toR}`)
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gte=${fromD}&discount__lte=${toD}&ordering=date_of_establishment&rate__gte=${fromR}&rate__lte=${toR}`)
         .then((response) => {
             console.log(response.data);
             setRestaurant(response.data);

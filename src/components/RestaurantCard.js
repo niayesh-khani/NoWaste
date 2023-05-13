@@ -52,7 +52,7 @@ const RestaurantCard = (props) => {
                 <CardMedia
                     component="img"
                     sx={{ height: 140 }}
-                    image="/mohsen.jpg"
+                    image="/mohsen.jpg"        //props.restaurant_image
                     // title={food.Type}
                 />
                 <div style={{
@@ -77,7 +77,7 @@ const RestaurantCard = (props) => {
                             </Typography>
                         </Typography>
                     </Grid>
-                    <Typography className="description-homepage-customer" color="text.secondary">This is a best restaurant in Narmak that you can order everything you want.</Typography> 
+                    <Typography className="description-homepage-customer" color="text.secondary">{props.description}</Typography> 
                 </CardContent>
                 </CardActionArea>
             <CardActions>
