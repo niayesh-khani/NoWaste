@@ -22,6 +22,9 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
+import { useEffect } from 'react';
+import axios from "axios";
+
 
 const Header = React.memo(() => {
     const [auth, setAuth] = React.useState(true);
@@ -92,20 +95,50 @@ const Header = React.memo(() => {
     const handleOpenWallet = () => setOpenWallet(true);
     const handleCloseWallet= () => setOpenWallet(false);
 
-    const [balance, setBalance] = useState(0);              //
+    const [balance, setBalance] = useState();      
+    useEffect(() => {
+        const b = localStorage.getItem('wallet_balance');
+        console.log(b);
+        setBalance(b);
+    }, []);
+    // console.log(balance);
+    
+
     const [selectedAmount, setSelectedAmount] = useState(0);
 
     const handleAddAmount = (amount) => {
         setSelectedAmount(amount);
     };
 
-    const handleIncreaseBalance = () => {
-        if (selectedAmount !== 0) {
-        setBalance((prevBalance) => prevBalance + selectedAmount);
-        setSelectedAmount(0);
-        document.getElementById('payment-submit').classList.add('payment-submit-enabled');
-        }
-    };
+    // const handleIncreaseBalance = () => {
+    //     if (selectedAmount !== 0) {
+    //     setBalance((prevBalance) => prevBalance + selectedAmount);
+    //     setSelectedAmount(0);
+    //     document.getElementById('payment-submit').classList.add('payment-submit-enabled');
+    //     }
+    // };
+
+    const handleIncreaseBalance = (e) => {
+        e.preventDefault();
+        const userData = {
+            email: localStorage.getItem('email'),
+            amount: selectedAmount
+        };
+        console.log(userData);
+        axios.post("http://5.34.195.16/user/charge-wallet/", userData, {headers:{"Content-Type" : "application/json"}})
+        .then((response) => {
+            console.log(response);
+            
+            console.log(balance);
+        })
+        .catch((error) => {
+            if (error.response) {
+                console.log(error);
+            } 
+        });
+
+    }
+
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
