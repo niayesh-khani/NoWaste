@@ -130,6 +130,9 @@ export default function Login(){
                 console.log(response);
                 setToken(response.data.token);
                 setId(response.data.id);
+                setWallet_balance(response.data.wallet_balance);
+                setRole(response.data.role);
+                setList_of_favorites_res(response.data.list_of_favorites_res);
                 console.log(token);
                 console.log(id);
                 history.push("/homepage-customer");
