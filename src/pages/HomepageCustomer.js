@@ -458,7 +458,7 @@ const HomepageCustomer = () => {
                             <hr className='hr-tag'/>
                             <Grid container spacing={2} className='grid'>
                                 <Grid item>
-                                    <Typography>
+                                    <Typography className='filter-type'>
                                         Iranian
                                     </Typography>
                                 </Grid>
@@ -472,7 +472,7 @@ const HomepageCustomer = () => {
                             <hr className='hr-tag'/>
                             <Grid container spacing={2} className='grid'>
                                 <Grid item>
-                                    <Typography>
+                                    <Typography className='filter-type'>
                                         Foriegn
                                     </Typography>
                                 </Grid>
@@ -486,7 +486,7 @@ const HomepageCustomer = () => {
                             <hr className='hr-tag'/>
                             <Grid container spacing={2} className='grid'>
                                 <Grid item>
-                                    <Typography >
+                                    <Typography className='filter-type'>
                                         Drink
                                     </Typography>
                                 </Grid>
