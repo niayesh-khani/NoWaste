@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+.orderpage-root {
+    padding: 70px 15% !important;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 100% !important;
+}
+.orderpage-box {
+    border-radius: 10px !important;
+    box-sizing: border-box;
+    /* margin: 10px; */
+    height: 450px;
+    display: flex;
+    /* text-align: center; */
+    align-items: center;
+    /* justify-content: space-between; */
+    flex-direction: column;
+    padding: 10px 15px 0 15px;
+    border-radius: 13px;
+    border: 1px solid rgb(202, 196, 195);
+    background-color: rgba(117, 115, 111, 0.05);
+}
+.orderpage-title{
+    width: 90% !important;
+    font-weight: bold !important;
+    font-family: 'Montserrat', sans-serif !important;
+    /* margin: 10px auto !important; */
+}
+.orderpage-grid {
+    justify-content: space-between;
+    /* margin: 10px auto !important; */
+    width: 90% !important;
+    /* padding: 7% 0% 7% 0%; */
+    display: flex;
+    align-items: center;
+}
+.orderpage-details-div {
+    height: 150px !important;
+    width: 100% !important;
+    box-sizing: border-box;
+    /* padding: auto 10%; */
+    max-height: auto;
+    margin-left: 15%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-left: -15px !important;
+    padding-right: -15px !important;
+    /* padding-right: -15px;
+    padding-left: -25px;*/
+    /* margin-left: 14px;  */
+}
+.order-submit {
+    margin: 15px !important;
+    background-color: #FFA600 !important;
+    border-radius: 70px !important;
+    width: 70% !important;
+}
+.orderpage-details-div::-webkit-scrollbar {
+    width: 8px;
+    /* padding-left: -10px !important; */
+    margin-left: -10px !important;
+}
+.orderpage-details-div::-webkit-scrollbar-track {
+    background-color: #ccc;
+    border-radius: 10px;
+    margin-left: -10px;
+}
+.orderpage-details-div::-webkit-scrollbar-thumb {
+    background-color: #FFA600;
+    border-radius: 10px;
+}
+
+.orderpage-details-div::-webkit-scrollbar-thumb:hover {
+    background-color: #FFA600;
+}
+.orderpage-shopinfo-box {
+    border-radius: 10px !important;
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    /* padding: 10px 15px 0 15px; */
+    border-radius: 10px;
+    margin: 10px auto;
+    border: 1px solid #FFA600;
+    background-color: #ffffff;
+}
