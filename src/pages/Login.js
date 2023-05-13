@@ -35,6 +35,9 @@ export default function Login(){
     const [password, setPassword] = useState('');
     const [token, setToken] = useState('');
     const [id, setId] = useState('');
+    const [wallet_balance, setWallet_balance] = useState('');
+    const [role, setRole] = useState('');
+    const [list_of_favorites_res, setList_of_favorites_res] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
     const [open, setOpen] = useState(null);
@@ -85,6 +88,19 @@ export default function Login(){
         localStorage.setItem('id', JSON.stringify(id));
         console.log(id);
     }, [id]);
+    useEffect(() => {
+        localStorage.setItem('wallet_balance', JSON.stringify(wallet_balance));
+        console.log(wallet_balance);
+    }, [wallet_balance]);
+    useEffect(() => {
+        localStorage.setItem('role', JSON.stringify(role));
+        console.log(role);
+    }, [role]);
+    useEffect(() => {
+        localStorage.setItem('list_of_favorites_res', JSON.stringify(list_of_favorites_res));
+        console.log(list_of_favorites_res);
+    }, [list_of_favorites_res]);
+
     const handleClose = () => {
         setOpen(false);
         setHeight();
