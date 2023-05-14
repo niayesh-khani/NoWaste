@@ -42,7 +42,7 @@ const RestaurantCard = (props) => {
     const handleShow = () => {
         history.push(`restaurant-view/${props.id}/`);
     }
-
+    console.log(props.isSingleResult);
     return ( 
         <div>
         {/* <Card className= 'homepage-custumer-card-restaurant' onClick={handleShow}> */}
