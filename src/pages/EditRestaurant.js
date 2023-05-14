@@ -17,7 +17,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
-
+import ClearIcon from '@mui/icons-material/Clear';
 
 const styles = theme => ({
     field: {
@@ -78,6 +78,7 @@ const EditRestaurant = () => {
     const [openNetwork, setOpenNetwork] = useState(false);
     const [openWrongPass, setOpenWrongPass] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
+    const [openMenu, setOpenMenu] = useState(true);
 
     const handleProfileImg = (e) => {
         const file = e.target.files[0];
@@ -156,6 +157,9 @@ const EditRestaurant = () => {
     };
     const handleConfirmPassword = (e) => {
         setConfirmPassword(e.target.value);
+    };
+    const handleOpenMenu = () => {
+        setOpenMenu(!openMenu);
     };
 
     return ( 
@@ -264,22 +268,23 @@ const EditRestaurant = () => {
                                 </Grid>
                             </FormControl>
                             <FormControl className="edit-field-restaurant">
-                                <TextField
-                                    label="Email address"
-                                    variant="outlined"
-                                    color="secondary"
-                                    value={data.email}
-                                    InputLabelProps={{ shrink: true }}  
-                                    // disabled                          
-                                    InputProps={{
-                                        readOnly: true
-                                    }}
-                                />
-                            </FormControl>
-                            <FormControl className="edit-field-restaurant">
-                                <Grid>
-                                <LocalizationProvider dateAdapter={AdapterDayjs} style={{width: '150%'}}
-                                        InputLabelProps={{ shrink: true }}
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12} sm={6} md={6}>
+                                        <TextField
+                                            label="Email address"
+                                            variant="outlined"
+                                            color="secondary"
+                                            value={data.email}
+                                            InputLabelProps={{ shrink: true }}  
+                                            InputProps={{
+                                                readOnly: true
+                                            }}
+                                            style={{width: '100%', marginTop: '7px'}}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6} md={6}>
+                                        <LocalizationProvider dateAdapter={AdapterDayjs} style={{width: '150%'}}
+                                            InputLabelProps={{ shrink: true }}
                                         >
                                             <DemoContainer components={['DatePicker']} >
                                                 <DatePicker
@@ -292,6 +297,7 @@ const EditRestaurant = () => {
                                                 />
                                             </DemoContainer>
                                         </LocalizationProvider>
+                                    </Grid>
                                 </Grid>
                             </FormControl>
                             <FormControl className="edit-field-restaurant">
@@ -326,17 +332,164 @@ const EditRestaurant = () => {
                                 /> 
                             </FormControl>
                             <FormControl className="edit-field-restaurant">
-                                <Button 
-                                color="secondary"
-                                id="basic-button"
-                                aria-controls={open ? 'basic-menu' : undefined}
-                                aria-haspopup="true"
-                                aria-expanded={open ? 'true' : undefined}
-                                onClick={handleClick}
-                                >
-                                    menu
-                                </Button>
-                                <Menu
+                                {openMenu && 
+                                    <Button 
+                                        color="secondary"
+                                        // id="basic-button"
+                                        // aria-controls={open ? 'basic-menu' : undefined}
+                                        // aria-haspopup="true"
+                                        // aria-expanded={open ? 'true' : undefined}
+                                        // onClick={handleClick}
+                                        onClick={handleOpenMenu}
+                                        className="showmenu-button"
+                                    >
+                                        Show Menu
+                                    </Button>
+                                }
+                                {/* {!openMenu && 
+                                    <Button 
+                                        color="secondary"
+                                        // id="basic-button"
+                                        // aria-controls={open ? 'basic-menu' : undefined}
+                                        // aria-haspopup="true"
+                                        // aria-expanded={open ? 'true' : undefined}
+                                        // onClick={handleClick}
+                                        onClick={handleOpenMenu}
+                                        className="hidemenu-button"
+                                    >
+                                        Hide Menu
+                                    </Button>
+                                } */}
+                                {!openMenu && 
+                                    <Box className="menu-box">
+                                        <Grid container spacing={1} style={{position: 'absolute', justifyContent: 'flex-end', marginRight: '20px', marginLeft: '-20px', marginBottom: '10px'}}>
+                                            <IconButton>
+                                                <ClearIcon style={{color: 'red'}} />
+                                            </IconButton>
+                                        </Grid>
+                                        <Box className="food-box">
+                                            <Grid container spacing={3}>
+                                                <Grid item lg={2} md={2} sm={2} className="food-detail">
+                                                    <img src="/food2.jpg" className="food-image"/>
+                                                </Grid>
+                                                <Grid item lg={7} md={6} sm={8} className="food-detail">
+                                                    <Typography>
+                                                        Pizza
+                                                    </Typography>
+                                                    <Typography>
+                                                        Flour, yeast, mozzarella cheese, white sugar, tomatoes and onion
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item lg={2} md={3} sm={2}>
+                                                    <Button>
+                                                        Edit
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </Box>
+                                        <Box className="food-box">
+                                            <Grid container spacing={3}>
+                                                <Grid item lg={2} md={2} sm={2} className="food-detail">
+                                                    <img src="/food2.jpg" width="90" height="60"/>
+                                                </Grid>
+                                                <Grid item lg={7} md={6} sm={8} className="food-detail">
+                                                    <Typography>
+                                                        Pizza
+                                                    </Typography>
+                                                    <Typography>
+                                                        Flour, yeast, mozzarella cheese, white sugar, tomatoes and onion
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item lg={2} md={3} sm={2}>
+                                                    <Button>
+                                                        Edit
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </Box>
+                                        <Box className="food-box">
+                                            <Grid container spacing={3}>
+                                                <Grid item lg={2} md={2} sm={2} className="food-detail">
+                                                    <img src="/food2.jpg" width="90" height="60"/>
+                                                </Grid>
+                                                <Grid item lg={7} md={6} sm={8} className="food-detail">
+                                                    <Typography>
+                                                        Pizza
+                                                    </Typography>
+                                                    <Typography>
+                                                        Flour, yeast, mozzarella cheese, white sugar, tomatoes and onion
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item lg={2} md={3} sm={2}>
+                                                    <Button>
+                                                        Edit
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </Box>
+                                        <Box className="food-box">
+                                            <Grid container spacing={3}>
+                                                <Grid item lg={2} md={2} sm={2} className="food-detail">
+                                                    <img src="/food2.jpg" width="90" height="60"/>
+                                                </Grid>
+                                                <Grid item lg={7} md={6} sm={8} className="food-detail">
+                                                    <Typography>
+                                                        Pizza
+                                                    </Typography>
+                                                    <Typography>
+                                                        Flour, yeast, mozzarella cheese, white sugar, tomatoes and onion
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item lg={2} md={3} sm={2}>
+                                                    <Button>
+                                                        Edit
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </Box>
+                                        <Box className="food-box">
+                                            <Grid container spacing={3}>
+                                                <Grid item lg={2} md={2} sm={2} className="food-detail">
+                                                    <img src="/food2.jpg" width="90" height="60"/>
+                                                </Grid>
+                                                <Grid item lg={7} md={6} sm={8} className="food-detail">
+                                                    <Typography>
+                                                        Pizza
+                                                    </Typography>
+                                                    <Typography>
+                                                        Flour, yeast, mozzarella cheese, white sugar, tomatoes and onion
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item lg={2} md={3} sm={2}>
+                                                    <Button>
+                                                        Edit
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </Box>
+                                        <Box className="food-box">
+                                            <Grid container spacing={3}>
+                                                <Grid item lg={2} md={2} sm={2} className="food-detail">
+                                                    <img src="/food2.jpg" width="90" height="60"/>
+                                                </Grid>
+                                                <Grid item lg={7} md={6} sm={8} className="food-detail">
+                                                    <Typography>
+                                                        Pizza
+                                                    </Typography>
+                                                    <Typography>
+                                                        Flour, yeast, mozzarella cheese, white sugar, tomatoes and onion
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item lg={2} md={3} sm={2}>
+                                                    <Button>
+                                                        Edit
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </Box>
+                                    </Box>
+                                }
+                                {/* <Menu
                                     id="basic-menu"
                                     open={openButton}
                                     anchorEl={anchorEl}
@@ -347,9 +500,9 @@ const EditRestaurant = () => {
                                     <MenuItem>Food1</MenuItem>
                                     <MenuItem>Food2</MenuItem>
                                     <MenuItem>Food3</MenuItem>
-                                </Menu>
+                                </Menu> */}
                             </FormControl>
-                                {show && <>
+                            {show && <>
                                 <FormControl className="edit-field-restaurant">
                                     <TextField
                                         label="Current passsword"
@@ -381,79 +534,79 @@ const EditRestaurant = () => {
                                     />
                                 </FormControl>
                                 <FormControl className="edit-field-restaurant">
-                                <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={6} md={6}>
-                                    <TextField
-                                        label="New password"
-                                        variant="outlined"
-                                        style={{width: '100%'}}
-                                        color="secondary"
-                                        onChange={handlenewPassword}
-                                        type= {showNewPassword ? 'text' : 'password'}
-                                        error={newPasswordError}
-                                        helperText= {
-                                            <div className="edit-error-restaurant">
-                                                {newPasswordError && 'Password must be mixture of letters and numbers.'}
-                                            </div>
-                                        }
-                                        InputProps={{
-                                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <Icon>
-                                                        <LockIcon />
-                                                    </Icon> 
-                                                </InputAdornment>
-                                            ),
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <IconButton 
-                                                        aria-label="toggle password visibility"
-                                                        onClick={handleClickShowNewPassword}
-                                                        onMouseDown={handleMouseDownnewPassword}
-                                                    >
-                                                        {showNewPassword ? <Visibility /> : <VisibilityOff />}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            )
-                                        }}
-                                    />
-                                    </Grid>
-                                    <Grid item xs={12} sm={6} md={6}>
-                                        <TextField
-                                            label="Confirm new password"
-                                            variant="outlined"
-                                            style={{width: '100%'}}
-                                            color="secondary"
-                                            onChange={handleConfirmPassword}
-                                            error={newPasswordMatch === false}
-                                            helperText={
-                                                <div className="edit-error-restaurant">
-                                                    {!newPasswordMatch && 'Password do not match!'}
-                                                </div>
-                                            }
-                                            type= {showConfirmPassword ? 'text' : 'password'}
-                                            InputProps={{
-                                                startAdornment: (
-                                                    <InputAdornment position="start">
-                                                        <Icon>
-                                                            <LockOpenIcon />
-                                                        </Icon> 
-                                                    </InputAdornment>
-                                                ),
-                                                endAdornment: (
-                                                    <InputAdornment position="end">
-                                                        <IconButton 
-                                                            aria-label="toggle password visibility"
-                                                            onClick={handleClickShowConfirmPassword}
-                                                            onMouseDown={handleMouseDownconfirmPassword}
-                                                        >
-                                                            {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
-                                                        </IconButton>
-                                                    </InputAdornment>
-                                                )
-                                            }}
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12} sm={6} md={6}>
+                                            <TextField
+                                                label="New password"
+                                                variant="outlined"
+                                                style={{width: '100%'}}
+                                                color="secondary"
+                                                onChange={handlenewPassword}
+                                                type= {showNewPassword ? 'text' : 'password'}
+                                                error={newPasswordError}
+                                                helperText= {
+                                                    <div className="edit-error-restaurant">
+                                                        {newPasswordError && 'Password must be mixture of letters and numbers.'}
+                                                    </div>
+                                                }
+                                                InputProps={{
+                                                    startAdornment: (
+                                                        <InputAdornment position="start">
+                                                            <Icon>
+                                                                <LockIcon />
+                                                            </Icon> 
+                                                        </InputAdornment>
+                                                    ),
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            <IconButton 
+                                                                aria-label="toggle password visibility"
+                                                                onClick={handleClickShowNewPassword}
+                                                                onMouseDown={handleMouseDownnewPassword}
+                                                            >
+                                                                {showNewPassword ? <Visibility /> : <VisibilityOff />}
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    )
+                                                }}
                                             />
-                                    </Grid>
+                                        </Grid>
+                                        <Grid item xs={12} sm={6} md={6}>
+                                            <TextField
+                                                label="Confirm new password"
+                                                variant="outlined"
+                                                style={{width: '100%'}}
+                                                color="secondary"
+                                                onChange={handleConfirmPassword}
+                                                error={newPasswordMatch === false}
+                                                helperText={
+                                                    <div className="edit-error-restaurant">
+                                                        {!newPasswordMatch && 'Password do not match!'}
+                                                    </div>
+                                                }
+                                                type= {showConfirmPassword ? 'text' : 'password'}
+                                                InputProps={{
+                                                    startAdornment: (
+                                                        <InputAdornment position="start">
+                                                            <Icon>
+                                                                <LockOpenIcon />
+                                                            </Icon> 
+                                                        </InputAdornment>
+                                                    ),
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            <IconButton 
+                                                                aria-label="toggle password visibility"
+                                                                onClick={handleClickShowConfirmPassword}
+                                                                onMouseDown={handleMouseDownconfirmPassword}
+                                                            >
+                                                                {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    )
+                                                }}
+                                            />
+                                        </Grid>
                                     </Grid>
                                 </FormControl>
                                 </>

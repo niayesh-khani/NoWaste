@@ -87,7 +87,7 @@
 .edit-field-wrapper-restaurant {
     transition: height 0.5s ease-out;
     overflow: hidden;
-  }
+}
 #edit-button-restaurant {
     justify-content: space-between;
     width: 100%;
@@ -116,4 +116,48 @@
 }
 .phone-input-restaurant {
     color: #E74C3C !important;
+}
+.showmenu-button {
+    width: 30%;
+    /* align-content: center; */
+    margin: auto 35% !important;
+    background-color: #FFA600 !important;
+    color: black !important;
+    border-radius: 70px !important;
+}
+.hidemenu-button {
+    width: 30%;
+    /* align-content: center; */
+    margin: auto 35% !important;
+    background-color: #E74C3C !important;
+    color: black !important;
+    border-radius: 70px !important;
+}
+.food-box {
+    /* border-color: #E74C3C !important; */
+    margin: 10px 20px !important;
+    /* border: #E74C3C solid 1px; */
+    background-color: rgba(250, 248, 245, 0.958);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.food-detail {
+    margin: 2px 5px !important;
+}
+.menu-box {
+    margin-top: 20px;
+    max-height: auto;
+    height: 400px !important;
+    overflow-y: auto;
+    /* overflow-x: hidden; */
+    width: 100%;
+    border-radius: 13px;
+    /* border: 1px solid rgb(202, 196, 195); */
+    flex-direction: column;
+    background-color: rgba(117, 115, 111, 0.05);
+}
+.food-image {
+    width: 100px;
+    height: 70px;
 }
