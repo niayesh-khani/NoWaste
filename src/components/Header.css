@@ -8,8 +8,8 @@
 .balance{
     color: #797979;
     font-size: 12px;
-    margin-left: 50px;
-    margin-right: 10%;
+    margin-left: 60px;
+    /* margin-right: 10%; */
 }
 .toolbar-restaurant-view {
     display: flex;

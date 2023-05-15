@@ -94,14 +94,6 @@ const Header = React.memo(() => {
     const [openWallet, setOpenWallet] = React.useState(false);
     const handleOpenWallet = () => setOpenWallet(true);
     const handleCloseWallet= () => setOpenWallet(false);
-
-    const [balance, setBalance] = useState();      
-    useEffect(() => {
-        const b = localStorage.getItem('wallet_balance');
-        console.log(b);
-        setBalance(b);
-    }, []);
-    // console.log(balance);
     
 
     const [selectedAmount, setSelectedAmount] = useState(0);
@@ -118,27 +110,35 @@ const Header = React.memo(() => {
     //     }
     // };
 
+    const val = JSON.parse(localStorage.getItem('email'));
+
+    const [balance, setBalance] = useState(localStorage.getItem('wallet_balance') || 0);
+
+    useEffect(() => {
+      console.log(balance);
+    }, [balance]);
+    
     const handleIncreaseBalance = (e) => {
-        e.preventDefault();
-        const userData = {
-            email: localStorage.getItem('email'),
-            amount: selectedAmount
-        };
-        console.log(userData);
-        axios.post("http://5.34.195.16/user/charge-wallet/", userData, {headers:{"Content-Type" : "application/json"}})
+      e.preventDefault();
+      const userData = {
+        email: val,
+        amount: selectedAmount
+      };
+      console.log(userData);
+      console.log(val)
+      axios.post("http://5.34.195.16/user/charge-wallet/", userData, { headers: { "Content-Type": "application/json" } })
         .then((response) => {
-            console.log(response);
-            
-            console.log(balance);
+          console.log(response);
+          const newBalance = response.data.wallet_balance;
+          localStorage.setItem('wallet_balance', newBalance);
+          setBalance(newBalance);
         })
         .catch((error) => {
-            if (error.response) {
-                console.log(error);
-            } 
+          if (error.response) {
+            console.log(error);
+          }
         });
-
-    }
-
+    };
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -210,7 +210,7 @@ const Header = React.memo(() => {
                         PaperProps={{
                         elevation: 0,
                         sx: {
-                            width : 170,
+                            width : 190,
                             borderRadius : 3,
                             overflow: 'visible',
                             filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
@@ -243,7 +243,7 @@ const Header = React.memo(() => {
                         </MenuItem>
                         <MenuItem onClick={handleOpenWallet} className='profile-font'>
                         <AccountBalanceWalletIcon className='profile-icons'/> Wallet
-                        <div className='balance'>{balance}$</div>
+                        <div className='balance'>{balance} $</div>
                         </MenuItem>
                         <Modal
                             // className='credit-box'
@@ -258,7 +258,7 @@ const Header = React.memo(() => {
                                 </IconButton>
                                 <h2>Credit</h2>
                                 {/* <h5>Current Balance : 10$</h5> */}
-                                <div className='blance-header'>Balance : {balance}$</div>
+                                <div className='blance-header'>Balance : {balance} $</div>
                                 <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap" sx={{ marginTop: '20px', marginLeft: '10px', alignItems:'center' }}>
                                     {/* <Item>10$</Item>
                                     <Item>20$</Item>
