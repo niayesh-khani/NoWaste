@@ -85,6 +85,10 @@ export default function Login(){
         console.log(token);
     }, [token]);
     useEffect(() => {
+        localStorage.setItem('email', JSON.stringify(email));
+        console.log(email);
+    }, [email]);
+    useEffect(() => {
         localStorage.setItem('id', JSON.stringify(id));
         console.log(id);
     }, [id]);
