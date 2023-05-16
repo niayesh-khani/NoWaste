@@ -4,7 +4,8 @@ import Header from '../components/Header';
 import axios from "axios";
 import Footer from "../components/Footer";
 import dayjs from 'dayjs';
-import { DatePicker } from '@mui/x-date-pickers'
+import { DatePicker } from '@mui/x-date-pickers';
+import { useParams } from 'react-router-dom';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { Alert, AlertTitle } from "@mui/material";
@@ -51,8 +52,7 @@ const EditRestaurant = () => {
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };   
-    const [dob, setDob] = useState(null);
-    // const [emailError, setEmailError] = useState(false);
+    const [doe, setDoe] = useState(null);
     const [color, setColor] = useState(localStorage.getItem('avatarColor') || getRandomColor());
     const [update, setUpdate] = useState('');
     const [phone, setPhone] = useState('');
@@ -79,7 +79,99 @@ const EditRestaurant = () => {
     const [openWrongPass, setOpenWrongPass] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
     const [openMenu, setOpenMenu] = useState(true);
+    const {idM} = useParams();
+    const {idR} = useParams();
 
+
+    const handleFullname = (e) => {
+        setFullname(e.target.value);
+        setUpdate({...update, name: e.target.value})
+        if(!/^[a-zA-Z]+\s[a-zA-Z]+$/gm.test(e.target.value)){
+            setFullnameError(true);
+        } else {
+            setFullnameError(false);
+        }
+    };
+
+    useEffect(() => {
+        if(!localStorage.getItem('avatarColor')) {
+            localStorage.setItem('avatarColor', color);
+        }
+    }, [])
+
+    const handlePhoneChange = (value) => {
+        setUpdate({...update, number : value});
+        localStorage.setItem('phone', value);
+        setPhone(value);
+    };
+    const handleEstablishdate = (date) => {
+        setDoe(date);
+        console.log(data.date_of_establishment);
+        const formattedDate = dayjs(date).format('YYYY-MM-DD');
+        setUpdate({...update, date_of_establishment : formattedDate});
+    };
+    const handleOpenMenu = () => {
+        setOpenMenu(!openMenu);
+    };
+    const handleCity = (e) => {
+        setCity(e.target.value);
+    };
+    const handleCountry = (e) => {
+        setCountry(e.target.value);
+    };
+    const handleAddress = (e) => {
+        setAddress(e.target.value);
+    };
+    const handlePassword = (e) => {
+        setPassword(e.target.value);
+    };
+    const handlenewPassword = (e) => {
+        setNewPassword(e.target.value);
+        if(e.target.value.length < 8 || !/[a-zA-Z]+/.test(e.target.value)){
+            setNewPasswordError(true);
+        } else {
+            setNewPasswordError(false);
+        }
+    };
+    const handleConfirmPassword = (e) => {
+        setConfirmPassword(e.target.value);
+    };
+    useEffect(() => {
+        setNewPasswordMatch(newPassword === confirmPassword);
+    }, [newPassword, confirmPassword]);
+    useEffect(() => {
+        const temp = country + ', ' + city + ', ' + address;
+        setUpdate({...update, address : temp})
+    }, [country, city, address])
+    
+    useEffect(() => {
+        setFullname(data.name);
+    }, [data.name]);
+
+    useEffect(() => {
+        setDoe(data.date_of_establishment);
+    }, [data.date_of_establishment]);
+
+    useEffect(() => {
+        const arr = data?.address?data?.address.split(","):"";
+        setCountry(arr[2])
+        setCity(arr[1]);
+        setAddress(arr[0]);
+    }, [data.address]);
+
+    const history = useHistory();
+    // const handleChange = () => {
+    //     history.push('./change-password')
+    // };
+    const handleCloseNetwork = () => {
+        setOpenNetwork(false);
+    };
+    const handleCloseWrongPass = () => {
+        setOpenWrongPass(false);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
     const handleProfileImg = (e) => {
         const file = e.target.files[0];
         const fileSize = file.size;
@@ -97,43 +189,13 @@ const EditRestaurant = () => {
         }
         console.log(profileImg);
     };
-    const handleFullname = (e) => {
-        setFullname(e.target.value);
-        setUpdate({...update, name: e.target.value})
-        if(!/^[a-zA-Z]+\s[a-zA-Z]+$/gm.test(e.target.value)){
-            setFullnameError(true);
-        } else {
-            setFullnameError(false);
-        }
-    };
-    const history = useHistory();
-    const handleChange = () => {
-        history.push('./change-password')
-    };
-    const handleCloseNetwork = () => {
-        setOpenNetwork(false);
-    };
-    const handleCloseWrongPass = () => {
-        setOpenWrongPass(false);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
+    
+    useEffect(() => {
+        let valid = !fullnameError && !newPasswordError && newPasswordMatch
+                    // && password.trim().length > 0 && newPassword.trim().length > 0 && confirmPassword.trim().length > 0;
+        setValidInputs(valid);
+    }, [fullnameError, password, newPasswordError, confirmPasswordError, newPasswordMatch]);
 
-    const handlePhoneChange = (value) => {
-        setUpdate({...update, phone_number : value});
-        localStorage.setItem('phone', value);
-        setPhone(value);
-    };
-    const handleBirthdate = (date) => {
-        setDob(date);
-        console.log(data.date_of_birth);
-        const formattedDate = dayjs(date).format('YYYY-MM-DD');
-        setUpdate({...update, date_of_birth : formattedDate});
-    };
-    const handlePassword = (e) => {
-        setPassword(e.target.value);
-    };
     const handleClickShowCurrentPassword = () => setShowCurrentPassword(!showCurrentPassword);
     const handleMouseDownCurrentPassword = (event) => {
         event.preventDefault();
@@ -147,20 +209,52 @@ const EditRestaurant = () => {
         event.preventDefault();
     };
 
-    const handlenewPassword = (e) => {
-        setNewPassword(e.target.value);
-        if(e.target.value.length < 8 || !/[a-zA-Z]+/.test(e.target.value)){
-            setNewPasswordError(true);
-        } else {
-            setNewPasswordError(false);
-        }
-    };
-    const handleConfirmPassword = (e) => {
-        setConfirmPassword(e.target.value);
-    };
-    const handleOpenMenu = () => {
-        setOpenMenu(!openMenu);
-    };
+    useEffect(() =>{
+        axios.get(
+            `http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/` , 
+            {headers :{
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "GET,PATCH,PUT,DELETE"
+                // 'Authorization' : "Token " + token.slice(1,-1)
+            }}
+        )
+        .then((response) => {
+            console.log(response);
+            setData(response.data)
+        })
+        .catch((error) => console.log(error));
+    },[]);
+
+    const firstChar = data?.name?data.name.charAt(0) : "UN";
+    const handleUpdate = (e) => {
+        e.preventDefault();
+        axios.patch(
+            `http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/`, update,
+            {headers: {
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "GET,PATCH"
+                // 'Authorization' : "Token " + token.slice(1,-1)   
+            }}
+        )
+        .then((response)=> {
+            console.log(response);
+            console.log("succesfully updated");
+            window.location.reload(false);
+        })
+        .catch((error) => {
+            console.log(error)
+            if (error.request) {
+                setOpenNetwork(true);
+                console.log("network error");
+            }
+        });
+    }
+
+    const handleDiscard = () => {
+        window.location.reload(false);
+    }
 
     return ( 
         <ThemeProvider theme={theme}>
@@ -182,7 +276,7 @@ const EditRestaurant = () => {
                                 style={{backgroundColor: color, fontSize:"40px"}}
                                 src={profileImg}
                             >
-                                {"UD"}
+                                {firstChar}
                             </Avatar>
                             <Typography className="text-above-upload-restaurant">
                                 JPG or PNG no larger than 5 MB
@@ -254,7 +348,7 @@ const EditRestaurant = () => {
                                     <Grid item xs={12} sm={6} md={6}>
                                         <PhoneInput
                                             label="Phone number"
-                                            value={data.phone_number}
+                                            value={data.number}
                                             defaultCountry="ir"
                                             color="secondary"
                                             onChange={handlePhoneChange}
@@ -269,7 +363,7 @@ const EditRestaurant = () => {
                             </FormControl>
                             <FormControl className="edit-field-restaurant">
                                 <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={6} md={6}>
+                                    {/* <Grid item xs={12} sm={6} md={6}>
                                         <TextField
                                             label="Email address"
                                             variant="outlined"
@@ -281,19 +375,19 @@ const EditRestaurant = () => {
                                             }}
                                             style={{width: '100%', marginTop: '7px'}}
                                         />
-                                    </Grid>
+                                    </Grid> */}
                                     <Grid item xs={12} sm={6} md={6}>
                                         <LocalizationProvider dateAdapter={AdapterDayjs} style={{width: '150%'}}
                                             InputLabelProps={{ shrink: true }}
                                         >
                                             <DemoContainer components={['DatePicker']} >
                                                 <DatePicker
-                                                    label="Date of birth"
+                                                    label="Date of establish"
                                                     views={['year', 'month', 'day']}
                                                     sx={{width: '100%'}}
                                                     maxDate={dayjs()}
-                                                    onChange={handleBirthdate}
-                                                    value={dob ? dayjs(dob) : null }
+                                                    onChange={handleEstablishdate}
+                                                    value={doe ? dayjs(doe) : null }
                                                 />
                                             </DemoContainer>
                                         </LocalizationProvider>
@@ -309,6 +403,7 @@ const EditRestaurant = () => {
                                             color="secondary"
                                             value={country}
                                             style={{width: '100%'}}
+                                            onChange={handleCountry}
                                         /> 
                                     </Grid>
                                     <Grid item xs={12} sm={6} md={6}>
@@ -318,6 +413,7 @@ const EditRestaurant = () => {
                                             color="secondary"
                                             value={city}
                                             style={{width: '100%'}}
+                                            onChange={handleCity}
                                         /> 
                                     </Grid>
                                 </Grid>
@@ -329,6 +425,7 @@ const EditRestaurant = () => {
                                     color="secondary"
                                     multiline
                                     value={address}
+                                    onChange={handleAddress}
                                 /> 
                             </FormControl>
                             <FormControl className="edit-field-restaurant">
@@ -502,7 +599,7 @@ const EditRestaurant = () => {
                                     <MenuItem>Food3</MenuItem>
                                 </Menu> */}
                             </FormControl>
-                            {show && <>
+                            {/* {show && <>
                                 <FormControl className="edit-field-restaurant">
                                     <TextField
                                         label="Current passsword"
@@ -610,23 +707,23 @@ const EditRestaurant = () => {
                                     </Grid>
                                 </FormControl>
                                 </>
-                                }
+                                } */}
                             <Grid container spacing={2} className="edit-button-grid-restaurant" wrap="nowrap">
-                                <Grid item>
+                                {/* <Grid item>
                                     <Button className="edit-save-changepass-button-restaurant"  id="edit-button-restaurant" variant="contained" onClick={() => setShow(prev => !prev)}>Change password </Button>
-                                </Grid>
+                                </Grid> */}
                                 <Grid item container lg={5} md={6} sm={12}
                                 // style={{marginRight: "-10px"}}
                                 justifyContent="flex-end"
                                 >
                                     <Grid item style={{paddingRight: '5px'}}>
-                                        <Button className="edit-discard-button-restaurant" id="edit-button-restaurant" variant="contained"
+                                        <Button className="edit-discard-button-restaurant" id="edit-button-restaurant" variant="contained" onClick={handleDiscard}
                                             // style={{marginRight: "2%"}}
                                             // style={{backgroundColor: '#E74C3C'}}
                                         >Discard</Button>
                                     </Grid>
                                     <Grid item>
-                                        <Button className="edit-save-changepass-button-restaurant" id="edit-button-restaurant" variant="contained"
+                                        <Button className="edit-save-changepass-button-restaurant" id="edit-button-restaurant" variant="contained" onClick={handleUpdate}
                                             disabled={!validInputs}
                                             // style={{marginRight: "-2%"}}
                                         >Save changes</Button>
