@@ -36,7 +36,14 @@ import { Container, Row } from 'react-bootstrap';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import {InputBase} from '@mui/material';
 import PhoneInput from 'react-phone-input-2';
-import OwnRestaurantCard from '../components/OwnRestaurantCard';
+import { Card, CardActionArea, CardMedia, CardContent, Chip } from '@mui/material';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import PhoneIcon from '@mui/icons-material/Phone';
+import PlaceIcon from '@mui/icons-material/Place';
+import MdPhone from '@mui/icons-material/Phone';
+import DoneIcon from '@mui/icons-material/Done';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditIcon from '@mui/icons-material/Edit';
 import '../components/OwnRestaurantCard.css';
 
 const theme = createTheme({
@@ -184,8 +191,52 @@ const HomepageRestaurant = () => {
     const [newDiscount, setNewDiscount] = useState('');
     const [restaurants, setRestaurants] = useState();
     const [openNetwork, setOpenNetwork] = useState(null);
+    const [idRestaurant, setIdRestaurant] = useState();
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
+    const history = useHistory();
+    const [phoneCopied, setPhoneCopied] = React.useState(false);
+    const [addressCopied, setAddressCopied] = React.useState(false);
+
+    useEffect(() => {
+        localStorage.setItem('idRestaurant', JSON.stringify(idRestaurant));
+        }, [idRestaurant]);
+
+    const handlePhoneChip = (text) => {
+        navigator.clipboard.writeText("09116705720");
+        setPhoneCopied(true);
+        setTimeout(() => {
+            setPhoneCopied(false);
+        }, 1000);
+    };
+
+    const handleAddressChip = () => {
+        navigator.clipboard.writeText("This is the address.");
+        setAddressCopied(true);
+        setTimeout(() => {
+            setAddressCopied(false);
+        }, 1000);
+
+    };
+    const handlePhoneCopied = () => {
+        setPhoneCopied(false);
+    };
+    const handleAddressCopied = () => {
+        setAddressCopied(false);
+    };
+    const handleShow = () => {
+        // Handle the show event
+    };
+    const handleDelete = () => {
+        console.log("i'm here to delete.");
+        axios.delete(`http://5.34.195.16/restaurant/managers/${id}/restaurants/${idRestaurant}/`)
+        .then((response) => {
+            window.location.reload(false);
+        })
+        .catch((error) => console.log(error));
+    };
+    const handleEdit = () => {
+    };
 
     function setHeight() {
         const box = document.querySelector('.box');
@@ -217,13 +268,17 @@ const HomepageRestaurant = () => {
         )
         .then((response) => {
             console.log(response);
-            setRestaurants(response.data)
+            setRestaurants(response.data);
         })
         .catch((error) => console.log(error));
     },[]);
 
     const handleCancle = () => {
         window.location.reload(false);
+    }
+
+    const handleClick = () => {
+        history.push("");
     }
 
     const handleAdd = (e) => {
@@ -320,8 +375,71 @@ const HomepageRestaurant = () => {
                 <Grid item>
                     <Masonry style={{paddingLeft: "0%"}} breakpointCols={breakpoints}>
                         {restaurants && restaurants.map((res, index) => (
-                            <div key={index} style={{ width: index % 2 === 0 ? '100%' : '' }}>
-                                <OwnRestaurantCard restaurant={res} />
+                            <div  key={index} style={{ width: index % 2 === 0 ? '100%' : '' }}>
+                                <Card className='homepage-restaurant-card-restaurant' onClick={() => {setIdRestaurant(res.id); handleShow()}}>
+                                <CardActionArea>
+                                    <Grid container spacing={2}>
+                                    <Grid item md={6}>
+                                        <div style={{ position: 'relative' }}>
+                                        <CardMedia
+                                            component="img"
+                                            sx={{ height: 200, width: 200, marginLeft: 1, marginTop: 1, marginBottom: 1, borderRadius: 1 }}
+                                            image="/mohsen.jpg"
+                                        />
+                                        </div>
+                                    </Grid>
+                                    <Grid item md={6}>
+                                        <CardContent>
+                                            <Grid container style={{color: "black"}}>
+                                                <Grid item>
+                                                    <Typography className='restaurant-name-hemepage-restaurant' gutterBottom>
+                                                        {res.name}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item container alignItems="center">
+                                                    {/* <LocationOnIcon sx={{ marginRight: '0.5rem' }} />
+                                                    <Typography variant="body2">This is the address.</Typography> */}
+                                                    <Chip
+                                                        icon={<MdPhone/>}
+                                                        sx={{mb:1, fontSize: "medium"}}
+                                                        onClick={handlePhoneChip}       
+                                                        label={phoneCopied ? "Copied!" : res.number}
+                                                        clickable
+                                                        className={phoneCopied ? "copied" : ""}
+                                                        onDelete={phoneCopied ? handlePhoneCopied : null}
+                                                        deleteIcon={<DoneIcon />}
+                                                    />
+                                                </Grid>
+                                                <hr></hr>
+                                                <Grid item container alignItems="center">
+                                                    <StarRateIcon sx={{ marginRight: '0.5rem', marginLeft: '5px' }} style={{ color: '#faaf00' }} />
+                                                    <Typography>{res.rate}</Typography>
+                                                </Grid>
+                                                <hr></hr>
+                                                <Grid item container alignItems="center">
+                                                    {/* <PhoneIcon sx={{ marginRight: '0.5rem' }} />
+                                                    <Typography>09116705720</Typography> */}
+                                                    <Chip
+                                                        icon={<PlaceIcon />}
+                                                        onClick={handleAddressChip}
+                                                        sx={{fontSize: "medium"}}
+                                                        label={addressCopied ? "Copied!" : res.address}
+                                                        clickable
+                                                        className={addressCopied ? "copied" : ""}
+                                                        onDelete={addressCopied ? handleAddressCopied : null}
+                                                        deleteIcon={<DoneIcon />}
+                                                    />
+                                                    <div>
+                                                    <EditIcon title="Edit" onClick={() => {setIdRestaurant(res.id); handleEdit()}} className='edit-icons-card-restaurant-homepage'/>
+                                                    <DeleteForeverIcon title="Delete" onClick={() => {setIdRestaurant(res.id); handleDelete()}} className='delete-icons-card-restaurant-homepage'/>
+                                                </div>
+                                                </Grid>
+                                            </Grid>
+                                        </CardContent>
+                                    </Grid>
+                                    </Grid>
+                                </CardActionArea>
+                                </Card>
                             </div>
                         ))}
                     </Masonry>

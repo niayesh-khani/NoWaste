@@ -24,6 +24,24 @@
     margin-left: 5px !important;
 }
 
+.delete-icons-card-restaurant-homepage {
+
+    color: red !important;
+    margin-left: 5px !important;
+    margin-bottom: -15px !important;
+
+}
+.delete-icons-card-restaurant-homepage:hover {
+}
+.edit-icons-card-restaurant-homepage {
+    margin-left: 110px !important;
+    margin-bottom: -15px !important;
+    color: green !important;
+
+}
+.edit-icons-card-restaurant-homepage:hover {
+}
+
 @keyframes pulse {
     0%, 100% {
     transform: scale(1);
@@ -32,3 +50,5 @@
     transform: scale(1.2);
     }
 }
+
+
