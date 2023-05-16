@@ -8,9 +8,12 @@ import MdPhone from '@mui/icons-material/Phone';
 import DoneIcon from '@mui/icons-material/Done';
 import './OwnRestaurantCard.css';
 
-const OwnRestaurantCard = () => {
+const OwnRestaurantCard = (props) => {
     const [phoneCopied, setPhoneCopied] = React.useState(false);
     const [addressCopied, setAddressCopied] = React.useState(false);
+    const restaurant = props;
+    const phone = restaurant.number;
+    const address = restaurant.address;
 
     const handlePhoneChip = (text) => {
         navigator.clipboard.writeText("09116705720");
@@ -56,7 +59,7 @@ const OwnRestaurantCard = () => {
                     <Grid container style={{color: "black"}}>
                         <Grid item>
                             <Typography className='restaurant-name-hemepage-restaurant' gutterBottom>
-                                Mohsen
+                                {restaurant.name}
                             </Typography>
                         </Grid>
                         <Grid item container alignItems="center">
@@ -66,7 +69,7 @@ const OwnRestaurantCard = () => {
                                 icon={<MdPhone/>}
                                 sx={{mb:1, fontSize: "medium"}}
                                 onClick={handlePhoneChip}       
-                                label={phoneCopied ? "Copied!" : "09116705720"}
+                                label={phoneCopied ? "Copied!" : phone}
                                 clickable
                                 className={phoneCopied ? "copied" : ""}
                                 onDelete={phoneCopied ? handlePhoneCopied : null}
@@ -76,7 +79,7 @@ const OwnRestaurantCard = () => {
                         <hr></hr>
                         <Grid item container alignItems="center">
                             <StarRateIcon sx={{ marginRight: '0.5rem', marginLeft: '5px' }} style={{ color: '#faaf00' }} />
-                            <Typography>2.5</Typography>
+                            <Typography>{restaurant.rate}</Typography>
                         </Grid>
                         <hr></hr>
                         <Grid item container alignItems="center">
@@ -86,7 +89,7 @@ const OwnRestaurantCard = () => {
                                 icon={<PlaceIcon />}
                                 onClick={handleAddressChip}
                                 sx={{fontSize: "medium"}}
-                                label={addressCopied ? "Copied!" : "This is the address."}
+                                label={addressCopied ? "Copied!" : address}
                                 clickable
                                 className={addressCopied ? "copied" : ""}
                                 onDelete={addressCopied ? handleAddressCopied : null}

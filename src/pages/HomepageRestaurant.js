@@ -182,9 +182,21 @@ const HomepageRestaurant = () => {
     const [newPhone, setNewPhone] = useState('');
     const [newAddress, setNewAdress] = useState('');
     const [newDiscount, setNewDiscount] = useState('');
-    const r = ["1", "2" , "3"];
+    const [restaurants, setRestaurants] = useState();
+    const [openNetwork, setOpenNetwork] = useState(null);
+    const id = localStorage.getItem('id');
+    const token = localStorage.getItem('token');
 
-
+    function setHeight() {
+        const box = document.querySelector('.box');
+        const boxHeight = box.offsetHeight;
+        const image = document.querySelector('.background');
+        image.style.height = `${boxHeight}px`;
+    }
+    const handleCloseNetwork = () => {
+        setOpenNetwork(false);
+        setHeight();
+    }
 
     useEffect(() => {
         let valid = false;
@@ -192,6 +204,56 @@ const HomepageRestaurant = () => {
             valid = true;
         setValidInputs(valid);
     }, [newAddress, newName, newDiscount, newPhone]);
+
+    useEffect(() =>{
+        axios.get(
+            `http://5.34.195.16/restaurant/managers/${id}/restaurants/` , 
+            {headers :{
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "GET,POST",
+                // 'Authorization' : "Token " + token.slice(1,-1)
+            }}
+        )
+        .then((response) => {
+            console.log(response);
+            setRestaurants(response.data)
+        })
+        .catch((error) => console.log(error));
+    },[]);
+
+    const handleCancle = () => {
+        window.location.reload(false);
+    }
+
+    const handleAdd = (e) => {
+        e.preventDefault();
+        const userData = {
+            number: newPhone,
+            name: newName,
+            address: newAddress,
+            rate: "" ,
+            restaurant_image: "",
+            data_of_establishment: "",
+            description: ""
+            };
+            console.log(userData);
+            axios.post(`http://5.34.195.16/restaurant/managers/${id}/restaurants/`, userData, {headers:{"Content-Type" : "application/json"}})
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response);
+                    console.log("server responded");
+                } 
+                else if (error.request) {
+                    setOpenNetwork(true);
+                    console.log("network error");
+                } 
+
+            });  
+        }
 
     return ( 
         <ThemeProvider theme={theme}>
@@ -239,11 +301,11 @@ const HomepageRestaurant = () => {
                     />
                     <Grid container spacing={2} className="new-restaurant-button-grid" wrap="nowrap">
                                 <Grid item style={{paddingLeft: '20px'}}>
-                                    <Button className="discard-button" id="edit-button" variant="contained"
+                                    <Button className="discard-button" id="edit-button" variant="contained" onClick={handleCancle}
                                     >Cancel</Button>
                                 </Grid>
                                 <Grid item style={{paddingRight: '5px'}}>
-                                    <Button className="add-button" id="edit-button" variant="contained"
+                                    <Button className="add-button" id="edit-button" variant="contained" onClick={handleAdd}
                                         disabled={!validInputs}
                                         // style={{marginRight: "-2%"}}
                                     >Add</Button>
@@ -257,9 +319,9 @@ const HomepageRestaurant = () => {
             <Grid item md={9}>
                 <Grid item>
                     <Masonry style={{paddingLeft: "0%"}} breakpointCols={breakpoints}>
-                        {r && r.map((res, index) => (
+                        {restaurants && restaurants.map((res, index) => (
                             <div key={index} style={{ width: index % 2 === 0 ? '100%' : '' }}>
-                                <OwnRestaurantCard />
+                                <OwnRestaurantCard restaurant={res} />
                             </div>
                         ))}
                     </Masonry>
