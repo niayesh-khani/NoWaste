@@ -186,56 +186,31 @@ const HomepageRestaurant = () => {
     const [show, setShow] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
     const [newName, setNewName] = useState('');
+    const [phone, setPhone] = useState();
+    const [address, setAddress] = useState();
     const [newPhone, setNewPhone] = useState('');
     const [newAddress, setNewAdress] = useState('');
     const [newDiscount, setNewDiscount] = useState('');
     const [restaurants, setRestaurants] = useState();
     const [openNetwork, setOpenNetwork] = useState(null);
-    const [idRestaurant, setIdRestaurant] = useState();
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
     const history = useHistory();
-    const [phoneCopied, setPhoneCopied] = React.useState(false);
-    const [addressCopied, setAddressCopied] = React.useState(false);
 
-    useEffect(() => {
-        localStorage.setItem('idRestaurant', JSON.stringify(idRestaurant));
-        }, [idRestaurant]);
-
-    const handlePhoneChip = (text) => {
-        navigator.clipboard.writeText("09116705720");
-        setPhoneCopied(true);
-        setTimeout(() => {
-            setPhoneCopied(false);
-        }, 1000);
+    const handleShow = (res) => {
+        history.push(`edit-restaurant/${id}/restaurants/${res.id}`);
     };
 
-    const handleAddressChip = () => {
-        navigator.clipboard.writeText("This is the address.");
-        setAddressCopied(true);
-        setTimeout(() => {
-            setAddressCopied(false);
-        }, 1000);
-
-    };
-    const handlePhoneCopied = () => {
-        setPhoneCopied(false);
-    };
-    const handleAddressCopied = () => {
-        setAddressCopied(false);
-    };
-    const handleShow = () => {
-        // Handle the show event
-    };
-    const handleDelete = () => {
+    const handleDelete = (res) => {
         console.log("i'm here to delete.");
-        axios.delete(`http://5.34.195.16/restaurant/managers/${id}/restaurants/${idRestaurant}/`)
+        axios.delete(`http://5.34.195.16/restaurant/managers/${id}/restaurants/${res.id}/`)
         .then((response) => {
             window.location.reload(false);
         })
         .catch((error) => console.log(error));
     };
-    const handleEdit = () => {
+    const handleEdit = (res) => {
+        history.push(`edit-restaurant/${id}/restaurants/${res.id}`);
     };
 
     function setHeight() {
@@ -376,7 +351,7 @@ const HomepageRestaurant = () => {
                     <Masonry style={{paddingLeft: "0%"}} breakpointCols={breakpoints}>
                         {restaurants && restaurants.map((res, index) => (
                             <div  key={index} style={{ width: index % 2 === 0 ? '100%' : '' }}>
-                                <Card className='homepage-restaurant-card-restaurant' onClick={() => {setIdRestaurant(res.id); handleShow()}}>
+                                <Card className='homepage-restaurant-card-restaurant' onClick={() => {handleShow(res)}}>
                                 <CardActionArea>
                                     <Grid container spacing={2}>
                                     <Grid item md={6}>
@@ -402,12 +377,7 @@ const HomepageRestaurant = () => {
                                                     <Chip
                                                         icon={<MdPhone/>}
                                                         sx={{mb:1, fontSize: "medium"}}
-                                                        onClick={handlePhoneChip}       
-                                                        label={phoneCopied ? "Copied!" : res.number}
-                                                        clickable
-                                                        className={phoneCopied ? "copied" : ""}
-                                                        onDelete={phoneCopied ? handlePhoneCopied : null}
-                                                        deleteIcon={<DoneIcon />}
+                                                        label={res.number}
                                                     />
                                                 </Grid>
                                                 <hr></hr>
@@ -421,17 +391,12 @@ const HomepageRestaurant = () => {
                                                     <Typography>09116705720</Typography> */}
                                                     <Chip
                                                         icon={<PlaceIcon />}
-                                                        onClick={handleAddressChip}
                                                         sx={{fontSize: "medium"}}
-                                                        label={addressCopied ? "Copied!" : res.address}
-                                                        clickable
-                                                        className={addressCopied ? "copied" : ""}
-                                                        onDelete={addressCopied ? handleAddressCopied : null}
-                                                        deleteIcon={<DoneIcon />}
+                                                        label={res.address}
                                                     />
                                                     <div>
-                                                    <EditIcon title="Edit" onClick={() => {setIdRestaurant(res.id); handleEdit()}} className='edit-icons-card-restaurant-homepage'/>
-                                                    <DeleteForeverIcon title="Delete" onClick={() => {setIdRestaurant(res.id); handleDelete()}} className='delete-icons-card-restaurant-homepage'/>
+                                                    <EditIcon title="Edit" onClick={() => {handleEdit(res)}} className='edit-icons-card-restaurant-homepage'/>
+                                                    <DeleteForeverIcon title="Delete" onClick={() => {handleDelete(res)}} className='delete-icons-card-restaurant-homepage'/>
                                                 </div>
                                                 </Grid>
                                             </Grid>
@@ -447,7 +412,7 @@ const HomepageRestaurant = () => {
             </Grid>
         </Grid>
 
-    </ThemeProvider>
+        </ThemeProvider>
     );
 }
 
