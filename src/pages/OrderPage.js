@@ -11,6 +11,7 @@ import CircleChecked from '@mui/icons-material/CheckCircleOutline';
 import { CheckBox, CircleCheckedFilled, CircleUnchecked } from "@material-ui/icons";
 import axios from 'axios';
 
+
 const theme = createTheme({
     palette: {
         primary: {
@@ -25,8 +26,10 @@ const theme = createTheme({
 export default function OrderPage(){
     const [shoppingCard, setShoppingCard] = useState([]);  
     const [menu, setMenu] = useState([]);
+
+    const restaurantId = localStorage.getItem('restaurantId');
     useEffect(()=>{                                                 //
-        axios.get(``)
+        axios.get(`http://5.34.195.16/restaurant/restaurant_view/${restaurantId}/order/`)
             .then((response) => {
                 setShoppingCard(response.data);
                 setMenu(shoppingCard.menu);
