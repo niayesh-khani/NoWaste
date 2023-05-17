@@ -38,7 +38,9 @@ const RestaurantCard = (props) => {
     const history = useHistory();
     const [rateValue, setRateValue] = React.useState(2.5);
     const [discount, setDiscount] = useState(20);
-    localStorage.setItem('restaurantId', props.id);
+    // localStorage.setItem('restaurantId', props.id);
+
+
 
     const handleShow = () => {
         history.push(`restaurant-view/${props.id}/`);

@@ -106,7 +106,7 @@ const RestaurantView = (props: Props) =>
     const history = useHistory();
     const [email, setEmail] = React.useState("");
     const {id} = useParams();
-
+    localStorage.setItem('restaurantId', id);
 
     useEffect(() => {
         const email = JSON.parse(localStorage.getItem('email'));
