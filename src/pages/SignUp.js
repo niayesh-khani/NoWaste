@@ -297,13 +297,13 @@ export default function SignUp(){
                                 }}
                             />
                             
-                            <FormControlLabel className='checkbox' 
+                            <FormControlLabel className='checkbox' onClick={() => setRole("restaurant")}
                                 control={<Checkbox 
                                             sx={{color: '#f18b72', '&.Mui-checked': {color: '#E74C3C',},}}
                                         />}
                                 label={
                                 <Typography className="text" id="signupcheck"
-                                        onClick={() => setRole("restaurant")}>
+                                        >
                                     Sign up as restaurant
                                 </Typography>
                             }/>
