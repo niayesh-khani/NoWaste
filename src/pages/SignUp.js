@@ -49,6 +49,7 @@ export default function SignUp(){
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(null);
     const [openNetwork, setOpenNetwork] = useState(null);
+    const [id, setId] = useState('');
 
     useEffect(() => {
       window.addEventListener("load", () => {
@@ -169,7 +170,8 @@ export default function SignUp(){
         localStorage.setItem('password', JSON.stringify(password));
         localStorage.setItem('fullname', JSON.stringify(fullname));
         localStorage.setItem('wallet_balance', JSON.stringify(balance));
-    }, [email, role, password, fullname, balance]);
+        localStorage.setItem('id', JSON.stringify(id));
+    }, [email, role, password, fullname, balance,id]);
 
     return ( 
         <ThemeProvider theme={theme}>
