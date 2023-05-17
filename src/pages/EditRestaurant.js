@@ -216,6 +216,18 @@ function EditRestaurant(props){
         setCity(arr[1]);
         setAddress(arr[0]);
     }, [data.address]);
+    useEffect(() => {
+        setFoodName(food.name);
+    }, [food.name]);
+    useEffect(() => {
+        setFoodPrice(food.price);
+    }, [food.price]);
+    useEffect(() => {
+        setFoodIngredient(food.ingredients);
+    }, [food.ingredients]);
+    useEffect(() => {
+        setFoodType(food.type);
+    }, [food.type]);
 
     const history = useHistory();
     // const handleChange = () => {
@@ -363,6 +375,8 @@ function EditRestaurant(props){
         type: foodType, 
         restaurant: data.name
         }
+        console.log('im here to edit');
+        console.log(editData);
         axios.put(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/${e}/`, editData)
         .then((response) => {
             console.log(response);
@@ -765,7 +779,7 @@ function EditRestaurant(props){
                                                         label="Name"
                                                         variant="outlined"
                                                         color="secondary"
-                                                        value={food.name}
+                                                        value={foodName}
                                                         required
                                                         onChange={handleFoodName}
                                                         error={foodNameError}
@@ -782,7 +796,7 @@ function EditRestaurant(props){
                                                         label="Ingredient"
                                                         variant="outlined"
                                                         color="secondary"
-                                                        value={food.ingredients}
+                                                        value={foodIngredient}
                                                         multiline
                                                         // required
                                                         onChange={handleFoodIngredient}
@@ -806,7 +820,7 @@ function EditRestaurant(props){
                                                                 required
                                                                 style={{width: '100%'}}
                                                                 onChange={handleFoodType}
-                                                                // defaultValue={food.type}
+                                                                // defaultValue={foodType}
                                                             >
                                                                 <MenuItem value="select" disabled>
                                                                     <em>Select type</em>
@@ -827,7 +841,8 @@ function EditRestaurant(props){
                                                                 label="Price"
                                                                 variant="outlined"
                                                                 color="secondary"
-                                                                value={food.price}
+                                                                onChange={handleFoodPrice}
+                                                                value={foodPrice}
                                                                 required
                                                                 style={{width: '100%'}}
                                                                 InputProps={{
