@@ -40,6 +40,8 @@ const RestaurantCard = (props) => {
     const [discount, setDiscount] = useState(20);
     // localStorage.setItem('restaurantId', props.id);
 
+
+
     const handleShow = () => {
         history.push(`restaurant-view/${props.id}/`);
     }

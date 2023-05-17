@@ -14,7 +14,8 @@ import { set } from 'date-fns';
 import RestaurantView from './pages/Restaurant-View';
 import EditProfile from './pages/EditProfile';
 import NewPassword from './pages/NewPassword';
-import ChangePass from './pages/ChangePass';
+import HomepageCustomer from './pages/HomepageCustomer';
+import EditRestaurant from './pages/EditRestaurant';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -34,11 +35,11 @@ function App() {
     //     </div>
     //   ) : (
       <Router>
-          <Route exact path="/sign-up">
+          <Route path="/sign-up">
             <SignUp />
           </Route>
           <Route path="/login">
-            <Routing/>
+            <Login/>
           </Route>
           <Route path='/forgot-password'>
             <ForgotPass />
@@ -52,7 +53,7 @@ function App() {
           <Route exact path="/homepage">
             <HomePage />
           </Route>
-          <Route path="/landing">
+          <Route exact path="/">
             <Landing/>
           </Route>
           <Route path="/restaurant-view/:id">
@@ -61,8 +62,11 @@ function App() {
           <Route path="/edit-profile">
             <EditProfile />
           </Route>
-          <Route path="/change-password" >
-            <ChangePass />
+          <Route path="/homepage-customer" >
+            <HomepageCustomer />
+          </Route>
+          <Route path="/edit-restaurant/:idM/restaurants/:idR" >
+            <EditRestaurant />
           </Route>
       </Router>
     //   )}

@@ -8,6 +8,8 @@ import './Login-Signup.css';
 import axios from "axios";
 import Checkbox from '@mui/material/Checkbox';
 import { SpinningBubbles } from "react-loading";
+import { Alert} from "@mui/material";
+
 
 const theme = createTheme({
     palette: {
@@ -35,6 +37,7 @@ export default function SignUp(){
     const [showPassword, setShowPassword] = useState(false);
     const [role, setRole] = useState('customer');
     const [email, setEmail] = useState('');
+    const [balance, setBalance] = useState(0);
     const [emailError, setEmailError] = useState(false);
     const [fullname, setFullname] = useState('');
     const [fullnameError, setFullnameError] = useState(false);
@@ -43,8 +46,9 @@ export default function SignUp(){
     const [passwordMatch, setPasswordMatch] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
-
     const [loading, setLoading] = useState(true);
+    const [open, setOpen] = useState(null);
+    const [openNetwork, setOpenNetwork] = useState(null);
 
     useEffect(() => {
       window.addEventListener("load", () => {
@@ -84,6 +88,15 @@ export default function SignUp(){
         setConfirmPassword(value);
     };
 
+        const handleClose = () => {
+        setOpen(false);
+        setHeight();
+    }
+    const handleCloseNetwork = () => {
+        setOpenNetwork(false);
+        setHeight();
+    }
+
     useEffect(() => {
         setPasswordMatch(password === confirmPassword);
     }, [password, confirmPassword]);
@@ -112,6 +125,13 @@ export default function SignUp(){
             window.onpopstate = null;
         };
     }, []);
+
+    useEffect(() => {
+        setHeight();
+    }, [open]);
+    useEffect(() => {
+        setHeight();
+    }, [openNetwork]);
     
     const history = useHistory();
     const handleSubmit = (e) => {
@@ -120,22 +140,26 @@ export default function SignUp(){
             name: fullname,
             email: email
         };
-        axios.post("http://nowaste39.pythonanywhere.com/user/signup/", userData, {headers:{"Content-Type" : "application/json"}})
+        axios.post("http://5.34.195.16/user/signup/", userData, {headers:{"Content-Type" : "application/json"}})
         .then((response) => {
             console.log(response);
             history.push("/verification");
         })
         .catch((error) => {
             if (error.response) {
-            console.log(error.response);
-            console.log("server responded");
+                console.log(error.response);
+                console.log("server responded");
+                setOpen(true);
+                console.log(error);
             } 
             else if (error.request) {
-            console.log("network error");
+                setOpenNetwork(true);
+                console.log("network error");
             } 
-            else {
-            console.log(error);
-            }
+            // else {
+            // setOpen(true);
+            // console.log(error);
+            // }
         });
     };
 
@@ -144,7 +168,8 @@ export default function SignUp(){
         localStorage.setItem('role', JSON.stringify(role));
         localStorage.setItem('password', JSON.stringify(password));
         localStorage.setItem('fullname', JSON.stringify(fullname));
-    }, [email, role, password, fullname]);
+        localStorage.setItem('wallet_balance', JSON.stringify(balance));
+    }, [email, role, password, fullname, balance]);
 
     return ( 
         <ThemeProvider theme={theme}>
@@ -160,11 +185,19 @@ export default function SignUp(){
                             color="textPrimary"
                             gutterBottom
                             className="text"
-                            style={{fontWeight: 'bold', fontSize: '30px'}}
+                            style={{fontWeight: '600', fontSize: '30px'}}
                         >
                             Sign Up 
                         </Typography>
                         <form noValidate autoComplete="off" style={{textAlign: 'center'}}>
+                            {open && <Alert severity="error" open={open} onClose={handleClose} variant="outlined" className="alert-error filed">
+                                    Email is invalid or already taken!
+                                </Alert>
+                            } 
+                            {openNetwork && <Alert severity="error" open={openNetwork} onClose={handleCloseNetwork} variant="outlined" className="alert-error filed">
+                                    Network error!
+                                </Alert>
+                            } 
                             <TextField 
                                 className="field"
                                 label="Full name"
@@ -264,13 +297,13 @@ export default function SignUp(){
                                 }}
                             />
                             
-                            <FormControlLabel className='checkbox' 
+                            <FormControlLabel className='checkbox' onClick={() => setRole("restaurant")}
                                 control={<Checkbox 
-                                            sx={{color: '#f18b72', '&.Mui-checked': {color: '#f18b72',},}}
+                                            sx={{color: '#f18b72', '&.Mui-checked': {color: '#E74C3C',},}}
                                         />}
                                 label={
                                 <Typography className="text" id="signupcheck"
-                                        onClick={() => setRole("restaurant")}>
+                                        >
                                     Sign up as restaurant
                                 </Typography>
                             }/>

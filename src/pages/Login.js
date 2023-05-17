@@ -1,18 +1,17 @@
-import { Box, Button, Container, createTheme, FormControlLabel, Icon, IconButton, InputAdornment, TextField, ThemeProvider, Typography } from "@material-ui/core";
+import { Box, Button, Container, createTheme, Icon, IconButton, InputAdornment, TextField, ThemeProvider, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material"
 import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
 import { Link, useHistory } from "react-router-dom";
-import Checkbox from '@mui/material/Checkbox';
 import axios from "axios";
 import './Login-Signup.css'
-import { Alert, AlertTitle } from "@mui/material";
+import { Alert } from "@mui/material";
 
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#dd9d46',
+            main: '#E74C3c',
         },
         secondary: {
             main: '#a44704',
@@ -36,9 +35,13 @@ export default function Login(){
     const [password, setPassword] = useState('');
     const [token, setToken] = useState('');
     const [id, setId] = useState('');
+    const [wallet_balance, setWallet_balance] = useState('');
+    const [role, setRole] = useState('');
+    const [list_of_favorites_res, setList_of_favorites_res] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
     const [open, setOpen] = useState(null);
+    const [openNetwork, setOpenNetwork] = useState(null);
     
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -82,17 +85,41 @@ export default function Login(){
         console.log(token);
     }, [token]);
     useEffect(() => {
+        localStorage.setItem('email', JSON.stringify(email));
+        console.log(email);
+    }, [email]);
+    useEffect(() => {
         localStorage.setItem('id', JSON.stringify(id));
         console.log(id);
     }, [id]);
+    useEffect(() => {
+        localStorage.setItem('wallet_balance', JSON.stringify(wallet_balance));
+        console.log(wallet_balance);
+    }, [wallet_balance]);
+    useEffect(() => {
+        localStorage.setItem('role', JSON.stringify(role));
+        console.log(role);
+    }, [role]);
+    useEffect(() => {
+        localStorage.setItem('list_of_favorites_res', JSON.stringify(list_of_favorites_res));
+        console.log(list_of_favorites_res);
+    }, [list_of_favorites_res]);
+
     const handleClose = () => {
         setOpen(false);
+        setHeight();
+    }
+    const handleCloseNetwork = () => {
+        setOpenNetwork(false);
         setHeight();
     }
 
     useEffect(() => {
         setHeight();
     }, [open]);
+    useEffect(() => {
+        setHeight();
+    }, [openNetwork]);
 
     const history = useHistory();
     const handleSubmit = (e) => {
@@ -102,27 +129,33 @@ export default function Login(){
             email: email
             };
             console.log(userData);
-            axios.post("http://nowaste39.pythonanywhere.com/user/login/", userData, {headers:{"Content-Type" : "application/json"}})
+            axios.post("http://5.34.195.16/user/login/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
                 setToken(response.data.token);
                 setId(response.data.id);
+                setWallet_balance(response.data.wallet_balance);
+                setRole(response.data.role);
+                setList_of_favorites_res(response.data.list_of_favorites_res);
                 console.log(token);
                 console.log(id);
-                history.push("/homepage");
+                history.push("/homepage-customer");
             })
             .catch((error) => {
-                setOpen(true);
                 if (error.response) {
                     console.log(error.response);
                     console.log("server responded");
+                    setOpen(true);
+                    console.log(error);
                 } 
                 else if (error.request) {
+                    setOpenNetwork(true);
                     console.log("network error");
                 } 
-                else {
-                    console.log(error);
-                }
+                // else {
+                //     setOpen(true);
+                //     console.log(error);
+                // }
             });
         };
     
@@ -137,17 +170,21 @@ export default function Login(){
                         borderRadius="25px"
                     />
                     <Box className="box">
-                        <Typography variant="h4" 
+                        <Typography variant="h5" 
                             color="textPrimary"
                             gutterBottom
                             className="text"
-                            style={{textAlign: 'center', marginTop: '10%', marginBottom: '10%', fontWeight: 'bold'}}
+                            style={{fontWeight: 'bold', fontSize: '30px'}}
                         >
                             Login 
                         </Typography>
                         <form noValidate autoComplete="off" style={{textAlign: 'center'}}>
                             {open && <Alert severity="error" open={open} onClose={handleClose} variant="outlined" className="alert-error filed">
                                     Incorrect email address or password!
+                                </Alert>
+                            } 
+                            {openNetwork && <Alert severity="error" open={openNetwork} onClose={handleCloseNetwork} variant="outlined" className="alert-error filed">
+                                    Network error!
                                 </Alert>
                             } 
                             <TextField 
@@ -211,14 +248,14 @@ export default function Login(){
                                     }
                             /> */}
                             <Link to="/forgot-password" className="forgetpassword">
-                                <Typography>
+                                <Typography style={{ fontFamily: 'Montserrat, sans-serif'}}>
                                     Forgot password?
                                 </Typography>
                             </Link>
                             <Button 
                                 variant="contained" 
                                 type="submit" 
-                                color="primary"
+                                // color="primary"
                                 className="field"
                                 id="submit"
                                 onClick={handleSubmit}

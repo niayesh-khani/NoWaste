@@ -42,6 +42,8 @@ export default function ForgotPass(){
     const [open, setOpen] = useState(null);
     const [alertSeverity, setAlertSeverity] = useState("");
     const [alertMessage, setAlertMessage] = useState("");
+    const [openNetwork, setOpenNetwork] = useState(null);
+
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -66,9 +68,17 @@ export default function ForgotPass(){
         setOpen(false);
     }
 
+    const handleCloseNetwork = () => {
+        setOpenNetwork(false);
+        setHeight();
+    }
+
     useEffect(() => {
         setHeight();
     }, [open]);
+    useEffect(() => {
+        setHeight();
+    }, [openNetwork]);
 
     const [validInputs, setValidInputs] = useState(false);
     useEffect(() => {
@@ -134,7 +144,7 @@ export default function ForgotPass(){
         const userData = {
             email: email
             };
-            axios.post("http://nowaste39.pythonanywhere.com/user/forgot-password/", userData, {headers:{"Content-Type" : "application/json"}})
+            axios.post("http://5.34.195.16/user/forgot-password/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
                     setAlertMessage("We've just sent you an email including your new password. Enter your new password to continue.");
@@ -163,7 +173,7 @@ export default function ForgotPass(){
             email: email
         };
         console.log(userData);
-        axios.post("http://nowaste39.pythonanywhere.com/user/fp-verify/", userData, {headers:{"Content-Type" : "application/json"}})
+        axios.post("http://5.34.195.16/user/fp-verify/", userData, {headers:{"Content-Type" : "application/json"}})
         .then((response) => {
             console.log(response);
             console.log(response.data.token);
@@ -174,17 +184,20 @@ export default function ForgotPass(){
         .catch((error) => {
             console.log(newPassword);
             console.log(email);
-            setOpen(true);
             if (error.response) {
                 console.log(error.response);
                 console.log("server responded");
+                setOpen(true);
+                console.log(error);
             } 
             else if (error.request) {
+                setOpenNetwork(true);
                 console.log("network error");
             } 
-            else {
-                console.log(error);
-            }
+            // else {
+            //     setOpen(true);
+            //     console.log(error);
+            // }
         });    
     };
     return ( 
@@ -204,19 +217,23 @@ export default function ForgotPass(){
                     <Box className="box"
                     // className="box-forgot"
                     >
-                        <Typography variant="h4" 
+                        <Typography variant="h5" 
                             color="textPrimary"
                             gutterBottom
                             className="text"
-                            style={{fontWeight: 'bold'}}
+                            style={{fontWeight: 'bold', fontSize: '30px'}}
                         >
                             Forgot Your Password?
                         </Typography>
                         <form noValidate autoComplete="off" style={{textAlign: 'center'}}>
                             {open && <Alert severity="error" open={open} onClose={handleClose} className="alert-error" variant="outlined">
-                                    Incorrect new password!
+                                    Incorrect code!
                                 </Alert>
                             }
+                            {openNetwork && <Alert severity="error" open={openNetwork} onClose={handleCloseNetwork} variant="outlined" className="alert-error filed">
+                                    Network error!
+                                </Alert>
+                            } 
                             <TextField 
                                 label="Email Address"
                                 variant="outlined"
