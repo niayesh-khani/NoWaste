@@ -135,18 +135,24 @@
 }
 .food-box {
     /* border-color: #E74C3C !important; */
-    margin: 10px 20px !important;
+    margin: 20px auto !important;
     /* border: #E74C3C solid 1px; */
-    background-color: rgba(250, 248, 245, 0.958);
+    background-color: rgb(255, 255, 255);
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 96%;
+    border-radius: 5px;
 }
-.food-detail {
-    margin: 2px 5px !important;
-}
+/* .food {
+    margin: 3px 5px !important;
+    margin-top: 5px !important;
+    margin-left: 3px !important;
+    margin-bottom: 5px !important;
+} */
 .menu-box {
     margin-top: 20px;
+    margin-bottom: 20px;
     max-height: auto;
     height: 400px !important;
     overflow-y: auto;
@@ -155,9 +161,52 @@
     border-radius: 13px;
     /* border: 1px solid rgb(202, 196, 195); */
     flex-direction: column;
+    /* background-color: rgba(215, 44, 6, 0.1); */
     background-color: rgba(117, 115, 111, 0.05);
 }
 .food-image {
-    width: 100px;
-    height: 70px;
+    width: 100%;
+    height: 91%;
+    margin-top: 4px;
+    margin-left: 3px;
+    border-radius: 7px !important;
+    /* margin-bottom: 3px; */
+}
+.food-name {
+    /* font-weight: 900 !important; */
+    font-size: 25px !important;
+}
+.food-type-price {
+    font-size: 20px !important;
+    margin: 20px auto !important;
+}
+.food-ingredient {
+    font-size: 13px !important;
+    color: #524b4a;
+}
+.food-edit{
+    margin: 20px !important;
+    background-color: #E74C3C !important;
+}
+#food-edit-button {
+    justify-content: center;
+    text-transform: none;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif !important;
+    border-radius: 70px;
+}
+.dialog-title {
+    /* justify-content: flex-end !important; */
+    font-weight: bold;
+    /* font-family: 'Montserrat', sans-serif !important; */
+
+    /* width: 30% !important;
+    height: 90% !important; */
+    /* height: auto;
+    width: auto; */
+    /* position: fixed; */
+    /* top: 50%;
+    left: 50%; */
+    /* transform: translate(-50%, -50%); */
 }

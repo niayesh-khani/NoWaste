@@ -8,7 +8,7 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { useParams } from 'react-router-dom';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
-import { Alert, AlertTitle } from "@mui/material";
+import { Alert, AlertTitle, Dialog, FormControlLabel } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import PhoneInput from 'material-ui-phone-number';
@@ -17,8 +17,10 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
+import { Avatar, Box, Button, createTheme, DialogContent, DialogTitle, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, Paper, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import ClearIcon from '@mui/icons-material/Clear';
+import AddIcon from '@mui/icons-material/Add';
+import { Girl } from "@mui/icons-material";
 
 const styles = theme => ({
     field: {
@@ -29,7 +31,19 @@ const styles = theme => ({
       ...theme.typography.body1,
       width : "100px",
     },
+    dialogRoot: {
+        width: '100%',
+        // height: 'auto',
+        minHeight: '300px',
+        maxHeight: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        overflowY: 'scroll'
+    },
 });
+const StyledDialog = withStyles(styles)(Dialog);
 const theme = createTheme({
     palette: {
         primary: {
@@ -38,13 +52,24 @@ const theme = createTheme({
         secondary: {
             main: '#a44704',
         }
+    },
+    overrides: {
+        MuiFormLabel: {
+            asterisk: {
+                color: '#db3131',
+                '&$error': {
+                color: '#db3131'
+                },
+            }
+        }
     }
-})
+});
 function getRandomColor() {
     const colors = ['#FFA600', '#fff2bf', '#ffe480', '#a2332a' , '#E74C3C' , '#690000' , '#595959', '#3e3e3e' , '#C6C6C6', '#ABABAB', '#B9B9B9'];
     return colors[Math.floor(Math.random() * colors.length)];
 }
-const EditRestaurant = () => {
+function EditRestaurant(props){
+    const { value, defaultCountry, onChange, classes } = props;
     const [fullname, setFullname] = useState('');
     const [fullnameError, setFullnameError] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -143,7 +168,9 @@ const EditRestaurant = () => {
         const temp = country + ', ' + city + ', ' + address;
         setUpdate({...update, address : temp})
     }, [country, city, address])
-    
+        const [openEdit, setOpenEdit] = useState(false);
+    const [openAdd, setOpenAdd] = useState(false);
+
     useEffect(() => {
         setFullname(data.name);
     }, [data.name]);
@@ -255,6 +282,12 @@ const EditRestaurant = () => {
     const handleDiscard = () => {
         window.location.reload(false);
     }
+    const handleOpenEdit = () => {
+        setOpenEdit(!openEdit);
+    };
+    const handleOpenAdd = () => {
+        setOpenAdd(!openAdd);
+    };
 
     return ( 
         <ThemeProvider theme={theme}>
@@ -308,7 +341,7 @@ const EditRestaurant = () => {
                                 className="edit-title-restaurant"
                                 // style={{fontWeight: 'bold', fontSize: '30px'}}
                             >
-                                Account Details 
+                                Restaurant Details 
                             </Typography>
                             <FormControl className="edit-field-restaurant">
                                 <Grid container spacing={2}>
@@ -382,7 +415,7 @@ const EditRestaurant = () => {
                                         >
                                             <DemoContainer components={['DatePicker']} >
                                                 <DatePicker
-                                                    label="Date of establish"
+                                                    label="Establish date"
                                                     views={['year', 'month', 'day']}
                                                     sx={{width: '100%'}}
                                                     maxDate={dayjs()}
@@ -443,161 +476,274 @@ const EditRestaurant = () => {
                                         Show Menu
                                     </Button>
                                 }
-                                {/* {!openMenu && 
-                                    <Button 
-                                        color="secondary"
-                                        // id="basic-button"
-                                        // aria-controls={open ? 'basic-menu' : undefined}
-                                        // aria-haspopup="true"
-                                        // aria-expanded={open ? 'true' : undefined}
-                                        // onClick={handleClick}
-                                        onClick={handleOpenMenu}
-                                        className="hidemenu-button"
-                                    >
-                                        Hide Menu
-                                    </Button>
-                                } */}
                                 {!openMenu && 
-                                    <Box className="menu-box">
-                                        <Grid container spacing={1} style={{position: 'absolute', justifyContent: 'flex-end', marginRight: '20px', marginLeft: '-20px', marginBottom: '10px'}}>
-                                            <IconButton>
-                                                <ClearIcon style={{color: 'red'}} />
+                                    <div style={{margin: '5px'}}>
+                                        <Grid container spacing={1} style={{justifyContent: 'flex-end', padding: '1px'}}
+                                        // style={{position: 'absolute', justifyContent: 'flex-end', paddingRight: "10px"}}
+                                        >
+                                            <IconButton title="Add food">
+                                                <AddIcon style={{color: 'green'}} onClick={handleOpenAdd}/>
+                                            </IconButton>
+                                            <IconButton title="Hide menu" >
+                                                <ClearIcon style={{color: 'red'}} onClick={handleOpenMenu}/>
                                             </IconButton>
                                         </Grid>
-                                        <Box className="food-box">
-                                            <Grid container spacing={3}>
-                                                <Grid item lg={2} md={2} sm={2} className="food-detail">
-                                                    <img src="/food2.jpg" className="food-image"/>
+                                        <StyledDialog open={openAdd} classes={{ paper: classes.dialogRoot }} onClose={handleOpenAdd}>
+                                            <DialogTitle className="dialog-title">Add Food</DialogTitle>
+                                            <FormControl className="edit-field-restaurant">
+                                                <TextField
+                                                    label="Name"
+                                                    variant="outlined"
+                                                    color="secondary"
+                                                    required
+                                                />
+                                            </FormControl>
+                                            <FormControl className="edit-field-restaurant">
+                                                <TextField
+                                                    label="Ingredient"
+                                                    variant="outlined"
+                                                    color="secondary"
+                                                    multiline
+                                                    required
+                                                />
+                                            </FormControl>
+                                            <FormControl className="edit-field-restaurant">    
+                                                <Grid container spacing={2}>
+                                                    <Grid item lg={6} md={6} sm={12}>
+                                                        <TextField
+                                                            label="Type"
+                                                            variant="outlined"
+                                                            color="secondary"
+                                                            required
+                                                            style={{width: '100%'}}
+                                                        />
+                                                    </Grid>
+                                                    <Grid item lg={6} md={6} sm={12}>
+                                                        <TextField
+                                                            label="Price"
+                                                            variant="outlined"
+                                                            color="secondary"
+                                                            required
+                                                            style={{width: '100%'}}
+                                                        />
+                                                    </Grid>
                                                 </Grid>
-                                                <Grid item lg={7} md={6} sm={8} className="food-detail">
-                                                    <Typography>
-                                                        Pizza
-                                                    </Typography>
-                                                    <Typography>
-                                                        Flour, yeast, mozzarella cheese, white sugar, tomatoes and onion
-                                                    </Typography>
+                                            </FormControl>
+                                            <Grid container spacing={2} className="edit-button-grid-restaurant">
+                                                <Grid item>
+                                                    <Button 
+                                                        className="edit-discard-button-restaurant" 
+                                                        id="edit-button-restaurant" 
+                                                        variant="contained"
+                                                        onClick={handleOpenAdd}
+                                                    >
+                                                        Cancel
+                                                    </Button>
                                                 </Grid>
-                                                <Grid item lg={2} md={3} sm={2}>
-                                                    <Button>
-                                                        Edit
+                                                <Grid item lg={2} md={2} sm={2} justifyContent="flex-end">
+                                                    <Button 
+                                                        className="edit-save-changepass-button-restaurant" 
+                                                        id="edit-button-restaurant" 
+                                                        variant="contained" 
+                                                        style={{width: 'auto'}}
+                                                    >
+                                                        Add
                                                     </Button>
                                                 </Grid>
                                             </Grid>
+                                        </StyledDialog>
+                                        <Box className="menu-box">
+                                            <Box className="food-box">
+                                                <Grid container spacing={3}>
+                                                    <Grid item lg={2} md={2} sm={2} className="food">
+                                                        <img src="/food2.jpg" className="food-image"/>
+                                                    </Grid>
+                                                    <Grid item lg={5} md={5} sm={6}>
+                                                        <Typography className="food-name">
+                                                            Pizza
+                                                        </Typography>
+                                                        <Typography className="food-ingredient">
+                                                            Flour, yeast, mozzarella cheese, white sugar, tomatoes and onion
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item lg={2} md={1} sm={1}>
+                                                        <Typography className="food-type-price">
+                                                            Foreign
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item lg={1} md={1} sm={1}>
+                                                        <Typography className="food-type-price">
+                                                            10$
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item lg={2} md={3} sm={2}>
+                                                        <Button className="food-edit" id="food-edit-button" onClick={handleOpenEdit}>
+                                                            Edit
+                                                        </Button>
+                                                    </Grid>
+                                                </Grid>
+                                            </Box>
+                                            <StyledDialog open={openEdit} classes={{ paper: classes.dialogRoot }} onClose={handleOpenEdit}>
+                                                <DialogTitle className="dialog-title">Edit Food</DialogTitle>
+                                                <FormControl className="edit-field-restaurant">
+                                                    <TextField
+                                                        label="Name"
+                                                        variant="outlined"
+                                                        color="secondary"
+                                                        required
+                                                    />
+                                                </FormControl>
+                                                <FormControl className="edit-field-restaurant">
+                                                    <TextField
+                                                        label="Ingredient"
+                                                        variant="outlined"
+                                                        color="secondary"
+                                                        multiline
+                                                        required
+                                                    />
+                                                </FormControl>
+                                                <FormControl className="edit-field-restaurant">    
+                                                    <Grid container spacing={2}>
+                                                        <Grid item lg={6} md={6} sm={12}>
+                                                            <TextField
+                                                                label="Type"
+                                                                variant="outlined"
+                                                                color="secondary"
+                                                                required
+                                                                style={{width: '100%'}}
+                                                            />
+                                                        </Grid>
+                                                        <Grid item lg={6} md={6} sm={12}>
+                                                            <TextField
+                                                                label="Price"
+                                                                variant="outlined"
+                                                                color="secondary"
+                                                                required
+                                                                style={{width: '100%'}}
+                                                            />
+                                                        </Grid>
+                                                    </Grid>
+                                                </FormControl>
+                                                <Grid container spacing={2} className="edit-button-grid-restaurant">
+                                                    <Grid item>
+                                                        <Button 
+                                                            className="edit-discard-button-restaurant" 
+                                                            id="edit-button-restaurant" 
+                                                            variant="contained"
+                                                            onClick={handleOpenEdit}
+                                                        >
+                                                            Cancel
+                                                        </Button>
+                                                    </Grid>
+                                                    <Grid item lg={2} md={2} sm={2} justifyContent="flex-end">
+                                                        <Button 
+                                                            className="edit-save-changepass-button-restaurant" 
+                                                            id="edit-button-restaurant" 
+                                                            variant="contained" 
+                                                            style={{width: 'auto'}}
+                                                        >
+                                                            Apply
+                                                        </Button>
+                                                    </Grid>
+                                                </Grid>
+                                            </StyledDialog>
+                                            <Box className="food-box">
+                                                <Grid container spacing={3}>
+                                                    <Grid item lg={2} md={2} sm={2} className="food">
+                                                        <img src="/food2.jpg" className="food-image"/>
+                                                    </Grid>
+                                                    <Grid item lg={5} md={5} sm={6}>
+                                                        <Typography className="food-name">
+                                                            Pizza
+                                                        </Typography>
+                                                        <Typography className="food-ingredient">
+                                                            Flour, yeast, mozzarella cheese, white sugar, tomatoes and onion
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item lg={2} md={1} sm={1}>
+                                                        <Typography className="food-type-price">
+                                                            Foreign
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item lg={1} md={1} sm={1}>
+                                                        <Typography className="food-type-price">
+                                                            10$
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item lg={2} md={3} sm={2}>
+                                                        <Button className="food-edit" id="food-edit-button" onClick={handleOpenEdit}>
+                                                            Edit
+                                                        </Button>
+                                                    </Grid>
+                                                </Grid>
+                                            </Box>
+                                            <StyledDialog open={openEdit} classes={{ paper: classes.dialogRoot }} onClose={handleOpenEdit}>
+                                                <DialogTitle className="dialog-title">Edit Food</DialogTitle>
+                                                <FormControl className="edit-field-restaurant">
+                                                    <TextField
+                                                        label="Name"
+                                                        variant="outlined"
+                                                        color="secondary"
+                                                        required
+                                                    />
+                                                </FormControl>
+                                                <FormControl className="edit-field-restaurant">
+                                                    <TextField
+                                                        label="Ingredient"
+                                                        variant="outlined"
+                                                        color="secondary"
+                                                        multiline
+                                                        required
+                                                    />
+                                                </FormControl>
+                                                <FormControl className="edit-field-restaurant">    
+                                                    <Grid container spacing={2}>
+                                                        <Grid item lg={6} md={6} sm={12}>
+                                                            <TextField
+                                                                label="Type"
+                                                                variant="outlined"
+                                                                color="secondary"
+                                                                required
+                                                                style={{width: '100%'}}
+                                                            />
+                                                        </Grid>
+                                                        <Grid item lg={6} md={6} sm={12}>
+                                                            <TextField
+                                                                label="Price"
+                                                                variant="outlined"
+                                                                color="secondary"
+                                                                required
+                                                                style={{width: '100%'}}
+                                                            />
+                                                        </Grid>
+                                                    </Grid>
+                                                </FormControl>
+                                                <Grid container spacing={2} className="edit-button-grid-restaurant">
+                                                    <Grid item>
+                                                        <Button 
+                                                            className="edit-discard-button-restaurant" 
+                                                            id="edit-button-restaurant" 
+                                                            variant="contained"
+                                                            onClick={handleOpenEdit}
+                                                        >
+                                                            Cancel
+                                                        </Button>
+                                                    </Grid>
+                                                    <Grid item lg={2} md={2} sm={2} justifyContent="flex-end">
+                                                        <Button 
+                                                            className="edit-save-changepass-button-restaurant" 
+                                                            id="edit-button-restaurant" 
+                                                            variant="contained" 
+                                                            style={{width: 'auto'}}
+                                                        >
+                                                            Apply
+                                                        </Button>
+                                                    </Grid>
+                                                </Grid>
+                                            </StyledDialog>
                                         </Box>
-                                        <Box className="food-box">
-                                            <Grid container spacing={3}>
-                                                <Grid item lg={2} md={2} sm={2} className="food-detail">
-                                                    <img src="/food2.jpg" width="90" height="60"/>
-                                                </Grid>
-                                                <Grid item lg={7} md={6} sm={8} className="food-detail">
-                                                    <Typography>
-                                                        Pizza
-                                                    </Typography>
-                                                    <Typography>
-                                                        Flour, yeast, mozzarella cheese, white sugar, tomatoes and onion
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item lg={2} md={3} sm={2}>
-                                                    <Button>
-                                                        Edit
-                                                    </Button>
-                                                </Grid>
-                                            </Grid>
-                                        </Box>
-                                        <Box className="food-box">
-                                            <Grid container spacing={3}>
-                                                <Grid item lg={2} md={2} sm={2} className="food-detail">
-                                                    <img src="/food2.jpg" width="90" height="60"/>
-                                                </Grid>
-                                                <Grid item lg={7} md={6} sm={8} className="food-detail">
-                                                    <Typography>
-                                                        Pizza
-                                                    </Typography>
-                                                    <Typography>
-                                                        Flour, yeast, mozzarella cheese, white sugar, tomatoes and onion
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item lg={2} md={3} sm={2}>
-                                                    <Button>
-                                                        Edit
-                                                    </Button>
-                                                </Grid>
-                                            </Grid>
-                                        </Box>
-                                        <Box className="food-box">
-                                            <Grid container spacing={3}>
-                                                <Grid item lg={2} md={2} sm={2} className="food-detail">
-                                                    <img src="/food2.jpg" width="90" height="60"/>
-                                                </Grid>
-                                                <Grid item lg={7} md={6} sm={8} className="food-detail">
-                                                    <Typography>
-                                                        Pizza
-                                                    </Typography>
-                                                    <Typography>
-                                                        Flour, yeast, mozzarella cheese, white sugar, tomatoes and onion
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item lg={2} md={3} sm={2}>
-                                                    <Button>
-                                                        Edit
-                                                    </Button>
-                                                </Grid>
-                                            </Grid>
-                                        </Box>
-                                        <Box className="food-box">
-                                            <Grid container spacing={3}>
-                                                <Grid item lg={2} md={2} sm={2} className="food-detail">
-                                                    <img src="/food2.jpg" width="90" height="60"/>
-                                                </Grid>
-                                                <Grid item lg={7} md={6} sm={8} className="food-detail">
-                                                    <Typography>
-                                                        Pizza
-                                                    </Typography>
-                                                    <Typography>
-                                                        Flour, yeast, mozzarella cheese, white sugar, tomatoes and onion
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item lg={2} md={3} sm={2}>
-                                                    <Button>
-                                                        Edit
-                                                    </Button>
-                                                </Grid>
-                                            </Grid>
-                                        </Box>
-                                        <Box className="food-box">
-                                            <Grid container spacing={3}>
-                                                <Grid item lg={2} md={2} sm={2} className="food-detail">
-                                                    <img src="/food2.jpg" width="90" height="60"/>
-                                                </Grid>
-                                                <Grid item lg={7} md={6} sm={8} className="food-detail">
-                                                    <Typography>
-                                                        Pizza
-                                                    </Typography>
-                                                    <Typography>
-                                                        Flour, yeast, mozzarella cheese, white sugar, tomatoes and onion
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item lg={2} md={3} sm={2}>
-                                                    <Button>
-                                                        Edit
-                                                    </Button>
-                                                </Grid>
-                                            </Grid>
-                                        </Box>
-                                    </Box>
+                                    </div>
                                 }
-                                {/* <Menu
-                                    id="basic-menu"
-                                    open={openButton}
-                                    anchorEl={anchorEl}
-                                    MenuListProps={{
-                                    'aria-labelledby': 'basic-button',
-                                    }}
-                                >
-                                    <MenuItem>Food1</MenuItem>
-                                    <MenuItem>Food2</MenuItem>
-                                    <MenuItem>Food3</MenuItem>
-                                </Menu> */}
                             </FormControl>
                             {/* {show && <>
                                 <FormControl className="edit-field-restaurant">
@@ -740,4 +886,4 @@ const EditRestaurant = () => {
     );
 }
 
-export default EditRestaurant;
+export default withStyles(styles)(EditRestaurant);
