@@ -1,18 +1,13 @@
 import * as React from 'react';
 import SearchIcon from '@mui/icons-material/Search';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { styled } from '@mui/material/styles';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import { ExpandMore, ExpandLess} from '@mui/icons-material';
-import { AccountCircle, Search } from '@material-ui/icons';
 import Masonry from 'react-masonry-css';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Food from '../components/Food';
 import BackToTop from '../components/BackToTop';
 import Footer from '../components/Footer';
-import NavigationIcon from '@material-ui/icons/Navigation';
 import { Button, InputLabel, FormControl, Paper, TextareaAutosize } from '@material-ui/core';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -37,14 +32,24 @@ import StarRateIcon from '@mui/icons-material/StarRate';
 import {InputBase} from '@mui/material';
 import PhoneInput from 'react-phone-input-2';
 import { Card, CardActionArea, CardMedia, CardContent, Chip } from '@mui/material';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import PhoneIcon from '@mui/icons-material/Phone';
 import PlaceIcon from '@mui/icons-material/Place';
 import MdPhone from '@mui/icons-material/Phone';
-import DoneIcon from '@mui/icons-material/Done';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import '../components/OwnRestaurantCard.css';
+import '../components/OwnRestaurantCard.css';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import MenuIcon from '@mui/icons-material/Menu';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import Divider from '@mui/material/Divider';
+import DeleteIcon from '@mui/icons-material/Delete';
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
+import InfoIcon from '@mui/icons-material/Info';
 
 const theme = createTheme({
     palette: {
@@ -196,6 +201,15 @@ const HomepageRestaurant = () => {
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
     const history = useHistory();
+    const [open, setOpen] = useState(false);
+
+    const handleSidebarOpen = () => {
+        setOpen(!open);
+      };
+    
+    const handleSidebarClose = () => {
+        setOpen(false);
+    }
 
     const handleShow = (res) => {
         history.push(`edit-restaurant/${id}/restaurants/${res.id}`);
@@ -288,62 +302,94 @@ const HomepageRestaurant = () => {
     return ( 
         <ThemeProvider theme={theme}>
         <Header />
+        <IconButton onClick={handleSidebarOpen}>
+                <MenuIcon/>
+        </IconButton>
         <Grid container spacing={2} sx={{ paddingBottom:"1%"}} className='grid-homepage-restaurant'>
             <Grid item md={3}>
-                <Button 
-                    onClick={() => setShow(prev => !prev)}
-                    variant="contained"
-                    id='comment-submit'
-                    className='button-new-restaurant-homepage-restaurant'
+                <Drawer
+                    anchor="left"
+                    open={open}
+                    onClose={handleSidebarOpen}
+                    classes={{
+                        paper: 'sidebar'
+                      }}
                 >
-                    Add new restaurant
-                </Button>
-                {show && <Box className='add-box'>
-                    <TextField 
-                        label="Name"
-                        variant="outlined"
-                        color="secondary"
-                        style={{width: '100%', marginTop: '10px', borderColor: 'white'}}
-                        // InputLabelProps={{ shrink: true }} 
-                    />
-                    <TextField 
-                        label="Address"
-                        variant="outlined"
-                        color="secondary"
-                        style={{width: '100%', marginTop: '10px', borderColor: 'white'}}
-                        // InputLabelProps={{ shrink: true }} 
-                    />
-                    <PhoneInput
-                        label="Phone number"
-                        defaultCountry="ir"
-                        color="secondary"
-                        InputLabelProps={{ shrink: true }} 
-                        className="phone-input"
-                        style={{width: '100%'}}
-                        variant="outlined"
-                                        // focused={true}
-                    />
-                    <TextField 
-                        label="Discount"
-                        variant="outlined"
-                        color="secondary"
-                        style={{width: '100%', marginTop: '10px', borderColor: 'white'}}
-                    />
-                    <Grid container spacing={2} className="new-restaurant-button-grid" wrap="nowrap">
-                                <Grid item style={{paddingLeft: '20px'}}>
-                                    <Button className="discard-button" id="edit-button" variant="contained" onClick={handleCancle}
-                                    >Cancel</Button>
-                                </Grid>
-                                <Grid item style={{paddingRight: '5px'}}>
-                                    <Button className="add-button" id="edit-button" variant="contained" onClick={handleAdd}
-                                        disabled={!validInputs}
-                                        // style={{marginRight: "-2%"}}
-                                    >Add</Button>
+                    <div className="sidebar-header">
+                        <h2>NoWaste</h2>
+                        <IconButton>
+                            <KeyboardDoubleArrowLeftIcon className='close-icon' onClick={handleSidebarClose}/>
+                        </IconButton>
+                    </div>
+                    <Divider color="white" variant="middle"/>
+                    <List className="sidebar-list">
+                        <ListItem button className='list-item'>
+                            <ListItemIcon >
+                            <AddBusinessIcon className='list-icon'/>
+                            </ListItemIcon>
+                            <ListItemText primary="Add new restaurant" onClick={() => setShow(prev => !prev)}/>
+                        </ListItem>
+                        {show && <Box className='add-box'>
+                            <TextField 
+                                label="Name"
+                                variant="outlined"
+                                color="secondary"
+                                style={{width: '100%', marginTop: '10px', borderColor: 'white'}}
+                                // InputLabelProps={{ shrink: true }} 
+                            />
+                            <TextField 
+                                label="Address"
+                                variant="outlined"
+                                color="secondary"
+                                style={{width: '100%', marginTop: '10px', borderColor: 'white'}}
+                                // InputLabelProps={{ shrink: true }} 
+                            />
+                            <PhoneInput
+                                label="Phone number"
+                                defaultCountry="ir"
+                                color="secondary"
+                                InputLabelProps={{ shrink: true }} 
+                                className="phone-input"
+                                style={{width: '100%'}}
+                                variant="outlined"
+                                                // focused={true}
+                            />
+                            <TextField 
+                                label="Discount"
+                                variant="outlined"
+                                color="secondary"
+                                style={{width: '100%', marginTop: '10px', borderColor: 'white'}}
+                            />
+                            <Grid container spacing={2} className="new-restaurant-button-grid" wrap="nowrap">
+                                        <Grid item style={{paddingLeft: '20px'}}>
+                                            <Button className="discard-button" id="edit-button" variant="contained" onClick={handleCancle}
+                                            >Cancel</Button>
+                                        </Grid>
+                                        <Grid item style={{paddingRight: '5px'}}>
+                                            <Button className="add-button" id="edit-button" variant="contained" onClick={handleAdd}
+                                                disabled={!validInputs}
+                                                // style={{marginRight: "-2%"}}
+                                            >Add</Button>
+                                    </Grid>
                             </Grid>
-                    </Grid>
-                <BackToTop/>
-                </Box>
-                }
+                        <BackToTop/>
+                        </Box>
+                        }
+                        <ListItem button className='list-item'>
+                            <ListItemIcon>
+                                <DeleteIcon className='list-icon'/>
+                            </ListItemIcon>
+                            <ListItemText primary="Remove restaurant"/>
+                        </ListItem>
+                    </List>
+                    <Divider color="white" variant="middle" className='divider'/>
+                    <div className="sidebar-footer">
+                    <PermPhoneMsgIcon className='sidebar-footer-icon'/>  Contact
+                    </div>
+                    <div className="sidebar-footer">
+                    <InfoIcon className='sidebar-footer-icon'/> About us
+                    </div>
+                </Drawer>
                 {/* <Footer/> */}
             </Grid>
             <Grid item md={9}>

@@ -1,15 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 .grid-homepage-restaurant {
     width: 100% !important;
     margin-top: 2% !important;
     padding-left: 5%;
     padding-right: 5%;
 }
+.sidebar{
+    color: white !important;
+    background-color: #1D1D1D !important;
+    width: 20%;
+    transition: width 0.2s ease-in-out;
+    cursor: pointer;
+}
 
-.button-new-restaurant-homepage-restaurant {
-    margin: 0;
-    text-align: center;
-    font-size: medium !important;
-    margin-left: -2% !important;
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+.close-icon{
+    color: white;
+}
+
+.close-icon:hover{
+    color: #FFA600;
+}
+
+.list-item:hover{
+    background-color: #373737 !important;
+    color: #FFA600;
+}
+
+.list-item:hover .list-icon{
+    fill: #FFA600;
+}
+
+.sidebar-list .MuiListItemIcon-root {
+    color: white;
+    min-width: 30px;
+    margin-right: 10px;
+}
+  
+.sidebar-list .MuiListItemText-primary {
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+.sidebar-footer {
+    display: flex;
+    align-items: center;
+    color: rgb(164, 165, 165);
+    font-size: 90%;
+    font-family: 'Montserrat', sans-serif !important;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.sidebar-footer-icon{
+    margin-right: 5%;
+}
+
+.divider{
+    margin-top: 110% !important;
 }
 
 .add-box {
@@ -20,6 +76,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 10px;
+    background-color: aliceblue;
     flex-direction: column;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
