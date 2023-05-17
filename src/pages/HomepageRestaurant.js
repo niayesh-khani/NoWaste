@@ -210,7 +210,7 @@ const HomepageRestaurant = () => {
         .catch((error) => console.log(error));
     };
     const handleEdit = (res) => {
-        history.push(`edit-restaurant/${id}/restaurants/${res.id}`);
+        history.push(`/${id}/restaurants/${res.id}`);
     };
 
     function setHeight() {
