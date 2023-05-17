@@ -25,14 +25,19 @@ const theme = createTheme({
 
 export default function OrderPage(){
     const [shoppingCard, setShoppingCard] = useState([]);  
-    const [menu, setMenu] = useState([]);
+    const [orderItems, setOrderItems] = useState([]);
 
     const restaurantId = localStorage.getItem('restaurantId');
+    console.log(restaurantId);
+    const userId = localStorage.getItem('id');
+    console.log("user:"+userId);
+    // const restaurantId =3;
+    // const userId=11;
     useEffect(()=>{                                                 //
-        axios.get(`http://5.34.195.16/restaurant/restaurant_view/${restaurantId}/order/`)
+        axios.get(`http://5.34.195.16/restaurant/restaurant_view/${restaurantId}/${userId}/order/`)
             .then((response) => {
                 setShoppingCard(response.data);
-                setMenu(shoppingCard.menu);
+                setOrderItems(shoppingCard.orderItems);
             })
             .catch((error) => {
             console.log(error.response);
@@ -55,8 +60,8 @@ export default function OrderPage(){
                         </Typography>
                         <div className="orderpage-details-div">
 
-                            <Grid container spacing={2} className="orderpage-grid">      //
-                                {menu.map((item, index) => (
+                            <Grid container spacing={2} className="orderpage-grid">      
+                                {/* {orderItems.map((item, index) => (
                                     <div key={index}>
                                         <Grid item>
                                             <Typography>{item.name}</Typography>
@@ -65,7 +70,7 @@ export default function OrderPage(){
                                             <Typography><span style={{color: '#8a8686'}}>{item.quantity}×</span>{item.price}$</Typography>
                                         </Grid>
                                     </div>
-                                ))}
+                                ))} */}
                             </Grid>
 
 
@@ -124,8 +129,8 @@ export default function OrderPage(){
                                 <Typography>Subtotal</Typography>
                             </Grid>
                             <Grid item>
-                                <Typography> 205$ </Typography>
-                                {/* <Typography> {shoppingCard.subtotal}$ </Typography>        // */}
+                                {/* <Typography> 205$ </Typography> */}
+                                <Typography> {shoppingCard.total_price}$ </Typography>        
                             </Grid>
                         </Grid>
                         <hr className="hr-tag" />
@@ -134,8 +139,8 @@ export default function OrderPage(){
                                 <Typography>Discount</Typography>
                             </Grid>
                             <Grid item >
-                                <Typography> {"15"+"%"} </Typography>
-                                {/* <Typography> {shoppingCard.discount }% </Typography>     // */}
+                                {/* <Typography> {"15"+"%"} </Typography> */}
+                                <Typography> {shoppingCard.discount*100 }% </Typography>     
 
                             </Grid>
                         </Grid>
@@ -145,8 +150,8 @@ export default function OrderPage(){
                                 <Typography>Grand total</Typography>
                             </Grid>
                             <Grid item>
-                                <Typography> {205*0.85} </Typography>
-                                {/* <Typography> {shoppingCard.total} </Typography>          //*/}
+                                {/* <Typography> {205*0.85} </Typography> */}
+                                <Typography> {shoppingCard.total_price * (1-shoppingCard.discount)}$ </Typography>          
                             </Grid>
                         </Grid> 
                         <Button className="order-submit">
