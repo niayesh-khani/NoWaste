@@ -155,7 +155,7 @@ function EditRestaurant(props){
     const handleOpenMenu = () => {
         setOpenMenu(!openMenu);
         axios.get(
-            `http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/` , 
+            `http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/` , 
             {headers :{
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
@@ -165,7 +165,7 @@ function EditRestaurant(props){
         )
         .then((response) => {
             console.log(response);
-            setMenu(response.data.menu);
+            setMenu(response.data);
         })
         .catch((error) => console.log(error));
     };
@@ -396,7 +396,7 @@ function EditRestaurant(props){
             ingredients: foodIngredient,
             food_pic: "",
             type: foodType,
-            restaurant: data.name
+            restaurant_id: idR
             };
             console.log(userData);
             axios.post(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/`, userData, {headers:{"Content-Type" : "application/json"}})
