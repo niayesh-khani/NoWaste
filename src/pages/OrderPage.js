@@ -30,14 +30,16 @@ export default function OrderPage(){
     const restaurantId = localStorage.getItem('restaurantId');
     console.log(restaurantId);
     const userId = localStorage.getItem('id');
-    console.log("user:"+userId);
-    // const restaurantId =3;
-    // const userId=11;
-    useEffect(()=>{                                                 //
+    console.log("user:", userId);
+    // const restaurantId =1;
+    // const userId=5;
+    useEffect(()=>{
         axios.get(`http://5.34.195.16/restaurant/restaurant_view/${restaurantId}/${userId}/order/`)
             .then((response) => {
+                console.log("oredrs",response.data);
                 setShoppingCard(response.data);
-                setOrderItems(shoppingCard.orderItems);
+                setOrderItems(response.data.orderItems);
+            
             })
             .catch((error) => {
             console.log(error.response);
@@ -74,15 +76,16 @@ export default function OrderPage(){
                             </Grid>
 
 
-                            <Grid container spacing={2} className="orderpage-grid">
+                            {orderItems.map((order_list)=>(<Grid container spacing={2} className="orderpage-grid">
                                 <Grid item>
-                                    <Typography>Ghormeh sabzi</Typography>
+                                    <Typography>{order_list.name_and_price.name}</Typography>
                                 </Grid>
                                 <Grid item>
-                                    <Typography> <span style={{color: '#8a8686'}}>2×</span>18$ </Typography>
+                                    <Typography> <span style={{color: '#8a8686'}}>{order_list.quantity} ×</span> {order_list.name_and_price.price}</Typography>
                                 </Grid>
-                            </Grid>
-                            <Grid container spacing={2} className="orderpage-grid">
+                            </Grid>))
+                            }
+                            {/* <Grid container spacing={2} className="orderpage-grid">
                                 <Grid item>
                                     <Typography>Fesenjoon</Typography>
                                 </Grid>
@@ -121,7 +124,7 @@ export default function OrderPage(){
                                 <Grid item>
                                     <Typography> <span style={{color: '#8a8686'}}>2×</span>18$</Typography>
                                 </Grid>
-                            </Grid>
+                            </Grid> */}
                         </div>
                         <hr className="hr-tag" />
                         <Grid container spacing={2} className="orderpage-grid">
