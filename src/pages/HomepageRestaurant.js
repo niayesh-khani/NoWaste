@@ -285,6 +285,7 @@ const HomepageRestaurant = () => {
             axios.post(`http://5.34.195.16/restaurant/managers/${id}/restaurants/`, userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
+                window.location.reload(false);
             })
             .catch((error) => {
                 if (error.response) {
@@ -313,7 +314,7 @@ const HomepageRestaurant = () => {
                     onClose={handleSidebarOpen}
                     classes={{
                         paper: 'sidebar'
-                      }}
+                    }}
                 >
                     <div className="sidebar-header">
                         <h2>NoWaste</h2>
@@ -397,7 +398,7 @@ const HomepageRestaurant = () => {
                     <Masonry style={{paddingLeft: "0%"}} breakpointCols={breakpoints}>
                         {restaurants && restaurants.map((res, index) => (
                             <div  key={index} style={{ width: index % 2 === 0 ? '100%' : '' }}>
-                                <Card className='homepage-restaurant-card-restaurant' onClick={() => {handleShow(res)}}>
+                                <Card className='homepage-restaurant-card-restaurant'>
                                 <CardActionArea>
                                     <Grid container spacing={2}>
                                     <Grid item md={6}>
