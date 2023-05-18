@@ -439,7 +439,7 @@ const EditProfileManager = () => {
                                     </Grid>
                                     <Grid item xs={12} sm={6} md={6} style={{paddingTop: '0'}}>
                                         <LocalizationProvider dateAdapter={AdapterDayjs} style={{width: '150%'}}
-                                         InputLabelProps={{ shrink: true }}
+                                        InputLabelProps={{ shrink: true }}
                                         >
                                             <DemoContainer components={['DatePicker']} >
                                                 <DatePicker
@@ -489,7 +489,7 @@ const EditProfileManager = () => {
                                     onChange={handleAddress}
                             /> 
                             </FormControl>
-                            <FormControl className="edit-field-manager">
+                            {/* <FormControl className="edit-field-manager">
                             {openMenu && 
                                     <Button 
                                         color="secondary"
@@ -515,7 +515,7 @@ const EditProfileManager = () => {
                                         </Grid>
                                     </div>
                                 }
-                            </FormControl>
+                            </FormControl> */}
                                 {show && <>
                                 <FormControl className="edit-field-manager">
                                     <TextField
