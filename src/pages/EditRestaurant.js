@@ -87,14 +87,15 @@ function EditRestaurant(props){
     };   
     const [doe, setDoe] = useState(null);
     const [color, setColor] = useState(localStorage.getItem('avatarColor') || getRandomColor());
+    const [discount, setDiscount] = useState('');
     const [update, setUpdate] = useState('');
     const [phone, setPhone] = useState('');
     const token = localStorage.getItem('token');
     const id = localStorage.getItem('id');
     const [data, setData] = useState('');
-    const [city, setCity] = useState('');
-    const [country, setCountry] = useState('');
-    const [address, setAddress] = useState('');
+    const [city, setCity] = useState(' ');
+    const [country, setCountry] = useState(' ');
+    const [address, setAddress] = useState(' ');
     const [password, setPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [newPasswordError, setNewPasswordError] = useState(false);
@@ -109,7 +110,7 @@ function EditRestaurant(props){
     const MAX_FILE_SIZE = 5 * 1024 * 1024;
     const [open, setOpen] = useState(false);
     const [openNetwork, setOpenNetwork] = useState(false);
-    const [openWrongPass, setOpenWrongPass] = useState(false);
+    // const [openWrongPass, setOpenWrongPass] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
     const [openMenu, setOpenMenu] = useState(true);
     const [idFood, setIdFood] = useState();
@@ -128,7 +129,7 @@ function EditRestaurant(props){
     const handleFullname = (e) => {
         setFullname(e.target.value);
         setUpdate({...update, name: e.target.value})
-        if(!/^[a-zA-Z]+\s[a-zA-Z]+$/gm.test(e.target.value)){
+        if(e.target.value.length > 256){
             setFullnameError(true);
         } else {
             setFullnameError(false);
@@ -152,6 +153,10 @@ function EditRestaurant(props){
         const formattedDate = dayjs(date).format('YYYY-MM-DD');
         setUpdate({...update, date_of_establishment : formattedDate});
     };
+    const handleDiscount = (e) => {
+        setDiscount(e.target.value);
+        setUpdate({...update, discount: e.target.value});
+    }
     const handleOpenMenu = () => {
         setOpenMenu(!openMenu);
         axios.get(
@@ -178,25 +183,25 @@ function EditRestaurant(props){
     const handleAddress = (e) => {
         setAddress(e.target.value);
     };
-    const handlePassword = (e) => {
-        setPassword(e.target.value);
-    };
-    const handlenewPassword = (e) => {
-        setNewPassword(e.target.value);
-        if(e.target.value.length < 8 || !/[a-zA-Z]+/.test(e.target.value)){
-            setNewPasswordError(true);
-        } else {
-            setNewPasswordError(false);
-        }
-    };
-    const handleConfirmPassword = (e) => {
-        setConfirmPassword(e.target.value);
-    };
+    // const handlePassword = (e) => {
+    //     setPassword(e.target.value);
+    // };
+    // const handlenewPassword = (e) => {
+    //     setNewPassword(e.target.value);
+    //     if(e.target.value.length < 8 || !/[a-zA-Z]+/.test(e.target.value)){
+    //         setNewPasswordError(true);
+    //     } else {
+    //         setNewPasswordError(false);
+    //     }
+    // };
+    // const handleConfirmPassword = (e) => {
+    //     setConfirmPassword(e.target.value);
+    // };
     useEffect(() => {
         setNewPasswordMatch(newPassword === confirmPassword);
     }, [newPassword, confirmPassword]);
     useEffect(() => {
-        const temp = country + ', ' + city + ', ' + address;
+        const temp = country + ',' + city + ',' + address;
         setUpdate({...update, address : temp})
     }, [country, city, address])
         const [openEdit, setOpenEdit] = useState(false);
@@ -209,12 +214,17 @@ function EditRestaurant(props){
     useEffect(() => {
         setDoe(data.date_of_establishment);
     }, [data.date_of_establishment]);
-
+    useEffect(() => {
+        setProfileImg(data.restaurant_image);
+    },[data.restaurant_image])
+    useEffect(() => {
+        setDiscount(data.discount);
+    }, [data.discount])
     useEffect(() => {
         const arr = data?.address?data?.address.split(","):"";
-        setCountry(arr[2])
+        setCountry(arr[0])
         setCity(arr[1]);
-        setAddress(arr[0]);
+        setAddress(arr[2]);
     }, [data.address]);
     useEffect(() => {
         setFoodName(food.name);
@@ -236,9 +246,9 @@ function EditRestaurant(props){
     const handleCloseNetwork = () => {
         setOpenNetwork(false);
     };
-    const handleCloseWrongPass = () => {
-        setOpenWrongPass(false);
-    };
+    // const handleCloseWrongPass = () => {
+    //     setOpenWrongPass(false);
+    // };
     const handleClose = () => {
         setOpen(false);
     };
@@ -255,9 +265,10 @@ function EditRestaurant(props){
             reader.readAsDataURL(file);
             reader.onloadend = () => {
                 setProfileImg(reader.result);
+                setUpdate({...update, restaurant_image: reader.result});
             };
         }
-        console.log(profileImg);
+        // console.log(profileImg);
     };
     const handleFoodName = (e) => {
         setFoodName(e.target.value);
@@ -496,17 +507,17 @@ function EditRestaurant(props){
                                                 }
                                             </Grid> 
                                     }
-                                    {openWrongPass && 
+                                    {/* {openWrongPass && 
                                         <Grid item lg={12} sm={12} md={12}>
                                                 {openWrongPass && <Alert severity="error" onClose={handleCloseWrongPass} variant="outlined">
                                                                     Current password is wrong!
                                                                 </Alert> 
                                                 }                                        
                                         </Grid>    
-                                    }
+                                    } */}
                                     <Grid item xs={12} sm={6} md={6}>
                                         <TextField
-                                            label="Full name"
+                                            label="Restaurant name"
                                             variant="outlined"
                                             color="secondary"
                                             value={fullname}
@@ -516,7 +527,7 @@ function EditRestaurant(props){
                                             InputLabelProps={{ shrink: true }} 
                                             helperText={
                                                 <div className="edit-error-restaurant">
-                                                    {fullnameError && 'Your full name should have at least two words.'}
+                                                    {fullnameError && 'Name should have at most 256 characters.'}
                                                 </div>
                                             }
                                         />
@@ -539,26 +550,13 @@ function EditRestaurant(props){
                             </FormControl>
                             <FormControl className="edit-field-restaurant">
                                 <Grid container spacing={1}>
-                                    {/* <Grid item xs={12} sm={6} md={6}>
-                                        <TextField
-                                            label="Email address"
-                                            variant="outlined"
-                                            color="secondary"
-                                            value={data.email}
-                                            InputLabelProps={{ shrink: true }}  
-                                            InputProps={{
-                                                readOnly: true
-                                            }}
-                                            style={{width: '100%', marginTop: '7px'}}
-                                        />
-                                    </Grid> */}
-                                    <Grid item xs={12} sm={12} md={12}lg={12}>
+                                    <Grid item xs={12} sm={6} md={6} lg={6}>
                                         <LocalizationProvider dateAdapter={AdapterDayjs} style={{width: '150%'}}
                                             InputLabelProps={{ shrink: true }}
                                         >
                                             <DemoContainer components={['DatePicker']} >
                                                 <DatePicker
-                                                    label="Establish date"
+                                                    label="Establishment date"
                                                     views={['year', 'month', 'day']}
                                                     sx={{width: '100%'}}
                                                     maxDate={dayjs()}
@@ -567,6 +565,17 @@ function EditRestaurant(props){
                                                 />
                                             </DemoContainer>
                                         </LocalizationProvider>
+                                    </Grid>
+                                    <Grid item xs={12} sm={6} md={6} lg={6}>
+                                        <TextField
+                                            label="Discount"
+                                            variant="outlined"
+                                            color="secondary"
+                                            value={discount}
+                                            onChange={handleDiscount}
+                                            InputLabelProps={{ shrink: true }}  
+                                            style={{width: '100%', marginTop: '8px'}}
+                                        />
                                     </Grid>
                                 </Grid>
                             </FormControl>
@@ -1021,23 +1030,36 @@ function EditRestaurant(props){
                                         className="edit-discard-button-restaurant" 
                                         id="edit-button-restaurant" 
                                         variant="contained" 
-                                        onClick={handleDiscard}
+                                        // onClick={handleDiscard}
                                     >
-                                        Discard
+                                        Delete restaurant
                                     </Button>              
+                                                  
                                 </Grid>  
-                                <Grid item lg={3} md={5} sm={4} justifyContent="flex-end">
-                                    <Button 
-                                        className="edit-save-changepass-button-restaurant" 
-                                        id="edit-button-restaurant" 
-                                        variant="contained" 
-                                        onClick={handleUpdate}
-                                        disabled={!validInputs}
-                                        style={{width: 'auto', marginLeft: '60px'}}
-                                        // style={{marginRight: "-2%"}}
-                                    >
-                                        Save changes
-                                    </Button>
+                                <Grid item container lg={5} md={6} sm={12} justifyContent="flex-end">
+                                    <Grid item style={{paddingRight: '5px'}}>
+                                        <Button 
+                                            className="edit-discard-button-restaurant" 
+                                            id="edit-button-restaurant" 
+                                            variant="contained" 
+                                            onClick={handleDiscard}
+                                        >
+                                            Discard
+                                        </Button>
+                                    </Grid>
+                                    <Grid item>
+                                        <Button 
+                                            className="edit-save-changepass-button-restaurant" 
+                                            id="edit-button-restaurant" 
+                                            variant="contained" 
+                                            onClick={handleUpdate}
+                                            disabled={!validInputs}
+                                            // style={{width: 'auto', marginLeft: '60px'}}
+                                            // style={{marginRight: "-2%"}}
+                                        >
+                                            Save changes
+                                        </Button>
+                                    </Grid>
                                 </Grid>
                             </Grid>
 
