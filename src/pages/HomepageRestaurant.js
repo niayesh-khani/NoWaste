@@ -222,7 +222,7 @@ const HomepageRestaurant = () => {
         .catch((error) => console.log(error));
     };
     const handleEdit = (res) => {
-        history.push(`/${id}/restaurants/${res.id}`);
+        history.push(`edit-restaurant/${id}/restaurants/${res.id}`);
     };
 
     function setHeight() {
@@ -287,10 +287,9 @@ const HomepageRestaurant = () => {
             number: newPhone,
             name: newName,
             address: newAddress,
-            rate: "" ,
+            rate: null ,
             restaurant_image: "",
-            data_of_establishment: "",
-            description: "",
+            data_of_establishment: null,
             discount: newDiscount
             };
             console.log(userData);
@@ -421,7 +420,7 @@ const HomepageRestaurant = () => {
                                         <div style={{ position: 'relative' }}>
                                         <CardMedia
                                             component="img"
-                                            sx={{ height: 200, width: 200, marginLeft: 1, marginTop: 1, marginBottom: 1, borderRadius: 1 }}
+                                            sx={{ height: 200, width: 200, marginLeft: 1, marginTop: 2, marginBottom: 1, borderRadius: 1 }}
                                             image="/mohsen.jpg"
                                         />
                                         </div>
@@ -457,10 +456,10 @@ const HomepageRestaurant = () => {
                                                         sx={{fontSize: "medium"}}
                                                         label={res.address}
                                                     />
-                                                    <div>
+                                                    <div className='two-icons-homepage'>
                                                     <EditIcon title="Edit" onClick={() => {handleEdit(res)}} className='edit-icons-card-restaurant-homepage'/>
                                                     <DeleteForeverIcon title="Delete" onClick={() => {handleDelete(res)}} className='delete-icons-card-restaurant-homepage'/>
-                                                </div>
+                                                    </div>
                                                 </Grid>
                                             </Grid>
                                         </CardContent>
