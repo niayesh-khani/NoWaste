@@ -261,16 +261,16 @@ const HomepageRestaurant = () => {
     },[]);
 
     const handleAddName = (e) => {
-        setNewName(e);
+        setNewName(e.target.value);
     }
     const handleAddPhone = (e) => {
         setNewPhone(e);
     }
     const handleAddDiscount = (e) => {
-        setNewDiscount(e);
+        setNewDiscount(e.target.value);
     }
     const handleAddAddress = (e) => {
-        setNewAddress(e);
+        setNewAddress(e.target.value);
     }
 
     const handleCancle = () => {
