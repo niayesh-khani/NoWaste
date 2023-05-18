@@ -352,7 +352,16 @@ function EditRestaurant(props){
     const handleDiscard = () => {
         window.location.reload(false);
     }
+    const handleDelete = (res) => {
+        console.log("i'm here to delete.");
+        axios.delete(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/${idFood}/`)
+        .then((response) => {
+            window.location.reload(false);
+        })
+        .catch((error) => console.log(error));
+    };
     const handleOpenEdit = (e) => {
+        setIdFood(e);
         setOpenEdit(!openEdit);
         axios.get(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/${e}/`)
         .then((response) => {
@@ -365,19 +374,20 @@ function EditRestaurant(props){
         });
     };
 
-    const handleEditThisFood = (e) => {
+    const handleEditThisFood = () => {
         const editData = {
-        id: e,
+        id: idFood,
         name: foodName, 
         price: foodPrice, 
         ingredients: foodIngredient, 
         food_pic: "",
         type: foodType, 
-        restaurant: data.name
+        restaurant_id: idR
         }
         console.log('im here to edit');
         console.log(editData);
-        axios.put(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/${e}/`, editData)
+        console.log(idFood);
+        axios.put(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/${idFood}/`, editData)
         .then((response) => {
             console.log(response);
             window.location.reload(false);
@@ -820,7 +830,7 @@ function EditRestaurant(props){
                                                                 required
                                                                 style={{width: '100%'}}
                                                                 onChange={handleFoodType}
-                                                                // defaultValue={foodType}
+                                                                defaultValue={foodType}
                                                             >
                                                                 <MenuItem value="select" disabled>
                                                                     <em>Select type</em>
@@ -860,6 +870,7 @@ function EditRestaurant(props){
                                                             className="edit-discard-button-restaurant" 
                                                             id="edit-button-restaurant" 
                                                             variant="contained"
+                                                            onClick={handleDelete}
                                                         >
                                                             Delete
                                                         </Button>
@@ -881,7 +892,7 @@ function EditRestaurant(props){
                                                                 id="edit-button-restaurant" 
                                                                 variant="contained" 
                                                                 style={{width: 'auto'}}
-                                                                onClick={() => handleEditThisFood(res.id)}
+                                                                onClick={() => handleEditThisFood()}
                                                             >
                                                                 Apply
                                                             </Button>
