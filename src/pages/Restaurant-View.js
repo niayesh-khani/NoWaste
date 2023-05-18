@@ -107,6 +107,7 @@ const RestaurantView = (props: Props) =>
     const [email, setEmail] = React.useState("");
     const {id} = useParams();
     localStorage.setItem('restaurantId', id);
+    const [list_fav, setList_Fav] = useState(localStorage.getItem('list_of_favorites_res'))
 
     useEffect(() => {
         const email = JSON.parse(localStorage.getItem('email'));
@@ -126,29 +127,38 @@ const RestaurantView = (props: Props) =>
     }
 
     React.useEffect(() => {
-        axios.get("http://5.34.195.16/restaurant/restaurant_view/" + id + '/')
-        .then((response) => {
-            console.log(response);
+        const fetchData = async () => {
+          try {
+            axios.get("http://5.34.195.16/restaurant/restaurant_view/" + id + '/')
+            .then((response) => {
+            console.log(response.data);
             setRestaurant(response.data);
-            setNameRestaurant(restaurant.name);
-            setMenu(restaurant.menu);
-            setRateValue(restaurant.rate);
-        })
-        .catch((error) => {
+            setNameRestaurant(response.data.name);
+            setMenu(response.data.menu);
+            setRateValue(response.data.rate);
+            const is_in_list = list_fav.includes(response.data.name);
+            is_in_list ? (setColor(!color)) : setColor(color);
+          })
+            }catch (error) {
             console.log(error);
-        });
-    });
+          }
+        };
+        fetchData();
+      }, []);
 
-    const handleColor = () => {
+        const handleColor = () => {
         setColor(!color);
         const userData = {
             name: nameRestaurant,
             email: email
             };
-            console.log(userData);
+            console.log("userData" , userData);
             axios.post("http://5.34.195.16/user/favorite-restaurant/", userData, {headers:{"Content-Type" : "application/json"}})
             .then((response) => {
                 console.log(response);
+                const new_list = response.data.list_of_favorites_res;
+                localStorage.setItem('list_of_favorites_res' , new_list);
+                setList_Fav(response.data.list_of_favorites_res);
             })
             .catch((error) => {
                 if (error.response) {
