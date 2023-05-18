@@ -860,21 +860,32 @@ function EditRestaurant(props){
                                                             className="edit-discard-button-restaurant" 
                                                             id="edit-button-restaurant" 
                                                             variant="contained"
-                                                            onClick={handleOpenEdit}
                                                         >
-                                                            Cancel
+                                                            Delete
                                                         </Button>
                                                     </Grid>
-                                                    <Grid item lg={2} md={2} sm={2} justifyContent="flex-end">
-                                                        <Button 
-                                                            className="edit-save-changepass-button-restaurant" 
-                                                            id="edit-button-restaurant" 
-                                                            variant="contained" 
-                                                            style={{width: 'auto'}}
-                                                            onClick={() => handleEditThisFood(res.id)}
-                                                        >
-                                                            Apply
-                                                        </Button>
+                                                    <Grid item container lg={6} md={6} sm={8} justifyContent="flex-end">
+                                                        <Grid item style={{paddingRight: '5px'}}>
+                                                            <Button 
+                                                                className="edit-discard-button-restaurant" 
+                                                                id="edit-button-restaurant" 
+                                                                variant="contained"
+                                                                onClick={handleOpenEdit}
+                                                            >
+                                                                Cancel
+                                                            </Button>
+                                                        </Grid>
+                                                        <Grid item>
+                                                            <Button 
+                                                                className="edit-save-changepass-button-restaurant" 
+                                                                id="edit-button-restaurant" 
+                                                                variant="contained" 
+                                                                style={{width: 'auto'}}
+                                                                onClick={() => handleEditThisFood(res.id)}
+                                                            >
+                                                                Apply
+                                                            </Button>
+                                                        </Grid>
                                                     </Grid>
                                                 </Grid>
                                             </StyledDialog>
