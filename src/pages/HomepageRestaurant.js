@@ -267,7 +267,7 @@ const HomepageRestaurant = () => {
         setNewPhone(e);
     }
     const handleAddDiscount = (e) => {
-        setNewDiscount(e.target.value);
+        setNewDiscount(e.target.value / 100);
     }
     const handleAddAddress = (e) => {
         setNewAddress(e.target.value);
