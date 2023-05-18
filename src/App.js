@@ -17,6 +17,7 @@ import NewPassword from './pages/NewPassword';
 import HomepageCustomer from './pages/HomepageCustomer';
 import EditRestaurant from './pages/EditRestaurant';
 import HomepageRestaurant from './pages/HomepageRestaurant';
+import EditProfileManager from './pages/EditProfileManager';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -62,6 +63,9 @@ function App() {
           </Route>
           <Route path="/edit-profile">
             <EditProfile />
+          </Route>
+          <Route path="/edit-manager">
+            <EditProfileManager />
           </Route>
           <Route path="/homepage-customer" >
             <HomepageCustomer />

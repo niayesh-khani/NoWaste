@@ -50,6 +50,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
 import InfoIcon from '@mui/icons-material/Info';
+import PersonIcon from '@mui/icons-material/Person';
 
 const theme = createTheme({
     palette: {
@@ -244,6 +245,7 @@ const HomepageRestaurant = () => {
     }, [newAddress, newName, newDiscount, newPhone]);
 
     useEffect(() =>{
+        console.log("i'm here to get the restaurants.");
         axios.get(
             `http://5.34.195.16/restaurant/managers/${id}/restaurants/` , 
             {headers :{
@@ -277,8 +279,8 @@ const HomepageRestaurant = () => {
         window.location.reload(false);
     }
 
-    const handleClick = () => {
-        history.push("");
+    const handleShowProfile = () => {
+        history.push(`/edit-manager/`);
     }
 
     const handleAdd = (e) => {
@@ -378,11 +380,11 @@ const HomepageRestaurant = () => {
                             />
                             <Grid container spacing={2} className="new-restaurant-button-grid" wrap="nowrap">
                                         <Grid item style={{paddingLeft: '20px'}}>
-                                            <Button className="discard-button" id="edit-button" variant="contained" onClick={handleCancle}
+                                            <Button className="discard-button" id="edit-button-manager" variant="contained" onClick={handleCancle}
                                             >Cancel</Button>
                                         </Grid>
                                         <Grid item style={{paddingRight: '5px'}}>
-                                            <Button className="add-button" id="edit-button" variant="contained" onClick={handleAdd}
+                                            <Button className="add-button" id="edit-button-manager" variant="contained" onClick={handleAdd}
                                                 // disabled={!validInputs}
                                                 // style={{marginRight: "-2%"}}
                                             >Add</Button>
@@ -393,9 +395,9 @@ const HomepageRestaurant = () => {
                         }
                         <ListItem button className='list-item'>
                             <ListItemIcon>
-                                <DeleteIcon className='list-icon'/>
+                                <PersonIcon className='list-icon'/>
                             </ListItemIcon>
-                            <ListItemText primary="Remove restaurant"/>
+                            <ListItemText onClick={handleShowProfile} primary="Profile"/>
                         </ListItem>
                     </List>
                     <Divider color="white" variant="middle" className='divider'/>
