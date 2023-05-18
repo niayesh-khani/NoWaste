@@ -121,7 +121,7 @@ function EditRestaurant(props){
     const [foodIngredient, setFoodIngredient] = useState('');
     const [foodIngredientError, setFoodIngredientError] = useState(false);
     const [foodType, setFoodType] = useState('');
-    const [foodPrice, setFoodPrice] = useState();
+    const [foodPrice, setFoodPrice] = useState(0);
     const [foodPriceError, setFoodPriceError] = useState(false);
     const [menu, setMenu] = useState([]);
 
@@ -891,101 +891,6 @@ function EditRestaurant(props){
                                             </StyledDialog>
                                             </div>
                                             ))}
-                                            {/* <Box className="food-box">
-                                                <Grid container spacing={3}>
-                                                    <Grid item lg={2} md={2} sm={2} className="food">
-                                                        <img src="/food2.jpg" className="food-image"/>
-                                                    </Grid>
-                                                    <Grid item lg={5} md={5} sm={6}>
-                                                        <Typography className="food-name">
-                                                            Pizza
-                                                        </Typography>
-                                                        <Typography className="food-ingredient">
-                                                            Flour, yeast, mozzarella cheese, white sugar, tomatoes and onion
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item lg={2} md={1} sm={1}>
-                                                        <Typography className="food-type-price">
-                                                            Foreign
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item lg={1} md={1} sm={1}>
-                                                        <Typography className="food-type-price">
-                                                            10$
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item lg={2} md={3} sm={2}>
-                                                        <Button className="food-edit" id="food-edit-button" onClick={handleOpenEdit}>
-                                                            Edit
-                                                        </Button>
-                                                    </Grid>
-                                                </Grid>
-                                            </Box> */}
-                                            {/* ///////////////// */}
-                                            {/* <StyledDialog open={openEdit} classes={{ paper: classes.dialogRoot }} onClose={handleOpenEdit}>
-                                                <DialogTitle className="dialog-title">Edit Food</DialogTitle>
-                                                <FormControl className="edit-field-restaurant">
-                                                    <TextField
-                                                        label="Name"
-                                                        variant="outlined"
-                                                        color="secondary"
-                                                        required
-                                                    />
-                                                </FormControl>
-                                                <FormControl className="edit-field-restaurant">
-                                                    <TextField
-                                                        label="Ingredient"
-                                                        variant="outlined"
-                                                        color="secondary"
-                                                        multiline
-                                                        required
-                                                    />
-                                                </FormControl>
-                                                <FormControl className="edit-field-restaurant">    
-                                                    <Grid container spacing={2}>
-                                                        <Grid item lg={6} md={6} sm={12}>
-                                                            <TextField
-                                                                label="Type"
-                                                                variant="outlined"
-                                                                color="secondary"
-                                                                required
-                                                                style={{width: '100%'}}
-                                                            />
-                                                        </Grid>
-                                                        <Grid item lg={6} md={6} sm={12}>
-                                                            <TextField
-                                                                label="Price"
-                                                                variant="outlined"
-                                                                color="secondary"
-                                                                required
-                                                                style={{width: '100%'}}
-                                                            />
-                                                        </Grid>
-                                                    </Grid>
-                                                </FormControl>
-                                                <Grid container spacing={2} className="edit-button-grid-restaurant">
-                                                    <Grid item>
-                                                        <Button 
-                                                            className="edit-discard-button-restaurant" 
-                                                            id="edit-button-restaurant" 
-                                                            variant="contained"
-                                                            onClick={handleOpenEdit}
-                                                        >
-                                                            Cancel
-                                                        </Button>
-                                                    </Grid>
-                                                    <Grid item lg={2} md={2} sm={2} justifyContent="flex-end">
-                                                        <Button 
-                                                            className="edit-save-changepass-button-restaurant" 
-                                                            id="edit-button-restaurant" 
-                                                            variant="contained" 
-                                                            style={{width: 'auto'}}
-                                                        >
-                                                            Apply
-                                                        </Button>
-                                                    </Grid>
-                                                </Grid>
-                                            </StyledDialog> */}
                                         </Box>
                                     </div>
                                 }
