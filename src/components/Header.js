@@ -288,7 +288,7 @@ const Header = React.memo(() => {
                                 </div>
                                 <div style={{display: 'flex', justifyContent: 'center' , alignItems: 'center'}}>
                                     <Button variant="contained" id='payment-submit' onClick={handleIncreaseBalance} disabled={selectedAmount==0} className={selectedAmount === 0 ? '' : 'payment-submit-enabled'}>
-                                        Payment
+                                        Add to wallet
                                     </Button>
                                 </div>
                                 
