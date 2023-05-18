@@ -127,6 +127,11 @@ const RestaurantView = (props: Props) =>
     }
 
     React.useEffect(() => {
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/" + id + '/food/')
+        .then((response) => {
+            console.log("food",response);
+            setMenu(response.data);
+        })
         const fetchData = async () => {
           try {
             axios.get("http://5.34.195.16/restaurant/restaurant_view/" + id + '/')
@@ -134,7 +139,6 @@ const RestaurantView = (props: Props) =>
             console.log(response.data);
             setRestaurant(response.data);
             setNameRestaurant(response.data.name);
-            setMenu(response.data.menu);
             setRateValue(response.data.rate);
             const is_in_list = list_fav.includes(response.data.name);
             is_in_list ? (setColor(!color)) : setColor(color);
@@ -201,7 +205,19 @@ const RestaurantView = (props: Props) =>
     };
         
     const [textCopied, setTextCopied] = useState(false);
-            
+    
+    const [order_id , setOrder_id]  = useState();
+
+    useEffect(() => {
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ id + "/5/order/")
+        .then((response) => {
+            setOrder_id(response.data.id);
+            // console.log("order id",order_id);
+            localStorage.setItem("order_id", order_id);
+            // console.log("local",localStorage.getItem("order_id"));
+        })
+    })
+
     return (
     <div className='myback'>
         <Header />

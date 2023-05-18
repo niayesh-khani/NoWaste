@@ -19,6 +19,8 @@ import { useParams } from 'react-router-dom';
 import { Chip, Divider, Grid } from '@mui/material';
 import { Stack } from 'react-bootstrap';
 import AddIcon from '@mui/icons-material/Add';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -41,14 +43,38 @@ const Food = (props) => {
     const [restaurant, setRestaurant] = React.useState('');
     const [menu, setMenu] = React.useState([]);
     const {id} = useParams();
-    const food = props.food
+    const food = props.food;
+    const order_id = localStorage.getItem("order_id");
+    // console.log("my id",order_id);
 
     const handleChange = (e) => {
         setCount(e.target.value);
     }
-    console.log(count);
+    // console.log("my food",food);
 
+
+    
     const handleAddToCartClick = () => {
+        console.log("id", id);
+        console.log("order id", order_id);
+        console.log("food id", food.id);
+
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ id + "/order/"+ order_id + "/" + food.id + "/add_to_order/")
+        .then((response) => {
+            console.log("l;kjhugytfrde",response);
+        })
+        .catch((error) => {
+            if (error.response) {
+                console.log(error.response);
+                console.log("server responded");
+            } 
+            else if (error.request) {
+                console.log("network error");
+            } 
+            else {
+                console.log(error);
+            }
+        },);
         console.log(count);
         var tmp = parseInt(count) + 1
         console.log(tmp);
@@ -57,6 +83,22 @@ const Food = (props) => {
 
 
     const handleRemoveFromCartClick = () => {
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ id + "/order/"+ order_id + "/" + food.id + "/remove_from_order/")
+        .then((response) => {
+            console.log("l;kjhugytfrde",response);
+        })
+        .catch((error) => {
+            if (error.response) {
+                console.log(error.response);
+                console.log("server responded");
+            } 
+            else if (error.request) {
+                console.log("network error");
+            } 
+            else {
+                console.log(error);
+            }
+        },);
         if (count > 0) {
             setCount(count - 1);
         }
