@@ -159,6 +159,9 @@ const Header = React.memo(() => {
         boxShadow: 24,
         p: 4,
     };
+    const handleCart = () => {
+        history.push('/order-page');
+      };
     
     return ( 
         <>
@@ -185,8 +188,8 @@ const Header = React.memo(() => {
                 <div >
                     
                     <IconButton color='inherit'>
-                        <Badge badgeContent={2} color='error'>
-                            <ShoppingCartIcon />
+                        <Badge badgeContent={1} color='error'>
+                            <ShoppingCartIcon onClick={handleCart}/>
                         </Badge>
                     </IconButton>
                     <IconButton
