@@ -191,10 +191,8 @@ const HomepageRestaurant = () => {
     const [show, setShow] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
     const [newName, setNewName] = useState('');
-    const [phone, setPhone] = useState();
-    const [address, setAddress] = useState();
     const [newPhone, setNewPhone] = useState('');
-    const [newAddress, setNewAdress] = useState('');
+    const [newAddress, setNewAddress] = useState('');
     const [newDiscount, setNewDiscount] = useState('');
     const [restaurants, setRestaurants] = useState();
     const [openNetwork, setOpenNetwork] = useState(null);
@@ -241,7 +239,7 @@ const HomepageRestaurant = () => {
     useEffect(() => {
         let valid = false;
         if (!(newAddress || newDiscount || newName || newPhone))
-            valid = true;
+            valid = false;
         setValidInputs(valid);
     }, [newAddress, newName, newDiscount, newPhone]);
 
@@ -262,6 +260,19 @@ const HomepageRestaurant = () => {
         .catch((error) => console.log(error));
     },[]);
 
+    const handleAddName = (e) => {
+        setNewName(e);
+    }
+    const handleAddPhone = (e) => {
+        setNewPhone(e);
+    }
+    const handleAddDiscount = (e) => {
+        setNewDiscount(e);
+    }
+    const handleAddAddress = (e) => {
+        setNewAddress(e);
+    }
+
     const handleCancle = () => {
         window.location.reload(false);
     }
@@ -279,7 +290,8 @@ const HomepageRestaurant = () => {
             rate: "" ,
             restaurant_image: "",
             data_of_establishment: "",
-            description: ""
+            description: "",
+            discount: newDiscount
             };
             console.log(userData);
             axios.post(`http://5.34.195.16/restaurant/managers/${id}/restaurants/`, userData, {headers:{"Content-Type" : "application/json"}})
@@ -335,15 +347,17 @@ const HomepageRestaurant = () => {
                                 label="Name"
                                 variant="outlined"
                                 color="secondary"
+                                onChange={handleAddName}
                                 style={{width: '100%', marginTop: '10px', borderColor: 'white'}}
-                                // InputLabelProps={{ shrink: true }} 
+                                InputLabelProps={{ shrink: true }} 
                             />
                             <TextField 
                                 label="Address"
                                 variant="outlined"
                                 color="secondary"
+                                onChange={handleAddAddress}
                                 style={{width: '100%', marginTop: '10px', borderColor: 'white'}}
-                                // InputLabelProps={{ shrink: true }} 
+                                InputLabelProps={{ shrink: true }} 
                             />
                             <PhoneInput
                                 label="Phone number"
@@ -353,12 +367,14 @@ const HomepageRestaurant = () => {
                                 className="phone-input"
                                 style={{width: '100%'}}
                                 variant="outlined"
-                                                // focused={true}
+                                focused={true}
+                                onChange={handleAddPhone}
                             />
                             <TextField 
                                 label="Discount"
                                 variant="outlined"
                                 color="secondary"
+                                onChange={handleAddDiscount}
                                 style={{width: '100%', marginTop: '10px', borderColor: 'white'}}
                             />
                             <Grid container spacing={2} className="new-restaurant-button-grid" wrap="nowrap">
@@ -368,7 +384,7 @@ const HomepageRestaurant = () => {
                                         </Grid>
                                         <Grid item style={{paddingRight: '5px'}}>
                                             <Button className="add-button" id="edit-button" variant="contained" onClick={handleAdd}
-                                                disabled={!validInputs}
+                                                // disabled={!validInputs}
                                                 // style={{marginRight: "-2%"}}
                                             >Add</Button>
                                     </Grid>
