@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import './OrderPage.css';
 import Header from "../components/Header";
 import { ThemeProvider } from "@mui/styles";
-import { Button, Box, Grid, Typography, createTheme } from "@material-ui/core";
+import { Button, Box, Grid, Typography, createTheme, Checkbox } from "@material-ui/core";
 import Footer from "../components/Footer";
 import { KeyboardArrowRightIcon } from '@mui/icons-material';
 import PlaceIcon from '@mui/icons-material/Place';
@@ -26,6 +26,16 @@ const theme = createTheme({
 export default function OrderPage(){
     const [shoppingCard, setShoppingCard] = useState([]);  
     const [orderItems, setOrderItems] = useState([]);
+    const [checkAdd, setCheckAdd] = useState(true);
+    const [checkPay, setCheckPay] = useState(true);
+
+    const handleCheckAdd = () => {
+        setCheckAdd(!checkAdd);
+    }
+    const handleCheckPay = (e) => {
+        setCheckPay(e.target.checked);
+    }
+
 
     const restaurantId = localStorage.getItem('restaurantId');
     console.log(restaurantId);
@@ -170,19 +180,37 @@ export default function OrderPage(){
                         >
                             Shopping Info
                         </Typography>
-                        <Typography
-                            style={{alignSelf: 'flex-start', fontSize: '20px'}}
-                        >
-                            Address
-                        </Typography>
+                        <Grid container spacing={2} >
+                            <Grid item>
+                                <Typography
+                                    style={{alignSelf: 'flex-start', fontSize: '20px'}}
+                                >
+                                    Address
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Button className="button-change-address">
+                                    Change Address
+                                </Button>
+                            </Grid>
+                        </Grid>
                         <Box className="orderpage-shopinfo-box">
-                            <Typography style={{display: "flex", alignSelf: 'flex-start', justifyContent: 'center'}}>
-                                <PlaceIcon className="icon-order-page" />
-                                Iran, Tehran, IUST
-                                {/* {shoppingCard.adress}         //*/}
-                                <CheckBox className="checkbox-orderpage" defaultChecked/>
-                            </Typography>
-                            
+                            <Grid constainer spacing={2}>
+                                    <Grid item>
+                                    <Typography style={{display: "flex", alignSelf: 'flex-start', justifyContent: 'center', marginLeft: "-280%"}}>
+                                        <PlaceIcon className="icon-order-page" />
+                                        Iran, Tehran, IUST
+                                    </Typography>
+                                    </Grid>
+                                    <Grid item justifyContent="flex-end" >
+                                        <Checkbox 
+                                            style={{color: "green", marginLeft: "210%", marginTop: "-30%"}} 
+                                            className="checkbox-orderpage" 
+                                            defaultChecked
+                                            onClick={handleCheckAdd}
+                                        />
+                                    </Grid>
+                            </Grid>
                         </Box>
                         <Typography
                             style={{alignSelf: 'flex-start', fontSize: '20px', marginTop: "30px"}}
@@ -190,11 +218,23 @@ export default function OrderPage(){
                             Payment method
                         </Typography>
                         <Box className="orderpage-shopinfo-box">
-                            <Typography style={{display:'flex', alignSelf: 'flex-start', justifyContent: 'center'}}>
-                                <WalletIcon className="icon-order-page"/>
-                                Wallet
-                                <CheckBox className="checkbox-orderpage" defaultChecked/>
-                            </Typography>
+                            <Grid constainer spacing={2}>
+                                <Grid item>
+                                    <Typography style={{display: "flex", alignSelf: 'flex-start', justifyContent: 'center', marginLeft: "-700%"}}>
+                                        <WalletIcon className="icon-order-page"/>
+                                        Wallet
+                                    </Typography>
+                                    </Grid>
+                                    <Grid item justifyContent="flex-end" >
+                                        <Checkbox 
+                                            style={{color: "green", marginLeft: "390%", marginTop: "-60%"}} 
+                                            className="checkbox-orderpage" 
+                                            defaultChecked
+                                            disabled
+                                            // onChange={handleCheckPay}
+                                        />
+                                    </Grid>
+                            </Grid>
                         </Box>
                     </Box>
                 </Grid>
