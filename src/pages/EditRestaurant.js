@@ -410,6 +410,15 @@ function EditRestaurant(props){
         window.location.reload(false);
     };
 
+    const handleDeleteRestaurant = () => {
+        console.log("i'm here to delete this restaurant.");
+        axios.delete(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/`)
+        .then((response) => {
+            history.push("/homepage-restaurant");
+        })
+        .catch((error) => console.log(error));
+    }
+
     const handleDelete = (res) => {
         console.log("i'm here to delete.");
         axios.delete(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/${idFood}/`)
@@ -783,7 +792,7 @@ function EditRestaurant(props){
                                                             style={{width: '100%'}}
                                                             InputProps={{
                                                                 startAdornment: (
-                                                                  <InputAdornment position="start">$</InputAdornment>
+                                                                    <InputAdornment position="start">$</InputAdornment>
                                                                 ),
                                                             }}
                                                         />
@@ -977,6 +986,7 @@ function EditRestaurant(props){
                                         className="edit-discard-button-restaurant" 
                                         id="edit-button-restaurant" 
                                         variant="contained" 
+                                        onClick={handleDeleteRestaurant}
                                         // onClick={handleDiscard}
                                     >
                                         Delete restaurant
