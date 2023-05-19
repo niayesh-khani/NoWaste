@@ -36,21 +36,23 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
     }),
 }));
 
+const userid = localStorage.getItem("id");
 
 const Food = (props) => {
     const [count, setCount] = React.useState(0);
     const [expanded, setExpanded] = React.useState(false);
     const [restaurant, setRestaurant] = React.useState('');
     const [menu, setMenu] = React.useState([]);
-    const {id} = useParams();
+    const {id} = useParams(); 
     const food = props.food;
     const order_id = localStorage.getItem("order_id");
     // console.log("my id",order_id);
-
+    const [resid, setResid] = localStorage.getItem("restaurantId");
     const handleChange = (e) => {
         setCount(e.target.value);
     }
-    // console.log("my food",food);
+    console.log("user id",userid);
+    console.log("res id",resid);
 
 
     
@@ -59,7 +61,7 @@ const Food = (props) => {
         console.log("order id", order_id);
         console.log("food id", food.id);
 
-        axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ id + "/order/"+ order_id + "/" + food.id + "/add_to_order/")
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ resid + "/" + userid + "/order/add_to_order/" + food.id + "/")
         .then((response) => {
             console.log("l;kjhugytfrde",response);
         })
@@ -83,7 +85,7 @@ const Food = (props) => {
 
 
     const handleRemoveFromCartClick = () => {
-        axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ id + "/order/"+ order_id + "/" + food.id + "/remove_from_order/")
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ resid + "/" + userid + "/order/remove_from_order/" + food.id + "/")
         .then((response) => {
             console.log("l;kjhugytfrde",response);
         })
@@ -113,7 +115,7 @@ const Food = (props) => {
         }, [count]);
 
     React.useEffect(() => {
-        axios.get("http://5.34.195.16/restaurant/restaurant_view/" + id + '/')
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/" + resid + '/')
         .then((response) => {
             console.log(response);
             setRestaurant(response.data);
