@@ -54,8 +54,9 @@ const RestaurantCard = (props) => {
             <div style={{ position: 'relative' }}>
                 <CardMedia
                     component="img"
-                    sx={{ height: 140 }}
-                    image="/mohsen.jpg"        //props.restaurant_image
+                    sx={{ height: 140, width: '100%', objectFit: 'cover' }}
+                    // image="/mohsen.jpg"        
+                    image={props.restaurant_image}  
                     // title={food.Type}
                 />
                 <div style={{
