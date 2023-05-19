@@ -13,6 +13,7 @@
 }
 .edit-box-manager {
     width: auto;
+    height: 95%;
     margin: auto 0% auto 2%;
     padding: 10px 15px 0 15px;
     display: flex;

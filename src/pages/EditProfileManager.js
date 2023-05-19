@@ -417,7 +417,7 @@ const EditProfileManager = () => {
                                     }}
                                 />
                             </FormControl>
-                            <FormControl className="edit-field-manager">
+                            {/* <FormControl className="edit-field-manager">
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6} md={6}>
                                         <TextField
@@ -493,7 +493,7 @@ const EditProfileManager = () => {
                                     value={address}
                                     onChange={handleAddress}
                             /> 
-                            </FormControl>
+                            </FormControl> */}
                             {/* <FormControl className="edit-field-manager">
                             {openMenu && 
                                     <Button 
