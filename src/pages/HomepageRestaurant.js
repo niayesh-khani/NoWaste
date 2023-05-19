@@ -474,10 +474,24 @@ function HomepageRestaurant(props){
                                                             sx={{fontSize: "medium"}}
                                                             label={res.address}
                                                         />
-                                                        <div className='two-icons-homepage'>
+                                                        <div style={{marginLeft: '50%'}}>
+                                                            <Grid container spacing={2} >
+                                                                <Grid item >
+                                                                    <IconButton title="Edit restaurant">
+                                                                        <EditIcon  onClick={() => {handleEdit(res)}} className='edit-icons-card-restaurant-homepage'/>
+                                                                    </IconButton>
+                                                                </Grid>
+                                                                <Grid item lg={1} >
+                                                                    <IconButton title="Delete restaurant">
+                                                                        <DeleteForeverIcon onClick={() => {handleDelete(res)}} className='delete-icons-card-restaurant-homepage'/> 
+                                                                    </IconButton>
+                                                                </Grid>
+                                                            </Grid>
+                                                        </div>
+                                                        {/* <div className='two-icons-homepage'>
                                                         <EditIcon title="Edit" onClick={() => {handleEdit(res)}} className='edit-icons-card-restaurant-homepage'/>
                                                         <DeleteForeverIcon title="Delete" onClick={() => {handleDelete(res)}} className='delete-icons-card-restaurant-homepage'/>
-                                                        </div>
+                                                        </div> */}
                                                     </Grid>
                                                 </Grid>
                                             </CardContent>

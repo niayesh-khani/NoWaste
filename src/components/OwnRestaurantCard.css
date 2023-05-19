@@ -32,22 +32,22 @@
 
 .delete-icons-card-restaurant-homepage {
     color: red !important;
-    margin-left: 70px !important;
+    /* margin-left: 70px !important; */
     display: flex !important;
 }
-.delete-icons-card-restaurant-homepage:hover {
+/* .delete-icons-card-restaurant-homepage:hover {
     color: black !important;
-}
+} */
 
 .edit-icons-card-restaurant-homepage {
-    margin-left: 110px !important;
+    /* margin-left: 110px !important; */
     margin-bottom: -15px !important;
     display: flex !important;
     color: green !important;
 }
-.edit-icons-card-restaurant-homepage:hover {
+/* .edit-icons-card-restaurant-homepage:hover {
     color: black !important;
-}
+} */
 
 @keyframes pulse {
     0%, 100% {
