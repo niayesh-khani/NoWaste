@@ -28,7 +28,7 @@ export default function OrderPage(){
     const [orderItems, setOrderItems] = useState([]);
     const [checkAdd, setCheckAdd] = useState(true);
     const [checkPay, setCheckPay] = useState(true);
-
+    const [prices, setPrices] = useState([]);
     const handleCheckAdd = () => {
         setCheckAdd(!checkAdd);
     }
@@ -49,6 +49,8 @@ export default function OrderPage(){
                 console.log("oredrs",response.data);
                 setShoppingCard(response.data);
                 setOrderItems(response.data.orderItems);
+                setPrices(response.data.Subtotal_Grandtotal_discount);
+                console.log("prices", response.data.Subtotal_Grandtotal_discount);
             
             })
             .catch((error) => {
@@ -73,19 +75,7 @@ export default function OrderPage(){
                         <div className="orderpage-details-div">
 
                             <Grid container spacing={2} className="orderpage-grid">      
-                                {/* {orderItems.map((item, index) => (
-                                    <div key={index}>
-                                        <Grid item>
-                                            <Typography>{item.name}</Typography>
-                                        </Grid>
-                                        <Grid item>
-                                            <Typography><span style={{color: '#8a8686'}}>{item.quantity}×</span>{item.price}$</Typography>
-                                        </Grid>
-                                    </div>
-                                ))} */}
                             </Grid>
-
-
                             {orderItems.map((order_list)=>(<Grid container spacing={2} className="orderpage-grid">
                                 <Grid item>
                                     <Typography>{order_list.name_and_price.name}</Typography>
@@ -95,46 +85,6 @@ export default function OrderPage(){
                                 </Grid>
                             </Grid>))
                             }
-                            {/* <Grid container spacing={2} className="orderpage-grid">
-                                <Grid item>
-                                    <Typography>Fesenjoon</Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography> <span style={{color: '#8a8686'}}>1×</span>18$ </Typography>
-                                </Grid>
-                            </Grid>
-                            <Grid container spacing={2} className="orderpage-grid">
-                                <Grid item>
-                                    <Typography>Zereshk polo</Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography> <span style={{color: '#8a8686'}}>1×</span>18$ </Typography>
-                                </Grid>
-                            </Grid>
-                            <Grid container spacing={2} className="orderpage-grid">
-                                <Grid item>
-                                    <Typography>Gheymeh</Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography> <span style={{color: '#8a8686'}}>5×</span>18$ </Typography>
-                                </Grid>
-                            </Grid>
-                            <Grid container spacing={2} className="orderpage-grid">
-                                <Grid item>
-                                    <Typography>Polo</Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography> <span style={{color: '#8a8686'}}>2×</span>18$</Typography>
-                                </Grid>
-                            </Grid>
-                            <Grid container spacing={2} className="orderpage-grid">
-                                <Grid item>
-                                    <Typography>Polo</Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography> <span style={{color: '#8a8686'}}>2×</span>18$</Typography>
-                                </Grid>
-                            </Grid> */}
                         </div>
                         <hr className="hr-tag" />
                         <Grid container spacing={2} className="orderpage-grid">
@@ -142,8 +92,7 @@ export default function OrderPage(){
                                 <Typography>Subtotal</Typography>
                             </Grid>
                             <Grid item>
-                                {/* <Typography> 205$ </Typography> */}
-                                <Typography> {shoppingCard.total_price}$ </Typography>        
+                                <Typography> {prices[0]}$ </Typography>        
                             </Grid>
                         </Grid>
                         <hr className="hr-tag" />
@@ -153,7 +102,7 @@ export default function OrderPage(){
                             </Grid>
                             <Grid item >
                                 {/* <Typography> {"15"+"%"} </Typography> */}
-                                <Typography> {shoppingCard.discount*100 }% </Typography>     
+                                <Typography> {prices[2]*100}% </Typography>     
 
                             </Grid>
                         </Grid>
@@ -164,7 +113,7 @@ export default function OrderPage(){
                             </Grid>
                             <Grid item>
                                 {/* <Typography> {205*0.85} </Typography> */}
-                                <Typography> {shoppingCard.total_price * (1-shoppingCard.discount)}$ </Typography>          
+                                <Typography> {prices[1]}$ </Typography>          
                             </Grid>
                         </Grid> 
                         <Button className="order-submit">
@@ -199,7 +148,7 @@ export default function OrderPage(){
                                     <Grid item>
                                     <Typography style={{display: "flex", alignSelf: 'flex-start', justifyContent: 'center', marginLeft: "-280%"}}>
                                         <PlaceIcon className="icon-order-page" />
-                                        Iran, Tehran, IUST
+                                        {shoppingCard.userAddress}
                                     </Typography>
                                     </Grid>
                                     <Grid item justifyContent="flex-end" >
