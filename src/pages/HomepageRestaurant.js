@@ -474,7 +474,7 @@ function HomepageRestaurant(props){
                                                             sx={{fontSize: "medium"}}
                                                             label={res.address}
                                                         />
-                                                        <div style={{marginLeft: '50%'}}>
+                                                        <div style={{marginLeft: '30%'}}>
                                                             <Grid container spacing={2} >
                                                                 <Grid item >
                                                                     <IconButton title="Edit restaurant">
