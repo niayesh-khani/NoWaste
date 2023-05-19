@@ -37,23 +37,26 @@ import StarRateIcon from '@mui/icons-material/StarRate';
 const RestaurantCard = (props) => {
     const history = useHistory();
     const [rateValue, setRateValue] = React.useState(2.5);
-    const userId = localStorage.getItem("id");
     const [discount, setDiscount] = useState(20);
-    const restaurant= props.restaurant;
+    // localStorage.setItem('restaurantId', props.id);
+
+
 
     const handleShow = () => {
-        history.push("http://5.34.195.16/restaurant/restaurant_view/" + restaurant.id);
+        history.push(`restaurant-view/${props.id}/`);
     }
-
+    console.log(props.isSingleResult);
     return ( 
         <div>
-        <Card className= 'homepage-custumer-card-restaurant' onClick={handleShow}>
+        {/* <Card className= 'homepage-custumer-card-restaurant' onClick={handleShow}> */}
+        <Card className={`homepage-custumer-card-restaurant${props.isSingleResult ? '-single' : ''}`} onClick={handleShow}>
             <CardActionArea>
             <div style={{ position: 'relative' }}>
                 <CardMedia
                     component="img"
-                    sx={{ height: 140 }}
-                    image="/mohsen.jpg"
+                    sx={{ height: 140, width: '100%', objectFit: 'cover' }}
+                    // image="/mohsen.jpg"        
+                    image={props.restaurant_image}  
                     // title={food.Type}
                 />
                 <div style={{
@@ -65,20 +68,20 @@ const RestaurantCard = (props) => {
                 padding: '5px'
                 }}>
                     {/* {discount + "%"} */}
-                    {restaurant.discount + "%"}
+                    {props.discount *100 + "%"}
                 </div>
                 </div>
                 <CardContent sx={{ height: 130}}>
                     <Grid>
-                        <Typography gutterBottom className='restaurant-name-hemepage-customer'>{restaurant.name}
+                        <Typography gutterBottom className='restaurant-name-hemepage-customer'>{props.name}
                             <Typography style={{marginLeft: '75%', marginTop: '-10%', fontSize: '1em'}}>
                                 {/* {rateValue} */}
-                                {restaurant.rate}
+                                {props.rate}
                                 <StarRateIcon className='startIcon-homepage' style={{ color: '#faaf00', marginTop: "-11%"}} />
                             </Typography>
                         </Typography>
                     </Grid>
-                    <Typography className="description-homepage-customer" color="text.secondary">This is a best restaurant in Narmak that you can order everything you want.</Typography> 
+                    <Typography className="description-homepage-customer" color="text.secondary">{props.description}</Typography> 
                 </CardContent>
                 </CardActionArea>
             <CardActions>

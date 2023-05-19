@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
-import './EditProfile.css';
+import './EditProfileManager.css';
 import Header from '../components/Header';
 import './Login-Signup.css';
 import './Restaurant-View.css';
-// import PhoneInput from 'react-phone-input-2';
 import PhoneInput from 'material-ui-phone-number';
 import 'react-phone-input-2/lib/style.css';
 import { DatePicker } from '@mui/x-date-pickers'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import AdapterDayjs from '@date-io/dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import axios from "axios";
@@ -20,17 +18,18 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import Footer from "../components/Footer";
 import { Alert, AlertTitle } from "@mui/material";
+import ClearIcon from '@mui/icons-material/Clear';
 
 const styles = theme => ({
     field: {
-      margin: '10px 0',
-      width : "100px",
+    margin: '10px 0',
+    width : "100px",
     },
     countryList: {
-      ...theme.typography.body1,
-      width : "100px",
+    ...theme.typography.body1,
+    width : "100px",
     },
-  });
+});
 const theme = createTheme({
     palette: {
         primary: {
@@ -39,24 +38,15 @@ const theme = createTheme({
         secondary: {
             main: '#a44704',
         }
-    },
-    // overrides: {
-    //     MuiFormLabel: {
-    //         asterisk: {
-    //             color: '#db3131',
-    //             '&$error': {
-    //             color: '#db3131'
-    //             }
-    //         }
-    //     }
-    // }
+    }
 })
 function getRandomColor() {
     const colors = ['#FFA600', '#fff2bf', '#ffe480', '#a2332a' , '#E74C3C' , '#690000' , '#595959', '#3e3e3e' , '#C6C6C6', '#ABABAB', '#B9B9B9'];
     return colors[Math.floor(Math.random() * colors.length)];
 }
-function Edit(props){
-    const { value, defaultCountry, onChange, classes } = props;
+
+const EditProfileManager = () => {
+    // const { value, defaultCountry, onChange, classes } = props;
     const [fullname, setFullname] = useState('');
     const [fullnameError, setFullnameError] = useState(false);
     const [gender, setGender] = useState('');
@@ -81,12 +71,13 @@ function Edit(props){
     const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [profileImg, setProfileImg] = useState(null);
+    const [profileImg, setProfileImg] = useState('');
     const MAX_FILE_SIZE = 5 * 1024 * 1024;
     const [open, setOpen] = useState(false);
     const [openNetwork, setOpenNetwork] = useState(false);
     const [openWrongPass, setOpenWrongPass] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
+    const [openMenu, setOpenMenu] = useState(true);
 
     const handleFullname = (e) => {
         setFullname(e.target.value);
@@ -159,12 +150,12 @@ function Edit(props){
 
     useEffect(() =>{
         axios.get(
-            `http://5.34.195.16/user/customer_profile/${id}/` , 
+            `http://5.34.195.16/restaurant/managers/${id}/` , 
             {headers :{
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
                 "Access-Control-Allow-Methods" : "GET,PATCH",
-                'Authorization' : "Token " + token.slice(1,-1)
+                // 'Authorization' : "Token " + token.slice(1,-1)
             }}
         )
         .then((response) => {
@@ -179,8 +170,8 @@ function Edit(props){
     }, [data.name]);
 
     useEffect(() => {
-        setProfileImg(data.customer_img);
-    }, [data.customer_img]);
+        setProfileImg(data.manager_image);
+    }, [data.manager_image])
 
     useEffect(() => {
         setGender(data.gender);
@@ -198,9 +189,9 @@ function Edit(props){
     }, [data.address]);
 
     const history = useHistory();
-    const handleChange = () => {
-        history.push('./change-password')
-    };
+    const handleOpenMenu = () => {
+        setOpenMenu(!openMenu);
+    }
     const handleCloseNetwork = () => {
         setOpenNetwork(false);
     };
@@ -217,23 +208,16 @@ function Edit(props){
             setOpen(true);
             e.target.value = null;
             setProfileImg(null);
-            console.log("bish az max");
             return;
         } else{
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onloadend = () => {
                 setProfileImg(reader.result);
-                console.log("the result image is :   " + reader.result);
-                console.log("ok")
-                console.log(profileImg);
-                console.log("profile image is" + profileImg);
-                setUpdate({...update, customer_img: reader.result});
+                setUpdate({...update, manager_image: reader.result});
             };
         }
         // console.log(profileImg);
-        // console.log("profile image is" + profileImg);
-        // setUpdate({...update, customer_img: profileImg});
     };
     
     useEffect(() => {
@@ -259,7 +243,7 @@ function Edit(props){
     const handleUpdate = (e) => {
         e.preventDefault();
         axios.patch(
-            `http://5.34.195.16/user/customer_profile/${id}/`, update,
+            `http://5.34.195.16/restaurant/managers/${id}`, update,
             {headers: {
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
@@ -314,33 +298,32 @@ function Edit(props){
     const handleDiscard = () => {
         window.location.reload(false);
     }
-
-    return(
+    return ( 
         <ThemeProvider theme={theme}>
-            <div className="edit-back">
+            <div className="edit-back-manager">
                 <Header/>
-                <Grid container spacing={2} className="edit-grid">
+                <Grid container spacing={2} className="edit-grid-manager">
                     <Grid item md={3} sm={12} xs={12}>
-                        <Box className="edit-box">
+                        <Box className="edit-box-manager">
                             <Typography variant="h5" 
                                 color="textPrimary"
                                 gutterBottom
-                                className="edit-title"
+                                className="edit-title-manager"
                                 // style={{fontWeight: 'bold', fontSize: '30px'}}
                             >
                                 Profile Picture
                             </Typography>
                             <Avatar
-                                className="edit-avatar"
+                                className="edit-avatar-manager"
                                 style={{backgroundColor: color, fontSize:"40px"}}
                                 src={profileImg}
                             >
                                 {firstChar}
                             </Avatar>
-                            <Typography className="text-above-upload">
+                            <Typography className="text-above-upload-manager">
                                 JPG or PNG no larger than 5 MB
                             </Typography>
-                            {open && <Alert severity="error" open={open} onClose={handleClose} className="image-alert" variant="outlined" >
+                            {open && <Alert severity="error" open={open} onClose={handleClose} className="image-alert-manager" variant="outlined" >
                                         File size is too large.
                                     </Alert>
                             }
@@ -352,24 +335,24 @@ function Edit(props){
                                 hidden      
                                 MAX_FILE_SIZE={MAX_FILE_SIZE}                   
                             />
-                            <label htmlFor="contained-button-file" className="input-label">
-                                <Button className="upload-button"  component="span">
+                            <label htmlFor="contained-button-file" className="input-label-manager">
+                                <Button className="upload-button-manager"  component="span">
                                     Upload new image
                                 </Button>
                             </label>
                         </Box>
                     </Grid>
                     <Grid item md={9} sm={12} xs={12}>
-                        <Box className="edit-box">
+                        <Box className="edit-box-manager">
                             <Typography variant="h5" 
                                 color="textPrimary"
                                 gutterBottom
-                                className="edit-title"
+                                className="edit-title-manager"
                                 // style={{fontWeight: 'bold', fontSize: '30px'}}
                             >
                                 Account Details 
                             </Typography>
-                            <FormControl className="edit-field">
+                            <FormControl className="edit-field-manager">
                                 <Grid container spacing={2}>
                                     {openNetwork && 
                                             <Grid item lg={12} sm={12} md={12}>
@@ -398,7 +381,7 @@ function Edit(props){
                                             error={fullnameError}
                                             InputLabelProps={{ shrink: true }} 
                                             helperText={
-                                                <div className="edit-error">
+                                                <div className="edit-error-manager">
                                                     {fullnameError && 'Your full name should have at least two words.'}
                                                 </div>
                                             }
@@ -407,13 +390,13 @@ function Edit(props){
                                     <Grid item xs={12} sm={6} md={6}>
                                         <PhoneInput
                                             label="Phone number"
-                                            value={data.phone_number}
+                                            value={data.number}
                                             defaultCountry="ir"
                                             color="secondary"
                                             onChange={handlePhoneChange}
                                             InputLabelProps={{ shrink: true }} 
-                                            inputClass={classes.field}
-                                            className="phone-input"
+                                            // inputClass={classes.field}
+                                            className="phone-input-manager"
                                             style={{width: '100%'}}
                                             variant="outlined"
                                             // focused={true}
@@ -421,7 +404,7 @@ function Edit(props){
                                     </Grid>
                                 </Grid>
                             </FormControl>
-                            <FormControl className="edit-field">
+                            <FormControl className="edit-field-manager">
                                 <TextField
                                     label="Email address"
                                     variant="outlined"
@@ -434,7 +417,7 @@ function Edit(props){
                                     }}
                                 />
                             </FormControl>
-                            <FormControl className="edit-field">
+                            {/* <FormControl className="edit-field-manager">
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6} md={6}>
                                         <TextField
@@ -461,7 +444,7 @@ function Edit(props){
                                     </Grid>
                                     <Grid item xs={12} sm={6} md={6} style={{paddingTop: '0'}}>
                                         <LocalizationProvider dateAdapter={AdapterDayjs} style={{width: '150%'}}
-                                         InputLabelProps={{ shrink: true }}
+                                        InputLabelProps={{ shrink: true }}
                                         >
                                             <DemoContainer components={['DatePicker']} >
                                                 <DatePicker
@@ -477,7 +460,7 @@ function Edit(props){
                                     </Grid>
                                 </Grid>
                             </FormControl>
-                            <FormControl className="edit-field">
+                            <FormControl className="edit-field-manager">
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6} md={6}>
                                         <TextField
@@ -501,7 +484,7 @@ function Edit(props){
                                     </Grid>
                                 </Grid>
                             </FormControl>
-                            <FormControl className="edit-field">
+                            <FormControl className="edit-field-manager">
                                 <TextField
                                     label="Address"
                                     variant="outlined"
@@ -509,10 +492,37 @@ function Edit(props){
                                     multiline
                                     value={address}
                                     onChange={handleAddress}
-                                /> 
-                            </FormControl>
+                            /> 
+                            </FormControl> */}
+                            {/* <FormControl className="edit-field-manager">
+                            {openMenu && 
+                                    <Button 
+                                        color="secondary"
+                                        // id="basic-button"
+                                        // aria-controls={open ? 'basic-menu' : undefined}
+                                        // aria-haspopup="true"
+                                        // aria-expanded={open ? 'true' : undefined}
+                                        // onClick={handleClick}
+                                        onClick={handleOpenMenu}
+                                        className="showr-button"
+                                    >
+                                        Restaurants
+                                    </Button>
+                                }
+                                {!openMenu && 
+                                    <div style={{margin: '5px'}}>
+                                        <Grid container spacing={1} style={{justifyContent: 'flex-end', padding: '1px'}}
+                                        // style={{position: 'absolute', justifyContent: 'flex-end', paddingRight: "10px"}}
+                                        >
+                                            <IconButton title="Hide menu" >
+                                                <ClearIcon style={{color: 'red'}} onClick={handleOpenMenu}/>
+                                            </IconButton>
+                                        </Grid>
+                                    </div>
+                                }
+                            </FormControl> */}
                                 {show && <>
-                                <FormControl className="edit-field">
+                                <FormControl className="edit-field-manager">
                                     <TextField
                                         label="Current passsword"
                                         variant="outlined"
@@ -543,7 +553,7 @@ function Edit(props){
                                     />
                                 </FormControl>
 
-                                <FormControl className="edit-field">
+                                <FormControl className="edit-field-manager">
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6} md={6}>
                                     <TextField
@@ -555,7 +565,7 @@ function Edit(props){
                                         type= {showNewPassword ? 'text' : 'password'}
                                         error={newPasswordError}
                                         helperText= {
-                                            <div className="edit-error">
+                                            <div className="edit-error-manager">
                                                 {newPasswordError && 'Password must be mixture of letters and numbers.'}
                                             </div>
                                         }
@@ -590,7 +600,7 @@ function Edit(props){
                                             onChange={handleConfirmPassword}
                                             error={newPasswordMatch === false}
                                             helperText={
-                                                <div className="edit-error">
+                                                <div className="edit-error-manager">
                                                     {!newPasswordMatch && 'Password do not match!'}
                                                 </div>
                                             }
@@ -621,7 +631,7 @@ function Edit(props){
                                 </FormControl>
                                 </>
                                 }
-                            <Grid container spacing={2} className="edit-button-grid" wrap="nowrap">
+                            <Grid container spacing={2} className="edit-button-grid-manager" wrap="nowrap">
                                 <Grid item>
                                     <Button className="edit-save-changepass-button"  id="edit-button" variant="contained" onClick={() => setShow(prev => !prev)}>Change password </Button>
                                 </Grid>
@@ -630,13 +640,13 @@ function Edit(props){
                                 justifyContent="flex-end"
                                 >
                                     <Grid item style={{paddingRight: '5px'}}>
-                                        <Button className="edit-discard-button" id="edit-button" variant="contained" onClick={handleDiscard}
+                                        <Button className="edit-discard-button-manager" id="edit-button" variant="contained" onClick={handleDiscard}
                                             // style={{marginRight: "2%"}}
                                             // style={{backgroundColor: '#E74C3C'}}
                                         >Discard</Button>
                                     </Grid>
                                     <Grid item>
-                                        <Button className="edit-save-changepass-button" id="edit-button" variant="contained" onClick={handleUpdate}
+                                        <Button className="edit-save-changepass-button-manager" id="edit-button" variant="contained" onClick={handleUpdate}
                                             disabled={!validInputs}
                                             // style={{marginRight: "-2%"}}
                                         >Save changes</Button>
@@ -651,7 +661,6 @@ function Edit(props){
             </div>
         </ThemeProvider>
 
-    )
+    );
 }
-
-export default withStyles(styles)(Edit);
+export default EditProfileManager;

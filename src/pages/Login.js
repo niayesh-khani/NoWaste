@@ -85,6 +85,10 @@ export default function Login(){
         console.log(token);
     }, [token]);
     useEffect(() => {
+        localStorage.setItem('email', JSON.stringify(email));
+        console.log(email);
+    }, [email]);
+    useEffect(() => {
         localStorage.setItem('id', JSON.stringify(id));
         console.log(id);
     }, [id]);
@@ -135,7 +139,10 @@ export default function Login(){
                 setList_of_favorites_res(response.data.list_of_favorites_res);
                 console.log(token);
                 console.log(id);
-                history.push("/homepage-customer");
+                if (response.data.role === "customer")
+                    history.push("/homepage-customer");
+                else
+                    history.push("/homepage-restaurant");
             })
             .catch((error) => {
                 if (error.response) {
@@ -244,7 +251,7 @@ export default function Login(){
                                     }
                             /> */}
                             <Link to="/forgot-password" className="forgetpassword">
-                                <Typography style={{ fontFamily: 'Montserrat, sans-serif'}}>
+                                <Typography style={{ Family: 'Montserrat, sfontans-serif'}}>
                                     Forgot password?
                                 </Typography>
                             </Link>
