@@ -155,7 +155,7 @@ const EditProfileManager = () => {
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
                 "Access-Control-Allow-Methods" : "GET,PATCH",
-                'Authorization' : "Token " + token.slice(1,-1)
+                // 'Authorization' : "Token " + token.slice(1,-1)
             }}
         )
         .then((response) => {
@@ -390,7 +390,7 @@ const EditProfileManager = () => {
                                     <Grid item xs={12} sm={6} md={6}>
                                         <PhoneInput
                                             label="Phone number"
-                                            value={data.phone_number}
+                                            value={data.number}
                                             defaultCountry="ir"
                                             color="secondary"
                                             onChange={handlePhoneChange}

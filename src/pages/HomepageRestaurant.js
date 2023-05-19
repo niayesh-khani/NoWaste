@@ -299,7 +299,7 @@ function HomepageRestaurant(props){
             number: newPhone,
             name: newName,
             address: newAddress,
-            rate: null ,
+            rate: 0 ,
             restaurant_image: "",
             data_of_establishment: null,
             discount: newDiscount
@@ -409,11 +409,11 @@ function HomepageRestaurant(props){
                             <BackToTop/>
                             </Box>
                             }
-                            <ListItem button className='list-item'>
+                            <ListItem button onClick={handleShowProfile} className='list-item'>
                                 <ListItemIcon>
-                                    <DeleteIcon className='list-icon'/>
+                                    <PersonIcon className='list-icon'/>
                                 </ListItemIcon>
-                                <ListItemText primary="Remove restaurant"/>
+                                <ListItemText primary="Profile"/>
                             </ListItem>
                         </List>
                         <Divider color="white" variant="middle" className='divider'/>
