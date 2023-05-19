@@ -37,12 +37,12 @@ export default function OrderPage(){
     }
 
 
-    const restaurantId = localStorage.getItem('restaurantId');
-    console.log(restaurantId);
-    const userId = localStorage.getItem('id');
-    console.log("user:", userId);
-    // const restaurantId =1;
-    // const userId=5;
+    // const restaurantId = localStorage.getItem('restaurantId');
+    // console.log(restaurantId);
+    // const userId = localStorage.getItem('id');
+    // console.log("user:", userId);
+    const restaurantId =1;
+    const userId=5;
     useEffect(()=>{
         axios.get(`http://5.34.195.16/restaurant/restaurant_view/${restaurantId}/${userId}/order/`)
             .then((response) => {
