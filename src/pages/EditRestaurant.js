@@ -79,7 +79,7 @@ const EditRestaurant = () => {
     const [openWrongPass, setOpenWrongPass] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
     const [openMenu, setOpenMenu] = useState(true);
-    const {idM} = localStorage.getItem('id');
+    const idM = localStorage.getItem('id');
     const {idR} = useParams();
 
 

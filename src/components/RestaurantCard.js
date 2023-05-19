@@ -38,7 +38,9 @@ const RestaurantCard = (props) => {
     const history = useHistory();
     const [rateValue, setRateValue] = React.useState(2.5);
     const [discount, setDiscount] = useState(20);
-    localStorage.setItem('restaurantId', props.id);
+    // localStorage.setItem('restaurantId', props.id);
+
+
 
     const handleShow = () => {
         history.push(`restaurant-view/${props.id}/`);
@@ -52,8 +54,9 @@ const RestaurantCard = (props) => {
             <div style={{ position: 'relative' }}>
                 <CardMedia
                     component="img"
-                    sx={{ height: 140 }}
-                    image="/mohsen.jpg"        //props.restaurant_image
+                    sx={{ height: 140, width: '100%', objectFit: 'cover' }}
+                    // image="/mohsen.jpg"        
+                    image={props.restaurant_image}  
                     // title={food.Type}
                 />
                 <div style={{

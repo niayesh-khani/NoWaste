@@ -56,30 +56,37 @@ export default function ShowComments() {
                 >
                     <Box sx={style} className="comment-box">
                         {/* <Avatar></Avatar> */}
-                        <h2 className='title-show-comments'>Users comments</h2>
-                        <Stack direction="row" spacing={2}>
-                            <Avatar sx={{ bgcolor: grey[900] }}>A</Avatar>
-                            <Typography className='comment-title'  variant="h6" component="h2">
-                                Ali 
-                            </Typography>
+                        <h2 className='title-show-comments'>Users Comments</h2>
+                        <Stack direction="row" spacing={2} >
+                            <Avatar sx={{ bgcolor: grey[900] }} className='comment-avatar'>A</Avatar>
+                            <Stack direction="column" spacing={2} >
+                                <Typography variant="h6" className='comment-stack'>
+                                    Mohammad
+                                </Typography>
+                                <h8 className='comment-date'>2020-04-03</h8>
+                            </Stack>
+                            
                         </Stack>
-                        <h6 className='comment-date'>2020-04-03</h6>
                         <Typography  className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
                             It was very delicious. Thank you!
                         </Typography>
 
-                        <hr></hr>
-                        <Stack direction="row" spacing={2}>
-                            <Avatar sx={{ bgcolor: grey[900] }}>N</Avatar>
-                            <Typography className='comment-title' variant="h6" component="h2">
-                                Negin
-                            </Typography>
+                        <hr className='comment-hr'></hr>
+                        <Stack direction="row" spacing={2} >
+                            <Avatar sx={{ bgcolor: grey[900] }} className='comment-avatar'>N</Avatar>
+                            <Stack direction="column" spacing={2} >
+                                <Typography variant="h6" className='comment-stack'>
+                                    Negin
+                                </Typography>
+                                <h8 className='comment-date'>2016-02-11</h8>
+                            </Stack>
+                            
                         </Stack>
-                        <h6 className='comment-date'>2016-02-11</h6>
+                        
                         <Typography className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
                             Not bad. I suggest.
                         </Typography>
-                        <hr></hr>
+                        <hr className='comment-hr'></hr>
                         <Button 
                             onClick={handleClose} 
                             variant="contained"

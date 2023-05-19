@@ -81,7 +81,7 @@ function Edit(props){
     const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [profileImg, setProfileImg] = useState('');
+    const [profileImg, setProfileImg] = useState(null);
     const MAX_FILE_SIZE = 5 * 1024 * 1024;
     const [open, setOpen] = useState(false);
     const [openNetwork, setOpenNetwork] = useState(false);
@@ -179,6 +179,10 @@ function Edit(props){
     }, [data.name]);
 
     useEffect(() => {
+        setProfileImg(data.customer_img);
+    }, [data.customer_img]);
+
+    useEffect(() => {
         setGender(data.gender);
     }, [data.gender]);
 
@@ -213,15 +217,23 @@ function Edit(props){
             setOpen(true);
             e.target.value = null;
             setProfileImg(null);
+            console.log("bish az max");
             return;
         } else{
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onloadend = () => {
                 setProfileImg(reader.result);
+                console.log("the result image is :   " + reader.result);
+                console.log("ok")
+                console.log(profileImg);
+                console.log("profile image is" + profileImg);
+                setUpdate({...update, customer_img: reader.result});
             };
         }
-        console.log(profileImg);
+        // console.log(profileImg);
+        // console.log("profile image is" + profileImg);
+        // setUpdate({...update, customer_img: profileImg});
     };
     
     useEffect(() => {
