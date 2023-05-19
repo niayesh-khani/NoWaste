@@ -87,7 +87,7 @@ function EditRestaurant(props){
     };   
     const [doe, setDoe] = useState(null);
     const [color, setColor] = useState(localStorage.getItem('avatarColor') || getRandomColor());
-    const [discount, setDiscount] = useState('');
+    const [discount, setDiscount] = useState();
     const [update, setUpdate] = useState('');
     const [phone, setPhone] = useState('');
     const token = localStorage.getItem('token');
@@ -155,7 +155,7 @@ function EditRestaurant(props){
     };
     const handleDiscount = (e) => {
         setDiscount(e.target.value);
-        setUpdate({...update, discount: e.target.value});
+        setUpdate({...update, discount: e.target.value/100});
     }
     const handleOpenMenu = () => {
         setOpenMenu(!openMenu);
