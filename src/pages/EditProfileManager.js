@@ -148,26 +148,30 @@ const EditProfileManager = () => {
         setUpdate({...update, address : temp})
     }, [country, city, address])
 
-    // useEffect(() =>{
-    //     axios.get(
-    //         `http://5.34.195.16/user/customer_profile/${id}/` , 
-    //         {headers :{
-    //             'Content-Type' : 'application/json',
-    //             "Access-Control-Allow-Origin" : "*",
-    //             "Access-Control-Allow-Methods" : "GET,PATCH",
-    //             'Authorization' : "Token " + token.slice(1,-1)
-    //         }}
-    //     )
-    //     .then((response) => {
-    //         console.log(response);
-    //         setData(response.data)
-    //     })
-    //     .catch((error) => console.log(error));
-    // },[]);
+    useEffect(() =>{
+        axios.get(
+            `http://5.34.195.16/restaurant/managers/${id}/` , 
+            {headers :{
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "GET,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)
+            }}
+        )
+        .then((response) => {
+            console.log(response);
+            setData(response.data)
+        })
+        .catch((error) => console.log(error));
+    },[]);
     
     useEffect(() => {
         setFullname(data.name);
     }, [data.name]);
+
+    useEffect(() => {
+        setProfileImg(data.manager_image);
+    }, [data.manager_image])
 
     useEffect(() => {
         setGender(data.gender);
@@ -210,9 +214,10 @@ const EditProfileManager = () => {
             reader.readAsDataURL(file);
             reader.onloadend = () => {
                 setProfileImg(reader.result);
+                setUpdate({...update, manager_image: reader.result});
             };
         }
-        console.log(profileImg);
+        // console.log(profileImg);
     };
     
     useEffect(() => {
@@ -237,57 +242,57 @@ const EditProfileManager = () => {
     const firstChar = data?.name?data.name.charAt(0) : "UN";
     const handleUpdate = (e) => {
         e.preventDefault();
-        // axios.patch(
-        //     `http://5.34.195.16/user/customer_profile/${id}/`, update,
-        //     {headers: {
-        //         'Content-Type' : 'application/json',
-        //         "Access-Control-Allow-Origin" : "*",
-        //         "Access-Control-Allow-Methods" : "GET,PATCH",
-        //         'Authorization' : "Token " + token.slice(1,-1)   
-        //     }}
-        // )
-        // .then((response)=> {
-        //     console.log(response);
-        //     console.log("succesfully updated");
-        //     window.location.reload(false);
-        // })
-        // .catch((error) => {
-        //     console.log(error)
-        //     if (error.request) {
-        //         setOpenNetwork(true);
-        //         console.log("network error");
-        //     }
-        // });
+        axios.patch(
+            `http://5.34.195.16/restaurant/managers/${id}`, update,
+            {headers: {
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "GET,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)   
+            }}
+        )
+        .then((response)=> {
+            console.log(response);
+            console.log("succesfully updated");
+            window.location.reload(false);
+        })
+        .catch((error) => {
+            console.log(error)
+            if (error.request) {
+                setOpenNetwork(true);
+                console.log("network error");
+            }
+        });
 
-        // if(newPassword && password && confirmPassword)
-        // {
-        //     console.log("coming");
-        //     e.preventDefault();
-        //     axios.patch(
-        //         `http://5.34.195.16/user/change_password/${id}/`, {"old_password": password, "password": newPassword, "password2": confirmPassword},
-        //         {headers: {
-        //             'Content-Type' : 'application/json',
-        //             "Access-Control-Allow-Origin" : "*",
-        //             "Access-Control-Allow-Methods" : "PUT,PATCH",
-        //             'Authorization' : "Token " + token.slice(1,-1)   
-        //         }}
-        //     )
-        //     .then((response)=> {
-        //         console.log(response);
-        //         console.log("succesfully updated password");
-        //         window.location.reload(false);
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //         if (error.response) {
-        //             setOpenWrongPass(true);
-        //             console.log("wrong password");
-        //         } else if (error.request){
-        //             setOpenNetwork(true);
-        //             console.log("network error");
-        //         }
-        //     });
-        // }
+        if(newPassword && password && confirmPassword)
+        {
+            console.log("coming");
+            e.preventDefault();
+            axios.patch(
+                `http://5.34.195.16/user/change_password/${id}/`, {"old_password": password, "password": newPassword, "password2": confirmPassword},
+                {headers: {
+                    'Content-Type' : 'application/json',
+                    "Access-Control-Allow-Origin" : "*",
+                    "Access-Control-Allow-Methods" : "PUT,PATCH",
+                    'Authorization' : "Token " + token.slice(1,-1)   
+                }}
+            )
+            .then((response)=> {
+                console.log(response);
+                console.log("succesfully updated password");
+                window.location.reload(false);
+            })
+            .catch((error) => {
+                console.log(error);
+                if (error.response) {
+                    setOpenWrongPass(true);
+                    console.log("wrong password");
+                } else if (error.request){
+                    setOpenNetwork(true);
+                    console.log("network error");
+                }
+            });
+        }
     }
 
     const handleDiscard = () => {

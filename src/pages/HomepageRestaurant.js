@@ -8,8 +8,8 @@ import Masonry from 'react-masonry-css';
 import Food from '../components/Food';
 import BackToTop from '../components/BackToTop';
 import Footer from '../components/Footer';
-import { Button, InputLabel, FormControl, Paper, TextareaAutosize } from '@material-ui/core';
-import Typography from '@mui/material/Typography';
+import { Button, InputLabel, FormControl, Paper, TextareaAutosize, withStyles, ThemeProvider, Typography, TextField} from '@material-ui/core';
+// import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {useHistory } from "react-router-dom";
 import Header from '../components/Header';
@@ -21,8 +21,8 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { react } from '@babel/types';
-import { Collapse, Grid, MenuItem, TextField, createTheme } from '@mui/material';
-import { ThemeProvider, makeStyles } from '@mui/styles';
+import { Collapse, Grid, MenuItem, createTheme } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import Switch from '@mui/material/Switch';
 import Select from '@mui/material/Select';
 import "./HomepageRestaurant.css";
@@ -30,7 +30,7 @@ import RestaurantCard from '../components/RestaurantCard';
 import { Container, Row } from 'react-bootstrap';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import {InputBase} from '@mui/material';
-import PhoneInput from 'react-phone-input-2';
+import PhoneInput from 'material-ui-phone-number';
 import { Card, CardActionArea, CardMedia, CardContent, Chip } from '@mui/material';
 import PlaceIcon from '@mui/icons-material/Place';
 import MdPhone from '@mui/icons-material/Phone';
@@ -61,8 +61,17 @@ const theme = createTheme({
             main: '#a44704',
         }
     },
-})
-
+});
+const styles = theme => ({
+    field: {
+      margin: '10px 0',
+      width : "100px",
+    },
+    countryList: {
+      ...theme.typography.body1,
+      width : "100px",
+    },
+  });
 const IOSSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
     ))(({ theme }) => ({
@@ -188,7 +197,8 @@ const breakpoints = {
     700:1
 };
 
-const HomepageRestaurant = () => {
+function HomepageRestaurant(props){
+    const { value, defaultCountry, onChange, classes } = props;
     const [show, setShow] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
     const [newName, setNewName] = useState('');
@@ -315,170 +325,174 @@ const HomepageRestaurant = () => {
 
     return ( 
         <ThemeProvider theme={theme}>
-        <Header />
-        <IconButton onClick={handleSidebarOpen}>
-                <MenuIcon/>
-        </IconButton>
-        <Grid container spacing={2} sx={{ paddingBottom:"1%"}} className='grid-homepage-restaurant'>
-            <Grid item md={3}>
-                <Drawer
-                    anchor="left"
-                    open={open}
-                    onClose={handleSidebarOpen}
-                    classes={{
-                        paper: 'sidebar'
-                    }}
-                >
-                    <div className="sidebar-header">
-                        <h2>NoWaste</h2>
-                        <IconButton>
-                            <KeyboardDoubleArrowLeftIcon className='close-icon' onClick={handleSidebarClose}/>
-                        </IconButton>
-                    </div>
-                    <Divider color="white" variant="middle"/>
-                    <List className="sidebar-list">
-                        <ListItem button className='list-item'>
-                            <ListItemIcon >
-                            <AddBusinessIcon className='list-icon'/>
-                            </ListItemIcon>
-                            <ListItemText primary="Add new restaurant" onClick={() => setShow(prev => !prev)}/>
-                        </ListItem>
-                        {show && <Box className='add-box'>
-                            <TextField 
-                                label="Name"
-                                variant="outlined"
-                                color="secondary"
-                                onChange={handleAddName}
-                                style={{width: '100%', marginTop: '10px', borderColor: 'white'}}
-                                InputLabelProps={{ shrink: true }} 
-                            />
-                            <TextField 
-                                label="Address"
-                                variant="outlined"
-                                color="secondary"
-                                onChange={handleAddAddress}
-                                style={{width: '100%', marginTop: '10px', borderColor: 'white'}}
-                                InputLabelProps={{ shrink: true }} 
-                            />
-                            <PhoneInput
-                                label="Phone number"
-                                defaultCountry="ir"
-                                color="secondary"
-                                InputLabelProps={{ shrink: true }} 
-                                className="phone-input"
-                                style={{width: '100%'}}
-                                variant="outlined"
-                                focused={true}
-                                onChange={handleAddPhone}
-                            />
-                            <TextField 
-                                label="Discount"
-                                variant="outlined"
-                                color="secondary"
-                                onChange={handleAddDiscount}
-                                style={{width: '100%', marginTop: '10px', borderColor: 'white'}}
-                            />
-                            <Grid container spacing={2} className="new-restaurant-button-grid" wrap="nowrap">
-                                        <Grid item style={{paddingLeft: '20px'}}>
-                                            <Button className="discard-button" id="edit-button-manager" variant="contained" onClick={handleCancle}
-                                            >Cancel</Button>
-                                        </Grid>
-                                        <Grid item style={{paddingRight: '5px'}}>
-                                            <Button className="add-button" id="edit-button-manager" variant="contained" onClick={handleAdd}
-                                                // disabled={!validInputs}
-                                                // style={{marginRight: "-2%"}}
-                                            >Add</Button>
-                                    </Grid>
-                            </Grid>
-                        <BackToTop/>
-                        </Box>
-                        }
-                        <br></br>
-                        <ListItem button className='list-item'>
-                            <ListItemIcon>
-                                <PersonIcon className='list-icon'/>
-                            </ListItemIcon>
-                            <ListItemText onClick={handleShowProfile} primary="Profile"/>
-                        </ListItem>
-                    </List>
-                    <Divider color="white" variant="middle" className='divider'/>
-                    <div className="sidebar-footer">
-                    <PermPhoneMsgIcon className='sidebar-footer-icon'/>  Contact
-                    </div>
-                    <div className="sidebar-footer">
-                    <InfoIcon className='sidebar-footer-icon'/> About us
-                    </div>
-                </Drawer>
-                {/* <Footer/> */}
-            </Grid>
-            <Grid item md={9}>
-                <Grid item>
-                    <Masonry style={{paddingLeft: "0%"}} breakpointCols={breakpoints}>
-                        {restaurants && restaurants.map((res, index) => (
-                            <div  key={index} style={{ width: index % 2 === 0 ? '100%' : '' }}>
-                                <Card className='homepage-restaurant-card-restaurant'>
-                                <CardActionArea>
-                                    <Grid container spacing={2}>
-                                    <Grid item md={6}>
-                                        <div style={{ position: 'relative' }}>
-                                        <CardMedia
-                                            component="img"
-                                            sx={{ height: 200, width: 200, marginLeft: 1, marginTop: 2, marginBottom: 1, borderRadius: 1 }}
-                                            image="/mohsen.jpg"
-                                        />
-                                        </div>
-                                    </Grid>
-                                    <Grid item md={6}>
-                                        <CardContent>
-                                            <Grid container style={{color: "black"}}>
-                                                <Grid item>
-                                                    <Typography className='restaurant-name-hemepage-restaurant' gutterBottom>
-                                                        {res.name}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item container alignItems="center">
-                                                    {/* <LocationOnIcon sx={{ marginRight: '0.5rem' }} />
-                                                    <Typography variant="body2">This is the address.</Typography> */}
-                                                    <Chip
-                                                        icon={<MdPhone/>}
-                                                        sx={{mb:1, fontSize: "medium"}}
-                                                        label={res.number}
-                                                    />
-                                                </Grid>
-                                                <hr></hr>
-                                                <Grid item container alignItems="center">
-                                                    <StarRateIcon sx={{ marginRight: '0.5rem', marginLeft: '5px' }} style={{ color: '#faaf00' }} />
-                                                    <Typography>{res.rate}</Typography>
-                                                </Grid>
-                                                <hr></hr>
-                                                <Grid item container alignItems="center">
-                                                    {/* <PhoneIcon sx={{ marginRight: '0.5rem' }} />
-                                                    <Typography>09116705720</Typography> */}
-                                                    <Chip
-                                                        icon={<PlaceIcon />}
-                                                        sx={{fontSize: "medium"}}
-                                                        label={res.address}
-                                                    />
-                                                    <div className='two-icons-homepage'>
-                                                    <EditIcon title="Edit" onClick={() => {handleEdit(res)}} className='edit-icons-card-restaurant-homepage'/>
-                                                    <DeleteForeverIcon title="Delete" onClick={() => {handleDelete(res)}} className='delete-icons-card-restaurant-homepage'/>
-                                                    </div>
-                                                </Grid>
+            <Header />
+            <IconButton onClick={handleSidebarOpen}>
+                    <MenuIcon/>
+            </IconButton>
+            <Grid container spacing={2} sx={{ paddingBottom:"1%", marginLeft: "2%"}} className='grid-homepage-restaurant'>
+                <Grid item md={3}>
+                    <Drawer
+                        anchor="left"
+                        open={open}
+                        onClose={handleSidebarOpen}
+                        classes={{
+                            paper: 'sidebar'
+                        }}
+                    >
+                        <div className="sidebar-header">
+                            <h2>NoWaste</h2>
+                            <IconButton>
+                                <KeyboardDoubleArrowLeftIcon className='close-icon' onClick={handleSidebarClose}/>
+                            </IconButton>
+                        </div>
+                        <Divider color="white" variant="middle"/>
+                        <List className="sidebar-list">
+                            <ListItem button className='list-item'>
+                                <ListItemIcon >
+                                <AddBusinessIcon className='list-icon'/>
+                                </ListItemIcon>
+                                <ListItemText primary="Add new restaurant" onClick={() => setShow(prev => !prev)}/>
+                            </ListItem>
+                            {show && <Box className='add-box' style={{marginLeft: '12%'}}>
+                                <TextField 
+                                    label="Name"
+                                    variant="outlined"
+                                    color="secondary"
+                                    onChange={handleAddName}
+                                    style={{width: '100%', marginTop: '10px'}}
+                                    InputLabelProps={{ shrink: true }} 
+                                />
+                                <TextField 
+                                    label="Address"
+                                    variant="outlined"
+                                    color="secondary"
+                                    onChange={handleAddAddress}
+                                    multiline
+                                    style={{width: '100%', marginTop: '10px'}}
+                                    InputLabelProps={{ shrink: true }} 
+                                />
+                                <PhoneInput
+                                    label="Phone number"
+                                    defaultCountry="ir"
+                                    color="secondary"
+                                    InputLabelProps={{ shrink: true }} 
+                                    className="phone-input"
+                                    inputClass={classes.field}
+                                    style={{marginTop: '10px'}}
+                                    variant="outlined"
+                                    // focused={true}
+                                    onChange={handleAddPhone}
+                                />
+                                <TextField 
+                                    label="Discount"
+                                    variant="outlined"
+                                    color="secondary"
+                                    onChange={handleAddDiscount}
+                                    style={{width: '100%', marginTop: '10px', borderColor: 'white'}}
+                                />
+                                <Grid container spacing={2} className="new-restaurant-button-grid" wrap="nowrap">
+                                            <Grid item style={{paddingLeft: '20px'}}>
+                                                <Button className="discard-button" id="edit-button" variant="contained" onClick={handleCancle}
+                                                >
+                                                    Cancel
+                                                </Button>
                                             </Grid>
-                                        </CardContent>
-                                    </Grid>
-                                    </Grid>
-                                </CardActionArea>
-                                </Card>
-                            </div>
-                        ))}
-                    </Masonry>
+                                            <Grid item style={{paddingRight: '5px'}}>
+                                                <Button className="add-button" id="edit-button" variant="contained" onClick={handleAdd}
+                                                    // disabled={!validInputs}
+                                                    // style={{marginRight: "-2%"}}
+                                                >
+                                                    Add
+                                                </Button>
+                                        </Grid>
+                                </Grid>
+                            <BackToTop/>
+                            </Box>
+                            }
+                            <ListItem button className='list-item'>
+                                <ListItemIcon>
+                                    <DeleteIcon className='list-icon'/>
+                                </ListItemIcon>
+                                <ListItemText primary="Remove restaurant"/>
+                            </ListItem>
+                        </List>
+                        <Divider color="white" variant="middle" className='divider'/>
+                        <div className="sidebar-footer">
+                            <PermPhoneMsgIcon className='sidebar-footer-icon'/>  Contact
+                        </div>
+                        <div className="sidebar-footer">
+                            <InfoIcon className='sidebar-footer-icon'/> About us
+                        </div>
+                    </Drawer>
+                    {/* <Footer/> */}
+                </Grid>
+                <Grid item md={9}>
+                    <Grid item>
+                        <Masonry style={{paddingLeft: "0%"}} breakpointCols={breakpoints}>
+                            {restaurants && restaurants.map((res, index) => (
+                                <div  key={index} style={{ width: index % 2 === 0 ? '100%' : '' }}>
+                                    <Card className='homepage-restaurant-card-restaurant'>
+                                    <CardActionArea>
+                                        <Grid container spacing={2}>
+                                        <Grid item md={6}>
+                                            <div style={{ position: 'relative' }}>
+                                            <CardMedia
+                                                component="img"
+                                                sx={{ height: 200, width: 200, marginLeft: 1, marginTop: 2, marginBottom: 1, borderRadius: 1 }}
+                                                image="/mohsen.jpg"
+                                            />
+                                            </div>
+                                        </Grid>
+                                        <Grid item md={6}>
+                                            <CardContent>
+                                                <Grid container style={{color: "black"}}>
+                                                    <Grid item>
+                                                        <Typography className='restaurant-name-hemepage-restaurant' gutterBottom>
+                                                            {res.name}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item container alignItems="center">
+                                                        {/* <LocationOnIcon sx={{ marginRight: '0.5rem' }} />
+                                                        <Typography variant="body2">This is the address.</Typography> */}
+                                                        <Chip
+                                                            icon={<MdPhone/>}
+                                                            sx={{mb:1, fontSize: "medium"}}
+                                                            label={res.number}
+                                                        />
+                                                    </Grid>
+                                                    <hr></hr>
+                                                    <Grid item container alignItems="center">
+                                                        <StarRateIcon sx={{ marginRight: '0.5rem', marginLeft: '5px' }} style={{ color: '#faaf00' }} />
+                                                        <Typography>{res.rate}</Typography>
+                                                    </Grid>
+                                                    <hr></hr>
+                                                    <Grid item container alignItems="center">
+                                                        {/* <PhoneIcon sx={{ marginRight: '0.5rem' }} />
+                                                        <Typography>09116705720</Typography> */}
+                                                        <Chip
+                                                            icon={<PlaceIcon />}
+                                                            sx={{fontSize: "medium"}}
+                                                            label={res.address}
+                                                        />
+                                                        <div className='two-icons-homepage'>
+                                                        <EditIcon title="Edit" onClick={() => {handleEdit(res)}} className='edit-icons-card-restaurant-homepage'/>
+                                                        <DeleteForeverIcon title="Delete" onClick={() => {handleDelete(res)}} className='delete-icons-card-restaurant-homepage'/>
+                                                        </div>
+                                                    </Grid>
+                                                </Grid>
+                                            </CardContent>
+                                        </Grid>
+                                        </Grid>
+                                    </CardActionArea>
+                                    </Card>
+                                </div>
+                            ))}
+                        </Masonry>
+                    </Grid>
                 </Grid>
             </Grid>
-        </Grid>
-
         </ThemeProvider>
     );
 }
 
-export default HomepageRestaurant;
+export default withStyles(styles)(HomepageRestaurant);
