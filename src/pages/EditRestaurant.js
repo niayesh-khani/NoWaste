@@ -5,7 +5,7 @@ import axios from "axios";
 import Footer from "../components/Footer";
 import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { Alert, AlertTitle, Dialog, FormControlLabel} from "@mui/material";
@@ -17,10 +17,10 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { Avatar, Box, Button, createTheme, DialogContent, DialogTitle, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, Paper, TextField, ThemeProvider, Typography, withStyles, makeStyles } from "@material-ui/core";
+import { Avatar, Box, Button, createTheme, DialogContent, DialogTitle, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, TextField, ThemeProvider, Typography, withStyles, makeStyles } from "@material-ui/core";
 import ClearIcon from '@mui/icons-material/Clear';
 import AddIcon from '@mui/icons-material/Add';
-import { Girl } from "@mui/icons-material";
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 const styles = theme => ({
     field: {
@@ -119,12 +119,16 @@ function EditRestaurant(props){
     const [food, setFood] = useState([]);
     const [foodName, setFoodName] = useState('');
     const [foodNameError, setFoodNameError] = useState(false);
+    const [foodPicture, setFoodPicture] = useState('');
     const [foodIngredient, setFoodIngredient] = useState('');
     const [foodIngredientError, setFoodIngredientError] = useState(false);
     const [foodType, setFoodType] = useState('');
     const [foodPrice, setFoodPrice] = useState(0);
     const [foodPriceError, setFoodPriceError] = useState(false);
     const [menu, setMenu] = useState([]);
+    const [openEdit, setOpenEdit] = useState(false);
+    const [openAdd, setOpenAdd] = useState(false);
+    const [updateFoodPic, setUpdateFoodPic] = useState('');
 
     const handleFullname = (e) => {
         setFullname(e.target.value);
@@ -140,23 +144,26 @@ function EditRestaurant(props){
         if(!localStorage.getItem('avatarColor')) {
             localStorage.setItem('avatarColor', color);
         }
-    }, [])
+    }, []);
 
     const handlePhoneChange = (value) => {
         setUpdate({...update, number : value});
         localStorage.setItem('phone', value);
         setPhone(value);
     };
+
     const handleEstablishdate = (date) => {
         setDoe(date);
         console.log(data.date_of_establishment);
         const formattedDate = dayjs(date).format('YYYY-MM-DD');
         setUpdate({...update, date_of_establishment : formattedDate});
     };
+
     const handleDiscount = (e) => {
         setDiscount(e.target.value);
         setUpdate({...update, discount: e.target.value/100});
-    }
+    };
+
     const handleOpenMenu = () => {
         setOpenMenu(!openMenu);
         axios.get(
@@ -174,38 +181,27 @@ function EditRestaurant(props){
         })
         .catch((error) => console.log(error));
     };
+
     const handleCity = (e) => {
         setCity(e.target.value);
     };
+
     const handleCountry = (e) => {
         setCountry(e.target.value);
     };
+
     const handleAddress = (e) => {
         setAddress(e.target.value);
     };
-    // const handlePassword = (e) => {
-    //     setPassword(e.target.value);
-    // };
-    // const handlenewPassword = (e) => {
-    //     setNewPassword(e.target.value);
-    //     if(e.target.value.length < 8 || !/[a-zA-Z]+/.test(e.target.value)){
-    //         setNewPasswordError(true);
-    //     } else {
-    //         setNewPasswordError(false);
-    //     }
-    // };
-    // const handleConfirmPassword = (e) => {
-    //     setConfirmPassword(e.target.value);
-    // };
+
     useEffect(() => {
         setNewPasswordMatch(newPassword === confirmPassword);
     }, [newPassword, confirmPassword]);
+
     useEffect(() => {
         const temp = country + ',' + city + ',' + address;
         setUpdate({...update, address : temp})
-    }, [country, city, address])
-        const [openEdit, setOpenEdit] = useState(false);
-    const [openAdd, setOpenAdd] = useState(false);
+    }, [country, city, address]);
 
     useEffect(() => {
         setFullname(data.name);
@@ -214,30 +210,40 @@ function EditRestaurant(props){
     useEffect(() => {
         setDoe(data.date_of_establishment);
     }, [data.date_of_establishment]);
+
     useEffect(() => {
         setProfileImg(data.restaurant_image);
-    },[data.restaurant_image])
+    },[data.restaurant_image]);
+
     useEffect(() => {
         setDiscount(data.discount);
-    }, [data.discount])
+    }, [data.discount]);
+
     useEffect(() => {
         const arr = data?.address?data?.address.split(","):"";
         setCountry(arr[0])
         setCity(arr[1]);
         setAddress(arr[2]);
     }, [data.address]);
+
     useEffect(() => {
         setFoodName(food.name);
     }, [food.name]);
+
     useEffect(() => {
         setFoodPrice(food.price);
     }, [food.price]);
+
     useEffect(() => {
         setFoodIngredient(food.ingredients);
     }, [food.ingredients]);
+
     useEffect(() => {
         setFoodType(food.type);
     }, [food.type]);
+    useEffect(() => {
+        setFoodType(food.food_pic);
+    }, [food.food_pic]);
 
     const history = useHistory();
     // const handleChange = () => {
@@ -252,6 +258,7 @@ function EditRestaurant(props){
     const handleClose = () => {
         setOpen(false);
     };
+
     const handleProfileImg = (e) => {
         const file = e.target.files[0];
         const fileSize = file.size;
@@ -265,11 +272,44 @@ function EditRestaurant(props){
             reader.readAsDataURL(file);
             reader.onloadend = () => {
                 setProfileImg(reader.result);
+                console.log("Dsafsfa");
                 setUpdate({...update, restaurant_image: reader.result});
             };
         }
         // console.log(profileImg);
     };
+    const handleFoodPicture = (e) => {
+        const file1 = e.target.files[0];
+        const fileSize1 = file1.size;
+        if(fileSize1 > MAX_FILE_SIZE){
+            // setOpen(true);
+            e.target.value = null;
+            setFoodPicture(null);
+            console.log("یتسنشمبمبتمشمنبسشیب");
+            return;
+        } else{
+            const reader1 = new FileReader();
+            reader1.readAsDataURL(file1);
+            reader1.onloadend = () => {
+                setFoodPicture(reader1.result);
+                console.log("djlksad");
+                console.log("food pix is : " + foodPicture);
+                // setUpdateFoodPic({...updateFoodPic, food_pic: reader1.result});
+            };
+        }
+        // console.log(profileImg);
+    };
+    useEffect(()=> {
+        setFoodPicture(updateFoodPic.food_pic);
+        console.log("upadtedlasfjkak fko;")
+    }, [updateFoodPic]);
+    useEffect(() => {
+        setFoodName('');
+        setFoodIngredient('');
+        setFoodPrice('');
+        setFoodType('');
+        setFoodPicture('');
+    }, [openAdd]);
     const handleFoodName = (e) => {
         setFoodName(e.target.value);
         if(e.target.value.length > 255){
@@ -278,17 +318,20 @@ function EditRestaurant(props){
             setFoodNameError(false);
         }
     };
+
     const handleFoodIngredient = (e) => {
         setFoodIngredient(e.target.value);
-        if(e.target.value.length > 255){
+        if(e.target.value.length > 256){
             setFoodIngredientError(true);
         } else {
             setFoodIngredientError(false);
         }
     };
+
     const handleFoodType = (e) => {
         setFoodType(e.target.value);
     };
+
     const handleFoodPrice = (e) => {
         setFoodPrice(e.target.value);
         if(!/^[0-9]+([.][0-9]+)?$/.test(e.target.value) || e.target.value.trim() === ''){
@@ -296,7 +339,7 @@ function EditRestaurant(props){
         } else {
             setFoodPriceError(false);
         }
-    } 
+    };
     
     useEffect(() => {
         let valid = !fullnameError && !newPasswordError && newPasswordMatch
@@ -304,18 +347,21 @@ function EditRestaurant(props){
         setValidInputs(valid);
     }, [fullnameError, password, newPasswordError, confirmPasswordError, newPasswordMatch]);
 
-    const handleClickShowCurrentPassword = () => setShowCurrentPassword(!showCurrentPassword);
-    const handleMouseDownCurrentPassword = (event) => {
-        event.preventDefault();
-    };
-    const handleClickShowNewPassword = () => setShowNewPassword(!showNewPassword);
-    const handleMouseDownnewPassword = (event) => {
-        event.preventDefault();
-    };
-    const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
-    const handleMouseDownconfirmPassword = (event) => {
-        event.preventDefault();
-    };
+    // const handleClickShowCurrentPassword = () => setShowCurrentPassword(!showCurrentPassword);
+    // const handleMouseDownCurrentPassword = (event) => {
+    //     event.preventDefault();
+    // };
+    // const handleClickShowNewPassword = () => setShowNewPassword(!showNewPassword);
+    // const handleMouseDownnewPassword = (event) => {
+    //     event.preventDefault();
+    // };
+    // const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+    // const handleMouseDownconfirmPassword = (event) => {
+    //     event.preventDefault();
+    // };
+    const handleBackButton = () => {
+        history.push("/homepage-restaurant");
+    }
 
     useEffect(() =>{
         axios.get(
@@ -358,11 +404,12 @@ function EditRestaurant(props){
                 console.log("network error");
             }
         });
-    }
+    };
 
     const handleDiscard = () => {
         window.location.reload(false);
-    }
+    };
+
     const handleDelete = (res) => {
         console.log("i'm here to delete.");
         axios.delete(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/${idFood}/`)
@@ -371,6 +418,7 @@ function EditRestaurant(props){
         })
         .catch((error) => console.log(error));
     };
+
     const handleOpenEdit = (e) => {
         setIdFood(e);
         setOpenEdit(!openEdit);
@@ -407,7 +455,7 @@ function EditRestaurant(props){
         .catch((error) => {
             console.log(error);
         });
-    }
+    };
 
     const hanldeAddNewFood = (e) => {
         e.preventDefault();
@@ -415,30 +463,31 @@ function EditRestaurant(props){
             name: foodName,
             price: foodPrice,
             ingredients: foodIngredient,
-            food_pic: "",
+            food_pic: foodPicture,
             type: foodType,
             restaurant_id: idR
-            };
-            console.log(userData);
-            axios.post(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/`, userData, {headers:{"Content-Type" : "application/json"}})
-            .then((response) => {
-                console.log(response);
-                window.location.reload(false);
-            })
-            .catch((error) => {
-                if (error.response) {
-                    console.log(error.response);
-                    console.log("server responded");
-                } 
-                else if (error.request) {
-                    console.log("network error");
-                    console.log(error);
-                } 
-                else {
-                    console.log(error);
-                }
-            });
-    }
+        };
+        console.log(userData);
+        axios.post(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/`, userData, {headers:{"Content-Type" : "application/json"}})
+        .then((response) => {
+            console.log(response);
+            window.location.reload(false);
+        })
+        .catch((error) => {
+            if (error.response) {
+                console.log(error.response);
+                console.log("server responded");
+            } 
+            else if (error.request) {
+                console.log("network error");
+                console.log(error);
+            } 
+            else {
+                console.log(error);
+            }
+        });
+    };
+
     const handleOpenAdd = (e) => {
         setOpenAdd(!openAdd);
     };
@@ -447,6 +496,12 @@ function EditRestaurant(props){
         <ThemeProvider theme={theme}>
             <div className="edit-back-restaurant">
                 <Header/>
+                <Typography className="back-text">
+                    <IconButton className="back-button" onClick={handleBackButton}>
+                        <ArrowBackIosNewIcon />
+                    </IconButton>
+                    Back to home
+                </Typography>
                 <Grid container spacing={2} className="edit-grid-restaurant">
                     <Grid item md={3} sm={12} xs={12}>
                         <Box className="edit-box-restaurant">
@@ -507,14 +562,6 @@ function EditRestaurant(props){
                                                 }
                                             </Grid> 
                                     }
-                                    {/* {openWrongPass && 
-                                        <Grid item lg={12} sm={12} md={12}>
-                                                {openWrongPass && <Alert severity="error" onClose={handleCloseWrongPass} variant="outlined">
-                                                                    Current password is wrong!
-                                                                </Alert> 
-                                                }                                        
-                                        </Grid>    
-                                    } */}
                                     <Grid item xs={12} sm={6} md={6}>
                                         <TextField
                                             label="Restaurant name"
@@ -617,11 +664,6 @@ function EditRestaurant(props){
                                 {openMenu && 
                                     <Button 
                                         color="secondary"
-                                        // id="basic-button"
-                                        // aria-controls={open ? 'basic-menu' : undefined}
-                                        // aria-haspopup="true"
-                                        // aria-expanded={open ? 'true' : undefined}
-                                        // onClick={handleClick}
                                         onClick={handleOpenMenu}
                                         className="showmenu-button"
                                     >
@@ -642,15 +684,29 @@ function EditRestaurant(props){
                                         </Grid>
                                         <StyledDialog open={openAdd} classes={{ paper: classes.dialogRoot }} onClose={handleOpenAdd}>
                                             <DialogTitle className="dialog-title">Add Food</DialogTitle>
-                                            {/* <FormControl> */}
-                                            {/* <Avatar
-                                                className="edit-avatar-restaurant"
-                                                style={{backgroundColor: color, fontSize: "40px", width: "40px", height: "40px" }}
-                                                src={profileImg}
-                                            >
-                                                {firstChar}
-                                            </Avatar> */}
-                                            {/* </FormControl> */}
+                                            <FormControl>
+                                                <Avatar
+                                                    // className="edit-avatar-restaurant"
+                                                    style={{backgroundColor: color, fontSize: "40px", width: "200px", height: "150px", borderRadius: "5px" }}
+                                                    src={foodPicture}
+                                                >
+                                                    {/* {firstChar} */}
+                                                    F
+                                                </Avatar>
+                                                <input
+                                                    accept="image/*"
+                                                    id="contained-button-file"
+                                                    type="file"
+                                                    onChange={handleFoodPicture}
+                                                    hidden      
+                                                    MAX_FILE_SIZE={MAX_FILE_SIZE}                   
+                                                />
+                                                <label htmlFor="contained-button-file" className="food-image-button">
+                                                    <Button className="upload-button-restaurant"  component="span">
+                                                        Upload food image
+                                                    </Button>
+                                                </label>
+                                            </FormControl>
                                             <FormControl className="edit-field-restaurant">
                                                 <TextField
                                                     label="Name"
@@ -675,10 +731,10 @@ function EditRestaurant(props){
                                                     multiline
                                                     // required
                                                     onChange={handleFoodIngredient}
-                                                    error={foodNameError}
+                                                    error={foodIngredientError}
                                                     helperText={
                                                         <div className="edit-error-restaurant">
-                                                            {foodNameError && "Name should have at most 256 character."}
+                                                            {foodIngredientError && "Ingredients should have at most 256 character."}
                                                         </div>
                                                     }
                                                 />
@@ -759,271 +815,162 @@ function EditRestaurant(props){
                                             </Grid>
                                         </StyledDialog>
                                         <Box className="menu-box">
-                                        {menu && menu.map((res, index) => (
-                                            <div>
-                                            <Box className="food-box">
-                                                <Grid container spacing={3}>
-                                                    <Grid item lg={2} md={2} sm={2} className="food">
-                                                        <img src="/food2.jpg" className="food-image"/>
-                                                    </Grid>
-                                                    <Grid item lg={5} md={5} sm={6}>
-                                                        <Typography className="food-name">
-                                                            {res.name}
-                                                        </Typography>
-                                                        <Typography className="food-ingredient">
-                                                            {res.ingredients}
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item lg={2} md={1} sm={1}>
-                                                        <Typography className="food-type-price">
-                                                            {res.type}
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item lg={1} md={1} sm={1}>
-                                                        <Typography className="food-type-price">
-                                                            {res.price}$
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item lg={2} md={3} sm={2}>
-                                                        <Button className="food-edit" id="food-edit-button" onClick={() => handleOpenEdit(res.id)}>
-                                                            Edit
-                                                        </Button>
-                                                    </Grid>
-                                                </Grid>
-                                            </Box>
-                                            <StyledDialog open={openEdit} classes={{ paper: classes.dialogRoot }} onClose={handleOpenEdit}>
-                                                <DialogTitle  className="dialog-title">Edit Food</DialogTitle>
-                                                <FormControl className="edit-field-restaurant">
-                                                    <TextField
-                                                        label="Name"
-                                                        variant="outlined"
-                                                        color="secondary"
-                                                        value={foodName}
-                                                        required
-                                                        onChange={handleFoodName}
-                                                        error={foodNameError}
-                                                        helperText={
-                                                            <div className="edit-error-restaurant">
-                                                                {foodNameError && "Name should have at most 256 character."}
-                                                            </div>
-                                                        }
-                                                        InputLabelProps={{ shrink: true }}
-                                                    />
-                                                </FormControl>
-                                                <FormControl className="edit-field-restaurant">
-                                                    <TextField
-                                                        label="Ingredient"
-                                                        variant="outlined"
-                                                        color="secondary"
-                                                        value={foodIngredient}
-                                                        multiline
-                                                        // required
-                                                        onChange={handleFoodIngredient}
-                                                        error={foodIngredientError}
-                                                        helperText={
-                                                            <div className="edit-error-restaurant">
-                                                                {foodIngredientError && "Ingredients should have at most 256 character."}
-                                                            </div>
-                                                        }
-                                                        InputLabelProps={{ shrink: true }}
-                                                    />
-                                                </FormControl>
-                                                <FormControl className="edit-field-restaurant">    
-                                                    <Grid container spacing={2}>
-                                                        <Grid item lg={6} md={6} sm={12}>
-                                                            <TextField
-                                                                select
-                                                                label="Type"
-                                                                variant="outlined"
-                                                                color="secondary"
-                                                                required
-                                                                style={{width: '100%'}}
-                                                                onChange={handleFoodType}
-                                                                defaultValue={foodType}
-                                                            >
-                                                                <MenuItem value="select" disabled>
-                                                                    <em>Select type</em>
-                                                                </MenuItem>
-                                                                <MenuItem value="Iranian">
-                                                                    Iranian
-                                                                </MenuItem>
-                                                                <MenuItem value="Foreign">
-                                                                    Foreign
-                                                                </MenuItem>
-                                                                <MenuItem value="Drink">
-                                                                    Drink
-                                                                </MenuItem>
-                                                            </TextField>
+                                            {menu && menu.map((res, index) => (
+                                                <div>
+                                                <Box className="food-box">
+                                                    <Grid container spacing={3}>
+                                                        <Grid item lg={2} md={2} sm={2} className="food">
+                                                            <img src={res.food_pic} className="food-image"/>
                                                         </Grid>
-                                                        <Grid item lg={6} md={6} sm={12}>
-                                                            <TextField
-                                                                label="Price"
-                                                                variant="outlined"
-                                                                color="secondary"
-                                                                onChange={handleFoodPrice}
-                                                                value={foodPrice}
-                                                                required
-                                                                style={{width: '100%'}}
-                                                                InputProps={{
-                                                                    startAdornment: (
-                                                                        <InputAdornment position="end">$</InputAdornment>
-                                                                    ),
-                                                                }}
-                                                            />
+                                                        <Grid item lg={5} md={5} sm={6}>
+                                                            <Typography className="food-name">
+                                                                {res.name}
+                                                            </Typography>
+                                                            <Typography className="food-ingredient">
+                                                                {res.ingredients}
+                                                            </Typography>
+                                                        </Grid>
+                                                        <Grid item lg={2} md={1} sm={1}>
+                                                            <Typography className="food-type-price">
+                                                                {res.type}
+                                                            </Typography>
+                                                        </Grid>
+                                                        <Grid item lg={1} md={1} sm={1}>
+                                                            <Typography className="food-type-price">
+                                                                {res.price}$
+                                                            </Typography>
+                                                        </Grid>
+                                                        <Grid item lg={2} md={3} sm={2}>
+                                                            <Button className="food-edit" id="food-edit-button" onClick={() => handleOpenEdit(res.id)}>
+                                                                Edit
+                                                            </Button>
                                                         </Grid>
                                                     </Grid>
-                                                </FormControl>
-                                                <Grid container spacing={2} className="edit-button-grid-restaurant">
-                                                    <Grid item>
-                                                        <Button 
-                                                            className="edit-discard-button-restaurant" 
-                                                            id="edit-button-restaurant" 
-                                                            variant="contained"
-                                                            onClick={handleDelete}
-                                                        >
-                                                            Delete
-                                                        </Button>
-                                                    </Grid>
-                                                    <Grid item container lg={6} md={6} sm={8} justifyContent="flex-end">
-                                                        <Grid item style={{paddingRight: '5px'}}>
+                                                </Box>
+                                                <StyledDialog open={openEdit} classes={{ paper: classes.dialogRoot }} onClose={handleOpenEdit}>
+                                                    <DialogTitle  className="dialog-title">Edit Food</DialogTitle>
+                                                    <FormControl className="edit-field-restaurant">
+                                                        <TextField
+                                                            label="Name"
+                                                            variant="outlined"
+                                                            color="secondary"
+                                                            value={foodName}
+                                                            required
+                                                            onChange={handleFoodName}
+                                                            error={foodNameError}
+                                                            helperText={
+                                                                <div className="edit-error-restaurant">
+                                                                    {foodNameError && "Name should have at most 256 character."}
+                                                                </div>
+                                                            }
+                                                            InputLabelProps={{ shrink: true }}
+                                                        />
+                                                    </FormControl>
+                                                    <FormControl className="edit-field-restaurant">
+                                                        <TextField
+                                                            label="Ingredient"
+                                                            variant="outlined"
+                                                            color="secondary"
+                                                            value={foodIngredient}
+                                                            multiline
+                                                            // required
+                                                            onChange={handleFoodIngredient}
+                                                            error={foodIngredientError}
+                                                            helperText={
+                                                                <div className="edit-error-restaurant">
+                                                                    {foodIngredientError && "Ingredients should have at most 256 character."}
+                                                                </div>
+                                                            }
+                                                            InputLabelProps={{ shrink: true }}
+                                                        />
+                                                    </FormControl>
+                                                    <FormControl className="edit-field-restaurant">    
+                                                        <Grid container spacing={2}>
+                                                            <Grid item lg={6} md={6} sm={12}>
+                                                                <TextField
+                                                                    select
+                                                                    label="Type"
+                                                                    variant="outlined"
+                                                                    color="secondary"
+                                                                    required
+                                                                    style={{width: '100%'}}
+                                                                    onChange={handleFoodType}
+                                                                    defaultValue={foodType}
+                                                                >
+                                                                    <MenuItem value="select" disabled>
+                                                                        <em>Select type</em>
+                                                                    </MenuItem>
+                                                                    <MenuItem value="Iranian">
+                                                                        Iranian
+                                                                    </MenuItem>
+                                                                    <MenuItem value="Foreign">
+                                                                        Foreign
+                                                                    </MenuItem>
+                                                                    <MenuItem value="Drink">
+                                                                        Drink
+                                                                    </MenuItem>
+                                                                </TextField>
+                                                            </Grid>
+                                                            <Grid item lg={6} md={6} sm={12}>
+                                                                <TextField
+                                                                    label="Price"
+                                                                    variant="outlined"
+                                                                    color="secondary"
+                                                                    onChange={handleFoodPrice}
+                                                                    value={foodPrice}
+                                                                    required
+                                                                    style={{width: '100%'}}
+                                                                    InputProps={{
+                                                                        startAdornment: (
+                                                                            <InputAdornment position="end">$</InputAdornment>
+                                                                        ),
+                                                                    }}
+                                                                />
+                                                            </Grid>
+                                                        </Grid>
+                                                    </FormControl>
+                                                    <Grid container spacing={2} className="edit-button-grid-restaurant">
+                                                        <Grid item>
                                                             <Button 
                                                                 className="edit-discard-button-restaurant" 
                                                                 id="edit-button-restaurant" 
                                                                 variant="contained"
-                                                                onClick={handleOpenEdit}
+                                                                onClick={handleDelete}
                                                             >
-                                                                Cancel
+                                                                Delete
                                                             </Button>
                                                         </Grid>
-                                                        <Grid item>
-                                                            <Button 
-                                                                className="edit-save-changepass-button-restaurant" 
-                                                                id="edit-button-restaurant" 
-                                                                variant="contained" 
-                                                                style={{width: 'auto'}}
-                                                                onClick={() => handleEditThisFood()}
-                                                            >
-                                                                Apply
-                                                            </Button>
+                                                        <Grid item container lg={6} md={6} sm={8} justifyContent="flex-end">
+                                                            <Grid item style={{paddingRight: '5px'}}>
+                                                                <Button 
+                                                                    className="edit-discard-button-restaurant" 
+                                                                    id="edit-button-restaurant" 
+                                                                    variant="contained"
+                                                                    onClick={handleOpenEdit}
+                                                                >
+                                                                    Cancel
+                                                                </Button>
+                                                            </Grid>
+                                                            <Grid item>
+                                                                <Button 
+                                                                    className="edit-save-changepass-button-restaurant" 
+                                                                    id="edit-button-restaurant" 
+                                                                    variant="contained" 
+                                                                    style={{width: 'auto'}}
+                                                                    onClick={() => handleEditThisFood()}
+                                                                >
+                                                                    Apply
+                                                                </Button>
+                                                            </Grid>
                                                         </Grid>
                                                     </Grid>
-                                                </Grid>
-                                            </StyledDialog>
-                                            </div>
+                                                </StyledDialog>
+                                                </div>
                                             ))}
                                         </Box>
                                     </div>
                                 }
                             </FormControl>
-                            {/* {show && <>
-                                <FormControl className="edit-field-restaurant">
-                                    <TextField
-                                        label="Current passsword"
-                                        variant="outlined"
-                                        color="secondary"
-                                        onChange={handlePassword}
-                                        type= {showCurrentPassword ? 'text' : 'password'}
-                                        InputProps={{
-                                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <Icon>
-                                                        <LockIcon />
-                                                    </Icon> 
-                                                </InputAdornment>
-                                            ),
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <IconButton 
-                                                        aria-label="toggle password visibility"
-                                                        onClick={handleClickShowCurrentPassword}
-                                                        onMouseDown={handleMouseDownCurrentPassword}
-                                                    >
-                                                        {showCurrentPassword ? <Visibility /> : <VisibilityOff />}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            )
-                                        }}
-
-                                    />
-                                </FormControl>
-                                <FormControl className="edit-field-restaurant">
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={12} sm={6} md={6}>
-                                            <TextField
-                                                label="New password"
-                                                variant="outlined"
-                                                style={{width: '100%'}}
-                                                color="secondary"
-                                                onChange={handlenewPassword}
-                                                type= {showNewPassword ? 'text' : 'password'}
-                                                error={newPasswordError}
-                                                helperText= {
-                                                    <div className="edit-error-restaurant">
-                                                        {newPasswordError && 'Password must be mixture of letters and numbers.'}
-                                                    </div>
-                                                }
-                                                InputProps={{
-                                                    startAdornment: (
-                                                        <InputAdornment position="start">
-                                                            <Icon>
-                                                                <LockIcon />
-                                                            </Icon> 
-                                                        </InputAdornment>
-                                                    ),
-                                                    endAdornment: (
-                                                        <InputAdornment position="end">
-                                                            <IconButton 
-                                                                aria-label="toggle password visibility"
-                                                                onClick={handleClickShowNewPassword}
-                                                                onMouseDown={handleMouseDownnewPassword}
-                                                            >
-                                                                {showNewPassword ? <Visibility /> : <VisibilityOff />}
-                                                            </IconButton>
-                                                        </InputAdornment>
-                                                    )
-                                                }}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} md={6}>
-                                            <TextField
-                                                label="Confirm new password"
-                                                variant="outlined"
-                                                style={{width: '100%'}}
-                                                color="secondary"
-                                                onChange={handleConfirmPassword}
-                                                error={newPasswordMatch === false}
-                                                helperText={
-                                                    <div className="edit-error-restaurant">
-                                                        {!newPasswordMatch && 'Password do not match!'}
-                                                    </div>
-                                                }
-                                                type= {showConfirmPassword ? 'text' : 'password'}
-                                                InputProps={{
-                                                    startAdornment: (
-                                                        <InputAdornment position="start">
-                                                            <Icon>
-                                                                <LockOpenIcon />
-                                                            </Icon> 
-                                                        </InputAdornment>
-                                                    ),
-                                                    endAdornment: (
-                                                        <InputAdornment position="end">
-                                                            <IconButton 
-                                                                aria-label="toggle password visibility"
-                                                                onClick={handleClickShowConfirmPassword}
-                                                                onMouseDown={handleMouseDownconfirmPassword}
-                                                            >
-                                                                {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
-                                                            </IconButton>
-                                                        </InputAdornment>
-                                                    )
-                                                }}
-                                            />
-                                        </Grid>
-                                    </Grid>
-                                </FormControl>
-                                </>
-                                } */}
                             <Grid container spacing={2} className="edit-button-grid-restaurant" wrap="nowrap">
                                 <Grid item>
                                     <Button 

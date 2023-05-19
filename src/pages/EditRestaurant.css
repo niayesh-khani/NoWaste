@@ -6,7 +6,7 @@
 }
 .edit-grid-restaurant {
     width: 100% !important;
-    margin-top: 3% !important;
+    margin-top: 1% !important;
     padding-left: 5%;
     padding-right: 5%;
     
@@ -39,8 +39,8 @@
 }
 .edit-error-restaurant {
     font-size: 0.8em;
-    line-height: 1em;
-    height: 0.5em;
+    line-height: 0.8em;
+    height: 0.002em;
 }
 .edit-avatar-restaurant {
     margin-top: 2px;
@@ -198,8 +198,9 @@
 }
 .dialog-title {
     /* justify-content: flex-end !important; */
+    font-size: 14px !important;
     font-weight: bold;
-    /* font-family: 'Montserrat', sans-serif !important; */
+    font-family: 'Montserrat', sans-serif !important;
 
     /* width: 30% !important;
     height: 90% !important; */
@@ -209,4 +210,24 @@
     /* top: 50%;
     left: 50%; */
     /* transform: translate(-50%, -50%); */
+}
+.back-text {
+    color: #E74C3C !important;
+    /* margin-top: 2px !important; */
+    margin-left: 20px !important;
+    margin-top: 15px !important;
+    align-items: center;
+    justify-content: center;
+}
+.back-button {
+    padding: 10px !important;
+    color: #E74C3C !important;
+}
+.food-image-button {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    width: 130%;
+    margin: 10px -30px 0px;
 }
