@@ -28,8 +28,7 @@ export default function OrderPage(){
     const [orderItems, setOrderItems] = useState([]);
     const [checkAdd, setCheckAdd] = useState(true);
     const [checkPay, setCheckPay] = useState(true);
-    const [balance, setBalance] = useState(localStorage.getItem('wallet_balance'));
-
+    const [prices, setPrices] = useState([]);
     const handleCheckAdd = () => {
         setCheckAdd(!checkAdd);
     }
@@ -38,18 +37,20 @@ export default function OrderPage(){
     }
 
 
-    const restaurantId = localStorage.getItem('restaurantId');
-    console.log(restaurantId);
-    const userId = localStorage.getItem('id');
-    console.log("user:", userId);
-    // const restaurantId =1;
-    // const userId=5;
+    // const restaurantId = localStorage.getItem('restaurantId');
+    // console.log(restaurantId);
+    // const userId = localStorage.getItem('id');
+    // console.log("user:", userId);
+    const restaurantId =1;
+    const userId=5;
     useEffect(()=>{
         axios.get(`http://5.34.195.16/restaurant/restaurant_view/${restaurantId}/${userId}/order/`)
             .then((response) => {
                 console.log("oredrs",response.data);
                 setShoppingCard(response.data);
                 setOrderItems(response.data.orderItems);
+                setPrices(response.data.Subtotal_Grandtotal_discount);
+                console.log("prices", response.data.Subtotal_Grandtotal_discount);
             
             })
             .catch((error) => {
@@ -57,29 +58,8 @@ export default function OrderPage(){
             });
     },[])
 
-    // const handleDecreaseBalance = (e) => {
-    //     e.preventDefault();
-    //     const userData = {
-    //       email: val,
-    //       amount: selectedAmount
-    //     };
-    //     console.log(userData);
-    //     console.log(val)
-    //     axios.post("http://5.34.195.16/user/charge-wallet/", userData, { headers: { "Content-Type": "application/json" } })
-    //       .then((response) => {
-    //         console.log(response);
-    //         const newBalance = response.data.wallet_balance;
-    //         localStorage.setItem('wallet_balance', newBalance);
-    //         setBalance(newBalance);
-    //       })
-    //       .catch((error) => {
-    //         if (error.response) {
-    //           console.log(error);
-    //         }
-    //       });
-    //   };
 
-      return(
+    return(
         <ThemeProvider theme={theme}>
             <Header />
             <Grid container spacing={2} sx={{paddingBottom: "1%"}} className="orderpage-root">
@@ -95,19 +75,7 @@ export default function OrderPage(){
                         <div className="orderpage-details-div">
 
                             <Grid container spacing={2} className="orderpage-grid">      
-                                {/* {orderItems.map((item, index) => (
-                                    <div key={index}>
-                                        <Grid item>
-                                            <Typography>{item.name}</Typography>
-                                        </Grid>
-                                        <Grid item>
-                                            <Typography><span style={{color: '#8a8686'}}>{item.quantity}×</span>{item.price}$</Typography>
-                                        </Grid>
-                                    </div>
-                                ))} */}
                             </Grid>
-
-
                             {orderItems.map((order_list)=>(<Grid container spacing={2} className="orderpage-grid">
                                 <Grid item>
                                     <Typography>{order_list.name_and_price.name}</Typography>
@@ -117,46 +85,6 @@ export default function OrderPage(){
                                 </Grid>
                             </Grid>))
                             }
-                            {/* <Grid container spacing={2} className="orderpage-grid">
-                                <Grid item>
-                                    <Typography>Fesenjoon</Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography> <span style={{color: '#8a8686'}}>1×</span>18$ </Typography>
-                                </Grid>
-                            </Grid>
-                            <Grid container spacing={2} className="orderpage-grid">
-                                <Grid item>
-                                    <Typography>Zereshk polo</Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography> <span style={{color: '#8a8686'}}>1×</span>18$ </Typography>
-                                </Grid>
-                            </Grid>
-                            <Grid container spacing={2} className="orderpage-grid">
-                                <Grid item>
-                                    <Typography>Gheymeh</Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography> <span style={{color: '#8a8686'}}>5×</span>18$ </Typography>
-                                </Grid>
-                            </Grid>
-                            <Grid container spacing={2} className="orderpage-grid">
-                                <Grid item>
-                                    <Typography>Polo</Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography> <span style={{color: '#8a8686'}}>2×</span>18$</Typography>
-                                </Grid>
-                            </Grid>
-                            <Grid container spacing={2} className="orderpage-grid">
-                                <Grid item>
-                                    <Typography>Polo</Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography> <span style={{color: '#8a8686'}}>2×</span>18$</Typography>
-                                </Grid>
-                            </Grid> */}
                         </div>
                         <hr className="hr-tag" />
                         <Grid container spacing={2} className="orderpage-grid">
@@ -164,8 +92,7 @@ export default function OrderPage(){
                                 <Typography>Subtotal</Typography>
                             </Grid>
                             <Grid item>
-                                {/* <Typography> 205$ </Typography> */}
-                                <Typography> {shoppingCard.total_price}$ </Typography>        
+                                <Typography> {prices[0]}$ </Typography>        
                             </Grid>
                         </Grid>
                         <hr className="hr-tag" />
@@ -175,7 +102,7 @@ export default function OrderPage(){
                             </Grid>
                             <Grid item >
                                 {/* <Typography> {"15"+"%"} </Typography> */}
-                                <Typography> {shoppingCard.discount*100 }% </Typography>     
+                                <Typography> {prices[2]*100}% </Typography>     
 
                             </Grid>
                         </Grid>
@@ -186,10 +113,10 @@ export default function OrderPage(){
                             </Grid>
                             <Grid item>
                                 {/* <Typography> {205*0.85} </Typography> */}
-                                <Typography> {shoppingCard.total_price * (1-shoppingCard.discount)}$ </Typography>          
+                                <Typography> {prices[1]}$ </Typography>          
                             </Grid>
                         </Grid> 
-                        <Button id='payment-submit'className="order-submit">
+                        <Button className="order-submit">
                             Pay
                         </Button>
                     </Box>
@@ -205,7 +132,7 @@ export default function OrderPage(){
                         <Grid container spacing={2} >
                             <Grid item>
                                 <Typography
-                                    style={{alignSelf: 'flex-start', fontSize: '19px', marginLeft:'10%'}}
+                                    style={{alignSelf: 'flex-start', fontSize: '20px'}}
                                 >
                                     Address
                                 </Typography>
@@ -219,14 +146,14 @@ export default function OrderPage(){
                         <Box className="orderpage-shopinfo-box">
                             <Grid constainer spacing={2}>
                                     <Grid item>
-                                    <Typography style={{display: "flex", alignSelf: 'flex-start', justifyContent: 'center', marginLeft: "-235%"}}>
+                                    <Typography style={{display: "flex", alignSelf: 'flex-start', justifyContent: 'center', marginLeft: "-280%"}}>
                                         <PlaceIcon className="icon-order-page" />
-                                        Iran, Tehran, IUST
+                                        {shoppingCard.userAddress}
                                     </Typography>
                                     </Grid>
                                     <Grid item justifyContent="flex-end" >
                                         <Checkbox 
-                                            style={{color: "green", marginLeft: "195%", marginTop: "-27%"}} 
+                                            style={{color: "green", marginLeft: "210%", marginTop: "-30%"}} 
                                             className="checkbox-orderpage" 
                                             defaultChecked
                                             onClick={handleCheckAdd}
@@ -235,24 +162,21 @@ export default function OrderPage(){
                             </Grid>
                         </Box>
                         <Typography
-                            style={{alignSelf: 'flex-start', fontSize: '19px', marginTop: "30px", marginLeft:'1%'}}
+                            style={{alignSelf: 'flex-start', fontSize: '20px', marginTop: "30px"}}
                         >
                             Payment method
                         </Typography>
                         <Box className="orderpage-shopinfo-box">
                             <Grid constainer spacing={2}>
                                 <Grid item>
-                                    <Typography style={{display: "flex", alignSelf: 'flex-start', justifyContent: 'center', marginLeft: "-210%"}}>
+                                    <Typography style={{display: "flex", alignSelf: 'flex-start', justifyContent: 'center', marginLeft: "-700%"}}>
                                         <WalletIcon className="icon-order-page"/>
-                                        <span>Wallet </span>
-                                        <Typography variant="body2" className="order-balance">
-                                            Balance: {balance}$
-                                        </Typography>                                  
+                                        Wallet
                                     </Typography>
                                     </Grid>
                                     <Grid item justifyContent="flex-end" >
                                         <Checkbox 
-                                            style={{color: "green", marginLeft: "185%", marginTop: "-25%"}} 
+                                            style={{color: "green", marginLeft: "390%", marginTop: "-60%"}} 
                                             className="checkbox-orderpage" 
                                             defaultChecked
                                             disabled
