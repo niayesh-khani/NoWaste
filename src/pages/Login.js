@@ -251,7 +251,7 @@ export default function Login(){
                                     }
                             /> */}
                             <Link to="/forgot-password" className="forgetpassword">
-                                <Typography style={{ fontFamily: 'Montserrat, sans-serif'}}>
+                                <Typography style={{ Family: 'Montserrat, sfontans-serif'}}>
                                     Forgot password?
                                 </Typography>
                             </Link>
