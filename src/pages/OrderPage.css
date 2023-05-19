@@ -1,4 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+.MuiTypography-body1{
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 600 !important;
+
+}
 
 .orderpage-root {
     padding: 70px 15% !important;
@@ -63,6 +68,34 @@
     border-radius: 70px !important;
     width: 70% !important; 
     text-transform: none !important;
+    color: #000000 !important;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+.order-submit:after{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 840%;
+    width: 140%;
+    background: linear-gradient(to right, #ffa600, #ee3722);
+    transition: all .5s ease-in-out;
+    transform: translateX(-98%) translateY(-5%) rotate(45deg);
+    z-index: -1;
+}
+.order-submit:hover::after{
+    transform: translateX(-9%) translateY(-25%) rotate(45deg);
+}
+
+.order-balance{
+    color: #939393;
+    font-family: 'Montserrat', sans-serif !important;
+    margin-left: 10px !important;
+    margin-top: 2px !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
 }
 .orderpage-details-div::-webkit-scrollbar {
     width: 8px;
@@ -94,7 +127,7 @@
     /* padding: 10px 15px 0 15px; */
     border-radius: 10px;
     margin: 10px auto;
-    /* border: 1px solid #FFA600; */
+    border: 1px solid #d5d5d5;
     background-color: #ffffff;
     padding-top: 10px;
     padding-bottom: 10px;

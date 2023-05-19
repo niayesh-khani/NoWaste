@@ -28,6 +28,7 @@ export default function OrderPage(){
     const [orderItems, setOrderItems] = useState([]);
     const [checkAdd, setCheckAdd] = useState(true);
     const [checkPay, setCheckPay] = useState(true);
+    const [balance, setBalance] = useState(localStorage.getItem('wallet_balance'));
 
     const handleCheckAdd = () => {
         setCheckAdd(!checkAdd);
@@ -56,8 +57,29 @@ export default function OrderPage(){
             });
     },[])
 
+    // const handleDecreaseBalance = (e) => {
+    //     e.preventDefault();
+    //     const userData = {
+    //       email: val,
+    //       amount: selectedAmount
+    //     };
+    //     console.log(userData);
+    //     console.log(val)
+    //     axios.post("http://5.34.195.16/user/charge-wallet/", userData, { headers: { "Content-Type": "application/json" } })
+    //       .then((response) => {
+    //         console.log(response);
+    //         const newBalance = response.data.wallet_balance;
+    //         localStorage.setItem('wallet_balance', newBalance);
+    //         setBalance(newBalance);
+    //       })
+    //       .catch((error) => {
+    //         if (error.response) {
+    //           console.log(error);
+    //         }
+    //       });
+    //   };
 
-    return(
+      return(
         <ThemeProvider theme={theme}>
             <Header />
             <Grid container spacing={2} sx={{paddingBottom: "1%"}} className="orderpage-root">
@@ -167,7 +189,7 @@ export default function OrderPage(){
                                 <Typography> {shoppingCard.total_price * (1-shoppingCard.discount)}$ </Typography>          
                             </Grid>
                         </Grid> 
-                        <Button className="order-submit">
+                        <Button id='payment-submit'className="order-submit">
                             Pay
                         </Button>
                     </Box>
@@ -183,7 +205,7 @@ export default function OrderPage(){
                         <Grid container spacing={2} >
                             <Grid item>
                                 <Typography
-                                    style={{alignSelf: 'flex-start', fontSize: '20px'}}
+                                    style={{alignSelf: 'flex-start', fontSize: '19px', marginLeft:'10%'}}
                                 >
                                     Address
                                 </Typography>
@@ -197,14 +219,14 @@ export default function OrderPage(){
                         <Box className="orderpage-shopinfo-box">
                             <Grid constainer spacing={2}>
                                     <Grid item>
-                                    <Typography style={{display: "flex", alignSelf: 'flex-start', justifyContent: 'center', marginLeft: "-280%"}}>
+                                    <Typography style={{display: "flex", alignSelf: 'flex-start', justifyContent: 'center', marginLeft: "-235%"}}>
                                         <PlaceIcon className="icon-order-page" />
                                         Iran, Tehran, IUST
                                     </Typography>
                                     </Grid>
                                     <Grid item justifyContent="flex-end" >
                                         <Checkbox 
-                                            style={{color: "green", marginLeft: "210%", marginTop: "-30%"}} 
+                                            style={{color: "green", marginLeft: "195%", marginTop: "-27%"}} 
                                             className="checkbox-orderpage" 
                                             defaultChecked
                                             onClick={handleCheckAdd}
@@ -213,21 +235,24 @@ export default function OrderPage(){
                             </Grid>
                         </Box>
                         <Typography
-                            style={{alignSelf: 'flex-start', fontSize: '20px', marginTop: "30px"}}
+                            style={{alignSelf: 'flex-start', fontSize: '19px', marginTop: "30px", marginLeft:'1%'}}
                         >
                             Payment method
                         </Typography>
                         <Box className="orderpage-shopinfo-box">
                             <Grid constainer spacing={2}>
                                 <Grid item>
-                                    <Typography style={{display: "flex", alignSelf: 'flex-start', justifyContent: 'center', marginLeft: "-700%"}}>
+                                    <Typography style={{display: "flex", alignSelf: 'flex-start', justifyContent: 'center', marginLeft: "-210%"}}>
                                         <WalletIcon className="icon-order-page"/>
-                                        Wallet
+                                        <span>Wallet </span>
+                                        <Typography variant="body2" className="order-balance">
+                                            Balance: {balance}$
+                                        </Typography>                                  
                                     </Typography>
                                     </Grid>
                                     <Grid item justifyContent="flex-end" >
                                         <Checkbox 
-                                            style={{color: "green", marginLeft: "390%", marginTop: "-60%"}} 
+                                            style={{color: "green", marginLeft: "185%", marginTop: "-25%"}} 
                                             className="checkbox-orderpage" 
                                             defaultChecked
                                             disabled
