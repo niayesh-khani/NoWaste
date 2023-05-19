@@ -290,7 +290,7 @@ function HomepageRestaurant(props){
     }
 
     const handleShowProfile = () => {
-        history.push(`/edit-manager/`);
+        history.push(`/edit-manager`);
     }
 
     const handleAdd = (e) => {
