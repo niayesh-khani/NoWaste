@@ -20,6 +20,8 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import Footer from "../components/Footer";
 import { Alert, AlertTitle } from "@mui/material";
+import Mapir from 'mapir-react-component';
+import 'mapir-react-component/dist/index.css';
 
 const styles = theme => ({
     field: {
@@ -87,6 +89,18 @@ function Edit(props){
     const [openNetwork, setOpenNetwork] = useState(false);
     const [openWrongPass, setOpenWrongPass] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
+
+    const Map = Mapir.setToken({
+        transformRequest: (url) => {
+        return {
+        url: url,
+        headers: {
+            'x-api-key': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjE3NTY2MGZjMTlkNWQ0MmVhM2ViN2JmMDA4NTM4ZWRiOTNiY2M4MTRkM2Q1ZDNmNmQwNTI2ZjdkZWY3YmUyNmE5MGNmMjA0OWNmNzNiNzVlIn0.eyJhdWQiOiIyMjM3OSIsImp0aSI6IjE3NTY2MGZjMTlkNWQ0MmVhM2ViN2JmMDA4NTM4ZWRiOTNiY2M4MTRkM2Q1ZDNmNmQwNTI2ZjdkZWY3YmUyNmE5MGNmMjA0OWNmNzNiNzVlIiwiaWF0IjoxNjg0NzcyNTA4LCJuYmYiOjE2ODQ3NzI1MDgsImV4cCI6MTY4NzM2NDUwOCwic3ViIjoiIiwic2NvcGVzIjpbImJhc2ljIl19.UQpsYVDM5iZmLzTvSgLHct4lVFH0pLF6Gc8BM-ZX-Tz_LDGpqjGlExhJCF3Atcm1UNvLEWeRqXAR0Z28n2kPxo2sGb7LwwlqRDeEGYCVN4R2aZBciWKLXRPJWkMtsB8JaZfHXLKr_qw7Yo35xE8hUZhvUGnaOVXqtPj7QOUORfpQh8cTI7YvlobxAsUuHUmKIK7hsLdSvVqd0zxko-_D4rE_OuVTet6ijp6mNsdUaOZZyFy_746t0kxxwxo4DDJFQdjPNS2bNUHzM56UY-0vvS6nWUNvj6xfsT59J0WZVZP5_BgaKOUdHT39U8Jvg73mOpAKJeM-U1xDRsQqmr4uSw', //Mapir api key
+            'Mapir-SDK': 'reactjs',
+        },
+        };
+    },
+    });
 
     const handleFullname = (e) => {
         setFullname(e.target.value);
@@ -647,6 +661,12 @@ function Edit(props){
                         </Box>
                     </Grid>
                 </Grid> 
+                <div>
+                    <Mapir
+                        Map={Map}
+                        apiKey={'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjE3NTY2MGZjMTlkNWQ0MmVhM2ViN2JmMDA4NTM4ZWRiOTNiY2M4MTRkM2Q1ZDNmNmQwNTI2ZjdkZWY3YmUyNmE5MGNmMjA0OWNmNzNiNzVlIn0.eyJhdWQiOiIyMjM3OSIsImp0aSI6IjE3NTY2MGZjMTlkNWQ0MmVhM2ViN2JmMDA4NTM4ZWRiOTNiY2M4MTRkM2Q1ZDNmNmQwNTI2ZjdkZWY3YmUyNmE5MGNmMjA0OWNmNzNiNzVlIiwiaWF0IjoxNjg0NzcyNTA4LCJuYmYiOjE2ODQ3NzI1MDgsImV4cCI6MTY4NzM2NDUwOCwic3ViIjoiIiwic2NvcGVzIjpbImJhc2ljIl19.UQpsYVDM5iZmLzTvSgLHct4lVFH0pLF6Gc8BM-ZX-Tz_LDGpqjGlExhJCF3Atcm1UNvLEWeRqXAR0Z28n2kPxo2sGb7LwwlqRDeEGYCVN4R2aZBciWKLXRPJWkMtsB8JaZfHXLKr_qw7Yo35xE8hUZhvUGnaOVXqtPj7QOUORfpQh8cTI7YvlobxAsUuHUmKIK7hsLdSvVqd0zxko-_D4rE_OuVTet6ijp6mNsdUaOZZyFy_746t0kxxwxo4DDJFQdjPNS2bNUHzM56UY-0vvS6nWUNvj6xfsT59J0WZVZP5_BgaKOUdHT39U8Jvg73mOpAKJeM-U1xDRsQqmr4uSw'}
+                    />
+                </div>
                 <Footer/>
             </div>
         </ThemeProvider>
