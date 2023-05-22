@@ -145,7 +145,9 @@ const Food = (props) => {
                         </Typography> */}
                         <Typography gutterBottom className='food-name-restaurant-view'>{food.name}</Typography>
                         <Typography variant="body2" color="text.secondary">{food.ingredients}</Typography>
-                        <hr className='food-hr'/>
+                        <Typography variant="body2" color="#e74c3c">number remaining: 5</Typography>
+
+                        {/* <hr className='food-hr'/> */}
                     </CardContent>
                     </CardActionArea>
                 <CardActions>
