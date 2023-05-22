@@ -155,7 +155,7 @@ const Food = (props) => {
                         </Grid>
                         <Grid item lg={5} md={5} sm={5} className='count-buttons'>
                             <button className='button__wrapper' onClick={handleRemoveFromCartClick}>-</button>
-                            <h5 onChange={handleChange}>{count}</h5>
+                            <h5 className="food-h5" onChange={handleChange}>{count}</h5>
                             <button className='button__wrapper' onClick={handleAddToCartClick}>+</button>
                         </Grid>
                     </Grid>
