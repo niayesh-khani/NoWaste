@@ -21,6 +21,7 @@ const  Chat= () => {
             onClick={handleFabClick}
         >
             <HeadsetMicIcon />
+            
         </Fab>
         {/* {isChatOpen && (
                 // Render your chat box component here
