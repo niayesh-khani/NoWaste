@@ -36,6 +36,7 @@ import PlaceIcon from '@mui/icons-material/Place';
 import { FaRegClipboard } from 'react-icons/fa';
 import DoneIcon from '@mui/icons-material/Done';
 import { add } from 'date-fns';
+import Chat from '../components/Chat';
 
 const Search = MU.styled('div')(({ theme }) => ({
     position: 'relative',
@@ -323,6 +324,7 @@ const RestaurantView = (props: Props) =>
             </MU.Grid>
             <BackToTop/>
         </MU.Grid>
+        <Chat/>
         <Footer/>
 
     </div>
