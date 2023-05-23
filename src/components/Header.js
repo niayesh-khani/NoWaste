@@ -275,9 +275,9 @@ const Header = React.memo(() => {
                                     <Item>
                                         <button onClick={() => handleAddAmount(30)} className='add-amount-header'>30$</button>
                                     </Item> */}
-                                    <Button onClick={() => handleAddAmount(10)} className='amount-header'><Item className='item-header'>10$</Item></Button>
-                                    <Button onClick={() => handleAddAmount(20)} className='amount-header'><Item className='item-header'>20$</Item></Button>
-                                    <Button onClick={() => handleAddAmount(30)} className='amount-header'><Item className='item-header'>30$</Item></Button> 
+                                    <Button onClick={() => handleAddAmount(10)} className='amount-header'><Item className='item-header'>70$</Item></Button>
+                                    <Button onClick={() => handleAddAmount(20)} className='amount-header'><Item className='item-header'>80$</Item></Button>
+                                    <Button onClick={() => handleAddAmount(30)} className='amount-header'><Item className='item-header'>90$</Item></Button> 
                                     
                                 
                                 </Stack>
