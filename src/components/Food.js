@@ -145,7 +145,9 @@ const Food = (props) => {
                         </Typography> */}
                         <Typography gutterBottom className='food-name-restaurant-view'>{food.name}</Typography>
                         <Typography variant="body2" color="text.secondary">{food.ingredients}</Typography>
-                        <hr className='food-hr'/>
+                        <Typography variant="body2" color="#e74c3c">number remaining: 5</Typography>
+
+                        {/* <hr className='food-hr'/> */}
                     </CardContent>
                     </CardActionArea>
                 <CardActions>
@@ -155,7 +157,7 @@ const Food = (props) => {
                         </Grid>
                         <Grid item lg={5} md={5} sm={5} className='count-buttons'>
                             <button className='button__wrapper' onClick={handleRemoveFromCartClick}>-</button>
-                            <h5 onChange={handleChange}>{count}</h5>
+                            <h5 className="food-h5" onChange={handleChange}>{count}</h5>
                             <button className='button__wrapper' onClick={handleAddToCartClick}>+</button>
                         </Grid>
                     </Grid>
