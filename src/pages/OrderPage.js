@@ -143,7 +143,7 @@ export default function OrderPage(){
                                 <Typography className="order-food" id="grand-total"> {prices[1]}$ </Typography>          
                             </Grid>
                         </Grid> 
-                        <Button id='payment-submit' onClick={handlePayment} disabled={prices[1] > balance} className={prices[1] > balance ? '' :'order-submit'}>
+                        <Button id='order-submit' onClick={handlePayment} disabled={prices[1] > balance} className={prices[1] > balance ? '' :'order-submit'}>
                             Pay
                         </Button>
                     </Box>
@@ -171,21 +171,21 @@ export default function OrderPage(){
                             </Grid>
                         </Grid>
                         <Box className="orderpage-shopinfo-box">
-                            <Grid constainer spacing={2}>
-                                    <Grid item>
-                                    <Typography style={{display: "flex", alignSelf: 'flex-start', justifyContent: 'center', marginLeft: "-225%", fontSize:'14px'}}>
-                                        <PlaceIcon className="icon-order-page" />
-                                        {shoppingCard.userAddress}
-                                    </Typography>
-                                    </Grid>
-                                    <Grid item justifyContent="flex-end" >
-                                        <Checkbox 
-                                            style={{color: "green", marginLeft: "190%", marginTop: "-25%"}} 
-                                            className="checkbox-orderpage" 
-                                            defaultChecked
-                                            onClick={handleCheckAdd}
-                                        />
-                                    </Grid>
+                            <Grid container spacing={2}>
+                                <Grid item xs={10}>
+                                <Typography style={{ display: "flex", marginLeft:'1px'}}>
+                                    <PlaceIcon className="icon-order-page" style={{paddingLeft:"6px"}}/>
+                                    <span style={{ flex: 1 , marginLeft: '-50%'}}>{shoppingCard.userAddress}</span>
+                                </Typography>
+                                </Grid>
+                                <Grid item xs={1.5} justifyContent="flex-end">
+                                <Checkbox
+                                    style={{ color: "green" , marginTop:"-22%"}}
+                                    className="checkbox-orderpage"
+                                    defaultChecked
+                                    onClick={handleCheckAdd}
+                                />
+                                </Grid>
                             </Grid>
                         </Box>
                         <Typography
@@ -194,25 +194,26 @@ export default function OrderPage(){
                             Payment method
                         </Typography>
                         <Box className="orderpage-shopinfo-box">
-                            <Grid constainer spacing={2}>
-                                <Grid item>
-                                    <Typography style={{display: "flex", alignSelf: 'flex-start', justifyContent: 'center', marginLeft: "-205%" , fontSize:'14px'}}>
-                                        <WalletIcon className="icon-order-page"/>
-                                        <span>Wallet </span>
-                                        <Typography variant="body2" className="order-balance">
-                                            Balance: {balance}$
-                                        </Typography>                       
+                            <Grid container spacing={2}>
+                                <Grid item xs={2}>
+                                    <Typography style={{ display: "flex", marginLeft:'2px'}}>
+                                        <WalletIcon className="icon-order-page" style={{paddingRight:"8px" , paddingLeft:"8px"}}/>
+                                        <span style={{ flex: 1 }}>Wallet</span>
                                     </Typography>
-                                    </Grid>
-                                    <Grid item justifyContent="flex-end" >
-                                        <Checkbox 
-                                            style={{color: "green", marginLeft: "182%", marginTop: "-24%"}} 
-                                            className="checkbox-orderpage" 
-                                            defaultChecked
-                                            disabled
-                                            // onChange={handleCheckPay}
-                                        />
-                                    </Grid>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Typography>
+                                        <span className="order-balance" style={{ flex: 1 , marginLeft: '-115%'}}>Balance: {balance}$</span>
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={1.5} justifyContent="flex-end">
+                                <Checkbox
+                                    style={{ color: "green" , marginTop:"-22%"}}
+                                    className="checkbox-orderpage"
+                                    defaultChecked
+                                    onClick={handleCheckAdd}
+                                />
+                                </Grid>
                             </Grid>
                         </Box>
                     </Box>
