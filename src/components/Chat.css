@@ -1,3 +1,8 @@
+.chat-poper
+{
+    z-index: 2;
+}
+
 .chatPage{
     width: 27vw;
     height: 60vh;
@@ -10,14 +15,13 @@
 }
 
 .chatContainer{
-    /* background-color: rgb(209, 181, 181); */
     height: 100%;
     width: 100%;
     
 }
 
 .chat-header{
-    background-color: crimson;
+    background-color:#e74c3c;
     height: 15%;
     display: flex;
     align-items: center;
@@ -39,21 +43,33 @@
 }
 
 .inputBox{
-    margin-top: -3.8%;
+    margin-top: 1.2%;
     box-sizing: border-box;
     display: flex;
-    border-radius:4% 4% 0 0;
-    word-wrap: break-word !important;
-    white-space: pre-wrap;
+    border-radius:4% 0 4% 0;
+    background-color: white;
 }
 
 #chatInput{
+    font-size: 117.5%;
+    border-radius: 0 0 0 6%;
     width: 100%;
     border: none;
-    padding: 1%;
+    padding: 1.5%;
     box-sizing: border-box;
-    background-color: white;
+    word-wrap: break-word !important;
+    white-space: pre-wrap !important;
+    resize: none;
     outline: none;
-    /* word-wrap: break-word !important;
-    white-space: pre-wrap; */
+}
+
+.chat-send{
+    color: #ffa600; 
+}
+
+.chat-button{
+    color: rgba(255,255,255,0) !important;
+}
+.chat-button:hover{
+    color: rgba(255,255,255,0) !important;
 }
