@@ -176,6 +176,7 @@ const HomepageCustomer = () => {
     const [search, setSearch] = useState('');                 
     const minDistance = 1;
     const classes = useStyles();
+    const [type, setType] = useState("");
 
     const [restaurant, setRestaurant] = useState([]); 
     useEffect(()=>{
@@ -189,9 +190,9 @@ const HomepageCustomer = () => {
     },[])
     
 
-    // const handleClickSearch = (e) => {
-    //     setMySearch(e.target.value);
-    // };
+    const handleClickSearch = (e) => {
+        setMySearch(e.target.value);
+    };
     
     const [mysearch, setMySearch] = useState('');                 
     useEffect(() => {
@@ -217,13 +218,13 @@ const HomepageCustomer = () => {
         }
     }, [mysearch]);
     
-    const handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
-            // handleClickSearch();
-            e.preventDefault();
-            setMySearch(e.target.value);
-            }
-        };
+    // const handleKeyPress = (e) => {
+    //     if (e.key === 'Enter') {
+    //         // handleClickSearch();
+    //         e.preventDefault();
+    //         setMySearch(e.target.value);
+    //         }
+    //     };
 
 
     const handleClickApplyFilter = () => {
@@ -231,7 +232,7 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gte=${fromD}&discount__lte=${toD}&rate__lte=${toR}&rate__gte=${fromR}`)
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?type=${type}&discount__gte=${fromD}&discount__lte=${toD}&rate__lte=${toR}&rate__gte=${fromR}`)
         .then((response) => {
             console.log(response.data);
             setRestaurant(response.data);
@@ -344,6 +345,30 @@ const HomepageCustomer = () => {
             console.log(error.response);
         });
     };
+
+    const clickIranian =()=> {
+        setType(type === "Iranian" ? "" : "Iranian");
+        console.log("Iranian");
+    };
+
+    const clickForeign =()=> {
+        setType(type === "Foreign" ? "" : "Foreign");
+        console.log(type);
+    };
+
+    // const [iranianActive, setIranianActive] = useState(false);
+    // const [foreignActive, setForeignActive] = useState(false);
+    // const clickIranian = () => {
+    //     setIranianActive(!iranianActive);
+    //     setForeignActive(false);
+    //     setType(iranianActive ? "" : "Iranian");
+    // };
+
+    // const clickForeign = () => {
+    //     setForeignActive(!foreignActive);
+    //     setIranianActive(false);
+    //     setType(foreignActive ? "" : "Foreign");
+    // };
 
     return ( 
         <ThemeProvider theme={theme}>
@@ -464,7 +489,7 @@ const HomepageCustomer = () => {
                                 </Grid>
                                 <Grid item lg={3} md={4}>
                                     <FormControlLabel
-                                        control={<IOSSwitch />}
+                                        control={<IOSSwitch onChange={clickIranian}/>}
                                         labelPlacement="start"
                                     />
                                 </Grid>
@@ -473,17 +498,17 @@ const HomepageCustomer = () => {
                             <Grid container spacing={2} className='grid'>
                                 <Grid item>
                                     <Typography className='filter-type'>
-                                        Foriegn
+                                        Foreign
                                     </Typography>
                                 </Grid>
                                 <Grid item lg={3} md={4}>
                                     <FormControlLabel
-                                        control={<IOSSwitch />}
+                                        control={<IOSSwitch onChange={clickForeign}/>}
                                         labelPlacement="start"
                                     />
                                 </Grid>
                             </Grid>
-                            <hr className='hr-tag'/>
+                            {/* <hr className='hr-tag'/>
                             <Grid container spacing={2} className='grid'>
                                 <Grid item>
                                     <Typography className='filter-type'>
@@ -496,7 +521,7 @@ const HomepageCustomer = () => {
                                         labelPlacement="start"
                                     />
                                 </Grid>
-                            </Grid>
+                            </Grid> */}
                             <Button className='submit' onClick={handleClickApplyFilter} >      
                                 Apply
                             </Button>          
@@ -519,8 +544,8 @@ const HomepageCustomer = () => {
                                         sx={{ ml: 1, flex: 1 }}
                                         placeholder="Search"
                                         inputProps={{ 'aria-label': 'search' }}
-                                        // onChange={handleClickSearch}        
-                                        onKeyPress={handleKeyPress}
+                                        onChange={handleClickSearch}        
+                                        // onKeyPress={handleKeyPress}
                                     />
                                     </Paper>
                                 </Grid>
