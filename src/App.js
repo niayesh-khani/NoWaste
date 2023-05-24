@@ -19,7 +19,7 @@ import OrderPage from './pages/OrderPage';
 import EditRestaurant from './pages/EditRestaurant';
 import HomepageRestaurant from './pages/HomepageRestaurant';
 import EditProfileManager from './pages/EditProfileManager';
-import Map from './components/Map'
+import Map from './components/Map/Map'
 
 function App() {
   const [loading, setLoading] = useState(true);
