@@ -95,11 +95,11 @@ function createData(name, order, price, date, status) {
     };
 }  
 const rows = [
-    createData("Bella", 'Pizaa', "10$", "2023-10-1", "Completed"),
-    createData("China", 'Steak', "30$", "2023-10-1", "In progess"),
-    createData("Aba", 'Ghormeh', "150$", "2023-10-1", "Completed"),
-    createData("mina", 'Polp', "200$", "2022-9-10", "Completed"),
-    createData("Ans", 'Morgh', "420$", "2023-10-5", "Completed"),
+    createData("Bella", 'Pizaa, Drink, watge, fdjksl, fjsilios, jflkdfjuiff, kfjdfodifdf, fkljdsofjifd', "10$", "2023-10-1", "Completed"),
+    createData("China", 'Steak', "30$", "2023-10-1", "In progress"),
+    createData("Aba", 'Ghormeh', "150$", "2023-10-1", "Open"),
+    createData("mina", 'Polp', "200$", "2022-9-10", "Canceled"),
+    createData("Ans", 'Morgh', "420$", "2023-10-5", "Ordered"),
     createData("lora", 'water', "300$", "2023-11-10", "Completed"),
     createData("Den", 'Coca', "300$", "2023-10-1", "Open"),
     createData("jim", 'rice', "300$", "2023-10-1", "Completed"),
@@ -207,14 +207,32 @@ export default function Dashboard(){
     const handleChangeRowsPerPage = (e) => {
         setRowsPerPage(parseInt(e.target.value, 10));
         setPage(0);
-    }
+    };
+
+    const getRowColor = (status) => {
+        if(status === "Completed") {
+            return "rgba(65, 156, 86, 0.5)";
+        } else if(status === "In progress") {
+            return "rgba(242, 223, 51, 0.4)";
+        } else if(status === "Ordered") {
+            return "rgba(245, 132, 12, 0.4)"
+        } else if(status === "Canceled"){
+            return "rgba(240, 44, 26, 0.5)";
+        } else {
+            return "rgba(176, 173, 169, 0.5)";
+        }
+    };
+
+    // const options = {
+    //     rowStyle
+    // }
 
     return (
         <ThemeProvider theme={theme}>
             <div className="dashboard-back">
                 <Header />
                 <Grid container spacing={2} className="dashboard-grid">
-                    <Grid item lg={5}>
+                    <Grid item lg={4}>
                         <Box className="dashboard-box" id="favorite-restaurants-box">
                             <Typography
                                 variant="h5" 
@@ -229,7 +247,7 @@ export default function Dashboard(){
                             </div>
                         </Box>
                     </Grid>
-                    <Grid item lg={7}>
+                    <Grid item lg={8}>
                         <Box className="dashboard-box" id="order-history-box">
                             <Typography
                                 variant="h5" 
@@ -259,6 +277,7 @@ export default function Dashboard(){
                                                     key={row.name}
                                                     sx={{ cursor: 'pointer'}}
                                                     tabIndex={-1}
+                                                    style={{backgroundColor: getRowColor(row.status)}}
                                                 >
                                                     <TableCell
                                                         component="th"
