@@ -38,9 +38,36 @@
 }
 #favorite-restaurants-box {
     height: auto;
-    max-height: 50vh !important;
-    overflow: auto;
+    max-height: 200vh !important;
+    /* overflow: auto; */
 }
 .div{
     margin: 20px !important;
+}
+
+.dashboard-restaurant-name {
+    display: flex;
+    text-align: center !important;
+    font-size: x-large !important;
+    flex-wrap: nowrap;
+    align-content: center !important;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 5% !important;
+    margin-top: 15% !important;
+}
+
+.dashboard-restaurant-box {
+    margin: 7px auto !important;
+    background-color: rgb(255, 255, 255);
+    height: 110px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 96%;
+    border-radius: 5px;
+}
+
+.dashboard-restaurant-box :hover {
+    transform: scale(1.03);
 }
