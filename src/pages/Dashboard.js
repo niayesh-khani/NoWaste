@@ -184,13 +184,14 @@ export default function Dashboard(){
     const [orderBy, setOrderBy] = useState('Price');
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [page, setPage] =  useState(0);
-    const favorites = localStorage.getItem('list_of_favorites_res');
+    const favoriteRestaurants = JSON.parse(localStorage.getItem('list_of_favorites_res'));
     const [color, setColor] = useState(localStorage.getItem('avatarColor') || getRandomColor());
     
     function getRandomColor() {
         const colors = ['#FFA600', '#fff2bf', '#ffe480', '#a2332a' , '#E74C3C' , '#690000' , '#595959', '#3e3e3e' , '#C6C6C6', '#ABABAB', '#B9B9B9'];
         return colors[Math.floor(Math.random() * colors.length)];
     }
+    console.log(favoriteRestaurants);
 
     const handleRequestSort = (e, property) => {
         const isAsc = orderBy === property && order === "asc";
@@ -254,43 +255,21 @@ export default function Dashboard(){
                             >
                                 Favorite restaurants
                             </Typography>
-                            <Box className="dashboard-restaurant-box" onClick={handleShowFavoriteRestaurant}>
-                                <Grid container spacing={3}>
-                                    <Grid item lg={5} md={2} sm={2} className="food">
-                                        <img alt="img" src="/mohsen.jpg" className="food-image"/>
+                            {favoriteRestaurants && favoriteRestaurants.map((res, index) => (
+                                <Box className="dashboard-restaurant-box" onClick={handleShowFavoriteRestaurant}>
+                                    <Grid container spacing={3}>
+                                        <Grid item lg={5} md={2} sm={2} className="food">
+                                            <img alt="img" src="/mohsen.jpg" className="food-image"/>
+                                        </Grid>
+                                        <Grid item lg={7} md={5} sm={6}>
+                                            <Typography className="dashboard-restaurant-name">
+                                                {res}
+                                            </Typography>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item lg={7} md={5} sm={6}>
-                                        <Typography className="dashboard-restaurant-name">
-                                            restaurant1
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-                            </Box>
-                            <Box className="dashboard-restaurant-box">
-                            <Grid container spacing={3}>
-                                <Grid item lg={5} md={2} sm={2} className="food">
-                                    <img alt="img" src="/mohsen.jpg" className="food-image"/>
-                                </Grid>
-                                <Grid item lg={7} md={5} sm={6}>
-                                    <Typography className="dashboard-restaurant-name">
-                                        restaurant2
-                                    </Typography>
-                                </Grid>
-                            </Grid>
-                            </Box>
-                            <Box className="dashboard-restaurant-box">
-                            <Grid container spacing={3}>
-                                <Grid item lg={5} md={2} sm={2} className="food">
-                                    <img alt="img" src="/mohsen.jpg" className="food-image"/>
-                                </Grid>
-                                <Grid item lg={7} md={5} sm={6}>
-                                    <Typography className="dashboard-restaurant-name">
-                                        restaurant3
-                                    </Typography>
-                                </Grid>
-                            </Grid>
-                            </Box>
-                        </Box>
+                                </Box>
+                            ))}
+                    </Box>
                     </Grid>
                     <Grid item lg={8}>
                         <Box className="dashboard-box" id="order-history-box">
