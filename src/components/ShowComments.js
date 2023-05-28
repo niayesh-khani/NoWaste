@@ -39,6 +39,28 @@ export default function ShowComments() {
     const handleClose = () => setOpen(false);
     const [comments, setComments] = useState([]); 
     const id=localStorage.getItem("restaurantId");
+
+    const userId = localStorage.getItem("id");
+    const [text, setText] = useState('');
+    const handleAddtext = (e) => {
+        setText(e.target.value);
+    }
+    const handleAdd = (e) => {
+        e.preventDefault();
+        const userData = {
+            text:text
+        }
+        axios.post(`http://5.34.195.16/restaurant/comment/user_id/${userId}/restaurant_id/${id}`, userData, {headers:{"Content-Type" : "application/json"}})
+        .then((response) => {
+            console.log(response);
+            window.location.reload(false);
+        })
+        .catch((error) => {
+            if (error.response) {
+                console.log(error.response);
+            } 
+        });    
+    }
     useEffect(()=>{
         axios.get(`http://5.34.195.16/restaurant/comment/restaurant_id/${id}`)
             .then((response) => {
@@ -83,7 +105,7 @@ export default function ShowComments() {
                                             <Typography variant="h6" className='comment-stack'>
                                                 {res.writer_username}
                                             </Typography>
-                                            <h8 className='comment-date'>{res.created_at}</h8>
+                                            <h8 className='comment-date'>{res.created_at_date}</h8>
                                         </Stack>
                                     </Stack>
                                     <Typography className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
@@ -100,6 +122,8 @@ export default function ShowComments() {
                         >
                             Close
                         </Button>
+                        <textarea onChange={handleAddtext}></textarea>
+                        <Button onClick={handleAdd}>submit</Button>
                     </Box>
                     
                 </Modal>
