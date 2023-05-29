@@ -8,7 +8,7 @@ import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
 import GeoSearchField from './GeoSearch';
 
 
-const Map = () => {
+function Map(){
     // const [lat, setLat] = useState(51.505);
     // const [lng, setLng] = useState(-0.09);
     const [location, setLocation] = useState({});
@@ -136,7 +136,7 @@ const Map = () => {
                 {location.lat && location.lng && (<CustomizeMarker location={location} setLocation={setLocation} />)}
             </MapContainer>
         </div>
-    );
+    );  
 }
 
 export default Map;
