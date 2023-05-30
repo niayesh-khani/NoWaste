@@ -13,11 +13,13 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import CloseIcon from '@mui/icons-material/Close';
+import {w3websocket} from "websocket";
 
 const Chat = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [open, setOpen] = React.useState(false);
     const [placement, setPlacement] = React.useState();
+    const client = new w3websocket();
 
     const handleClick = (newPlacement) => (event) => {
         setAnchorEl(event.currentTarget);
