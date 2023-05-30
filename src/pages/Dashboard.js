@@ -184,14 +184,15 @@ export default function Dashboard(){
     const [orderBy, setOrderBy] = useState('Price');
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [page, setPage] =  useState(0);
-    const favoriteRestaurants = JSON.parse(localStorage.getItem('list_of_favorites_res'));
+    const history = useHistory();
+    const favoriteRestaurant = JSON.parse(localStorage.getItem('list_of_favorites_res'));
     const [color, setColor] = useState(localStorage.getItem('avatarColor') || getRandomColor());
-    
     function getRandomColor() {
         const colors = ['#FFA600', '#fff2bf', '#ffe480', '#a2332a' , '#E74C3C' , '#690000' , '#595959', '#3e3e3e' , '#C6C6C6', '#ABABAB', '#B9B9B9'];
         return colors[Math.floor(Math.random() * colors.length)];
     }
-    console.log(favoriteRestaurants);
+    console.log("$$$$$$$$$$$$$$$$$",favoriteRestaurant);
+
 
     const handleRequestSort = (e, property) => {
         const isAsc = orderBy === property && order === "asc";
@@ -236,8 +237,8 @@ export default function Dashboard(){
     //     rowStyle
     // }
 
-    const handleShowFavoriteRestaurant = () => {
-
+    const handleShowFavoriteRestaurant = (id) => {
+        history.push("./restaurant-view/"+ id);
     }
 
     return (
@@ -255,15 +256,16 @@ export default function Dashboard(){
                             >
                                 Favorite restaurants
                             </Typography>
-                            {favoriteRestaurants && favoriteRestaurants.map((res, index) => (
-                                <Box className="dashboard-restaurant-box" onClick={handleShowFavoriteRestaurant}>
+                            {favoriteRestaurant && favoriteRestaurant.map((res, index) => (
+                                
+                                <Box className="dashboard-restaurant-box" onClick={() => handleShowFavoriteRestaurant(res.id)}>
                                     <Grid container spacing={3}>
                                         <Grid item lg={5} md={2} sm={2} className="food">
-                                            <img alt="img" src="/mohsen.jpg" className="food-image"/>
+                                            <img src={res.restaurant_image} className="food-image"/>
                                         </Grid>
                                         <Grid item lg={7} md={5} sm={6}>
                                             <Typography className="dashboard-restaurant-name">
-                                                {res}
+                                                {res.name}
                                             </Typography>
                                         </Grid>
                                     </Grid>
