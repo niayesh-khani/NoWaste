@@ -15,6 +15,8 @@ import ListItemText from '@mui/material/ListItemText';
 import CloseIcon from '@mui/icons-material/Close';
 // import {w3websocket} from "websocket";
 import {useRef } from "react";
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
 
 
 const Chat = () => {
@@ -65,27 +67,30 @@ const Chat = () => {
             <Popper open={open} anchorEl={anchorEl} placement={placement} transition className='chat-poper'>
             {({ TransitionProps }) => (
             <Fade {...TransitionProps} timeout={350}>
-                <Paper className='chatPage'>
-                    <Grid className="chatContainer">
-                        {/* <Typography> */}
+                <List sx={{ width: '100%' }}>  
+                    <Paper className='chatPage'>
+                        <Grid className="chatContainer">
+                            
                             <Grid className="chat-header">
                                 <h2 className='chat-title'>Support chat</h2>
                             </Grid>
-                            <Grid className="chatBox">
-                                salam
-                                <ListItem alignItems="flex-start">
-                                    <ListItemText>
+                            
+                                {/* salam */}
+                                <ListItem className='chat-listitem'>
                                     
-                                    </ListItemText>
-                                </ListItem>
-                            </Grid>
+                                    <ListItemText primary="Brunch this weekend?" />
+                                </ListItem>    
+                                
+                                
+                            
                             <Grid className="inputBox">
                                 <textarea onKeyPress={(event) => event.key === 'Enter'} onChange={onChange} value={commentValue} id="chatInput" />
                                 <Button className='chat-button' disabled={commentValue.length < 1}><SendIcon className='chat-send'/></Button>
                             </Grid>
-                        {/* </Typography> */}
-                    </Grid>
-                </Paper>
+                            
+                        </Grid>
+                    </Paper>
+                </List>
             </Fade>
             )}
         </Popper>

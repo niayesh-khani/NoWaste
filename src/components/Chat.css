@@ -34,16 +34,16 @@
     margin-top: 4% !important;
 }
 
-.chatBox{
+/* .chatBox{
     display: flex;
     height: 70%;
     box-sizing: border-box;
     padding: 38%;
     
-}
+} */
 
 .inputBox{
-    margin-top: 1.2%;
+    margin-top: 59.2%;
     box-sizing: border-box;
     display: flex;
     border-radius:4% 0 4% 0;
@@ -72,4 +72,10 @@
 }
 .chat-button:hover{
     color: rgba(255,255,255,0) !important;
+}
+
+.chat-listitem{
+    text-align: right !important;
+    margin-top: 5%;
+    border: black solid 2px;
 }
