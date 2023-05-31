@@ -13,14 +13,43 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import CloseIcon from '@mui/icons-material/Close';
-import {w3websocket} from "websocket";
+// import {w3websocket} from "websocket";
+import {useRef } from "react";
+
 
 const Chat = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [open, setOpen] = React.useState(false);
     const [placement, setPlacement] = React.useState();
-    const client = new w3websocket();
+    // const client = new w3websocket();
+    const socket = useRef(null);
+    socket.current = new WebSocket(
+        `ws://localhost:8000/ws/socket-server/board/?token=${localStorage.getItem(
+            "access_token"
+        )}`
+    );
+    socket.current.onopen = () => {
+        console.log("WebSocket connection opened");
+        socket.current.send(
+            JSON.stringify({
+                type: "join_board_group",
+                // data: { board_id: boardId },
+            })
+            );
+        };
 
+    socket.current.onmessage = (event) => {
+        const message = JSON.parse(event.data);
+        console.log(message);
+        // dnd_socket(message, message.type);
+        };
+    
+        socket.current.onclose = () => {
+        console.log("WebSocket connection closed");
+        };
+    
+  
+    
     const handleClick = (newPlacement) => (event) => {
         setAnchorEl(event.currentTarget);
         setOpen((prev) => placement !== newPlacement || !prev);
