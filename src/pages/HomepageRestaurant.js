@@ -341,8 +341,8 @@ function HomepageRestaurant(props){
             <IconButton onClick={handleSidebarOpen}>
                     <MenuIcon/>
             </IconButton>
-            <Grid container spacing={2} sx={{ paddingBottom:"1"}} className='grid-homepage-restaurant'>
-                <Grid item md={3}>
+            <Grid container sx={{ paddingBottom:"1"}} className='grid-homepage-restaurant'>
+                <Grid item md={0.5}>
                     <Drawer
                         anchor="left"
                         open={open}
