@@ -40,6 +40,7 @@ const Food = (props) => {
     const [expanded, setExpanded] = React.useState(false);
     const [restaurant, setRestaurant] = React.useState('');
     const [menu, setMenu] = React.useState([]);
+    const token = localStorage.getItem('token');
     const {id} = useParams();
     const food = props.food
 
@@ -71,7 +72,13 @@ const Food = (props) => {
         }, [count]);
 
     React.useEffect(() => {
-        axios.get("http://5.34.195.16/restaurant/restaurant_view/" + id + '/')
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/" + id + '/',
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
         .then((response) => {
             console.log(response);
             setRestaurant(response.data);
