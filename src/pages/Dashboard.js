@@ -27,6 +27,8 @@ import PropTypes from 'prop-types';
 import { visuallyHidden } from '@mui/utils';
 import { useMemo } from "react";
 import { parse } from "date-fns";
+import Modal from '@mui/material/Modal';
+import Stack from '@mui/material/Stack';
 
 // const styles = theme => ({
 //     field: {
@@ -241,6 +243,50 @@ export default function Dashboard(){
         history.push("./restaurant-view/"+ id);
     }
 
+    const [selectedRow, setSelectedRow] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const handleRowClick = (row) => {
+        if (row.status === 'Completed') {
+            
+            setSelectedRow(row);
+            setIsModalOpen(true);
+        }
+    };
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
+
+    const [text, setText] = useState('');
+    const userId = localStorage.getItem("id");
+    const handleAddtext = (e) => {
+        setText(e.target.value);
+        console.log(text);
+    }
+    const handleAdd = (e) => {
+        e.preventDefault();
+        const userData = {
+            text:text
+        }
+        // axios.post(`http://5.34.195.16/restaurant/comment/user_id/${userId}/restaurant_id/${id}`, userData, {headers:{"Content-Type" : "application/json"}})
+        // .then((response) => {
+        //     console.log(response);
+        //     window.location.reload(false);
+        // })
+        .catch((error) => {
+            if (error.response) {
+                console.log(error.response);
+            } 
+        });    
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <div className="dashboard-back">
@@ -301,9 +347,12 @@ export default function Dashboard(){
                                                 <TableRow
                                                     hover
                                                     key={row.name}
-                                                    sx={{ cursor: 'pointer'}}
+                                                    // sx={{ cursor: 'pointer'}}
+                                                    sx={{ cursor: row.status === 'Completed' ? 'pointer' : 'default',}}
                                                     tabIndex={-1}
                                                     style={{backgroundColor: getRowColor(row.status)}}
+                                                    onClick={() => handleRowClick(row)}
+                                                    
                                                 >
                                                     <TableCell
                                                         component="th"
@@ -312,6 +361,7 @@ export default function Dashboard(){
                                                         align="right"
                                                         // padding="none"
                                                     >
+                                                        
                                                         {index + 1}
                                                     </TableCell>
                                                     <TableCell>{row.name}</TableCell>
@@ -342,6 +392,21 @@ export default function Dashboard(){
                         </Box>
                     </Grid>
                 </Grid>
+                <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+                    
+                    <Box sx={style} className="dashboard-comment-box">
+                    <h2 className='dashboard-title-show-comments'>Add Comment And Rate</h2>
+                    <textarea className='dashboard-textarea' onChange={handleAddtext}></textarea>
+                    <Stack direction="row" >
+                        <Button onClick={() => setIsModalOpen(false)} variant="contained" className='dashboard-btn-close'>
+                            Close
+                        </Button>
+                        <Button variant="contained" className='dashboard-btn-submit' onClick={handleAdd}>
+                            Sublmit
+                        </Button>
+                    </Stack>
+                    </Box>
+                </Modal>
                 <Footer />
             </div>
         </ThemeProvider>
