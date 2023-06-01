@@ -226,7 +226,13 @@ function HomepageRestaurant(props){
 
     const handleDelete = (res) => {
         console.log("i'm here to delete.");
-        axios.delete(`http://5.34.195.16/restaurant/managers/${id}/restaurants/${res.id}/`)
+        axios.delete(`http://5.34.195.16/restaurant/managers/${id}/restaurants/${res.id}/`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
         .then((response) => {
             window.location.reload(false);
         })
@@ -262,7 +268,7 @@ function HomepageRestaurant(props){
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
                 "Access-Control-Allow-Methods" : "GET,POST",
-                // 'Authorization' : "Token " + token.slice(1,-1)
+                'Authorization' : "Token " + token.slice(1,-1)
             }}
         )
         .then((response) => {
@@ -305,7 +311,13 @@ function HomepageRestaurant(props){
             discount: newDiscount
             };
             console.log(userData);
-            axios.post(`http://5.34.195.16/restaurant/managers/${id}/restaurants/`, userData, {headers:{"Content-Type" : "application/json"}})
+            axios.post(`http://5.34.195.16/restaurant/managers/${id}/restaurants/`, userData, 
+            {headers: {
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "PUT,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)   
+            }})
             .then((response) => {
                 console.log(response);
                 window.location.reload(false);

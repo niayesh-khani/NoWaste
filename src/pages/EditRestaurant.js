@@ -215,8 +215,8 @@ const EditRestaurant = () => {
             {headers :{
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
-                "Access-Control-Allow-Methods" : "GET,PATCH,PUT,DELETE"
-                // 'Authorization' : "Token " + token.slice(1,-1)
+                "Access-Control-Allow-Methods" : "GET,PATCH,PUT,DELETE",
+                'Authorization' : "Token " + token.slice(1,-1)
             }}
         )
         .then((response) => {
@@ -234,8 +234,8 @@ const EditRestaurant = () => {
             {headers: {
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
-                "Access-Control-Allow-Methods" : "GET,PATCH"
-                // 'Authorization' : "Token " + token.slice(1,-1)   
+                "Access-Control-Allow-Methods" : "GET,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)   
             }}
         )
         .then((response)=> {
