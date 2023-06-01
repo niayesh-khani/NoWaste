@@ -1,8 +1,5 @@
 .homepage-custumer-card-restaurant {
-  /* flex-basis: calc(60%/3); */
-
     width: 90%;
-    /* min-width: 155%; */
     height: auto;
     position: relative !important;
     margin-bottom: 10%;
@@ -52,10 +49,11 @@ h4
   font-size: medium !important;
 }
 
-/* .homepage-my-masonry-grid {
-  display: flex;
-  padding-left: 5%;
-  width: auto;
-} */
+.homepage-custumer-card-restaurant-single {
+  width: 270px;
+  margin-left: 45px !important;
+  margin-top: 13px !important;
+}
+
 
 

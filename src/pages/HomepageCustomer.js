@@ -177,6 +177,7 @@ const HomepageCustomer = () => {
     const minDistance = 1;
     const token = localStorage.getItem('token');
     const classes = useStyles();
+    const [type, setType] = useState("");
 
     const [restaurant, setRestaurant] = useState([]); 
     useEffect(()=>{
@@ -196,9 +197,9 @@ const HomepageCustomer = () => {
     },[])
     
 
-    // const handleClickSearch = (e) => {
-    //     setMySearch(e.target.value);
-    // };
+    const handleClickSearch = (e) => {
+        setMySearch(e.target.value);
+    };
     
     const [mysearch, setMySearch] = useState('');                 
     useEffect(() => {
@@ -236,13 +237,13 @@ const HomepageCustomer = () => {
         }
     }, [mysearch]);
     
-    const handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
-            // handleClickSearch();
-            e.preventDefault();
-            setMySearch(e.target.value);
-            }
-        };
+    // const handleKeyPress = (e) => {
+    //     if (e.key === 'Enter') {
+    //         // handleClickSearch();
+    //         e.preventDefault();
+    //         setMySearch(e.target.value);
+    //         }
+    //     };
 
 
     const handleClickApplyFilter = () => {
@@ -394,6 +395,30 @@ const HomepageCustomer = () => {
         });
     };
 
+    const clickIranian =()=> {
+        setType(type === "Iranian" ? "" : "Iranian");
+        console.log("Iranian");
+    };
+
+    const clickForeign =()=> {
+        setType(type === "Foreign" ? "" : "Foreign");
+        console.log(type);
+    };
+
+    // const [iranianActive, setIranianActive] = useState(false);
+    // const [foreignActive, setForeignActive] = useState(false);
+    // const clickIranian = () => {
+    //     setIranianActive(!iranianActive);
+    //     setForeignActive(false);
+    //     setType(iranianActive ? "" : "Iranian");
+    // };
+
+    // const clickForeign = () => {
+    //     setForeignActive(!foreignActive);
+    //     setIranianActive(false);
+    //     setType(foreignActive ? "" : "Foreign");
+    // };
+
     return ( 
         <ThemeProvider theme={theme}>
             <Header />
@@ -507,13 +532,13 @@ const HomepageCustomer = () => {
                             <hr className='hr-tag'/>
                             <Grid container spacing={2} className='grid'>
                                 <Grid item>
-                                    <Typography>
+                                    <Typography className='filter-type'>
                                         Iranian
                                     </Typography>
                                 </Grid>
                                 <Grid item lg={3} md={4}>
                                     <FormControlLabel
-                                        control={<IOSSwitch />}
+                                        control={<IOSSwitch onChange={clickIranian}/>}
                                         labelPlacement="start"
                                     />
                                 </Grid>
@@ -521,21 +546,21 @@ const HomepageCustomer = () => {
                             <hr className='hr-tag'/>
                             <Grid container spacing={2} className='grid'>
                                 <Grid item>
-                                    <Typography>
-                                        Foriegn
+                                    <Typography className='filter-type'>
+                                        Foreign
                                     </Typography>
                                 </Grid>
                                 <Grid item lg={3} md={4}>
                                     <FormControlLabel
-                                        control={<IOSSwitch />}
+                                        control={<IOSSwitch onChange={clickForeign}/>}
                                         labelPlacement="start"
                                     />
                                 </Grid>
                             </Grid>
-                            <hr className='hr-tag'/>
+                            {/* <hr className='hr-tag'/>
                             <Grid container spacing={2} className='grid'>
                                 <Grid item>
-                                    <Typography >
+                                    <Typography className='filter-type'>
                                         Drink
                                     </Typography>
                                 </Grid>
@@ -545,10 +570,7 @@ const HomepageCustomer = () => {
                                         labelPlacement="start"
                                     />
                                 </Grid>
-                            </Grid>
-                            {/* <Button className='submit' onClick={handleClickFilterRate} >
-                                Apply
-                            </Button> */}
+                            </Grid> */}
                             <Button className='submit' onClick={handleClickApplyFilter} >      
                                 Apply
                             </Button>          
@@ -571,8 +593,8 @@ const HomepageCustomer = () => {
                                         sx={{ ml: 1, flex: 1 }}
                                         placeholder="Search"
                                         inputProps={{ 'aria-label': 'search' }}
-                                        // onChange={handleClickSearch}        
-                                        onKeyPress={handleKeyPress}
+                                        onChange={handleClickSearch}        
+                                        // onKeyPress={handleKeyPress}
                                     />
                                     </Paper>
                                 </Grid>
@@ -605,12 +627,18 @@ const HomepageCustomer = () => {
                                 breakpointCols={breakpoints}
                                 // className="homepage-my-masonry-grid"
                             >
-                                {restaurant && restaurant.map((res, index) => (
+                                {/* {restaurant && restaurant.map((res, index) => (
                                     <div key={index} style={{ width: index % 3 === 0 ? '100%' : '' }}>
-                                        <RestaurantCard name={res.name} rate={res.rate} discount={res.discount} id={res.id}
-                                        />
+                                        <RestaurantCard name={res.name} rate={res.rate} discount={res.discount} id={res.id}/>
                                     </div>
-                                ))}
+                                ))} */}
+                                {restaurant.length==1 ? (<RestaurantCard name={restaurant[0].name} rate={restaurant[0].rate} discount={restaurant[0].discount} id={restaurant[0].id} description={restaurant[0].description} isSingleResult={true}/>) :
+                                (restaurant && restaurant.map((res, index) => (
+                                    <div key={index} style={{ width: index % 3 === 0 ? '100%' : '' }}>
+                                        <RestaurantCard name={res.name} rate={res.rate} discount={res.discount} id={res.id} description={res.description} restaurant_image={res.restaurant_image}/>
+                                    </div>
+                                )))}
+                                
                             </Masonry>
                         </MU.Grid>
                     </Grid>
