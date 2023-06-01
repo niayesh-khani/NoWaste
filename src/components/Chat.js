@@ -49,18 +49,35 @@ const Chat = () => {
         socket.current.onclose = () => {
         console.log("WebSocket connection closed");
         };
-    
-  
-    
     const handleClick = (newPlacement) => (event) => {
         setAnchorEl(event.currentTarget);
         setOpen((prev) => placement !== newPlacement || !prev);
         setPlacement(newPlacement);
     };
-    const [commentValue, setCommentValue] = useState("");
-    const onChange = (e) => {
-        setCommentValue(e.target.value);
-    }
+
+    const [userMessage, setUserMessage] = useState('');
+    const [messages, setMessages] = useState([]);
+
+    const onChange = (event) => {
+        setUserMessage(event.target.value);
+        
+    };
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    };
+    const sendMessage = () => {
+        const updatedMessage = userMessage.trim();
+        if (updatedMessage !== '') {
+            setMessages((prevMessages) => [...prevMessages, updatedMessage]);
+            setUserMessage('');
+        }
+    };
+        
+
+    
+
 
     return (
         <div>
@@ -74,18 +91,16 @@ const Chat = () => {
                             <Grid className="chat-header">
                                 <h2 className='chat-title'>Support chat</h2>
                             </Grid>
-                            
-                                {/* salam */}
-                                <ListItem className='chat-listitem'>
-                                    
-                                    <ListItemText primary="Brunch this weekend?" />
-                                </ListItem>    
                                 
-                                
+                                {messages.map((msg, index) => (
+                                    <ListItem key={index} className='chat-listitem'>
+                                        <ListItemText primary={msg} style={{ wordWrap: 'break-word' }}/>
+                                    </ListItem>
+                                ))}   
                             
                             <Grid className="inputBox">
-                                <textarea onKeyPress={(event) => event.key === 'Enter'} onChange={onChange} value={commentValue} id="chatInput" />
-                                <Button className='chat-button' disabled={commentValue.length < 1}><SendIcon className='chat-send'/></Button>
+                                <textarea onKeyPress={handleKeyPress} onChange={onChange} value={userMessage} id="chatInput" />
+                                <Button disabled={userMessage.length < 1} onClick={sendMessage}><SendIcon className='chat-send'/></Button>
                             </Grid>
                             
                         </Grid>
