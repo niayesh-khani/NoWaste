@@ -107,6 +107,7 @@ const RestaurantView = (props: Props) =>
     const history = useHistory();
     const [email, setEmail] = React.useState("");
     const {id} = useParams();
+    const token = localStorage.getItem('token');
     localStorage.setItem('restaurantId', id);
     const [list_fav, setList_Fav] = useState(localStorage.getItem('list_of_favorites_res'))
 
@@ -128,14 +129,26 @@ const RestaurantView = (props: Props) =>
     }
 
     React.useEffect(() => {
-        axios.get("http://5.34.195.16/restaurant/restaurant_view/" + id + '/food/')
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/" + id + '/food/',
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
         .then((response) => {
             console.log("food",response);
             setMenu(response.data);
         })
         const fetchData = async () => {
           try {
-            axios.get("http://5.34.195.16/restaurant/restaurant_view/" + id + '/')
+            axios.get("http://5.34.195.16/restaurant/restaurant_view/" + id + '/',
+            {headers: {
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "PUT,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)   
+            }})
             .then((response) => {
             console.log(response.data);
             setRestaurant(response.data);
@@ -158,7 +171,13 @@ const RestaurantView = (props: Props) =>
             email: email
             };
             console.log("userData" , userData);
-            axios.post("http://5.34.195.16/user/favorite-restaurant/", userData, {headers:{"Content-Type" : "application/json"}})
+            axios.post("http://5.34.195.16/user/favorite-restaurant/", userData,
+            {headers: {
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "PUT,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)   
+            }})
             .then((response) => {
                 console.log(response);
                 const new_list = response.data.list_of_favorites_res;
@@ -210,7 +229,13 @@ const RestaurantView = (props: Props) =>
     const [order_id , setOrder_id]  = useState();
 
     useEffect(() => {
-        axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ id + "/5/order/")
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ id + "/5/order/",
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
         .then((response) => {
             setOrder_id(response.data.id);
             // console.log("order id",order_id);

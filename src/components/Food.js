@@ -45,6 +45,7 @@ const Food = (props) => {
     const [menu, setMenu] = React.useState([]);
     const {id} = useParams(); 
     const food = props.food;
+    const token = localStorage.getItem('token');
     const order_id = localStorage.getItem("order_id");
     // console.log("my id",order_id);
     const [resid, setResid] = localStorage.getItem("restaurantId");
@@ -61,7 +62,13 @@ const Food = (props) => {
         console.log("order id", order_id);
         console.log("food id", food.id);
 
-        axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ resid + "/" + userid + "/order/add_to_order/" + food.id + "/")
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ resid + "/" + userid + "/order/add_to_order/" + food.id + "/",
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
         .then((response) => {
             console.log("l;kjhugytfrde",response);
         })
@@ -85,7 +92,13 @@ const Food = (props) => {
 
 
     const handleRemoveFromCartClick = () => {
-        axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ resid + "/" + userid + "/order/remove_from_order/" + food.id + "/")
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ resid + "/" + userid + "/order/remove_from_order/" + food.id + "/",
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
         .then((response) => {
             console.log("l;kjhugytfrde",response);
         })
@@ -115,7 +128,13 @@ const Food = (props) => {
         }, [count]);
 
     React.useEffect(() => {
-        axios.get("http://5.34.195.16/restaurant/restaurant_view/" + resid + '/')
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/" + resid + '/',
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
         .then((response) => {
             console.log(response);
             setRestaurant(response.data);
