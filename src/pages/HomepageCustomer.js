@@ -175,11 +175,18 @@ const HomepageCustomer = () => {
     const [sort, setSort] = React.useState('');
     const [search, setSearch] = useState('');                 
     const minDistance = 1;
+    const token = localStorage.getItem('token');
     const classes = useStyles();
 
     const [restaurant, setRestaurant] = useState([]); 
     useEffect(()=>{
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/`)
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
             .then((response) => {
             setRestaurant(response.data);
             })
@@ -196,7 +203,13 @@ const HomepageCustomer = () => {
     const [mysearch, setMySearch] = useState('');                 
     useEffect(() => {
         if (mysearch) {
-            axios.get(`http://5.34.195.16/restaurant/restaurant-search/?search=${mysearch}`)
+            axios.get(`http://5.34.195.16/restaurant/restaurant-search/?search=${mysearch}`,
+            {headers: {
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "PUT,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)   
+            }})
                 .then((response) => {
                     console.log(response.data);
                     setRestaurant(response.data);
@@ -206,7 +219,13 @@ const HomepageCustomer = () => {
                 });
         }
         else {
-            axios.get(`http://5.34.195.16/restaurant/restaurant-search/`)
+            axios.get(`http://5.34.195.16/restaurant/restaurant-search/`,
+            {headers: {
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "PUT,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)   
+            }})
                 .then((response) => {
                     console.log(response.data);
                     setRestaurant(response.data);
@@ -231,7 +250,13 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&rate__lt=${toR}&rate__gt=${fromR}`)
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&rate__lt=${toR}&rate__gt=${fromR}`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
         .then((response) => {
             console.log(response.data);
             setRestaurant(response.data);
@@ -290,7 +315,13 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-rate&rate__gt=${fromR}&rate__lt=${toR}`)
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-rate&rate__gt=${fromR}&rate__lt=${toR}`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
         .then((response) => {
             console.log(response.data);
             setRestaurant(response.data);
@@ -305,7 +336,13 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-discount&rate__gt=${fromR}&rate__lt=${toR}`)
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-discount&rate__gt=${fromR}&rate__lt=${toR}`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
         .then((response) => {
             setRestaurant(response.data);
             console.log(response.data);
@@ -320,7 +357,13 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-date_of_establishment&rate__gt=${fromR}&rate__lt=${toR}`)
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-date_of_establishment&rate__gt=${fromR}&rate__lt=${toR}`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
         .then((response) => {
             console.log(response.data);
             setRestaurant(response.data);
@@ -335,7 +378,13 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=date_of_establishment&rate__gt=${fromR}&rate__lt=${toR}`)
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=date_of_establishment&rate__gt=${fromR}&rate__lt=${toR}`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
         .then((response) => {
             console.log(response.data);
             setRestaurant(response.data);
