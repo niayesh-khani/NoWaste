@@ -22,7 +22,7 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 import Footer from "../components/Footer";
 import { Alert, AlertTitle, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel } from "@mui/material";
 import './Dashboard.css';
-import { id } from "date-fns/locale";
+// import { id } from "date-fns/locale";
 import PropTypes from 'prop-types';
 import { visuallyHidden } from '@mui/utils';
 import { useMemo } from "react";
@@ -88,28 +88,29 @@ const headCells = [
         label: 'Status'
     },
 ];
-function createData(name, order, price, date, status) {
+function createData(name, order, price, date, status, restaurant_id) {
     return {
         name,
         order,
         price,
         date,
-        status
+        status,
+        restaurant_id
     };
 }  
-const rows = [
-    createData("Bella", 'Pizaa, Drink, watge, fdjksl, fjsilios, jflkdfjuiff, kfjdfodifdf, fkljdsofjifd', "10$", "2023-10-1", "Completed"),
-    createData("China", 'Steak', "30$", "2023-10-1", "In progress"),
-    createData("Aba", 'Ghormeh', "150$", "2023-10-1", "Open"),
-    createData("mina", 'Polp', "200$", "2022-9-10", "Canceled"),
-    createData("Ans", 'Morgh', "420$", "2023-10-5", "Ordered"),
-    createData("lora", 'water', "300$", "2023-11-10", "Completed"),
-    createData("Den", 'Coca', "300$", "2023-10-1", "Open"),
-    createData("jim", 'rice', "300$", "2023-10-1", "Completed"),
-    createData("kimi", 'spaghetti', "300$", "2023-10-1", "Completed"),
-    createData("pria", 'Pizaa', "300$", "2023-10-1", "Completed"),
-    createData("orange", 'Pizaa', "300$", "2023-10-1", "Completed"),
-    createData("kej", 'Pizaa', "300$", "2023-10-1", "Completed")
+let rows = [
+    // createData("Bella", 'Pizaa, Drink, watge, fdjksl, fjsilios, jflkdfjuiff, kfjdfodifdf, fkljdsofjifd', "10$", "2023-10-1", "Completed"),
+    // createData("China", 'Steak', "30$", "2023-10-1", "In progress"),
+    // createData("Aba", 'Ghormeh', "150$", "2023-10-1", "Open"),
+    // createData("mina", 'Polp', "200$", "2022-9-10", "Canceled"),
+    // createData("Ans", 'Morgh', "420$", "2023-10-5", "Ordered"),
+    // createData("lora", 'water', "300$", "2023-11-10", "Completed"),
+    // createData("Den", 'Coca', "300$", "2023-10-1", "Open"),
+    // createData("jim", 'rice', "300$", "2023-10-1", "Completed"),
+    // createData("kimi", 'spaghetti', "300$", "2023-10-1", "Completed"),
+    // createData("pria", 'Pizaa', "300$", "2023-10-1", "Completed"),
+    // createData("orange", 'Pizaa', "300$", "2023-10-1", "Completed"),
+    // createData("kej", 'Pizaa', "300$", "2023-10-1", "Completed")
 ];
 
 function descendingComparator(a, b, orderBy){
@@ -145,7 +146,7 @@ function DashboardTableHead(props) {
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
-
+    
     return (
         <TableHead>
             <TableRow>
@@ -189,12 +190,59 @@ export default function Dashboard(){
     const history = useHistory();
     const favoriteRestaurant = JSON.parse(localStorage.getItem('list_of_favorites_res'));
     const [color, setColor] = useState(localStorage.getItem('avatarColor') || getRandomColor());
+    const id = localStorage.getItem('id');
+    const token = localStorage.getItem('token');
+    const [orderHistory, setOrderHistory] = useState();
     function getRandomColor() {
         const colors = ['#FFA600', '#fff2bf', '#ffe480', '#a2332a' , '#E74C3C' , '#690000' , '#595959', '#3e3e3e' , '#C6C6C6', '#ABABAB', '#B9B9B9'];
         return colors[Math.floor(Math.random() * colors.length)];
     }
-    console.log("$$$$$$$$$$$$$$$$$",favoriteRestaurant);
+    // console.log("$$$$$$$$$$$$$$$$$",favoriteRestaurant);
 
+    useEffect(() => {
+        axios.get(
+            `http://5.34.195.16/restaurant/customer/${id}/orderview/`,
+            {headers :{
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "GET,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)
+            }}
+        )
+        .then((response) => {
+            console.log(response);
+            setOrderHistory(response.data);
+            // console.log("length" + orderHistory.length);
+        })
+        .catch((error) => console.log(error));
+    }, []);
+    useEffect(() => {
+        // console.log("order history ios " + orderHistory.length);
+        if(orderHistory){
+            for (let i = 0; i < orderHistory.length; i++) {
+                // const element = array[i];
+                console.log(orderHistory[i]);
+
+
+                let restaurant_name = orderHistory[i].restaurantDetails.name;
+                let order = "";
+                for(let j=0; j < orderHistory[i].orderDetails.orderItems.length; j++){
+                    order += orderHistory[i].orderDetails.orderItems[j].quantity + "×" + orderHistory[i].orderDetails.orderItems[j].name_and_price.name;
+                    if(j!= orderHistory[i].orderDetails.orderItems.length-1){
+                        order += ", ";
+                    }
+                }
+                let price = orderHistory[i].orderDetails.Subtotal_Grandtotal_discount[1];
+                const date = new Date(orderHistory[i].created_at);
+                let formatted_date = date.toISOString().split('T')[0];
+                let status = orderHistory[i].status;
+                let restaurant_id = orderHistory[i].restaurantDetails.id;
+                const new_row = createData(restaurant_name, order, price, formatted_date, status, restaurant_id)
+                rows = [...rows, new_row];                
+            }
+        }
+
+    }, [orderHistory]);
 
     const handleRequestSort = (e, property) => {
         const isAsc = orderBy === property && order === "asc";
@@ -292,7 +340,7 @@ export default function Dashboard(){
             <div className="dashboard-back">
                 <Header />
                 <Grid container spacing={2} className="dashboard-grid">
-                    <Grid item lg={4}>
+                    <Grid item lg={4} md={12} sm={12} xs={12}>
                         <Box className="dashboard-box" id="favorite-restaurants-box">
                             <Typography
                                 variant="h5" 
@@ -303,13 +351,12 @@ export default function Dashboard(){
                                 Favorite restaurants
                             </Typography>
                             {favoriteRestaurant && favoriteRestaurant.map((res, index) => (
-                                
                                 <Box className="dashboard-restaurant-box" onClick={() => handleShowFavoriteRestaurant(res.id)}>
-                                    <Grid container spacing={3}>
-                                        <Grid item lg={5} md={2} sm={2} className="food">
+                                    <Grid container spacing={2}>
+                                        <Grid item lg={5} md={3} sm={4} xs={4} className="food">
                                             <img src={res.restaurant_image} className="food-image"/>
                                         </Grid>
-                                        <Grid item lg={7} md={5} sm={6}>
+                                        <Grid item lg={7} md={7} sm={8} xs={8}>
                                             <Typography className="dashboard-restaurant-name">
                                                 {res.name}
                                             </Typography>
@@ -317,9 +364,9 @@ export default function Dashboard(){
                                     </Grid>
                                 </Box>
                             ))}
-                    </Box>
+                        </Box>
                     </Grid>
-                    <Grid item lg={8}>
+                    <Grid item lg={8} md={12} sm={12} xs={12}>
                         <Box className="dashboard-box" id="order-history-box">
                             <Typography
                                 variant="h5" 
@@ -332,7 +379,6 @@ export default function Dashboard(){
                             <TableContainer>
                                 <Table
                                     aria-labelledby="OrderTable"
-                                    // size="medium"
                                 >
                                     <DashboardTableHead 
                                         order={order}
@@ -342,7 +388,6 @@ export default function Dashboard(){
                                     />
                                     <TableBody>
                                         {visibleRows.map((row, index) => {
-                                            // const labelId = 
                                             return(
                                                 <TableRow
                                                     hover
