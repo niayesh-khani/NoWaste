@@ -105,6 +105,7 @@ const RestaurantView = (props: Props) =>
     const [menu, setMenu] = React.useState([]);
     const [nameRestaurant, setNameRestaurant] = React.useState('');
     const history = useHistory();
+    const token = localStorage.getItem('token');
     const [email, setEmail] = React.useState("");
     const {id} = useParams();
     const token = localStorage.getItem('token');

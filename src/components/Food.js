@@ -127,7 +127,6 @@ const Food = (props) => {
         localStorage.setItem('countOffood', JSON.stringify(count));
         }, [count]);
 
-    React.useEffect(() => {
         axios.get("http://5.34.195.16/restaurant/restaurant_view/" + resid + '/',
         {headers: {
             'Content-Type' : 'application/json',
@@ -135,6 +134,7 @@ const Food = (props) => {
             "Access-Control-Allow-Methods" : "PUT,PATCH",
             'Authorization' : "Token " + token.slice(1,-1)   
         }})
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/" + id + '/')
         .then((response) => {
             console.log(response);
             setRestaurant(response.data);
