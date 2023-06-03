@@ -132,7 +132,8 @@ const Food = (props) => {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
             "Access-Control-Allow-Methods" : "PUT,PATCH",
-            'Authorization' : "Token " + token.slice(1,-1)   
+            'Authorization' : "Token " + token.slice(1,-1) 
+ 
         }})
         axios.get("http://5.34.195.16/restaurant/restaurant_view/" + id + '/')
         .then((response) => {
