@@ -28,7 +28,7 @@ import axios from "axios";
 
 const Header = React.memo(() => {
     const [auth, setAuth] = React.useState(true);
-    const role = localStorage.getItem("role");
+    const role = JSON.parse(localStorage.getItem("role"));
     const history = useHistory();
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
@@ -84,6 +84,7 @@ const Header = React.memo(() => {
         };
 
     const handleDashboard = () => {
+        setAnchorEl(null);
         if (role === "customer")
             history.push("/dashboard");
         else
@@ -302,8 +303,8 @@ const Header = React.memo(() => {
                                 
                             </Box>
                         </Modal>
-                        <MenuItem onClick={handleClose} className='profile-font'>
-                        <DashboardIcon onClick={handleDashboard} className='profile-icons'/> Dashboard
+                        <MenuItem onClick={handleDashboard} className='profile-font'>
+                        <DashboardIcon className='profile-icons'/> Dashboard
                         </MenuItem>
                         <MenuItem onClick={handleClickLogOut} className='profile-font'>
                         <LogoutIcon className='profile-icons'/> Logout
