@@ -296,12 +296,12 @@ export default function Dashboard(){
         history.push("./restaurant-view/"+ id);
     }
 
-    const [selectedRow, setSelectedRow] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [restaurantId, setRestaurantId] = useState('');
     const handleRowClick = (row) => {
         if (row.status === 'Completed') {
-            
-            setSelectedRow(row);
+            setRestaurantId(row.restaurant_id);
+            console.log(row.restaurant_id);
             setIsModalOpen(true);
         }
     };
@@ -318,7 +318,7 @@ export default function Dashboard(){
     };
 
     const [text, setText] = useState('');
-    const userId = localStorage.getItem("id");
+    // const userId = localStorage.getItem("id");
     const handleAddtext = (e) => {
         setText(e.target.value);
         console.log(text);
@@ -328,11 +328,11 @@ export default function Dashboard(){
         const userData = {
             text:text
         }
-        // axios.post(`http://5.34.195.16/restaurant/comment/user_id/${userId}/restaurant_id/${id}`, userData, {headers:{"Content-Type" : "application/json"}})
-        // .then((response) => {
-        //     console.log(response);
-        //     window.location.reload(false);
-        // })
+        axios.post(`http://5.34.195.16/restaurant/comment/user_id/${id}/restaurant_id/${restaurantId}`, userData, {headers:{"Content-Type" : "application/json"}})
+        .then((response) => {
+            console.log(response);
+            window.location.reload(false);
+        })
         .catch((error) => {
             if (error.response) {
                 console.log(error.response);
