@@ -128,13 +128,13 @@ const Food = (props) => {
         }, [count]);
 
     React.useEffect(() => {
+
         axios.get("http://5.34.195.16/restaurant/restaurant_view/" + resid + '/',
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
             "Access-Control-Allow-Methods" : "PUT,PATCH",
             'Authorization' : "Token " + token.slice(1,-1) 
- 
         }})
         .then((response) => {
             console.log(response);
