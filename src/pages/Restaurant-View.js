@@ -108,8 +108,6 @@ const RestaurantView = (props: Props) =>
     const token = localStorage.getItem('token');
     const [email, setEmail] = React.useState("");
     const {id} = useParams();
-    const token = localStorage.getItem('token');
-    localStorage.setItem('restaurantId', id);
     const [list_fav, setList_Fav] = useState(localStorage.getItem('list_of_favorites_res'))
 
     useEffect(() => {
