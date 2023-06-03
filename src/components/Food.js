@@ -90,7 +90,8 @@ const Food = (props) => {
         setCount(tmp);
     }
 
-
+    const [remainder, setRemainder] = React.useState('');
+    setRemainder (food.remainder);
     const handleRemoveFromCartClick = () => {
         axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ resid + "/" + userid + "/order/remove_from_order/" + food.id + "/",
         {headers: {
@@ -101,6 +102,9 @@ const Food = (props) => {
         }})
         .then((response) => {
             console.log("l;kjhugytfrde",response);
+            setRemainder(response.data.new_remainder);
+            // setItem.localStorage(response.data.new_waa);
+            localStorage.setItem('wallet_balance', response.data.new_waallet_balance);
         })
         .catch((error) => {
             if (error.response) {
@@ -159,7 +163,7 @@ const Food = (props) => {
                     <CardContent sx={{ height: 25}}>
                         <Typography gutterBottom className='food-name-restaurant-view'>{food.name}</Typography>
                         <Typography variant="body2" color="text.secondary">{food.ingredients}</Typography>
-                        <Typography variant="body2" color="#e74c3c">number remaining: 5</Typography>
+                        <Typography variant="body2" color="#e74c3c">number remaining: {remainder}</Typography>
 
                         {/* <hr className='food-hr'/> */}
                     </CardContent>

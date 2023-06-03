@@ -122,8 +122,8 @@ export default function ShowComments() {
                         >
                             Close
                         </Button>
-                        <textarea onChange={handleAddtext}></textarea>
-                        <Button onClick={handleAdd}>submit</Button>
+                        {/* <textarea onChange={handleAddtext}></textarea>
+                        <Button onClick={handleAdd}>submit</Button> */}
                     </Box>
                     
                 </Modal>
