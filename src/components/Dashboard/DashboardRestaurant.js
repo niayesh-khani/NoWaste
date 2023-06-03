@@ -12,6 +12,8 @@ import './DashboardRestaurant.css';
 import PropTypes from 'prop-types';
 import { visuallyHidden } from '@mui/utils';
 import { useMemo } from "react";
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const theme = createTheme({
     palette: {
@@ -73,17 +75,16 @@ const headCells = [
         label: 'Status'
     },
 ];
-function createData(name, order, price, date, status, restaurant_id, customer_name, customer_email) {
+function createData(name, customer_name, customer_email, order, price, date, status, restaurant_id) {
     return {
         name,
+        customer_name,
+        customer_email,
         order,
         price,
         date,
         status,
-        restaurant_id,
-        customer_name,
-        customer_email
-
+        restaurant_id
     };
 }  
 let rows = [
@@ -212,6 +213,8 @@ export default function DashboardRestaurant(){
 
 
                 let restaurant_name = orderHistory[i].restaurantDetails.name;
+                // let customer_name = orderHistory[i].
+                // let customer_email = orderHistory[i].
                 let order = "";
                 for(let j=0; j < orderHistory[i].orderDetails.orderItems.length; j++){
                     order += orderHistory[i].orderDetails.orderItems[j].quantity + "×" + orderHistory[i].orderDetails.orderItems[j].name_and_price.name;
@@ -224,7 +227,7 @@ export default function DashboardRestaurant(){
                 let formatted_date = date.toISOString().split('T')[0];
                 let status = orderHistory[i].status;
                 let restaurant_id = orderHistory[i].restaurantDetails.id;
-                const new_row = createData(restaurant_name, order, price, formatted_date, status, restaurant_id)
+                const new_row = createData(restaurant_name, customer_name, customer_email, order, price, formatted_date, status, restaurant_id)
                 rows = [...rows, new_row];                
             }
         }
@@ -269,6 +272,10 @@ export default function DashboardRestaurant(){
             return "rgba(176, 173, 169, 0.5)";
         }
     };
+    
+    const showApproveOrDeleteIcon = (status) => {
+        return status === 'notOrdered';
+    }
 
     // const options = {
     //     rowStyle
@@ -345,10 +352,25 @@ export default function DashboardRestaurant(){
                                                         {index + 1}
                                                     </TableCell>
                                                     <TableCell>{row.name}</TableCell>
+                                                    <TableCell>{row.customer_name}</TableCell>
+                                                    <TableCell>{row.customer_email}</TableCell>
                                                     <TableCell>{row.order}</TableCell>
                                                     <TableCell>{row.price}</TableCell>
                                                     <TableCell>{row.date}</TableCell>
-                                                    <TableCell>{row.status}</TableCell>
+                                                    <TableCell>
+                                                        {row.status}
+                                                        {showApproveOrDeleteIcon && 
+                                                            <span>
+
+                                                                <IconButton title="Approve order">
+                                                                    <CheckIcon style={{color: 'green'}} />
+                                                                </IconButton>
+                                                                <IconButton title="Delete order">
+                                                                    <ClearIcon style={{color: 'red'}} /> 
+                                                                </IconButton>
+                                                            </span>
+                                                        }
+                                                    </TableCell>
                                                 </TableRow>
                                             )
                                         })}

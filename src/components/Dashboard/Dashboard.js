@@ -26,6 +26,7 @@ import './Dashboard.css';
 import PropTypes from 'prop-types';
 import { visuallyHidden } from '@mui/utils';
 import { useMemo } from "react";
+import ClearIcon from '@mui/icons-material/Clear';
 import { parse } from "date-fns";
 import Modal from '@mui/material/Modal';
 import Stack from '@mui/material/Stack';
@@ -283,6 +284,10 @@ export default function Dashboard(){
         }
     };
 
+    const showCancelIcon = (status) => {
+        return status === 'Completed';
+    }
+
     // const options = {
     //     rowStyle
     // }
@@ -413,7 +418,14 @@ export default function Dashboard(){
                                                     <TableCell>{row.order}</TableCell>
                                                     <TableCell>{row.price}</TableCell>
                                                     <TableCell>{row.date}</TableCell>
-                                                    <TableCell>{row.status}</TableCell>
+                                                    <TableCell>
+                                                        {row.status}
+                                                        {showCancelIcon(row.status) && 
+                                                            <IconButton title="Cancel order">
+                                                                <ClearIcon style={{color:'red'}}/>
+                                                            </IconButton>
+                                                        }
+                                                    </TableCell>
                                                 </TableRow>
                                             )
                                         })}
