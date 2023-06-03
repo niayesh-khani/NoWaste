@@ -15,9 +15,11 @@ import RestaurantView from './pages/Restaurant-View';
 import EditProfile from './pages/EditProfile';
 import NewPassword from './pages/NewPassword';
 import HomepageCustomer from './pages/HomepageCustomer';
+import OrderPage from './pages/OrderPage';
 import EditRestaurant from './pages/EditRestaurant';
 import HomepageRestaurant from './pages/HomepageRestaurant';
 import EditProfileManager from './pages/EditProfileManager';
+import Dashboard from './pages/Dashboard';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -70,11 +72,17 @@ function App() {
           <Route path="/homepage-customer" >
             <HomepageCustomer />
           </Route>
+          <Route path="/order-page">
+            <OrderPage />
+          </Route>  
           <Route path="/edit-restaurant/:idM/restaurants/:idR" >
             <EditRestaurant />
           </Route>
           <Route path="/homepage-restaurant" >
             <HomepageRestaurant />
+          </Route>
+          <Route path="/dashboard">
+            <Dashboard />
           </Route>
       </Router>
     //   )}

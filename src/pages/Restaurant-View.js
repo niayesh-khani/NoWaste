@@ -36,6 +36,7 @@ import PlaceIcon from '@mui/icons-material/Place';
 import { FaRegClipboard } from 'react-icons/fa';
 import DoneIcon from '@mui/icons-material/Done';
 import { add } from 'date-fns';
+import Chat from '../components/Chat';
 
 const Search = MU.styled('div')(({ theme }) => ({
     position: 'relative',
@@ -107,7 +108,9 @@ const RestaurantView = (props: Props) =>
     const token = localStorage.getItem('token');
     const [email, setEmail] = React.useState("");
     const {id} = useParams();
-
+    const token = localStorage.getItem('token');
+    localStorage.setItem('restaurantId', id);
+    const [list_fav, setList_Fav] = useState(localStorage.getItem('list_of_favorites_res'))
 
     useEffect(() => {
         const email = JSON.parse(localStorage.getItem('email'));
@@ -127,7 +130,7 @@ const RestaurantView = (props: Props) =>
     }
 
     React.useEffect(() => {
-        axios.get("http://5.34.195.16/restaurant/restaurant_view/" + id + '/',
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/" + id + '/food/',
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -135,33 +138,52 @@ const RestaurantView = (props: Props) =>
             'Authorization' : "Token " + token.slice(1,-1)   
         }})
         .then((response) => {
-            console.log(response);
-            setRestaurant(response.data);
-            setNameRestaurant(restaurant.name);
-            setMenu(restaurant.menu);
-            setRateValue(restaurant.rate);
+            console.log("food",response);
+            setMenu(response.data);
         })
-        .catch((error) => {
+        const fetchData = async () => {
+          try {
+            axios.get("http://5.34.195.16/restaurant/restaurant_view/" + id + '/',
+            {headers: {
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "PUT,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)   
+            }})
+            .then((response) => {
+            console.log(response.data);
+            setRestaurant(response.data);
+            setNameRestaurant(response.data.name);
+            setRateValue(response.data.rate);
+            const is_in_list = list_fav.includes(response.data.name);
+            is_in_list ? (setColor(!color)) : setColor(color);
+          })
+            }catch (error) {
             console.log(error);
-        });
-    });
+          }
+        };
+        fetchData();
+      }, []);
 
-    const handleColor = () => {
+        const handleColor = () => {
         setColor(!color);
         const userData = {
             name: nameRestaurant,
             email: email
             };
-            console.log(userData);
-            axios.post("http://5.34.195.16/user/favorite-restaurant/", userData, 
+            console.log("userData" , userData);
+            axios.post("http://5.34.195.16/user/favorite-restaurant/", userData,
             {headers: {
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
-                "Access-Control-Allow-Methods" : "PUT,PATCH"
+                "Access-Control-Allow-Methods" : "PUT,PATCH",
                 // 'Authorization' : "Token " + token.slice(1,-1)   
             }})
             .then((response) => {
                 console.log(response);
+                const new_list = response.data.list_of_favorites_res;
+                localStorage.setItem('list_of_favorites_res' , new_list);
+                setList_Fav(response.data.list_of_favorites_res);
             })
             .catch((error) => {
                 if (error.response) {
@@ -204,7 +226,25 @@ const RestaurantView = (props: Props) =>
     };
         
     const [textCopied, setTextCopied] = useState(false);
-            
+    
+    const [order_id , setOrder_id]  = useState();
+
+    useEffect(() => {
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ id + "/5/order/",
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
+        .then((response) => {
+            setOrder_id(response.data.id);
+            // console.log("order id",order_id);
+            localStorage.setItem("order_id", order_id);
+            // console.log("local",localStorage.getItem("order_id"));
+        })
+    })
+
     return (
     <div className='myback'>
         <Header />
@@ -310,6 +350,7 @@ const RestaurantView = (props: Props) =>
             </MU.Grid>
             <BackToTop/>
         </MU.Grid>
+        <Chat/>
         <Footer/>
 
     </div>
