@@ -156,12 +156,6 @@ const Food = (props) => {
                         title={food.Type}
                     />
                     <CardContent sx={{ height: 25}}>
-                        {/* <Typography gutterBottom className='food-name-restaurant-view' >
-                            {food.name}
-                            <Stack direction="vertical">
-                                <Chip label={parseInt(food.price) + " $"} sx={{backgroundColor: "#f18b72"}}  />
-                            </Stack>   
-                        </Typography> */}
                         <Typography gutterBottom className='food-name-restaurant-view'>{food.name}</Typography>
                         <Typography variant="body2" color="text.secondary">{food.ingredients}</Typography>
                         <Typography variant="body2" color="#e74c3c">number remaining: 5</Typography>
