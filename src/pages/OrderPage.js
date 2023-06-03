@@ -26,6 +26,7 @@ const theme = createTheme({
 export default function OrderPage(){
     const [shoppingCard, setShoppingCard] = useState([]);  
     const [orderItems, setOrderItems] = useState([]);
+    const token = localStorage.getItem('token');
     const [checkAdd, setCheckAdd] = useState(true);
     const [checkPay, setCheckPay] = useState(true);
     const [prices, setPrices] = useState([]);
@@ -47,7 +48,13 @@ export default function OrderPage(){
     // const restaurantId =1;
     // const userId=5;
     useEffect(()=>{
-        axios.get(`http://5.34.195.16/restaurant/restaurant_view/${restaurantId}/${userId}/order/`)
+        axios.get(`http://5.34.195.16/restaurant/restaurant_view/${restaurantId}/${userId}/order/`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
             .then((response) => {
                 console.log("oredrs",response.data);
                 setShoppingCard(response.data);
@@ -69,8 +76,14 @@ export default function OrderPage(){
         };
         console.log(userData);
         console.log(val)
-        axios.post("http://5.34.195.16/user/withdraw-wallet/", userData, { headers: { "Content-Type": "application/json" } })
-          .then((response) => {
+        axios.post("http://5.34.195.16/user/withdraw-wallet/", userData, 
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
+        .then((response) => {
             console.log(response);
             const newBalance = response.data.wallet_balance;
             localStorage.setItem('wallet_balance', newBalance);
