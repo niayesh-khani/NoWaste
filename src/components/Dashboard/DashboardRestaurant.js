@@ -227,7 +227,7 @@ export default function DashboardRestaurant(){
                 let formatted_date = date.toISOString().split('T')[0];
                 let status = orderHistory[i].status;
                 let restaurant_id = orderHistory[i].restaurantDetails.id;
-                const new_row = createData(restaurant_name, customer_name, customer_email, order, price, formatted_date, status, restaurant_id)
+                const new_row = createData(restaurant_name, "Setareh", "set@gmail.com", order, price, formatted_date, status, restaurant_id)
                 rows = [...rows, new_row];                
             }
         }
