@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
-import './EditProfile.css';
-import Header from '../components/Header';
+import '../../pages/EditProfile.css';
+import Header from '../Header';
 // import './Login-Signup.css';
 // import './Restaurant-View.css';
 // import PhoneInput from 'react-phone-input-2';
-import '../pages/EditRestaurant.css';
+import '../../pages/EditRestaurant.css';
 import PhoneInput from 'material-ui-phone-number';
 import 'react-phone-input-2/lib/style.css';
 import { DatePicker } from '@mui/x-date-pickers'
@@ -19,7 +19,7 @@ import { useHistory } from "react-router-dom";
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { Visibility, VisibilityOff } from "@material-ui/icons";
-import Footer from "../components/Footer";
+import Footer from "../Footer";
 import { Alert, AlertTitle, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel } from "@mui/material";
 import './Dashboard.css';
 // import { id } from "date-fns/locale";
