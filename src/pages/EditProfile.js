@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
+import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import './EditProfile.css';
 import Header from '../components/Header';
 import './Login-Signup.css';
@@ -87,6 +87,8 @@ function Edit(props){
     const [openNetwork, setOpenNetwork] = useState(false);
     const [openWrongPass, setOpenWrongPass] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
+    const [countries, setCountries] = useState([]);
+    const [cities, setCities] = useState({});
 
     const handleFullname = (e) => {
         setFullname(e.target.value);
@@ -173,6 +175,22 @@ function Edit(props){
         })
         .catch((error) => console.log(error));
     },[]);
+
+    useEffect(() =>{
+        axios.get(
+            `http://5.34.195.16/user/city-country/` , 
+            {headers :{
+                'Content-Type' : 'application/json'
+            }}
+        )
+        .then((response) => {
+            console.log("THEREEEEEEE",response.data);
+            setCountries(response.data.country_choices);
+            console.log(countries);
+            setCities(response.data.city_choices);
+        })
+        .catch((error) => console.log(error));
+    },[]);
     
     useEffect(() => {
         setFullname(data.name);
@@ -198,9 +216,6 @@ function Edit(props){
     }, [data.address]);
 
     const history = useHistory();
-    const handleChange = () => {
-        history.push('./change-password')
-    };
     const handleCloseNetwork = () => {
         setOpenNetwork(false);
     };
@@ -314,6 +329,8 @@ function Edit(props){
     const handleDiscard = () => {
         window.location.reload(false);
     }
+
+    console.log("$$$$$$$$$$$$44", countries);
 
     return(
         <ThemeProvider theme={theme}>
@@ -481,23 +498,46 @@ function Edit(props){
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6} md={6}>
                                         <TextField
+                                            select
                                             label="Country"
                                             variant="outlined"
                                             color="secondary"
                                             value={country}
+                                            InputLabelProps={{ shrink: true }}
                                             style={{width: '100%'}}
                                             onChange={handleCountry}
-                                        /> 
+                                        > 
+                                            <MenuItem value="select" disabled>
+                                                <em>Select country</em>
+                                            </MenuItem>
+                                            {countries && countries.map((c, index) => (
+                                                <MenuItem value={c}>{c}</MenuItem>
+                                            ))}
+                                        </TextField>
                                     </Grid>
                                     <Grid item xs={12} sm={6} md={6}>
                                         <TextField
+                                            select
                                             label="City"
                                             variant="outlined"
                                             color="secondary"
                                             value={city}
+                                            InputLabelProps={{ shrink: true }}
                                             style={{width: '100%'}}
                                             onChange={handleCity}
-                                        /> 
+                                        >
+                                            <MenuItem value="select" disabled>
+                                                <em>Select city</em>
+                                            </MenuItem>
+                                            {country && Object.entries(cities).map(([key, value]) => {
+                                                if(key === country) {
+                                                    value.map((c, index) => (
+                                                        <MenuItem value={c}>{c}</MenuItem>
+                                                    ));
+                                                }
+                                                return "please select country";
+                                            })}
+                                        </TextField>
                                     </Grid>
                                 </Grid>
                             </FormControl>
