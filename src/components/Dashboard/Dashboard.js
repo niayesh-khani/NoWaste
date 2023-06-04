@@ -194,6 +194,7 @@ export default function Dashboard(){
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
     const [orderHistory, setOrderHistory] = useState();
+    const [orderid, setOrderid] = useState();
     function getRandomColor() {
         const colors = ['#FFA600', '#fff2bf', '#ffe480', '#a2332a' , '#E74C3C' , '#690000' , '#595959', '#3e3e3e' , '#C6C6C6', '#ABABAB', '#B9B9B9'];
         return colors[Math.floor(Math.random() * colors.length)];
@@ -226,6 +227,8 @@ export default function Dashboard(){
 
 
                 let restaurant_name = orderHistory[i].restaurantDetails.name;
+                setOrderid(orderHistory[i].restaurantDetails.id);
+                setRestaurantId(orderHistory[i].restaurantDetails.restaurant_id);
                 let order = "";
                 for(let j=0; j < orderHistory[i].orderDetails.orderItems.length; j++){
                     order += orderHistory[i].orderDetails.orderItems[j].quantity + "×" + orderHistory[i].orderDetails.orderItems[j].name_and_price.name;
@@ -340,6 +343,29 @@ export default function Dashboard(){
         });    
     }
 
+    const handleCancleOrdering = (e) => {
+        e.preventDefault();
+        const userData = {
+            status:"Cancle"
+        }
+        axios.post(`http://5.34.195.16/restaurant/restaurant_view/${restaurantId}/${id}/order/${orderid}`, userData,
+        {headers :{
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "GET,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)
+        }})
+        .then((response) => {
+            console.log(response);
+            window.location.reload(false);
+        })
+        .catch((error) => {
+            if (error.response) {
+                console.log(error.response);
+            } 
+        }); 
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <div className="dashboard-back">
@@ -421,7 +447,7 @@ export default function Dashboard(){
                                                     <TableCell>
                                                         {row.status}
                                                         {showCancelIcon(row.status) && 
-                                                            <IconButton title="Cancel order">
+                                                            <IconButton onClick={handleCancleOrdering} title="Cancel order">
                                                                 <ClearIcon style={{color:'red'}}/>
                                                             </IconButton>
                                                         }

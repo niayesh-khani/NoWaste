@@ -176,10 +176,12 @@ export default function DashboardRestaurant(){
     const [orderBy, setOrderBy] = useState('Price');
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [page, setPage] =  useState(0);
+    const [orderid, setOrderid] = useState();
     const history = useHistory();
     const [color, setColor] = useState(localStorage.getItem('avatarColor') || getRandomColor());
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
+    const [restaurantId, setRestaurantId] = useState('');
     const [orderHistory, setOrderHistory] = useState();
     function getRandomColor() {
         const colors = ['#FFA600', '#fff2bf', '#ffe480', '#a2332a' , '#E74C3C' , '#690000' , '#595959', '#3e3e3e' , '#C6C6C6', '#ABABAB', '#B9B9B9'];
@@ -213,6 +215,8 @@ export default function DashboardRestaurant(){
 
 
                 let restaurant_name = orderHistory[i].restaurantDetails.name;
+                setOrderid(orderHistory[i].restaurantDetails.id);
+                setRestaurantId(orderHistory[i].restaurantDetails.restaurant_id);
                 // let customer_name = orderHistory[i].
                 // let customer_email = orderHistory[i].
                 let order = "";
@@ -302,6 +306,52 @@ export default function DashboardRestaurant(){
         p: 4,
     };
 
+    const handleCancleOrdering = (e) => {
+        e.preventDefault();
+        const userData = {
+            status:"Cancle"
+        }
+        axios.post(`http://5.34.195.16/restaurant/restaurant_view/${restaurantId}/${id}/order/${orderid}`, userData,
+        {headers :{
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "GET,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)
+        }})
+        .then((response) => {
+            console.log(response);
+            window.location.reload(false);
+        })
+        .catch((error) => {
+            if (error.response) {
+                console.log(error.response);
+            } 
+        }); 
+    }
+
+    const handleAcceptOrdering = (e) => {
+        e.preventDefault();
+        const userData = {
+            status:"InProgress"
+        }
+        axios.post(`http://5.34.195.16/restaurant/restaurant_view/${restaurantId}/${id}/order/${orderid}`, userData,
+        {headers :{
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "GET,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)
+        }})
+        .then((response) => {
+            console.log(response);
+            window.location.reload(false);
+        })
+        .catch((error) => {
+            if (error.response) {
+                console.log(error.response);
+            } 
+        }); 
+    }
+
 
     return (
         <ThemeProvider theme={theme}>
@@ -362,10 +412,10 @@ export default function DashboardRestaurant(){
                                                         {showApproveOrDeleteIcon && 
                                                             <span>
 
-                                                                <IconButton title="Approve order">
+                                                                <IconButton onClick={handleAcceptOrdering} title="Approve order">
                                                                     <CheckIcon style={{color: 'green'}} />
                                                                 </IconButton>
-                                                                <IconButton title="Delete order">
+                                                                <IconButton onClick={handleCancleOrdering} title="Delete order">
                                                                     <ClearIcon style={{color: 'red'}} /> 
                                                                 </IconButton>
                                                             </span>
