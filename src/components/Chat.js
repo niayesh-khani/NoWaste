@@ -17,7 +17,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import {useRef } from "react";
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-
+import ReactScrollToBottom from "react-scroll-to-bottom";
 
 const Chat = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -91,13 +91,13 @@ const Chat = () => {
                             <Grid className="chat-header">
                                 <h2 className='chat-title'>Support chat</h2>
                             </Grid>
-                                
+                                <ReactScrollToBottom className="chatBox">
                                 {messages.map((msg, index) => (
-                                    <ListItem key={index} className='chat-listitem'>
+                                    <ListItem key={index} className='chat-listitem-right'>
                                         <ListItemText primary={msg} style={{ wordWrap: 'break-word' }}/>
                                     </ListItem>
                                 ))}   
-                            
+                                </ReactScrollToBottom >
                             <Grid className="inputBox">
                                 <textarea onKeyPress={handleKeyPress} onChange={onChange} value={userMessage} id="chatInput" />
                                 <Button disabled={userMessage.length < 1} onClick={sendMessage}><SendIcon className='chat-send'/></Button>
