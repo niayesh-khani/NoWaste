@@ -71,6 +71,8 @@ const Food = (props) => {
         }})
         .then((response) => {
             console.log("l;kjhugytfrde",response);
+            setRemainder(response.data.new_remainder);
+            localStorage.setItem('wallet_balance', response.data.new_waallet_balance);
         })
         .catch((error) => {
             if (error.response) {
