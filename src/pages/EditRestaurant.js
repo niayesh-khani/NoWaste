@@ -122,7 +122,8 @@ function EditRestaurant(props){
     const [foodPicture, setFoodPicture] = useState('');
     const [foodIngredient, setFoodIngredient] = useState('');
     const [foodIngredientError, setFoodIngredientError] = useState(false);
-    const [foodType, setFoodType] = useState('');
+    const [remainFood, setRemainFood] = useState(0);
+    const [remainFoodError, setRemainFoodError] = useState(false);
     const [foodPrice, setFoodPrice] = useState(0);
     const [foodPriceError, setFoodPriceError] = useState(false);
     const [menu, setMenu] = useState([]);
@@ -171,8 +172,8 @@ function EditRestaurant(props){
             {headers :{
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
-                "Access-Control-Allow-Methods" : "GET,POST"
-                // 'Authorization' : "Token " + token.slice(1,-1)
+                "Access-Control-Allow-Methods" : "GET,POST",
+                'Authorization' : "Token " + token.slice(1,-1)
             }}
         )
         .then((response) => {
@@ -239,8 +240,8 @@ function EditRestaurant(props){
     }, [food.ingredients]);
 
     useEffect(() => {
-        setFoodType(food.type);
-    }, [food.type]);
+        setRemainFood(food.remainder);
+    }, [food.remainder]);
     useEffect(() => {
         setFoodPicture(food.food_pic);
     }, [food.food_pic]);
@@ -303,7 +304,7 @@ function EditRestaurant(props){
         setFoodName('');
         setFoodIngredient('');
         setFoodPrice('');
-        setFoodType('');
+        setRemainFood('');
         setFoodPicture('');
     }, [openAdd]);
     const handleFoodName = (e) => {
@@ -324,8 +325,13 @@ function EditRestaurant(props){
         }
     };
 
-    const handleFoodType = (e) => {
-        setFoodType(e.target.value);
+    const handleRemain = (e) => {
+        setRemainFood(e.target.value);
+        if(!/^[0-9]+?$/.test(e.target.value) || e.target.value.trim() === ''){
+            setRemainFoodError(true);
+        } else {
+            setRemainFoodError(false);
+        }
     };
 
     const handleFoodPrice = (e) => {
@@ -433,7 +439,8 @@ function EditRestaurant(props){
             price: foodPrice, 
             ingredients: foodIngredient, 
             food_pic: foodPicture,
-            type: foodType, 
+            // type: foodType, 
+            remainder: remainFood,
             restaurant_id: idR
         }
         console.log('im here to edit');
@@ -457,11 +464,12 @@ function EditRestaurant(props){
             price: foodPrice,
             ingredients: foodIngredient,
             food_pic: foodPicture,
-            type: foodType,
+            // type: foodType,
+            remainder: remainFood,
             restaurant_id: idR
         };
         console.log(userData);
-        axios.post(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/`, userData, {headers:{"Content-Type" : "application/json"}})
+        axios.post(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/`, userData, {headers:{"Content-Type" : "application/json", 'Authorization' : "Token " + token.slice(1,-1)}})
         .then((response) => {
             console.log(response);
             window.location.reload(false);
@@ -733,6 +741,24 @@ function EditRestaurant(props){
                                                 <Grid container spacing={2}>
                                                     <Grid item lg={6} md={6} sm={12}>
                                                         <TextField
+                                                            label="Remain amount"
+                                                            variant="outlined"
+                                                            color="secondary"
+                                                            value={remainFood}
+                                                            required
+                                                            style={{width: '100%'}}
+                                                            onChange={handleRemain}
+                                                            error={remainFoodError}
+                                                            helperText={
+                                                                <div className="edit-error-restaurant">
+                                                                    {remainFoodError && "Remain amount must be number."}
+                                                                </div>
+                                                            }
+                                                            InputLabelProps={{ shrink: true }}
+                                                        >
+
+                                                        </TextField>
+                                                        {/* <TextField
                                                             select
                                                             label="Type"
                                                             variant="outlined"
@@ -754,7 +780,7 @@ function EditRestaurant(props){
                                                             <MenuItem value="Drink">
                                                                 Drink
                                                             </MenuItem>
-                                                        </TextField>
+                                                        </TextField> */}
                                                     </Grid>
                                                     <Grid item lg={6} md={6} sm={12}>
                                                         <TextField
@@ -898,6 +924,24 @@ function EditRestaurant(props){
                                                             <Grid container spacing={2}>
                                                                 <Grid item lg={6} md={6} sm={12}>
                                                                     <TextField
+                                                                        label="Remain amount"
+                                                                        variant="outlined"
+                                                                        color="secondary"
+                                                                        value={remainFood}
+                                                                        required
+                                                                        onChange={handleRemain}
+                                                                        error={remainFoodError}
+                                                                        helperText={
+                                                                            <div className="edit-error-restaurant">
+                                                                                {remainFoodError && "Remain amount must be number."}
+                                                                            </div>
+                                                                        }
+                                                                        InputLabelProps={{ shrink: true }}
+                                                                    >
+                                                                    </TextField>
+                                                                </Grid>
+                                                                {/* <Grid item lg={6} md={6} sm={12}>
+                                                                    <TextField
                                                                         select
                                                                         label="Type"
                                                                         variant="outlined"
@@ -920,7 +964,7 @@ function EditRestaurant(props){
                                                                             Drink
                                                                         </MenuItem>
                                                                     </TextField>
-                                                                </Grid>
+                                                                </Grid> */}
                                                                 <Grid item lg={6} md={6} sm={12}>
                                                                     <TextField
                                                                         label="Price"
