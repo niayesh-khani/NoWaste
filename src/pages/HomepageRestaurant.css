@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
 .grid-homepage-restaurant {
-    width: 100% !important;
-    margin-top: 2% !important;
-    padding-left: 5%;
-    padding-right: 5%;
+    width: 90% !important;
+    /* margin-top: 2% !important; */
+    /* padding-left: 5%;
+    padding-right: 5%; */
 }
 .sidebar{
     color: white !important;
