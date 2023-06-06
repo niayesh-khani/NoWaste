@@ -19,16 +19,21 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import ReactScrollToBottom from "react-scroll-to-bottom";
 
+
 const Chat = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [open, setOpen] = React.useState(false);
     const [placement, setPlacement] = React.useState();
     // const client = new w3websocket();
     const socket = useRef(null);
+    const userId = localStorage.getItem('id');
+    const restaurantId = localStorage.getItem('restaurantId');
     socket.current = new WebSocket(
-        `ws://localhost:8000/ws/socket-server/board/?token=${localStorage.getItem(
-            "access_token"
-        )}`
+        // `ws://localhost:8000/ws/socket-server/board/?token=${localStorage.getItem(
+        //     "access_token"
+        // )}`
+        `http://5.34.195.16/chat/room/${userId}/${restaurantId}/`
+        
     );
     socket.current.onopen = () => {
         console.log("WebSocket connection opened");
@@ -76,8 +81,22 @@ const Chat = () => {
     };
         
 
-    
-
+    const options = {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false
+    };
+    // const time = new Date().toLocaleTimeString(undefined, options);
+    function formatTime(date, options) {
+        const timeString = date.toLocaleTimeString(undefined, options);
+        const isPM = timeString.includes('PM');
+        let hour = Number(timeString.split(':')[0]);
+        if (isPM && hour < 12) {
+            hour += 12;
+        }
+        return timeString.replace(/^(\d{1,2}):/, hour.toString().padStart(2, '0') + ':');
+    }
+    const times = messages.map(() => formatTime(new Date(), options));
 
     return (
         <div>
@@ -92,11 +111,14 @@ const Chat = () => {
                                 <h2 className='chat-title'>Support chat</h2>
                             </Grid>
                                 <ReactScrollToBottom className="chatBox">
-                                {messages.map((msg, index) => (
-                                    <ListItem key={index} className='chat-listitem-right'>
-                                        <ListItemText primary={msg} style={{ wordWrap: 'break-word' }}/>
-                                    </ListItem>
-                                ))}   
+                                    {messages.map((msg, index) => (
+                                        <ListItem key={index} className='chat-listitem-right'>
+                                            <ListItemText primary={msg} style={{ wordWrap: 'break-word' }}/>
+                                            {/* {index === messages.length - 1 && <p className='chat-time'>{new Date().toLocaleTimeString(undefined, options)}</p>} */}
+                                            {/* {index === messages.length - 1 && (<p className='chat-time'>{formatTime(new Date(), options)}</p>)} */}
+                                            <p className='chat-time'>{times[index]}</p>
+                                        </ListItem>
+                                    ))}   
                                 </ReactScrollToBottom >
                             <Grid className="inputBox">
                                 <textarea onKeyPress={handleKeyPress} onChange={onChange} value={userMessage} id="chatInput" />

@@ -102,3 +102,10 @@
     height:70%;
     box-sizing: border-box;   
 }
+
+.chat-time {
+    font-size: 68%;
+    position: absolute;
+    bottom: -4%;
+    right: 3%;
+}
