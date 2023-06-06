@@ -178,7 +178,7 @@ function Edit(props){
 
     useEffect(() =>{
         axios.get(
-            `http://5.34.195.16/user/city-country/` , 
+            `http://5.34.195.16/user/cities-of-country/` , 
             {headers :{
                 'Content-Type' : 'application/json'
             }}
@@ -187,7 +187,6 @@ function Edit(props){
             console.log("THEREEEEEEE",response.data);
             setCountries(response.data.country_choices);
             console.log(countries);
-            setCities(response.data.city_choices);
         })
         .catch((error) => console.log(error));
     },[]);
