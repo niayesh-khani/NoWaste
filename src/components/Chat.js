@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Fab from '@mui/material/Fab';
 import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
 import './Chat.css'
@@ -25,15 +25,27 @@ const Chat = () => {
     const [open, setOpen] = React.useState(false);
     const [placement, setPlacement] = React.useState();
     // const client = new w3websocket();
+    const [times, setTimes] = useState([]);
+    const [userMessage, setUserMessage] = useState('');
+    const [messages, setMessages] = useState([]);
     const socket = useRef(null);
     const userId = localStorage.getItem('id');
     const restaurantId = localStorage.getItem('restaurantId');
+    let room_name = useState('');
+    // useEffect(()=> {
+        let userId_tmp = parseInt(userId);
+        let restaurantId_tmp = parseInt(restaurantId);
+        console.log("sue id is : "+ userId_tmp);
+        room_name = userId_tmp < restaurantId_tmp ? userId_tmp + restaurantId_tmp : restaurantId_tmp + userId_tmp;
+        console.log("res id is : "+ restaurantId_tmp);
+        console.log("room name is: "+room_name);
+    // }, []);
     socket.current = new WebSocket(
         // `ws://localhost:8000/ws/socket-server/board/?token=${localStorage.getItem(
         //     "access_token"
         // )}`
-        `http://5.34.195.16/chat/room/${userId}/${restaurantId}/`
-        
+        // `http://5.34.195.16/chat/room/${userId}/${restaurantId}/`
+        `ws://127.0.0.1:4000/chat/room/${room_name}`
     );
     socket.current.onopen = () => {
         console.log("WebSocket connection opened");
@@ -42,33 +54,30 @@ const Chat = () => {
                 type: "join_board_group",
                 // data: { board_id: boardId },
             })
-            );
-        };
+        );
+    };
 
     socket.current.onmessage = (event) => {
         const message = JSON.parse(event.data);
         console.log(message);
         // dnd_socket(message, message.type);
-        };
+    };
     
-        socket.current.onclose = () => {
+    socket.current.onclose = () => {
         console.log("WebSocket connection closed");
-        };
+    };
     const handleClick = (newPlacement) => (event) => {
         setAnchorEl(event.currentTarget);
         setOpen((prev) => placement !== newPlacement || !prev);
         setPlacement(newPlacement);
     };
 
-    const [userMessage, setUserMessage] = useState('');
-    const [messages, setMessages] = useState([]);
-
-    const onChange = (event) => {
+    const handleMessage = (event) => {
         setUserMessage(event.target.value);
-        
     };
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
+            event.preventDefault();
             sendMessage();
         }
     };
@@ -77,60 +86,45 @@ const Chat = () => {
         if (updatedMessage !== '') {
             setMessages((prevMessages) => [...prevMessages, updatedMessage]);
             setUserMessage('');
+            setTimes((prevTimes) => [...prevTimes, new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})]);
         }
     };
-        
-
-    const options = {
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: false
-    };
-    // const time = new Date().toLocaleTimeString(undefined, options);
-    function formatTime(date, options) {
-        const timeString = date.toLocaleTimeString(undefined, options);
-        const isPM = timeString.includes('PM');
-        let hour = Number(timeString.split(':')[0]);
-        if (isPM && hour < 12) {
-            hour += 12;
-        }
-        return timeString.replace(/^(\d{1,2}):/, hour.toString().padStart(2, '0') + ':');
-    }
-    const times = messages.map(() => formatTime(new Date(), options));
 
     return (
         <div>
             <Popper open={open} anchorEl={anchorEl} placement={placement} transition className='chat-poper'>
             {({ TransitionProps }) => (
-            <Fade {...TransitionProps} timeout={350}>
-                <List sx={{ width: '100%' }}>  
-                    <Paper className='chatPage'>
-                        <Grid className="chatContainer">
-                            
-                            <Grid className="chat-header">
-                                <h2 className='chat-title'>Support chat</h2>
-                            </Grid>
+                <Fade {...TransitionProps} timeout={350}>
+                    <List sx={{ width: '100%' }}>  
+                        <Paper className='chatPage'>
+                            <Grid className="chatContainer">
+                                <Grid className="chat-header">
+                                    <h2 className='chat-title'>Support chat</h2>
+                                </Grid>
                                 <ReactScrollToBottom className="chatBox">
-                                    {messages.map((msg, index) => (
-                                        <ListItem key={index} className='chat-listitem-right'>
-                                            <ListItemText primary={msg} style={{ wordWrap: 'break-word' }}/>
+                                        {messages.map((msg, index) => (
+                                            <ListItem key={index} className='chat-listitem-right'>
+                                                <ListItemText primary={msg} style={{ wordWrap: 'break-word' }}/>
                                             {/* {index === messages.length - 1 && <p className='chat-time'>{new Date().toLocaleTimeString(undefined, options)}</p>} */}
                                             {/* {index === messages.length - 1 && (<p className='chat-time'>{formatTime(new Date(), options)}</p>)} */}
                                             <p className='chat-time'>{times[index]}</p>
-                                        </ListItem>
-                                    ))}   
+                                            </ListItem>
+                                        ))}   
                                 </ReactScrollToBottom >
-                            <Grid className="inputBox">
-                                <textarea onKeyPress={handleKeyPress} onChange={onChange} value={userMessage} id="chatInput" />
-                                <Button disabled={userMessage.length < 1} onClick={sendMessage}><SendIcon className='chat-send'/></Button>
+                                <Grid className="inputBox">
+                                    <textarea onKeyPress={handleKeyPress} onChange={handleMessage} value={userMessage} id="chatInput" rows={1}/>
+                                    <Button 
+                                    // disabled={userMessage.length < 1} 
+                                        onClick={sendMessage}>
+                                        <SendIcon className='chat-send'/>
+                                    </Button>
+                                </Grid>
                             </Grid>
-                            
-                        </Grid>
-                    </Paper>
-                </List>
-            </Fade>
+                        </Paper>
+                    </List>
+                </Fade>
             )}
-        </Popper>
+            </Popper>
             <Fab
                 style={{ backgroundColor: "#ffa600", position: "fixed", left: "20px", bottom: "20px" }}
                 aria-label="add"
