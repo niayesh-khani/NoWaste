@@ -6,18 +6,33 @@ import Tooltip from '@mui/material/Tooltip';
 import Button from '@mui/material/Button';
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
 import GeoSearchField from './GeoSearch';
+import UserGeolocation from './UserGeolocation';
 
 
 function Map(){
     // const [lat, setLat] = useState(51.505);
     // const [lng, setLng] = useState(-0.09);
-    const [location, setLocation] = useState({});
+    const [location, setLocation] = useState(UserGeolocation());
     const RecenterAutomatically = ({lat, lng}) => {
         const map = useMap();
         useEffect(() => {
             map.setView([lat, lng]);
         }, [lat, lng]);
         return null;
+    }
+
+    const mapref = useRef();
+    const showMyLocation = () => {
+        if (!location.loaded && !location.error) {
+            mapref.current.leafletElement.flyto(
+                [location.coordinates.lat, location.coordinates.lng],
+                9,
+                {animate: true}
+            );
+        }
+        else {
+            alert(location.error.message);
+        }
     }
 
     const SetViewToCurrentLocation = ({location, setLocation}) => {
@@ -103,7 +118,7 @@ function Map(){
                 <Marker
                     draggable={draggable}
                     eventHandlers={eventHandlers}
-                    position={[location.lat, location.lng]}
+                    position={[location.coordinates.lat, location.coordinates.lng]}
                     ref={markerRef}>
                     <Popup minWidth={100}>
                         <Typography>You can save your location after clicking on submit button.</Typography>
@@ -133,7 +148,11 @@ function Map(){
                 <RecenterAutomatically lat={lat} lng={lng} /> */}
 
                 <SetViewToCurrentLocation location={location} setLocation={setLocation}/> 
-                {location.lat && location.lng && (<CustomizeMarker location={location} setLocation={setLocation} />)}
+                {location.loaded && !location.error && ((<CustomizeMarker location={location} setLocation={setLocation} />))}
+                
+                {/* {location.lat && location.lng && (<CustomizeMarker location={location} setLocation={setLocation} />)} */}
+            
+                <Button onClick={showMyLocation}>Locate ME</Button>
             </MapContainer>
         </div>
     );  
