@@ -31,15 +31,7 @@ const Chat = () => {
     const socket = useRef(null);
     const userId = localStorage.getItem('id');
     const restaurantId = localStorage.getItem('restaurantId');
-    let room_name = useState('');
-    // useEffect(()=> {
-        let userId_tmp = parseInt(userId);
-        let restaurantId_tmp = parseInt(restaurantId);
-        console.log("sue id is : "+ userId_tmp);
-        room_name = userId_tmp < restaurantId_tmp ? userId_tmp + restaurantId_tmp : restaurantId_tmp + userId_tmp;
-        console.log("res id is : "+ restaurantId_tmp);
-        console.log("room name is: "+room_name);
-    // }, []);
+    let room_name = userId < restaurantId ? userId + "_" + restaurantId: restaurantId + "_" + userId;
     socket.current = new WebSocket(
         // `ws://localhost:8000/ws/socket-server/board/?token=${localStorage.getItem(
         //     "access_token"
