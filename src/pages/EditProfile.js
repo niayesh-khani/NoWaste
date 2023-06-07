@@ -518,6 +518,15 @@ function Edit(props){
                                             InputLabelProps={{ shrink: true }}
                                             style={{width: '100%'}}
                                             onChange={handleCountry}
+                                            SelectProps={{
+                                                MenuProps: {
+                                                PaperProps: {
+                                                    style: {
+                                                      maxHeight: '238px', // Set your desired max height here
+                                                    },
+                                                },
+                                                },
+                                            }}
                                         > 
                                             <MenuItem value="select" disabled>
                                                 <em>Select Country</em>
@@ -537,6 +546,15 @@ function Edit(props){
                                             InputLabelProps={{ shrink: true }}
                                             style={{width: '100%'}}
                                             onChange={handleCity}
+                                            SelectProps={{
+                                                MenuProps: {
+                                                PaperProps: {
+                                                    style: {
+                                                      maxHeight: '238px', // Set your desired max height here
+                                                    },
+                                                },
+                                                },
+                                            }}
                                         >
                                             <MenuItem value="select" disabled>
                                                 <em>Select City</em>
