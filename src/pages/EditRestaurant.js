@@ -687,7 +687,7 @@ function EditRestaurant(props){
                                             select
                                         > 
                                             <MenuItem value="select" disabled>
-                                                <em>Select city</em>
+                                                <em>Select City</em>
                                             </MenuItem>
                                             {cities && cities.map((c, index) => (
                                                 <MenuItem style={{height: '40px' }} value={c}>{c}</MenuItem>
