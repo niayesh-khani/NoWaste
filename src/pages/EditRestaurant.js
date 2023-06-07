@@ -93,8 +93,8 @@ function EditRestaurant(props){
     const token = localStorage.getItem('token');
     const id = localStorage.getItem('id');
     const [data, setData] = useState('');
-    const [city, setCity] = useState(' ');
-    const [country, setCountry] = useState(' ');
+    const [city, setCity] = useState();
+    const [country, setCountry] = useState();
     const [address, setAddress] = useState(' ');
     const [password, setPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -130,6 +130,8 @@ function EditRestaurant(props){
     const [openEdit, setOpenEdit] = useState(false);
     const [openAdd, setOpenAdd] = useState(false);
     const [updateFoodPic, setUpdateFoodPic] = useState('');
+    const [countries, setCountries] = useState([]);
+    const [cities, setCities] = useState();
 
     const handleFullname = (e) => {
         setFullname(e.target.value);
@@ -182,6 +184,35 @@ function EditRestaurant(props){
         })
         .catch((error) => console.log(error));
     };
+
+    useEffect(() =>{
+        axios.get(
+            `http://5.34.195.16/user/all-countries/` , 
+            {headers :{
+                'Content-Type' : 'application/json'
+            }}
+        )
+        .then((response) => {
+            setCountries(response.data);
+            console.log("ALL countries are here!");
+        })
+        .catch((error) => console.log(error));
+    },[]);
+
+    useEffect(() =>{
+        const userData = {
+            name: country
+        };
+        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+        console.log(userData);
+        axios.post("http://5.34.195.16/user/cities-of-country/", userData, {headers:{"Content-Type" : "application/json"}})
+        .then((response) => {
+            console.log("Here to add cities");
+            console.log(response);
+            setCities(response.data);
+        })
+        .catch((error) => console.log(error));
+    },[country]);
 
     const handleCity = (e) => {
         setCity(e.target.value);
@@ -635,7 +666,15 @@ function EditRestaurant(props){
                                             value={country}
                                             style={{width: '100%'}}
                                             onChange={handleCountry}
-                                        /> 
+                                            select
+                                        >
+                                            <MenuItem value="select" disabled>
+                                                <em>Select Country</em>
+                                            </MenuItem>
+                                            {countries && countries.map((c, index) => (
+                                                <MenuItem style={{height: '40px' }} value={c}>{c}</MenuItem>
+                                            ))} 
+                                        </TextField>
                                     </Grid>
                                     <Grid item xs={12} sm={6} md={6}>
                                         <TextField
@@ -645,7 +684,15 @@ function EditRestaurant(props){
                                             value={city}
                                             style={{width: '100%'}}
                                             onChange={handleCity}
-                                        /> 
+                                            select
+                                        > 
+                                            <MenuItem value="select" disabled>
+                                                <em>Select city</em>
+                                            </MenuItem>
+                                            {cities && cities.map((c, index) => (
+                                                <MenuItem style={{height: '40px' }} value={c}>{c}</MenuItem>
+                                            ))}
+                                        </TextField>
                                     </Grid>
                                 </Grid>
                             </FormControl>
