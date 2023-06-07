@@ -93,7 +93,10 @@ const Food = (props) => {
     }
 
     const [remainder, setRemainder] = React.useState('');
-    setRemainder (food.remainder);
+    // setRemainder (food.remainder);
+    React.useEffect(() => {
+        setRemainder(food.remainder);
+    }, []);
     const handleRemoveFromCartClick = () => {
         axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ resid + "/" + userid + "/order/remove_from_order/" + food.id + "/",
         {headers: {
@@ -182,43 +185,6 @@ const Food = (props) => {
                         </Grid>
                     </Grid>
                 </CardActions>
-                {/* <CardActions> */}
-                    {/* <IconButton color="success" aria-label="add to shopping cart" onClick={handleAddToCartClick}>
-                        <AddShoppingCartIcon/>
-                    </IconButton>
-                    <TextField
-                        // type='number'
-                        // label="count"
-                        // variant="standard" 
-                        // onChange={handleChange}
-                        // value={count}
-                        id="standard-basic" label="Standard" variant="standard" size='smaller' sx={{ mx: 1, maxWidth: 50 }}
-                    />
-                    <IconButton sx={{ height: 2, width: 2 }} aria-label="add to shopping cart" onClick={handleRemoveFromCartClick}> */}
-                        {/* <RemoveShoppingCart sx={{fontSize: "small "}}/> */}
-                    {/* </IconButton>
-                </CardActions>
-                
-
-                {/* <CardActions disableSpacing> */}
-                        {/* <Rating name="read-only" value={rateValue} readOnly /> */}
-                        {/* <ExpandMore
-                            expand={expanded}
-                            onClick={handleExpandClick}
-                            aria-expanded={expanded}
-                            aria-label="show more"
-                        >
-                        <ExpandMoreIcon />
-                        </ExpandMore>
-                    </CardActions>
- */}
-                {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <CardContent>
-                        <Typography paragraph>
-                            Ingredients: {food.ingredients}
-                        </Typography>
-                    </CardContent>
-                </Collapse> */}
             </Card>
         </div>
     );
