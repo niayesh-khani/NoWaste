@@ -538,6 +538,9 @@ function Edit(props){
                                             style={{width: '100%'}}
                                             onChange={handleCity}
                                         >
+                                            <MenuItem value="select" disabled>
+                                                <em>Select city</em>
+                                            </MenuItem>
                                             {cities && cities.map((c, index) => (
                                                 <MenuItem style={{height: '40px' }} value={c}>{c}</MenuItem>
                                             ))}
