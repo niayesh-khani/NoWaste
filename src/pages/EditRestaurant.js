@@ -667,6 +667,15 @@ function EditRestaurant(props){
                                             style={{width: '100%'}}
                                             onChange={handleCountry}
                                             select
+                                            SelectProps={{
+                                                MenuProps: {
+                                                PaperProps: {
+                                                    style: {
+                                                      maxHeight: '290px', // Set your desired max height here
+                                                    },
+                                                },
+                                                },
+                                            }}
                                         >
                                             <MenuItem value="select" disabled>
                                                 <em>Select Country</em>
@@ -685,6 +694,15 @@ function EditRestaurant(props){
                                             style={{width: '100%'}}
                                             onChange={handleCity}
                                             select
+                                            SelectProps={{
+                                                MenuProps: {
+                                                PaperProps: {
+                                                    style: {
+                                                      maxHeight: '290px', // Set your desired max height here
+                                                    },
+                                                },
+                                                },
+                                            }}
                                         > 
                                             <MenuItem value="select" disabled>
                                                 <em>Select City</em>
