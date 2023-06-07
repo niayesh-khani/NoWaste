@@ -136,21 +136,6 @@ function Edit(props){
         
     };
 
-    const handleGetCities = () => {
-        console.log(country);
-        const userData = {
-            name: country
-        };
-        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-        console.log(userData);
-        axios.post("http://5.34.195.16/user/cities-of-country/", userData, {headers:{"Content-Type" : "application/json"}})
-        .then((response) => {
-            console.log("Here to add cities");
-            console.log(response);
-            setCities(response.data);
-        })
-        .catch((error) => console.log(error));
-    }
     const handleAddress = (e) => {
         setAddress(e.target.value);
     };
