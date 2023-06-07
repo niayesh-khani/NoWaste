@@ -520,7 +520,7 @@ function Edit(props){
                                             onChange={handleCountry}
                                         > 
                                             <MenuItem value="select" disabled>
-                                                <em>Select country</em>
+                                                <em>Select Country</em>
                                             </MenuItem>
                                             {countries && countries.map((c, index) => (
                                                 <MenuItem style={{height: '40px' }} value={c}>{c}</MenuItem>
@@ -539,7 +539,7 @@ function Edit(props){
                                             onChange={handleCity}
                                         >
                                             <MenuItem value="select" disabled>
-                                                <em>Select city</em>
+                                                <em>Select City</em>
                                             </MenuItem>
                                             {cities && cities.map((c, index) => (
                                                 <MenuItem style={{height: '40px' }} value={c}>{c}</MenuItem>
