@@ -30,6 +30,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { parse } from "date-fns";
 import Modal from '@mui/material/Modal';
 import Stack from '@mui/material/Stack';
+import Rating from '@mui/material/Rating';
 
 // const styles = theme => ({
 //     field: {
@@ -148,6 +149,7 @@ function DashboardTableHead(props) {
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
+
     
     return (
         <TableHead>
@@ -195,6 +197,7 @@ export default function Dashboard(){
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
     const [orderHistory, setOrderHistory] = useState();
+    const [value, setValue] = React.useState(0);
     function getRandomColor() {
         const colors = ['#FFA600', '#fff2bf', '#ffe480', '#a2332a' , '#E74C3C' , '#690000' , '#595959', '#3e3e3e' , '#C6C6C6', '#ABABAB', '#B9B9B9'];
         return colors[Math.floor(Math.random() * colors.length)];
@@ -477,6 +480,17 @@ export default function Dashboard(){
                     
                     <Box sx={style} className="dashboard-comment-box">
                     <h2 className='dashboard-title-show-comments'>Add Comment And Rate</h2>
+                    {/* <Rating size="large" precision={0.5} className='dashboard-rate'/> */}
+                    <Rating
+                        name="simple-controlled"
+                        precision={0.5}
+                        value={value}
+                        className='dashboard-rate'
+                        size="large"
+                        onChange={(event, newValue) => {
+                        setValue(newValue);
+                        }}
+                    />
                     <textarea className='dashboard-textarea' onChange={handleAddtext}></textarea>
                     <Stack direction="row" >
                         <Button onClick={() => setIsModalOpen(false)} variant="contained" className='dashboard-btn-close'>
