@@ -108,8 +108,6 @@ const RestaurantView = (props: Props) =>
     const token = localStorage.getItem('token');
     const [email, setEmail] = React.useState("");
     const {id} = useParams();
-    const token = localStorage.getItem('token');
-    localStorage.setItem('restaurantId', id);
     const [list_fav, setList_Fav] = useState(localStorage.getItem('list_of_favorites_res'))
 
     useEffect(() => {
@@ -177,7 +175,7 @@ const RestaurantView = (props: Props) =>
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
                 "Access-Control-Allow-Methods" : "PUT,PATCH",
-                // 'Authorization' : "Token " + token.slice(1,-1)   
+                'Authorization' : "Token " + token.slice(1,-1)   
             }})
             .then((response) => {
                 console.log(response);

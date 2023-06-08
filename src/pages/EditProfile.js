@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
+import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import './EditProfile.css';
 import Header from '../components/Header';
 import './Login-Signup.css';
@@ -87,6 +87,8 @@ function Edit(props){
     const [openNetwork, setOpenNetwork] = useState(false);
     const [openWrongPass, setOpenWrongPass] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
+    const [countries, setCountries] = useState([]);
+    const [cities, setCities] = useState();
 
     const handleFullname = (e) => {
         setFullname(e.target.value);
@@ -131,7 +133,9 @@ function Edit(props){
     };
     const handleCountry = (e) => {
         setCountry(e.target.value);
+        
     };
+
     const handleAddress = (e) => {
         setAddress(e.target.value);
     };
@@ -173,6 +177,34 @@ function Edit(props){
         })
         .catch((error) => console.log(error));
     },[]);
+
+    useEffect(() =>{
+        axios.get(
+            `http://5.34.195.16/user/all-countries/` , 
+            {headers :{
+                'Content-Type' : 'application/json'
+            }}
+        )
+        .then((response) => {
+            setCountries(response.data);
+            console.log("ALL countries are here!");
+        })
+        .catch((error) => console.log(error));
+    },[]);
+    useEffect(() =>{
+        const userData = {
+            name: country
+        };
+        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+        console.log(userData);
+        axios.post("http://5.34.195.16/user/cities-of-country/", userData, {headers:{"Content-Type" : "application/json"}})
+        .then((response) => {
+            console.log("Here to add cities");
+            console.log(response);
+            setCities(response.data);
+        })
+        .catch((error) => console.log(error));
+    },[country]);
     
     useEffect(() => {
         setFullname(data.name);
@@ -198,9 +230,6 @@ function Edit(props){
     }, [data.address]);
 
     const history = useHistory();
-    const handleChange = () => {
-        history.push('./change-password')
-    };
     const handleCloseNetwork = () => {
         setOpenNetwork(false);
     };
@@ -461,7 +490,7 @@ function Edit(props){
                                     </Grid>
                                     <Grid item xs={12} sm={6} md={6} style={{paddingTop: '0'}}>
                                         <LocalizationProvider dateAdapter={AdapterDayjs} style={{width: '150%'}}
-                                         InputLabelProps={{ shrink: true }}
+                                        InputLabelProps={{ shrink: true }}
                                         >
                                             <DemoContainer components={['DatePicker']} >
                                                 <DatePicker
@@ -481,23 +510,59 @@ function Edit(props){
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6} md={6}>
                                         <TextField
+                                            select
                                             label="Country"
                                             variant="outlined"
                                             color="secondary"
                                             value={country}
+                                            InputLabelProps={{ shrink: true }}
                                             style={{width: '100%'}}
                                             onChange={handleCountry}
-                                        /> 
+                                            SelectProps={{
+                                                MenuProps: {
+                                                PaperProps: {
+                                                    style: {
+                                                      maxHeight: '238px', // Set your desired max height here
+                                                    },
+                                                },
+                                                },
+                                            }}
+                                        > 
+                                            <MenuItem value="select" disabled>
+                                                <em>Select Country</em>
+                                            </MenuItem>
+                                            {countries && countries.map((c, index) => (
+                                                <MenuItem style={{height: '40px' }} value={c}>{c}</MenuItem>
+                                            ))}
+                                        </TextField>
                                     </Grid>
                                     <Grid item xs={12} sm={6} md={6}>
                                         <TextField
+                                            select
                                             label="City"
                                             variant="outlined"
                                             color="secondary"
                                             value={city}
+                                            InputLabelProps={{ shrink: true }}
                                             style={{width: '100%'}}
                                             onChange={handleCity}
-                                        /> 
+                                            SelectProps={{
+                                                MenuProps: {
+                                                PaperProps: {
+                                                    style: {
+                                                      maxHeight: '238px', // Set your desired max height here
+                                                    },
+                                                },
+                                                },
+                                            }}
+                                        >
+                                            <MenuItem value="select" disabled>
+                                                <em>Select City</em>
+                                            </MenuItem>
+                                            {cities && cities.map((c, index) => (
+                                                <MenuItem style={{height: '40px' }} value={c}>{c}</MenuItem>
+                                            ))}
+                                        </TextField>
                                     </Grid>
                                 </Grid>
                             </FormControl>

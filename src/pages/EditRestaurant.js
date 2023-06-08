@@ -21,6 +21,7 @@ import { Avatar, Box, Button, createTheme, DialogContent, DialogTitle, Divider, 
 import ClearIcon from '@mui/icons-material/Clear';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import Chat from "../components/Chat";
 
 const styles = theme => ({
     field: {
@@ -93,8 +94,8 @@ function EditRestaurant(props){
     const token = localStorage.getItem('token');
     const id = localStorage.getItem('id');
     const [data, setData] = useState('');
-    const [city, setCity] = useState(' ');
-    const [country, setCountry] = useState(' ');
+    const [city, setCity] = useState();
+    const [country, setCountry] = useState();
     const [address, setAddress] = useState(' ');
     const [password, setPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -122,13 +123,16 @@ function EditRestaurant(props){
     const [foodPicture, setFoodPicture] = useState('');
     const [foodIngredient, setFoodIngredient] = useState('');
     const [foodIngredientError, setFoodIngredientError] = useState(false);
-    const [foodType, setFoodType] = useState('');
+    const [remainFood, setRemainFood] = useState(0);
+    const [remainFoodError, setRemainFoodError] = useState(false);
     const [foodPrice, setFoodPrice] = useState(0);
     const [foodPriceError, setFoodPriceError] = useState(false);
     const [menu, setMenu] = useState([]);
     const [openEdit, setOpenEdit] = useState(false);
     const [openAdd, setOpenAdd] = useState(false);
     const [updateFoodPic, setUpdateFoodPic] = useState('');
+    const [countries, setCountries] = useState([]);
+    const [cities, setCities] = useState();
 
     const handleFullname = (e) => {
         setFullname(e.target.value);
@@ -171,8 +175,8 @@ function EditRestaurant(props){
             {headers :{
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
-                "Access-Control-Allow-Methods" : "GET,POST"
-                // 'Authorization' : "Token " + token.slice(1,-1)
+                "Access-Control-Allow-Methods" : "GET,POST",
+                'Authorization' : "Token " + token.slice(1,-1)
             }}
         )
         .then((response) => {
@@ -181,6 +185,35 @@ function EditRestaurant(props){
         })
         .catch((error) => console.log(error));
     };
+
+    useEffect(() =>{
+        axios.get(
+            `http://5.34.195.16/user/all-countries/` , 
+            {headers :{
+                'Content-Type' : 'application/json'
+            }}
+        )
+        .then((response) => {
+            setCountries(response.data);
+            console.log("ALL countries are here!");
+        })
+        .catch((error) => console.log(error));
+    },[]);
+
+    useEffect(() =>{
+        const userData = {
+            name: country
+        };
+        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+        console.log(userData);
+        axios.post("http://5.34.195.16/user/cities-of-country/", userData, {headers:{"Content-Type" : "application/json"}})
+        .then((response) => {
+            console.log("Here to add cities");
+            console.log(response);
+            setCities(response.data);
+        })
+        .catch((error) => console.log(error));
+    },[country]);
 
     const handleCity = (e) => {
         setCity(e.target.value);
@@ -239,8 +272,8 @@ function EditRestaurant(props){
     }, [food.ingredients]);
 
     useEffect(() => {
-        setFoodType(food.type);
-    }, [food.type]);
+        setRemainFood(food.remainder);
+    }, [food.remainder]);
     useEffect(() => {
         setFoodPicture(food.food_pic);
     }, [food.food_pic]);
@@ -303,7 +336,7 @@ function EditRestaurant(props){
         setFoodName('');
         setFoodIngredient('');
         setFoodPrice('');
-        setFoodType('');
+        setRemainFood('');
         setFoodPicture('');
     }, [openAdd]);
     const handleFoodName = (e) => {
@@ -324,8 +357,13 @@ function EditRestaurant(props){
         }
     };
 
-    const handleFoodType = (e) => {
-        setFoodType(e.target.value);
+    const handleRemain = (e) => {
+        setRemainFood(e.target.value);
+        if(!/^[0-9]+?$/.test(e.target.value) || e.target.value.trim() === ''){
+            setRemainFoodError(true);
+        } else {
+            setRemainFoodError(false);
+        }
     };
 
     const handleFoodPrice = (e) => {
@@ -433,7 +471,8 @@ function EditRestaurant(props){
             price: foodPrice, 
             ingredients: foodIngredient, 
             food_pic: foodPicture,
-            type: foodType, 
+            // type: foodType, 
+            remainder: remainFood,
             restaurant_id: idR
         }
         console.log('im here to edit');
@@ -457,11 +496,12 @@ function EditRestaurant(props){
             price: foodPrice,
             ingredients: foodIngredient,
             food_pic: foodPicture,
-            type: foodType,
+            // type: foodType,
+            remainder: remainFood,
             restaurant_id: idR
         };
         console.log(userData);
-        axios.post(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/`, userData, {headers:{"Content-Type" : "application/json"}})
+        axios.post(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/`, userData, {headers:{"Content-Type" : "application/json", 'Authorization' : "Token " + token.slice(1,-1)}})
         .then((response) => {
             console.log(response);
             window.location.reload(false);
@@ -627,7 +667,24 @@ function EditRestaurant(props){
                                             value={country}
                                             style={{width: '100%'}}
                                             onChange={handleCountry}
-                                        /> 
+                                            select
+                                            SelectProps={{
+                                                MenuProps: {
+                                                PaperProps: {
+                                                    style: {
+                                                      maxHeight: '290px', // Set your desired max height here
+                                                    },
+                                                },
+                                                },
+                                            }}
+                                        >
+                                            <MenuItem value="select" disabled>
+                                                <em>Select Country</em>
+                                            </MenuItem>
+                                            {countries && countries.map((c, index) => (
+                                                <MenuItem style={{height: '40px' }} value={c}>{c}</MenuItem>
+                                            ))} 
+                                        </TextField>
                                     </Grid>
                                     <Grid item xs={12} sm={6} md={6}>
                                         <TextField
@@ -637,7 +694,24 @@ function EditRestaurant(props){
                                             value={city}
                                             style={{width: '100%'}}
                                             onChange={handleCity}
-                                        /> 
+                                            select
+                                            SelectProps={{
+                                                MenuProps: {
+                                                PaperProps: {
+                                                    style: {
+                                                      maxHeight: '290px', // Set your desired max height here
+                                                    },
+                                                },
+                                                },
+                                            }}
+                                        > 
+                                            <MenuItem value="select" disabled>
+                                                <em>Select City</em>
+                                            </MenuItem>
+                                            {cities && cities.map((c, index) => (
+                                                <MenuItem style={{height: '40px' }} value={c}>{c}</MenuItem>
+                                            ))}
+                                        </TextField>
                                     </Grid>
                                 </Grid>
                             </FormControl>
@@ -733,6 +807,24 @@ function EditRestaurant(props){
                                                 <Grid container spacing={2}>
                                                     <Grid item lg={6} md={6} sm={12}>
                                                         <TextField
+                                                            label="Remain amount"
+                                                            variant="outlined"
+                                                            color="secondary"
+                                                            value={remainFood}
+                                                            required
+                                                            style={{width: '100%'}}
+                                                            onChange={handleRemain}
+                                                            error={remainFoodError}
+                                                            helperText={
+                                                                <div className="edit-error-restaurant">
+                                                                    {remainFoodError && "Remain amount must be number."}
+                                                                </div>
+                                                            }
+                                                            InputLabelProps={{ shrink: true }}
+                                                        >
+
+                                                        </TextField>
+                                                        {/* <TextField
                                                             select
                                                             label="Type"
                                                             variant="outlined"
@@ -754,7 +846,7 @@ function EditRestaurant(props){
                                                             <MenuItem value="Drink">
                                                                 Drink
                                                             </MenuItem>
-                                                        </TextField>
+                                                        </TextField> */}
                                                     </Grid>
                                                     <Grid item lg={6} md={6} sm={12}>
                                                         <TextField
@@ -898,6 +990,24 @@ function EditRestaurant(props){
                                                             <Grid container spacing={2}>
                                                                 <Grid item lg={6} md={6} sm={12}>
                                                                     <TextField
+                                                                        label="Remain amount"
+                                                                        variant="outlined"
+                                                                        color="secondary"
+                                                                        value={remainFood}
+                                                                        required
+                                                                        onChange={handleRemain}
+                                                                        error={remainFoodError}
+                                                                        helperText={
+                                                                            <div className="edit-error-restaurant">
+                                                                                {remainFoodError && "Remain amount must be number."}
+                                                                            </div>
+                                                                        }
+                                                                        InputLabelProps={{ shrink: true }}
+                                                                    >
+                                                                    </TextField>
+                                                                </Grid>
+                                                                {/* <Grid item lg={6} md={6} sm={12}>
+                                                                    <TextField
                                                                         select
                                                                         label="Type"
                                                                         variant="outlined"
@@ -920,7 +1030,7 @@ function EditRestaurant(props){
                                                                             Drink
                                                                         </MenuItem>
                                                                     </TextField>
-                                                                </Grid>
+                                                                </Grid> */}
                                                                 <Grid item lg={6} md={6} sm={12}>
                                                                     <TextField
                                                                         label="Price"
@@ -1022,6 +1132,7 @@ function EditRestaurant(props){
                         </Box>
                     </Grid>
                 </Grid> 
+                <Chat />
                 <Footer/>
             </div>
         </ThemeProvider>
