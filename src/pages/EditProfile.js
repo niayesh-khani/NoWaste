@@ -603,7 +603,7 @@ function Edit(props){
                                         }}
         
                                     />
-                                    <Modal open={showMap}>
+                                    <Modal open={showMap} onClose={handleCloseMap}>
                                         <Map/>
                                     </Modal>
                                 </FormControl>
