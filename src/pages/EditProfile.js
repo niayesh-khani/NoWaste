@@ -579,7 +579,7 @@ function Edit(props){
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position="end">
-                                                <IconButton title="Select your address" style={{marginLeft:"28%"}}>
+                                                <IconButton title="choose location" style={{marginLeft:"28%"}}>
                                                     <TravelExploreIcon />
                                                 </IconButton>
                                             </InputAdornment>
