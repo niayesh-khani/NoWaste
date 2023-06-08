@@ -20,6 +20,7 @@ import EditRestaurant from './pages/EditRestaurant';
 import HomepageRestaurant from './pages/HomepageRestaurant';
 import EditProfileManager from './pages/EditProfileManager';
 import Map from './components/Map/Map'
+import Dashboard from './pages/Dashboard';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -83,6 +84,9 @@ function App() {
           </Route>
           <Route path="/map">
             <Map />
+          </Route>
+          <Route path="/dashboard">
+            <Dashboard />
           </Route>
       </Router>
     //   )}

@@ -28,6 +28,7 @@ import axios from "axios";
 
 const Header = React.memo(() => {
     const [auth, setAuth] = React.useState(true);
+    const role = JSON.parse(localStorage.getItem("role"));
     const history = useHistory();
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
@@ -81,6 +82,14 @@ const Header = React.memo(() => {
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
             setAnchorEl(event.currentTarget);
         };
+
+    const handleDashboard = () => {
+        setAnchorEl(null);
+        if (role === "customer")
+            history.push("/dashboard");
+        else
+            history.push("/dashboard-restaurant");
+    }
     
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -275,9 +284,9 @@ const Header = React.memo(() => {
                                     <Item>
                                         <button onClick={() => handleAddAmount(30)} className='add-amount-header'>30$</button>
                                     </Item> */}
-                                    <Button onClick={() => handleAddAmount(10)} className='amount-header'><Item className='item-header'>10$</Item></Button>
-                                    <Button onClick={() => handleAddAmount(20)} className='amount-header'><Item className='item-header'>20$</Item></Button>
-                                    <Button onClick={() => handleAddAmount(30)} className='amount-header'><Item className='item-header'>30$</Item></Button> 
+                                    <Button onClick={() => handleAddAmount(10)} className='amount-header'><Item className='item-header'>70$</Item></Button>
+                                    <Button onClick={() => handleAddAmount(20)} className='amount-header'><Item className='item-header'>80$</Item></Button>
+                                    <Button onClick={() => handleAddAmount(30)} className='amount-header'><Item className='item-header'>90$</Item></Button> 
                                     
                                 
                                 </Stack>
@@ -294,7 +303,7 @@ const Header = React.memo(() => {
                                 
                             </Box>
                         </Modal>
-                        <MenuItem onClick={handleClose} className='profile-font'>
+                        <MenuItem onClick={handleDashboard} className='profile-font'>
                         <DashboardIcon className='profile-icons'/> Dashboard
                         </MenuItem>
                         <MenuItem onClick={handleClickLogOut} className='profile-font'>

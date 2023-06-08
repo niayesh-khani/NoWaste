@@ -8,6 +8,8 @@ import { createTheme } from '@material-ui/core';
 import { Avatar, Grid, ThemeProvider } from '@mui/material';
 import { deepOrange, deepPurple,grey } from '@mui/material/colors';
 import Stack from '@mui/material/Stack';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 const theme = createTheme({
     palette: {
@@ -35,6 +37,41 @@ export default function ShowComments() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [comments, setComments] = useState([]); 
+    const id=localStorage.getItem("restaurantId");
+
+    const userId = localStorage.getItem("id");
+    const [text, setText] = useState('');
+    const handleAddtext = (e) => {
+        setText(e.target.value);
+    }
+    const handleAdd = (e) => {
+        e.preventDefault();
+        const userData = {
+            text:text
+        }
+        axios.post(`http://5.34.195.16/restaurant/comment/user_id/${userId}/restaurant_id/${id}`, userData, {headers:{"Content-Type" : "application/json"}})
+        .then((response) => {
+            console.log(response);
+            window.location.reload(false);
+        })
+        .catch((error) => {
+            if (error.response) {
+                console.log(error.response);
+            } 
+        });    
+    }
+    useEffect(()=>{
+        axios.get(`http://5.34.195.16/restaurant/comment/restaurant_id/${id}`)
+            .then((response) => {
+                setComments(response.data);
+                console.log("salam")
+                console.log(response.data);
+            })
+            .catch((error) => {
+            console.log(error.response);
+            });
+    },[])
 
     return (
         <ThemeProvider theme={theme}>
@@ -54,39 +91,30 @@ export default function ShowComments() {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
+                    
                     <Box sx={style} className="comment-box">
-                        {/* <Avatar></Avatar> */}
                         <h2 className='title-show-comments'>Users Comments</h2>
-                        <Stack direction="row" spacing={2} >
-                            <Avatar sx={{ bgcolor: grey[900] }} className='comment-avatar'>A</Avatar>
-                            <Stack direction="column" spacing={2} >
-                                <Typography variant="h6" className='comment-stack'>
-                                    Mohammad
-                                </Typography>
-                                <h8 className='comment-date'>2020-04-03</h8>
-                            </Stack>
-                            
-                        </Stack>
-                        <Typography  className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
-                            It was very delicious. Thank you!
-                        </Typography>
 
-                        <hr className='comment-hr'></hr>
-                        <Stack direction="row" spacing={2} >
-                            <Avatar sx={{ bgcolor: grey[900] }} className='comment-avatar'>N</Avatar>
-                            <Stack direction="column" spacing={2} >
-                                <Typography variant="h6" className='comment-stack'>
-                                    Negin
-                                </Typography>
-                                <h8 className='comment-date'>2016-02-11</h8>
-                            </Stack>
-                            
-                        </Stack>
+                        <div className="comment-details-div">
                         
-                        <Typography className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
-                            Not bad. I suggest.
-                        </Typography>
-                        <hr className='comment-hr'></hr>
+                            {comments && comments.map((res,index)=>(
+                                <div>
+                                    <Stack direction="row" spacing={2} >
+                                        <Avatar sx={{ bgcolor: grey[900] }} className='comment-avatar'>{res.writer_username[0]}</Avatar>
+                                        <Stack direction="column" spacing={2} >
+                                            <Typography variant="h6" className='comment-stack'>
+                                                {res.writer_username}
+                                            </Typography>
+                                            <h8 className='comment-date'>{res.created_at_date}</h8>
+                                        </Stack>
+                                    </Stack>
+                                    <Typography className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
+                                        {res.text}
+                                    </Typography>
+                                    <hr className='comment-hr'></hr>
+                                </div>
+                            ))}
+                        </div>
                         <Button 
                             onClick={handleClose} 
                             variant="contained"
@@ -94,7 +122,10 @@ export default function ShowComments() {
                         >
                             Close
                         </Button>
+                        <textarea onChange={handleAddtext}></textarea>
+                        <Button onClick={handleAdd}>submit</Button>
                     </Box>
+                    
                 </Modal>
             </div>
         </ThemeProvider>

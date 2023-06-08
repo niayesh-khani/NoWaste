@@ -29,6 +29,7 @@
     "leaflet": "^1.6.0",
     "leaflet-geosearch": "^3.8.0",
     "leaflet.locatecontrol": "^0.79.0",
+    "mapir-react-component": "^2.0.7",
     "material-ui-phone-number": "^3.0.0",
     "mdb-react-ui-kit": "^6.0.0",
     "react": "^17.0.1",
