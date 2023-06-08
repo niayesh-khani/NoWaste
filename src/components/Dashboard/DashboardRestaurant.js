@@ -75,7 +75,7 @@ const headCells = [
         label: 'Status'
     },
 ];
-function createData(name, customer_name, customer_email, order, price, date, status, restaurant_id) {
+function createData(name, customer_name, customer_email, order, price, date, status, restaurant_id, order_id) {
     return {
         name,
         customer_name,
@@ -84,7 +84,8 @@ function createData(name, customer_name, customer_email, order, price, date, sta
         price,
         date,
         status,
-        restaurant_id
+        restaurant_id,
+        order_id
     };
 }  
 let rows = [
@@ -176,12 +177,10 @@ export default function DashboardRestaurant(){
     const [orderBy, setOrderBy] = useState('Price');
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [page, setPage] =  useState(0);
-    const [orderid, setOrderid] = useState();
     const history = useHistory();
     const [color, setColor] = useState(localStorage.getItem('avatarColor') || getRandomColor());
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
-    const [restaurantId, setRestaurantId] = useState('');
     const [orderHistory, setOrderHistory] = useState();
     function getRandomColor() {
         const colors = ['#FFA600', '#fff2bf', '#ffe480', '#a2332a' , '#E74C3C' , '#690000' , '#595959', '#3e3e3e' , '#C6C6C6', '#ABABAB', '#B9B9B9'];
@@ -215,8 +214,6 @@ export default function DashboardRestaurant(){
 
 
                 let restaurant_name = orderHistory[i].restaurantDetails.name;
-                setOrderid(orderHistory[i].restaurantDetails.id);
-                setRestaurantId(orderHistory[i].restaurantDetails.restaurant_id);
                 // let customer_name = orderHistory[i].
                 // let customer_email = orderHistory[i].
                 let order = "";
@@ -231,7 +228,8 @@ export default function DashboardRestaurant(){
                 let formatted_date = date.toISOString().split('T')[0];
                 let status = orderHistory[i].status;
                 let restaurant_id = orderHistory[i].restaurantDetails.id;
-                const new_row = createData(restaurant_name, "Setareh", "set@gmail.com", order, price, formatted_date, status, restaurant_id)
+                let order_id = orderHistory[i].orderDetails.id;
+                const new_row = createData(restaurant_name, "Setareh", "set@gmail.com", order, price, formatted_date, status, restaurant_id, order_id);
                 rows = [...rows, new_row];                
             }
         }
@@ -266,15 +264,13 @@ export default function DashboardRestaurant(){
     const getRowColor = (status) => {
         if(status === "Completed") {
             return "rgba(65, 156, 86, 0.5)";
-        } else if(status === "In progress") {
+        } else if(status === "InProgress") {
             return "rgba(242, 223, 51, 0.4)";
-        } else if(status === "Ordered") {
+        } else if(status === "notOrdered") {
             return "rgba(245, 132, 12, 0.4)"
-        } else if(status === "Canceled"){
-            return "rgba(240, 44, 26, 0.5)";
-        } else {
+        } else if(status === "Cancled"){
             return "rgba(176, 173, 169, 0.5)";
-        }
+        } 
     };
     
     const showApproveOrDeleteIcon = (status) => {
@@ -306,12 +302,11 @@ export default function DashboardRestaurant(){
         p: 4,
     };
 
-    const handleCancleOrdering = (e) => {
-        e.preventDefault();
+    const handleCancleOrdering = (Oid, Rid) => {
         const userData = {
-            status:"Cancle"
+            status:"Cancled"
         }
-        axios.post(`http://5.34.195.16/restaurant/restaurant_view/${restaurantId}/${id}/order/${orderid}`, userData,
+        axios.post(`http://5.34.195.16/restaurant/restaurant_view/${Rid}/${id}/order/${Oid}`, userData,
         {headers :{
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -329,12 +324,11 @@ export default function DashboardRestaurant(){
         }); 
     }
 
-    const handleAcceptOrdering = (e) => {
-        e.preventDefault();
+    const handleAcceptOrdering = (Oid, Rid) => {
         const userData = {
             status:"InProgress"
         }
-        axios.post(`http://5.34.195.16/restaurant/restaurant_view/${restaurantId}/${id}/order/${orderid}`, userData,
+        axios.post(`http://5.34.195.16/restaurant/restaurant_view/${Rid}/${id}/order/${Oid}`, userData,
         {headers :{
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -412,10 +406,10 @@ export default function DashboardRestaurant(){
                                                         {showApproveOrDeleteIcon && 
                                                             <span>
 
-                                                                <IconButton onClick={handleAcceptOrdering} title="Approve order">
+                                                                <IconButton onClick={() => handleAcceptOrdering(row.order_id, row.restaurant_id)} title="Approve order">
                                                                     <CheckIcon style={{color: 'green'}} />
                                                                 </IconButton>
-                                                                <IconButton onClick={handleCancleOrdering} title="Delete order">
+                                                                <IconButton onClick={() => handleCancleOrdering(row.order_id, row.restaurant_id)} title="Delete order">
                                                                     <ClearIcon style={{color: 'red'}} /> 
                                                                 </IconButton>
                                                             </span>
