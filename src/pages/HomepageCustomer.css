@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 .filter-hompage-customer {
     width: auto;
     margin: auto;
@@ -6,16 +8,13 @@
     justify-content: space-between;
     align-items: center;
     /* text-align: left; */
-    border-radius: 13px;
+    border-radius: 10px;
     border: 1px solid rgb(202, 196, 195);
     flex-direction: column;
     background-color: rgba(117, 115, 111, 0.05);
 }
 .hr-tag {
     width: 90%;
-    /* display: flex;
-    justify-content: flex-start;
-    align-items: start; */
     margin: 0 !important;
 }
 .grid-homepage-customer {
@@ -31,6 +30,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: 90% !important;
+    font-weight: bold !important;
+    font-family: 'Montserrat', sans-serif !important;
 }
 
 .range-homepage-customer {
@@ -62,6 +64,7 @@
 
 #details {
     font-size: 12px !important;
+    font-family: 'Montserrat', sans-serif !important;
     margin-top: -10px !important;
     margin-left: -10px !important;
     margin-bottom: -25px !important;
@@ -95,3 +98,4 @@
     display: flex;
     background-color: rgba(117, 115, 111, 0.05) !important;
 }
+

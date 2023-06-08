@@ -34,29 +34,29 @@ import DiscountIcon from '@mui/icons-material/Discount';
 import StarRateIcon from '@mui/icons-material/StarRate';
 
 
-const RestaurantCard = () => {
+const RestaurantCard = (props) => {
     const history = useHistory();
     const [rateValue, setRateValue] = React.useState(2.5);
-    const userId = localStorage.getItem("id");
     const [discount, setDiscount] = useState(20);
-    const handleclick = () => {
+    // localStorage.setItem('restaurantId', props.id);
 
-    }
+
 
     const handleShow = () => {
-        history.push("http://5.34.195.16/restaurant/restaurant_view/" + userId);
+        history.push(`restaurant-view/${props.id}/`);
     }
-
+    console.log(props.isSingleResult);
     return ( 
         <div>
-        <Card className= 'homepage-custumer-card-restaurant' onClick={handleShow}>
+        {/* <Card className= 'homepage-custumer-card-restaurant' onClick={handleShow}> */}
+        <Card className={`homepage-custumer-card-restaurant${props.isSingleResult ? '-single' : ''}`} onClick={handleShow}>
             <CardActionArea>
             <div style={{ position: 'relative' }}>
-
                 <CardMedia
                     component="img"
-                    sx={{ height: 140 }}
-                    image="/mohsen.jpg"
+                    sx={{ height: 140, width: '100%', objectFit: 'cover' }}
+                    // image="/mohsen.jpg"        
+                    image={props.restaurant_image}  
                     // title={food.Type}
                 />
                 <div style={{
@@ -67,19 +67,21 @@ const RestaurantCard = () => {
                 color: 'white',
                 padding: '5px'
                 }}>
-                    {discount + "%"}
+                    {/* {discount + "%"} */}
+                    {props.discount *100 + "%"}
                 </div>
                 </div>
-                <CardContent sx={{ height: 150}}>
+                <CardContent sx={{ height: 130}}>
                     <Grid>
-                        <Typography gutterBottom className='restaurant-name-hemepage-customer'>Piano Restaurant
-                            <Typography style={{marginLeft: '75%', marginTop: '-11%', fontSize: '1.1em'}}>
-                                {rateValue}
-                                <StarRateIcon style={{ color: '#faaf00', marginTop: '-11%'}} />
+                        <Typography gutterBottom className='restaurant-name-hemepage-customer'>{props.name}
+                            <Typography style={{marginLeft: '75%', marginTop: '-10%', fontSize: '1em'}}>
+                                {/* {rateValue} */}
+                                {props.rate}
+                                <StarRateIcon className='startIcon-homepage' style={{ color: '#faaf00', marginTop: "-11%"}} />
                             </Typography>
                         </Typography>
                     </Grid>
-                    <Typography variant="description-homepage-customer" color="text.secondary">This is a best restaurant in Narmak that you can order everything you want.</Typography>
+                    <Typography className="description-homepage-customer" color="text.secondary">{props.description}</Typography> 
                 </CardContent>
                 </CardActionArea>
             <CardActions>

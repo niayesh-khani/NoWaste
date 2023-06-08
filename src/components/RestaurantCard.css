@@ -1,5 +1,5 @@
 .homepage-custumer-card-restaurant {
-    width: 35%;
+    width: 90%;
     height: auto;
     position: relative !important;
     margin-bottom: 10%;
@@ -7,7 +7,7 @@
     margin-left: 5%;
     margin-right: 50%;
     overflow: hidden;
-    border-radius: 2 !important;
+    border-radius: 5 !important;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px !important;
   }
 .homepage-custumer-card-restaurant:hover{
@@ -16,7 +16,7 @@
 
 }
 .restaurant-name-hemepage-customer {
-    font-size: 1.02em !important;
+    font-size: 1.2em !important;
     font-weight: bolder !important;
     font-family: 'Montserrat', sans-serif !important;
 }
@@ -43,8 +43,17 @@ h4
   }
 
 .description-homepage-customer {
-  display: flex;
-  position: relative;
+  display: flex !important;
+  position: relative !important;
+  margin-top: 3% !important;
+  font-size: medium !important;
 }
+
+.homepage-custumer-card-restaurant-single {
+  width: 270px;
+  margin-left: 45px !important;
+  margin-top: 13px !important;
+}
+
 
 

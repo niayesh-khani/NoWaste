@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as MU from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import './Restaurant-View.css';
@@ -174,74 +175,97 @@ const HomepageCustomer = () => {
     const [sort, setSort] = React.useState('');
     const [search, setSearch] = useState('');                 
     const minDistance = 1;
+    const token = localStorage.getItem('token');
     const classes = useStyles();
+    const [type, setType] = useState("");
 
-    const [nameList, setNameList] = useState([]);       //
-    const [mysearch, setMySearch] = useState('');                 
-    useEffect(() => {
-        if (mysearch) {
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?search=${mysearch}`)
+    const [restaurant, setRestaurant] = useState([]); 
+    useEffect(()=>{
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
             .then((response) => {
-            console.log(response.data);
-            setNameList(response.data);
+            setRestaurant(response.data);
             })
             .catch((error) => {
             console.log(error.response);
             });
+    },[])
+    
+
+    const handleClickSearch = (e) => {
+        setMySearch(e.target.value);
+    };
+    
+    const [mysearch, setMySearch] = useState('');                 
+    useEffect(() => {
+        if (mysearch) {
+            axios.get(`http://5.34.195.16/restaurant/restaurant-search/?search=${mysearch}`,
+            {headers: {
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "PUT,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)   
+            }})
+                .then((response) => {
+                    console.log(response.data);
+                    setRestaurant(response.data);
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
+        }
+        else {
+            axios.get(`http://5.34.195.16/restaurant/restaurant-search/`,
+            {headers: {
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "PUT,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)   
+            }})
+                .then((response) => {
+                    console.log(response.data);
+                    setRestaurant(response.data);
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
         }
     }, [mysearch]);
-    const handleClickSearch = (e) => {                   //
-        setMySearch(e.target.value);
-        console.log('search: ');
-    };
+    
+    // const handleKeyPress = (e) => {
+    //     if (e.key === 'Enter') {
+    //         // handleClickSearch();
+    //         e.preventDefault();
+    //         setMySearch(e.target.value);
+    //         }
+    //     };
 
-    const handleClickFilterRate = () => {
+
+    const handleClickApplyFilter = () => {
         const fromR = valueR[0].toFixed(1);
         const toR = valueR[1].toFixed(1);
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?rate__gt=${fromR}&rate__lt=${toR}`)
-            .then((response) => {
-                
-                console.log(response.data);
-                setNameList(response.data);
-            })
-            .catch((error) => {
-                console.log(error.response);
-            });
-        };
-
-        const handleClickFilterDiscount = () => {
-            const fromD = valueD[0]*0.01;
-            const toD = valueD[1]*0.01;
-            axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}`)
-                .then((response) => {
-                    console.log(response.data);
-                    setNameList(response.data);
-                })
-                .catch((error) => {
-                    console.log(error.response);
-                });
-            };
-
-            const handleClickApplyFilter = () => {
-                const fromR = valueR[0].toFixed(1);
-                const toR = valueR[1].toFixed(1);
-                const fromD = valueD[0] * 0.01;
-                const toD = valueD[1] * 0.01;
-                axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&rate__lt=${toR}&rate__gt=${fromR}`)
-                .then((response) => {
-                    console.log("toD" + toD);
-                    console.log("fromD" + fromD);
-                    console.log("toR" + toR);
-                    console.log("formR" + fromR);
-                    console.log(response.data);
-                    setNameList(response.data);
-                })
-                .catch((error) => {
-                    console.log(error.response);
-                });
-                }; 
-                
-                
+        const fromD = valueD[0] * 0.01;
+        const toD = valueD[1] * 0.01;
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&rate__lt=${toR}&rate__gt=${fromR}`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
+        .then((response) => {
+            console.log(response.data);
+            setRestaurant(response.data);
+        })
+        .catch((error) => {
+            console.log(error.response);
+        });
+    };         
     
 
     const handleChange = (event) => {
@@ -287,10 +311,21 @@ const HomepageCustomer = () => {
         700:1
     };
 
-    const handleClickRate = () => {      //
-        axios.get('http://5.34.195.16/restaurant/restaurant-search/?ordering=-rate')
+    const handleClickRate = () => {   
+        const fromR = valueR[0].toFixed(1);
+        const toR = valueR[1].toFixed(1);
+        const fromD = valueD[0] * 0.01;
+        const toD = valueD[1] * 0.01;
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-rate&rate__gt=${fromR}&rate__lt=${toR}`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
         .then((response) => {
             console.log(response.data);
+            setRestaurant(response.data);
         })
         .catch((error) => {
             console.log(error.response);
@@ -298,8 +333,19 @@ const HomepageCustomer = () => {
     };
 
     const handleClickDiscount = () => {      //
-        axios.get('http://5.34.195.16/restaurant/restaurant-search/?ordering=-discount')
+        const fromR = valueR[0].toFixed(1);
+        const toR = valueR[1].toFixed(1);
+        const fromD = valueD[0] * 0.01;
+        const toD = valueD[1] * 0.01;
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-discount&rate__gt=${fromR}&rate__lt=${toR}`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
         .then((response) => {
+            setRestaurant(response.data);
             console.log(response.data);
         })
         .catch((error) => {
@@ -308,9 +354,20 @@ const HomepageCustomer = () => {
     };
 
     const handleClickNewest = () => {      //
-        axios.get('http://5.34.195.16/restaurant/restaurant-search/?ordering=-date_of_establishment')
+        const fromR = valueR[0].toFixed(1);
+        const toR = valueR[1].toFixed(1);
+        const fromD = valueD[0] * 0.01;
+        const toD = valueD[1] * 0.01;
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-date_of_establishment&rate__gt=${fromR}&rate__lt=${toR}`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
         .then((response) => {
             console.log(response.data);
+            setRestaurant(response.data);
         })
         .catch((error) => {
             console.log(error.response);
@@ -318,19 +375,54 @@ const HomepageCustomer = () => {
     };
 
     const handleClickLatest = () => {      //
-        axios.get('http://5.34.195.16/restaurant/restaurant-search/?ordering=date_of_establishment')
+        const fromR = valueR[0].toFixed(1);
+        const toR = valueR[1].toFixed(1);
+        const fromD = valueD[0] * 0.01;
+        const toD = valueD[1] * 0.01;
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=date_of_establishment&rate__gt=${fromR}&rate__lt=${toR}`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
         .then((response) => {
             console.log(response.data);
+            setRestaurant(response.data);
         })
         .catch((error) => {
             console.log(error.response);
         });
     };
 
+    const clickIranian =()=> {
+        setType(type === "Iranian" ? "" : "Iranian");
+        console.log("Iranian");
+    };
+
+    const clickForeign =()=> {
+        setType(type === "Foreign" ? "" : "Foreign");
+        console.log(type);
+    };
+
+    // const [iranianActive, setIranianActive] = useState(false);
+    // const [foreignActive, setForeignActive] = useState(false);
+    // const clickIranian = () => {
+    //     setIranianActive(!iranianActive);
+    //     setForeignActive(false);
+    //     setType(iranianActive ? "" : "Iranian");
+    // };
+
+    // const clickForeign = () => {
+    //     setForeignActive(!foreignActive);
+    //     setIranianActive(false);
+    //     setType(foreignActive ? "" : "Foreign");
+    // };
+
     return ( 
         <ThemeProvider theme={theme}>
             <Header />
-            <Grid container spacing={2} sx={{ paddingBottom:"1%"}} className='grid-homepage-customer'>
+            <Grid container spacing={2} sx={{ paddingBottom:"1%" }} className='grid-homepage-customer'>
                 <Grid item md={3}>
                     <Box className="filter-hompage-customer">
                         <Typography variant='h5'> 
@@ -375,7 +467,6 @@ const HomepageCustomer = () => {
                                                 marks={rateMarks}
                                                 value={valueR}
                                                 onChange={handleChangeRate}
-                                                ////
                                                 max={5}
                                                 step={0.1}
                                                 className="range-homepage-customer"
@@ -441,13 +532,13 @@ const HomepageCustomer = () => {
                             <hr className='hr-tag'/>
                             <Grid container spacing={2} className='grid'>
                                 <Grid item>
-                                    <Typography>
+                                    <Typography className='filter-type'>
                                         Iranian
                                     </Typography>
                                 </Grid>
                                 <Grid item lg={3} md={4}>
                                     <FormControlLabel
-                                        control={<IOSSwitch />}
+                                        control={<IOSSwitch onChange={clickIranian}/>}
                                         labelPlacement="start"
                                     />
                                 </Grid>
@@ -455,21 +546,21 @@ const HomepageCustomer = () => {
                             <hr className='hr-tag'/>
                             <Grid container spacing={2} className='grid'>
                                 <Grid item>
-                                    <Typography>
-                                        Foriegn
+                                    <Typography className='filter-type'>
+                                        Foreign
                                     </Typography>
                                 </Grid>
                                 <Grid item lg={3} md={4}>
                                     <FormControlLabel
-                                        control={<IOSSwitch />}
+                                        control={<IOSSwitch onChange={clickForeign}/>}
                                         labelPlacement="start"
                                     />
                                 </Grid>
                             </Grid>
-                            <hr className='hr-tag'/>
+                            {/* <hr className='hr-tag'/>
                             <Grid container spacing={2} className='grid'>
                                 <Grid item>
-                                    <Typography >
+                                    <Typography className='filter-type'>
                                         Drink
                                     </Typography>
                                 </Grid>
@@ -479,62 +570,78 @@ const HomepageCustomer = () => {
                                         labelPlacement="start"
                                     />
                                 </Grid>
-                            </Grid>
-                            {/* <Button className='submit' onClick={handleClickFilterRate} >
+                            </Grid> */}
+                            <Button className='submit' onClick={handleClickApplyFilter} >      
                                 Apply
-                            </Button> */}
-                            <Button className='submit' onClick={handleClickApplyFilter} >
-                                Apply
-                            </Button>
+                            </Button>          
                         </Box>
-                    </Grid>
-                    <Grid item md={9}>
-                        <Grid container spacing={2}>
-                            <Grid item md={9}>
-                                <Grid>
-                                <Paper
-                                    component="form"
-                                    className='search-homepage-customer'
-                                    sx={{ p: '2px 4px'}}
-                                    variant='outlined'
+                </Grid>
+                <Grid item lg={9} md={9}>
+                    <Grid container spacing={2}>
+                        <Grid item md={12}>
+                            <Grid container spacing={2}>
+                                <Grid item md={10}>
+                                    <Paper
+                                        component="form"
+                                        className='search-homepage-customer'
+                                        sx={{ p: '2px 4px'}}
                                     >
-                                    <IconButton type="button" sx={{ p: '15px'}} aria-label="search">
+                                    <IconButton type="button" sx={{ p: '15px' }} aria-label="search">
                                         <SearchIcon />
                                     </IconButton>
                                     <InputBase
                                         sx={{ ml: 1, flex: 1 }}
                                         placeholder="Search"
                                         inputProps={{ 'aria-label': 'search' }}
-                                        onChange={handleClickSearch}        //
+                                        onChange={handleClickSearch}        
+                                        // onKeyPress={handleKeyPress}
                                     />
-                                </Paper>
+                                    </Paper>
                                 </Grid>
-                                <Grid>
-                                <RestaurantCard/>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={3}>
-                            <FormControl className='formcontrol-sorting'style={{width: "80%", height: "50%"}}>
-                                <TextField
-                                    select
-                                    label="Sort"
-                                    color="secondary"
-                                    variant="outlined"
-                                    value={sort}
-                                    // InputLabelProps={{ shrink: true }}
-                                    // style= {{textAlign: 'left', width:'100%'}}
-                                    style={{width: '70%', marginLeft: '35%', backgroundColor: "rgba(117, 115, 111, 0.05)"}}
-                                    style={{width: '70%', marginLeft: '35%', backgroundColor: "rgba(117, 115, 111, 0.05)"}}
-                                    onChange={handleChange}
+                                <Grid item md={2}>
+                                    <FormControl className='formcontrol-sorting'style={{width: "100%"}}>
+                                        <TextField
+                                            select
+                                            label="Sort"
+                                            color="secondary"
+                                            variant="outlined"
+                                            value={sort}
+                                            // InputLabelProps={{ shrink: true }}
+                                            // style= {{textAlign: 'left', width:'100%'}}
+                                            style={{width: '100%', backgroundColor: "rgba(117, 115, 111, 0.05)"}}
+                                            onChange={handleChange}
                                         >
-                                <MenuItem onClick={handleClickNewest} value="Item1">Newest</MenuItem>
-                                <MenuItem onClick={handleClickLatest} value="Item2">Latest</MenuItem>
-                                <MenuItem onClick={handleClickRate} value="Item3">Rate</MenuItem>
-                                <MenuItem onClick={handleClickDiscount} value="Item4">Discount</MenuItem>
-                                </TextField>
-                            </FormControl>
+                                            <MenuItem onClick={handleClickNewest} value="Item1">Newest</MenuItem>        //
+                                            <MenuItem onClick={handleClickLatest} value="Item2">Latest</MenuItem>
+                                            <MenuItem onClick={handleClickRate} value="Item3">Rate</MenuItem>
+                                            <MenuItem onClick={handleClickDiscount} value="Item4">Discount</MenuItem>
+                                        </TextField>
+                                    </FormControl>
+                                </Grid>
                             </Grid>
                         </Grid>
+                    </Grid>
+                    <Grid container spacing={3}>
+                        <MU.Grid item>
+                            <Masonry
+                                breakpointCols={breakpoints}
+                                // className="homepage-my-masonry-grid"
+                            >
+                                {/* {restaurant && restaurant.map((res, index) => (
+                                    <div key={index} style={{ width: index % 3 === 0 ? '100%' : '' }}>
+                                        <RestaurantCard name={res.name} rate={res.rate} discount={res.discount} id={res.id}/>
+                                    </div>
+                                ))} */}
+                                {restaurant.length==1 ? (<RestaurantCard name={restaurant[0].name} rate={restaurant[0].rate} discount={restaurant[0].discount} id={restaurant[0].id} description={restaurant[0].description} isSingleResult={true}/>) :
+                                (restaurant && restaurant.map((res, index) => (
+                                    <div key={index} style={{ width: index % 3 === 0 ? '100%' : '' }}>
+                                        <RestaurantCard name={res.name} rate={res.rate} discount={res.discount} id={res.id} description={res.description} restaurant_image={res.restaurant_image}/>
+                                    </div>
+                                )))}
+                                
+                            </Masonry>
+                        </MU.Grid>
+                    </Grid>
                 </Grid>
             <BackToTop/>
             </Grid>
