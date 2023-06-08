@@ -3,6 +3,7 @@ import L from 'leaflet';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 import 'leaflet-defaulticon-compatibility';
 import 'leaflet/dist/leaflet.css';
+import './Map.css';
 
 function Map() {
   const mapRef = useRef(null);
