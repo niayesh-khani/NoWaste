@@ -331,7 +331,7 @@ export default function Dashboard(){
         const userData = {
             text:text
         }
-        axios.post(`http://5.34.195.16/restaurant/comment/user_id/${id}/restaurant_id/${restaurantId}`, userData, {headers:{"Content-Type" : "application/json"}})
+        axios.post(`http://5.34.195.16/restaurant/comment/user_id/${id}/restaurant_id/${restaurantId}`, userData, {headers:{"Content-Type" : "application/json" , 'Authorization' : "Token " + token.slice(1,-1)}})
         .then((response) => {
             console.log(response);
             window.location.reload(false);
