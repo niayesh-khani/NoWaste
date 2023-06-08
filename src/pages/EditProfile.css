@@ -83,6 +83,7 @@
 .edit-button-grid{
     justify-content: space-between;
     width: 92% !important;
+    margin-top: 1% !important;
 }
 .edit-field-wrapper {
     transition: height 0.5s ease-out;

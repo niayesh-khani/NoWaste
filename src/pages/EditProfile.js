@@ -21,7 +21,7 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 import Footer from "../components/Footer";
 import { Alert, AlertTitle } from "@mui/material";
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
-
+import Map from "../components/Map/Map";
 
 const styles = theme => ({
     field: {
@@ -346,6 +346,16 @@ function Edit(props){
         window.location.reload(false);
     }
 
+    const [showMap, setShowMap] = useState(false);
+
+    const handleOpenMap = () => {
+        if (showMap) {
+          setShowMap(false);
+        } else {
+          setShowMap(true);
+        }
+      };
+
     return(
         <ThemeProvider theme={theme}>
             <div className="edit-back">
@@ -579,14 +589,15 @@ function Edit(props){
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position="end">
-                                                <IconButton title="choose location" style={{marginLeft:"28%"}}>
+                                                <IconButton title="choose location" style={{marginLeft:"28%"}} onClick={handleOpenMap}>
                                                     <TravelExploreIcon />
                                                 </IconButton>
                                             </InputAdornment>
                                         )
                                     }}
     
-                                /> 
+                                />
+                                {showMap && <Map/>}
                             </FormControl>
                                 {show && <>
                                 <FormControl className="edit-field">
