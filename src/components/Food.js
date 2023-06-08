@@ -52,17 +52,18 @@ const Food = (props) => {
     const handleChange = (e) => {
         setCount(e.target.value);
     }
-    console.log("user id",userid);
-    console.log("res id",resid);
+    // console.log("user id",userid);
+    // console.log("res id",resid);
+    // console.log("food_id", food.id);
+    const [remainder, setRemainder] = React.useState('');
+    React.useEffect(() => {
+        setRemainder(food.remainder);
+    }, []);
 
 
-    
-    const handleAddToCartClick = () => {
-        console.log("id", id);
-        console.log("order id", order_id);
-        console.log("food id", food.id);
-
-        axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ resid + "/" + userid + "/order/add_to_order/" + food.id + "/",
+    const handleRemoveFromCartClick2 = () => {
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ resid + "/" + userid + "/order/remove_from_order/" + food.id + "/",
+        //http://5.34.195.16/restaurant/restaurant_view/1/2/order/remove_from_order/1
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -70,63 +71,114 @@ const Food = (props) => {
             'Authorization' : "Token " + token.slice(1,-1)   
         }})
         .then((response) => {
-            console.log("l;kjhugytfrde",response);
+            // console.log(response.data);
+            console.log("remove1");
             setRemainder(response.data.new_remainder);
-            localStorage.setItem('wallet_balance', response.data.new_waallet_balance);
+            console.log("new_wallet_balance",response.data.new_wallet_balance);
+            localStorage.setItem('wallet_balance', response.data.new_wallet_balance);
         })
         .catch((error) => {
-            if (error.response) {
-                console.log(error.response);
-                console.log("server responded");
-            } 
-            else if (error.request) {
-                console.log("network error");
-            } 
-            else {
-                console.log(error);
-            }
-        },);
+            console.log(error.response);
+        });
+        console.log("remove2");
+        if (count > 0)
+        {
+            setCount(count - 1);
+        }
+    };  
+
+    const handleAddToCartClick2 = () => {
+        axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ resid + "/" + userid + "/order/add_to_order/" + food.id + "/",
+        //http://5.34.195.16/restaurant/restaurant_view/1/2/order/add_to_order/1/
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
+        .then((response) => {
+            // console.log(response.data);
+            console.log("add1");
+            setRemainder(response.data.new_remainder);
+            console.log("new_wallet_balance",response.data.new_wallet_balance); 
+            localStorage.setItem('wallet_balance', response.data.new_wallet_balance);
+        })
+        .catch((error) => {
+            console.log(error.response);
+        });
+        console.log("add2");
         console.log(count);
         var tmp = parseInt(count) + 1
         console.log(tmp);
         setCount(tmp);
-    }
+    };  
 
-    const [remainder, setRemainder] = React.useState('');
-    // setRemainder (food.remainder);
-    React.useEffect(() => {
-        setRemainder(food.remainder);
-    }, []);
-    const handleRemoveFromCartClick = () => {
-        axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ resid + "/" + userid + "/order/remove_from_order/" + food.id + "/",
-        {headers: {
-            'Content-Type' : 'application/json',
-            "Access-Control-Allow-Origin" : "*",
-            "Access-Control-Allow-Methods" : "PUT,PATCH",
-            'Authorization' : "Token " + token.slice(1,-1)   
-        }})
-        .then((response) => {
-            console.log("l;kjhugytfrde",response);
-            setRemainder(response.data.new_remainder);
-            // setItem.localStorage(response.data.new_waa);
-            localStorage.setItem('wallet_balance', response.data.new_waallet_balance);
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.log(error.response);
-                console.log("server responded");
-            } 
-            else if (error.request) {
-                console.log("network error");
-            } 
-            else {
-                console.log(error);
-            }
-        },);
-        if (count > 0) {
-            setCount(count - 1);
-        }
-    }
+    // const handleAddToCartClick = () => {
+    //     console.log("id", id);
+    //     console.log("order id", order_id);
+    //     console.log("food id", food.id);
+
+    //     axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ resid + "/" + userid + "/order/add_to_order/" + food.id + "/",
+    //     {headers: {
+    //         'Content-Type' : 'application/json',
+    //         "Access-Control-Allow-Origin" : "*",
+    //         "Access-Control-Allow-Methods" : "PUT,PATCH",
+    //         'Authorization' : "Token " + token.slice(1,-1)   
+    //     }})
+    //     .then((response) => {
+    //         console.log("l;kjhugytfrde",response);
+    //         setRemainder(response.data.new_remainder);
+    //         localStorage.setItem('wallet_balance', response.data.new_waallet_balance);
+    //     })
+    //     .catch((error) => {
+    //         if (error.response) {
+    //             console.log(error.response);
+    //             console.log("server responded");
+    //         } 
+    //         else if (error.request) {
+    //             console.log("network error");
+    //         } 
+    //         else {
+    //             console.log(error);
+    //         }
+    //     },);
+    //     console.log(count);
+    //     var tmp = parseInt(count) + 1
+    //     console.log(tmp);
+    //     setCount(tmp);
+    // }
+
+    
+    // const handleRemoveFromCartClick = () => {
+    //     axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ resid + "/" + userid + "/order/remove_from_order/" + food.id + "/",
+    //     {headers: {
+    //         'Content-Type' : 'application/json',
+    //         "Access-Control-Allow-Origin" : "*",
+    //         "Access-Control-Allow-Methods" : "PUT,PATCH",
+    //         'Authorization' : "Token " + token.slice(1,-1)   
+    //     }})
+    //     .then((response) => {
+    //         console.log("l;kjhugytfrde",response);
+    //         setRemainder(response.data.new_remainder);
+    //         // setItem.localStorage(response.data.new_waa);
+    //         localStorage.setItem('wallet_balance', response.data.new_waallet_balance);
+    //     })
+    //     .catch((error) => {
+    //         if (error.response) {
+    //             console.log(error.response);
+    //             console.log("server responded");
+    //         } 
+    //         else if (error.request) {
+    //             console.log("network error");
+    //         } 
+    //         else {
+    //             console.log(error);
+    //         }
+    //     },);
+    //     if (count > 0) {
+    //         setCount(count - 1);
+    //     }
+    // }
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -146,7 +198,7 @@ const Food = (props) => {
             'Authorization' : "Token " + token.slice(1,-1) 
         }})
         .then((response) => {
-            console.log(response);
+            // console.log(response);
             setRestaurant(response.data);
             setMenu(restaurant.menu);
         })
@@ -162,7 +214,8 @@ const Food = (props) => {
                     <CardMedia
                         component="img"
                         sx={{ height: 140 }}
-                        image="/food2.jpg"
+                        // image="/food2.jpg"
+                        image={food.food_pic}
                         title={food.Type}
                     />
                     <CardContent sx={{ height: 25}}>
@@ -179,9 +232,9 @@ const Food = (props) => {
                             <Typography className='food-price'>${parseInt(food.price)}</Typography>
                         </Grid>
                         <Grid item lg={5} md={5} sm={5} className='count-buttons'>
-                            <button className='button__wrapper' onClick={handleRemoveFromCartClick}>-</button>
+                            <button className='button__wrapper' onClick={handleRemoveFromCartClick2}>-</button>
                             <h5 className="food-h5" onChange={handleChange}>{count}</h5>
-                            <button className='button__wrapper' onClick={handleAddToCartClick}>+</button>
+                            <button className='button__wrapper' onClick={handleAddToCartClick2}>+</button>
                         </Grid>
                     </Grid>
                 </CardActions>
