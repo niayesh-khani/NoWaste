@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
+.blur-background {
+    filter: blur(10px);
+}
 .edit-back{
     background-color: #f8f8f8;
 }
