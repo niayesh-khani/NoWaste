@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Fab from '@mui/material/Fab';
 import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
 import './Chat.css'
@@ -18,6 +18,7 @@ import {useRef } from "react";
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import ReactScrollToBottom from "react-scroll-to-bottom";
+import { useEffectOnce } from './useEffectOnce';
 
 
 const Chat = () => {
@@ -28,42 +29,80 @@ const Chat = () => {
     const [times, setTimes] = useState([]);
     const [userMessage, setUserMessage] = useState('');
     const [messages, setMessages] = useState([]);
-    const socket = useRef(null);
+    const [num, setNum] = useState(1);
+    // const socket = useRef(null);
     const userId = localStorage.getItem('id');
     const restaurantId = localStorage.getItem('restaurantId');
     let room_name = userId < restaurantId ? userId + "_" + restaurantId: restaurantId + "_" + userId;
-    socket.current = new WebSocket(
-        // `ws://localhost:8000/ws/socket-server/board/?token=${localStorage.getItem(
-        //     "access_token"
-        // )}`
-        // `http://5.34.195.16/chat/room/${userId}/${restaurantId}/`
-        `ws://127.0.0.1:4000/chat/room/${room_name}`
-    );
-    socket.current.onopen = () => {
-        console.log("WebSocket connection opened");
-        socket.current.send(
-            JSON.stringify({
-                type: "join_board_group",
-                // data: { board_id: boardId },
-            })
+    // client = new WebSocket(
+    //     // `ws://localhost:8000/ws/socket-server/board/?token=${localStorage.getItem(
+    //     //     "access_token"
+    //     // )}`
+    //     // `http://5.34.195.16/chat/room/${userId}/${restaurantId}/`
+    //     `ws://5.34.195.16:4000/chat/room/${room_name}/`
+    // );
+    const [client, setClient] = useState(null);
+    useEffectOnce(() => {
+        // setClient(new WebSocket(
+        //     `ws://5.34.195.16:4000/chat/room/${room_name}/`
+        // ));
+        const client_1 = new WebSocket(
+            `ws://5.34.195.16:4000/chat/room/${room_name}/`
         );
-    };
+        client_1.onopen = () => {
+            setNum(curr=>curr+1);
+            console.log("WebSocket connection opened" + num);
+            // setNum(2);
+            // client.send(
+            //     JSON.stringify({
+            //         type: "join_board_group",
+            //         // data: { board_id: boardId },
+            //     })
+            // );
+        };
+        client_1.onmessage = (event) => {
+            const message = JSON.parse(event.data);
+            console.log(message);
+            // dnd_socket(message, message.type);
+        };
+        client_1.onclose = () => {
+            console.log("WebSocket connection closed");
+        };
+        setClient(client_1);
+    });
+    // const client = useMemo(() => 
+    //     new WebSocket(
+    //         `ws://5.34.195.16:4000/chat/room/${room_name}/`
+    //     )
+    // , []);
+    // client.onopen = () => {
+    //     setNum(curr=>curr+1);
+    //     console.log("WebSocket connection opened" + num);
+    //     // setNum(2);
+    //     // client.send(
+    //     //     JSON.stringify({
+    //     //         type: "join_board_group",
+    //     //         // data: { board_id: boardId },
+    //     //     })
+    //     // );
+    // };
 
-    socket.current.onmessage = (event) => {
-        const message = JSON.parse(event.data);
-        console.log(message);
-        // dnd_socket(message, message.type);
-    };
     
-    socket.current.onclose = () => {
-        console.log("WebSocket connection closed");
-    };
+    const effectHide = useRef(false);
+    // client.onmessage = (event) => {
+    //     const message = JSON.parse(event.data);
+    //     console.log(message);
+    //     // dnd_socket(message, message.type);
+    // };
+    
+    // client.onclose = () => {
+    //     console.log("WebSocket connection closed");
+    // };
     const handleClick = (newPlacement) => (event) => {
         setAnchorEl(event.currentTarget);
         setOpen((prev) => placement !== newPlacement || !prev);
         setPlacement(newPlacement);
     };
-
     const handleMessage = (event) => {
         setUserMessage(event.target.value);
     };
@@ -73,17 +112,33 @@ const Chat = () => {
             sendMessage();
         }
     };
+    // const messageHistory=
     const sendMessage = () => {
         const updatedMessage = userMessage.trim();
         if (updatedMessage !== '') {
             setMessages((prevMessages) => [...prevMessages, updatedMessage]);
             setUserMessage('');
             setTimes((prevTimes) => [...prevTimes, new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})]);
+            client.send(
+                JSON.stringify({
+                    message : userMessage,
+                    user_id : userId,
+                    username : "Hanie",
+                    room_name : room_name
+                    // type: "join_board_group",
+                    // data: { board_id: boardId },
+                })
+            );
         }
     };
+    const handleCloseSocket = (e) => {
+        client.close();
+        // console.log("")
+    }
 
     return (
         <div>
+            <button onClick={handleCloseSocket}>Close socjet</button>
             <Popper open={open} anchorEl={anchorEl} placement={placement} transition className='chat-poper'>
             {({ TransitionProps }) => (
                 <Fade {...TransitionProps} timeout={350}>
