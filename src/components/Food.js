@@ -205,7 +205,7 @@ const Food = (props) => {
         .catch((error) => {
             console.log(error);
         });
-    });
+    },[]);
 
     return ( 
         <div>
