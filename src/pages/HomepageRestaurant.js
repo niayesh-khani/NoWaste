@@ -8,7 +8,7 @@ import Masonry from 'react-masonry-css';
 import Food from '../components/Food';
 import BackToTop from '../components/BackToTop';
 import Footer from '../components/Footer';
-import { Button, InputLabel, FormControl, Paper, TextareaAutosize, withStyles, ThemeProvider, Typography, TextField} from '@material-ui/core';
+import { Button, InputLabel, FormControl, Paper, TextareaAutosize, InputAdornment,withStyles, ThemeProvider, Typography, TextField} from '@material-ui/core';
 // import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {useHistory } from "react-router-dom";
@@ -54,6 +54,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import Modal from '@mui/material/Modal';
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+import Map from "../components/Map/Map";
 
 const theme = createTheme({
     palette: {
@@ -337,10 +339,22 @@ function HomepageRestaurant(props){
 
             });  
         }
-        const [openModal, setOpenModal] = React.useState(false);
-        const handleOpenModal = () => setOpenModal(true);
-        const handleCloseModal = () => setOpenModal(false);
-
+    const [openModal, setOpenModal] = React.useState(false);
+    const handleOpenModal = () => setOpenModal(true);
+    const handleCloseModal = () => setOpenModal(false);
+    const [showMap, setShowMap] = useState(false);
+    const [blurBackground, setBlurBackground] = useState(false);
+    
+    const handleOpenMap = () => {
+        setShowMap(true);
+        setBlurBackground(true);
+        };
+            
+    const handleCloseMap = () => {
+        setShowMap(false);
+        setBlurBackground(false);
+    };
+    
     return ( 
         <ThemeProvider theme={theme}>
             <Header />
@@ -375,8 +389,21 @@ function HomepageRestaurant(props){
                             onChange={handleAddAddress}
                             multiline
                             style={{width: '100%', marginTop: '10px'}}
-                            InputLabelProps={{ shrink: true }} 
+                            InputLabelProps={{ shrink: true }}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton title="choose location" style={{marginLeft:"28%"}} onClick={handleOpenMap}>
+                                            <TravelExploreIcon />
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }}
+
                         />
+                        <Modal open={showMap} onClose={handleCloseMap}>
+                            <Map/>
+                        </Modal>
                         <PhoneInput
                             label="Phone number"
                             defaultCountry="ir"
