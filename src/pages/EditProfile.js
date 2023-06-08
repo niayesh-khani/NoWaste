@@ -20,6 +20,8 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import Footer from "../components/Footer";
 import { Alert, AlertTitle } from "@mui/material";
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+
 
 const styles = theme => ({
     field: {
@@ -548,6 +550,16 @@ function Edit(props){
                                     multiline
                                     value={address}
                                     onChange={handleAddress}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton title="Select your address" style={{marginLeft:"28%"}}>
+                                                    <TravelExploreIcon />
+                                                </IconButton>
+                                            </InputAdornment>
+                                        )
+                                    }}
+    
                                 /> 
                             </FormControl>
                                 {show && <>
