@@ -175,7 +175,7 @@ const RestaurantView = (props: Props) =>
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
                 "Access-Control-Allow-Methods" : "PUT,PATCH",
-                // 'Authorization' : "Token " + token.slice(1,-1)   
+                'Authorization' : "Token " + token.slice(1,-1)   
             }})
             .then((response) => {
                 console.log(response);

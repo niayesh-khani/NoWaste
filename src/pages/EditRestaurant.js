@@ -21,6 +21,7 @@ import { Avatar, Box, Button, createTheme, DialogContent, DialogTitle, Divider, 
 import ClearIcon from '@mui/icons-material/Clear';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import Chat from "../components/Chat";
 
 const styles = theme => ({
     field: {
@@ -1131,6 +1132,7 @@ function EditRestaurant(props){
                         </Box>
                     </Grid>
                 </Grid> 
+                <Chat />
                 <Footer/>
             </div>
         </ThemeProvider>
