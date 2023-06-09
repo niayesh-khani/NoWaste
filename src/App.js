@@ -19,8 +19,9 @@ import OrderPage from './pages/OrderPage';
 import EditRestaurant from './pages/EditRestaurant';
 import HomepageRestaurant from './pages/HomepageRestaurant';
 import EditProfileManager from './pages/EditProfileManager';
-import Map from './components/Map/Map'
-import Dashboard from './pages/Dashboard';
+import Dashboard from './components/Dashboard/Dashboard';
+import DashboardRestaurant from './components/Dashboard/DashboardRestaurant';
+import Map from './components/Map/Map';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -87,6 +88,9 @@ function App() {
           </Route>
           <Route path="/dashboard">
             <Dashboard />
+          </Route>
+          <Route path = "/dashboard-restaurant">
+            <DashboardRestaurant />
           </Route>
       </Router>
     //   )}
