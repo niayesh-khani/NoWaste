@@ -33,16 +33,16 @@ const Chat = (props) => {
     const [messages, setMessages] = useState([]);
     const [num, setNum] = useState(1);
     // const {id} = useParams();
-    let restaurantId = props.id !=="undefined" ? props.id : "4";
-    if(restaurantId==="undefined"){
-        restaurantId = 4;
+    let receiver = props.id !=="undefined" ? props.id : "4";
+    if(receiver==="undefined"){
+        receiver = 4;
     }
     // const socket = useRef(null);
-    const userId = localStorage.getItem('id');
-    console.log("res id : "+restaurantId + "user id" + userId);
-    let room_name = userId < restaurantId ? userId + "_" + restaurantId: restaurantId + "_" + userId;
+    const sneder = localStorage.getItem('id');
+    console.log("res id : "+receiver + "user id" + sneder);
+    let room_name = sneder < receiver ? sneder + "_" + receiver: receiver + "_" + sneder;
     useEffect(() => {
-        axios.get(`http://5.34.195.16/chat/room/${userId}/${room_name}`,
+        axios.get(`http://5.34.195.16/chat/room/${sneder}/${room_name}`,
         {headers : {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -60,7 +60,7 @@ const Chat = (props) => {
     useEffect(()=> {
         console.log(messages);
         console.log("room name is " +room_name);
-        console.log(`http://5.34.195.16/chat/room/${userId}/${room_name}`);
+        console.log(`http://5.34.195.16/chat/room/${sneder}/${room_name}`);
     },[room_name]);
     useEffect(()=> {
         console.log(messages);
@@ -71,7 +71,7 @@ const Chat = (props) => {
     //     // `ws://localhost:8000/ws/socket-server/board/?token=${localStorage.getItem(
     //     //     "access_token"
     //     // )}`
-    //     // `http://5.34.195.16/chat/room/${userId}/${restaurantId}/`
+    //     // `http://5.34.195.16/chat/room/${sneder}/${receiver}/`
     //     `ws://5.34.195.16:4000/chat/room/${room_name}/`
     // );
     const [client, setClient] = useState(null);
@@ -155,7 +155,7 @@ const Chat = (props) => {
             client.send(
                 JSON.stringify({
                     message : userMessage,
-                    user_id : userId,
+                    user_id : sneder,
                     // username : "Hanie",
                     room_name : room_name
                     // type: "join_board_group",
