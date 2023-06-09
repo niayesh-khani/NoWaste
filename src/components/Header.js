@@ -141,7 +141,7 @@ const Header = React.memo(() => {
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
-            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            "Access-Control-Allow-Methods" : "POST,PATCH",
             'Authorization' : "Token " + token.slice(1,-1)   
         }})
 
