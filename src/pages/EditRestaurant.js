@@ -1161,7 +1161,7 @@ function EditRestaurant(props){
                             </Box>
                         </Grid>
                     </Grid> 
-                <Chat />
+                <Chat customer={3} restaurant={idR} sender={idR}/>
                 </div>
                 <Footer/>
             </div>

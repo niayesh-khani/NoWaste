@@ -30,6 +30,8 @@ const Header = React.memo(() => {
     const [auth, setAuth] = React.useState(true);
     const role = JSON.parse(localStorage.getItem("role"));
     const history = useHistory();
+    const token = localStorage.getItem('token');
+
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
@@ -135,7 +137,14 @@ const Header = React.memo(() => {
       };
       console.log(userData);
       console.log(val)
-      axios.post("http://5.34.195.16/user/charge-wallet/", userData, { headers: { "Content-Type": "application/json" } })
+      axios.post("http://5.34.195.16/user/charge-wallet/", userData,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "POST,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
+
         .then((response) => {
           console.log(response);
           const newBalance = response.data.wallet_balance;
@@ -284,9 +293,9 @@ const Header = React.memo(() => {
                                     <Item>
                                         <button onClick={() => handleAddAmount(30)} className='add-amount-header'>30$</button>
                                     </Item> */}
-                                    <Button onClick={() => handleAddAmount(10)} className='amount-header'><Item className='item-header'>70$</Item></Button>
-                                    <Button onClick={() => handleAddAmount(20)} className='amount-header'><Item className='item-header'>80$</Item></Button>
-                                    <Button onClick={() => handleAddAmount(30)} className='amount-header'><Item className='item-header'>90$</Item></Button> 
+                                    <Button onClick={() => handleAddAmount(70)} className='amount-header'><Item className='item-header'>70$</Item></Button>
+                                    <Button onClick={() => handleAddAmount(80)} className='amount-header'><Item className='item-header'>80$</Item></Button>
+                                    <Button onClick={() => handleAddAmount(90)} className='amount-header'><Item className='item-header'>90$</Item></Button> 
                                     
                                 
                                 </Stack>
