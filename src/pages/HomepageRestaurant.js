@@ -459,7 +459,7 @@ function HomepageRestaurant(props){
                                             <CardMedia
                                                 component="img"
                                                 sx={{ height: 200, width: 200, marginLeft: 3, marginTop: 2, marginBottom: 2, borderRadius: 2 }}
-                                                image="/mohsen.jpg"
+                                                image={res.restaurant_image}
                                             />
                                             </div>
                                         </Grid>
