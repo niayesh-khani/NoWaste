@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
+.blur-background {
+    filter: blur(10px);
+}
 .edit-back{
     background-color: #f8f8f8;
 }
@@ -83,6 +86,7 @@
 .edit-button-grid{
     justify-content: space-between;
     width: 92% !important;
+    margin-top: 1% !important;
 }
 .edit-field-wrapper {
     transition: height 0.5s ease-out;
