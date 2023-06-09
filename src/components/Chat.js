@@ -20,31 +20,17 @@ import Avatar from '@mui/material/Avatar';
 import ReactScrollToBottom from "react-scroll-to-bottom";
 import { useEffectOnce } from './useEffectOnce';
 import axios from 'axios';
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
-
 
 const Chat = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [open, setOpen] = React.useState(false);
     const [placement, setPlacement] = React.useState();
-    // const client = new w3websocket();
-    const [times, setTimes] = useState([]);
     const [userMessage, setUserMessage] = useState('');
     const [messages, setMessages] = useState([]);
-    const [num, setNum] = useState(1);
-    // const {id} = useParams();
     const restaurant_id = props.restaurant;
-    // !=="undefined" ? props.id : "4";
-    // if(restaurant_id==="undefined"){
-    //     restaurant_id = 4;
-    // }
-    // const socket = useRef(null);
-    // const customer_id = localStorage.getItem('id');
     const customer_id = props.customer;
     const sender_id = props.sender;
-    console.log("res id : "+restaurant_id + "user id" + customer_id);
     let room_name = customer_id < restaurant_id ? customer_id + "_" + restaurant_id: restaurant_id + "_" + customer_id;
-    console.log("room_name is : " + room_name);
     useEffect(() => {
         axios.get(`http://5.34.195.16/chat/room/${customer_id}/${room_name}`,
         {headers : {
@@ -54,136 +40,85 @@ const Chat = (props) => {
         }})
         .then((response) => {
             setMessages(response.data);
-            // console.log("I've got message history");
-            // console.log(messages);
         })
         .catch((error) => {
             console.log(error.response);
         })
     }, []);
-    useEffect(()=> {
-        console.log(messages);
-        console.log("room name is " +room_name);
-        console.log(`http://5.34.195.16/chat/room/${customer_id}/${room_name}`);
-    },[room_name]);
-    useEffect(()=> {
-        console.log(messages);
-    },[messages]);
     
-    // console.log(messages);
-    // client = new WebSocket(
-    //     // `ws://localhost:8000/ws/socket-server/board/?token=${localStorage.getItem(
-    //     //     "access_token"
-    //     // )}`
-    //     // `http://5.34.195.16/chat/room/${customer_id}/${restaurant_id}/`
-    //     `ws://5.34.195.16:4000/chat/room/${room_name}/`
-    // );
     const [client, setClient] = useState(null);
+
     useEffectOnce(() => {
-        // setClient(new WebSocket(
-        //     `ws://5.34.195.16:4000/chat/room/${room_name}/`
-        // ));
         const client_1 = new WebSocket(
             `ws://5.34.195.16:4000/chat/room/${room_name}/`
         );
         client_1.onopen = () => {
-            setNum(curr=>curr+1);
-            console.log("WebSocket connection opened" + num);
-            // setNum(2);
-            // client.send(
-            //     JSON.stringify({
-            //         type: "join_board_group",
-            //         // data: { board_id: boardId },
-            //     })
-            // );
+            // setNum(curr=>curr+1);
+            console.log("WebSocket connection opened");
         };
         client_1.onmessage = (event) => {
             const message = JSON.parse(event.data);
-            console.log(message);
-            // dnd_socket(message, message.type);
+            // console.log(message);
         };
         client_1.onclose = () => {
             console.log("WebSocket connection closed");
         };
         setClient(client_1);
     });
-    // const client = useMemo(() => 
-    //     new WebSocket(
-    //         `ws://5.34.195.16:4000/chat/room/${room_name}/`
-    //     )
-    // , []);
-    // client.onopen = () => {
-    //     setNum(curr=>curr+1);
-    //     console.log("WebSocket connection opened" + num);
-    //     // setNum(2);
-    //     // client.send(
-    //     //     JSON.stringify({
-    //     //         type: "join_board_group",
-    //     //         // data: { board_id: boardId },
-    //     //     })
-    //     // );
-    // };
-
-    
-    const effectHide = useRef(false);
-    // client.onmessage = (event) => {
-    //     const message = JSON.parse(event.data);
-    //     console.log(message);
-    //     // dnd_socket(message, message.type);
-    // };
-    
-    // client.onclose = () => {
-    //     console.log("WebSocket connection closed");
-    // };
     const handleClick = (newPlacement) => (event) => {
         setAnchorEl(event.currentTarget);
         setOpen((prev) => placement !== newPlacement || !prev);
         setPlacement(newPlacement);
     };
+
     const handleMessage = (event) => {
         setUserMessage(event.target.value);
     };
+
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
             sendMessage();
         }
     };
-    // const messageHistory=
+
     const sendMessage = () => {
         const updatedMessage = userMessage.trim();
         if (updatedMessage !== '') {
-            setMessages((prevMessages) => [...prevMessages, updatedMessage]);
+            const newMessage ={
+                fields: {
+                    message: updatedMessage,
+                    sender: sender_id,
+                    date_created: new Date().toISOString()
+                }
+            };
+            setMessages((prevMessages) => [...prevMessages, newMessage]);
             setUserMessage('');
-            setTimes((prevTimes) => [...prevTimes, new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})]);
+            // setTimes((prevTimes) => [...prevTimes, new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})]);
             client.send(
                 JSON.stringify({
                     message : userMessage,
                     user_id : sender_id,
-                    // username : "Hanie",
                     room_name : room_name
-                    // type: "join_board_group",
-                    // data: { board_id: boardId },
                 })
             );
         }
     };
+
     const handleOpenSocket = (e) => {
         if (client && client.readyState === WebSocket.CLOSED) {
-            console.log(`url is : ws://5.34.195.16:4000/chat/room/${room_name}/`);
             const clientCopy = new WebSocket(
                 `ws://5.34.195.16:4000/chat/room/${room_name}/`
             );
         
             clientCopy.onopen = () => {
-              setNum(curr => curr + 1);
-              console.log("WebSocket connection opened" + num);
+            //   setNum(curr => curr + 1);
+              console.log("WebSocket connection opened");
             };
         
             clientCopy.onmessage = (event) => {
               const message = JSON.parse(event.data);
-              console.log(message);
-              // dnd_socket(message, message.type);
+            //   console.log(message);
             };
         
             clientCopy.onclose = () => {
@@ -198,8 +133,6 @@ const Chat = (props) => {
           } else {
             console.log("WebSocket connection is already closed");
         }
-        // client.close();
-        // console.log("")
     };
 
     return (
@@ -219,10 +152,7 @@ const Chat = (props) => {
                                                 className={msg.fields?.sender == sender_id ? 'chat-listitem-right' : 'chat-listitem-left'}
                                             >
                                                 <ListItemText primary={msg.fields?.message} style={{ wordWrap: 'break-word' }}/>
-                                            {/* {index === messages.length - 1 && <p className='chat-time'>{new Date().toLocaleTimeString(undefined, options)}</p>} */}
-                                            {/* {index === messages.length - 1 && (<p className='chat-time'>{formatTime(new Date(), options)}</p>)} */}
                                                 <p className='chat-time'>
-                                                    {/* {times[msg.fields.date_created]} */}
                                                     {new Date(msg.fields.date_created).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                 </p>
                                             </ListItem>
