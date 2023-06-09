@@ -59,11 +59,13 @@ export default function OrderPage(){
             'Authorization' : "Token " + token.slice(1,-1)   
         }})
             .then((response) => {
-                console.log("oredrs",response.data);
-                setShoppingCard(response.data);
-                setOrderItems(response.data.orderItems);
-                setPrices(response.data.Subtotal_Grandtotal_discount);
-                console.log("prices", response.data.Subtotal_Grandtotal_discount);
+                // console.log("oredrs",response.data[0]);
+                // console.log("prices", response.data[0].Subtotal_Grandtotal_discount);
+                // console.log("items: " , response.data[0].orderItems)
+                setShoppingCard(response.data[0]);
+                setOrderItems(response.data[0].orderItems);
+                setPrices(response.data[0].Subtotal_Grandtotal_discount);
+                console.log("prices", response.data[0].Subtotal_Grandtotal_discount);
             
             })
             .catch((error) => {
