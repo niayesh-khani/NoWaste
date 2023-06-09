@@ -34,7 +34,7 @@
 
 .delete-icons-card-restaurant-homepage {
     color: red !important;
-    /* margin-left: 70px !important; */
+    margin-left: -20px !important;
     display: flex !important;
 }
 /* .delete-icons-card-restaurant-homepage:hover {
@@ -42,7 +42,7 @@
 } */
 
 .edit-icons-card-restaurant-homepage {
-    /* margin-left: 110px !important; */
+    margin-left: 11px !important;
     margin-bottom: -15px !important;
     display: flex !important;
     color: green !important;
