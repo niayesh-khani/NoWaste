@@ -33,16 +33,20 @@ const Chat = (props) => {
     const [messages, setMessages] = useState([]);
     const [num, setNum] = useState(1);
     // const {id} = useParams();
-    let receiver = props.id !=="undefined" ? props.id : "4";
-    if(receiver==="undefined"){
-        receiver = 4;
-    }
+    const restaurant_id = props.restaurant;
+    // !=="undefined" ? props.id : "4";
+    // if(restaurant_id==="undefined"){
+    //     restaurant_id = 4;
+    // }
     // const socket = useRef(null);
-    const sneder = localStorage.getItem('id');
-    console.log("res id : "+receiver + "user id" + sneder);
-    let room_name = sneder < receiver ? sneder + "_" + receiver: receiver + "_" + sneder;
+    // const customer_id = localStorage.getItem('id');
+    const customer_id = props.customer;
+    const sender_id = props.sender;
+    console.log("res id : "+restaurant_id + "user id" + customer_id);
+    let room_name = customer_id < restaurant_id ? customer_id + "_" + restaurant_id: restaurant_id + "_" + customer_id;
+    console.log("room_name is : " + room_name);
     useEffect(() => {
-        axios.get(`http://5.34.195.16/chat/room/${sneder}/${room_name}`,
+        axios.get(`http://5.34.195.16/chat/room/${customer_id}/${room_name}`,
         {headers : {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -60,7 +64,7 @@ const Chat = (props) => {
     useEffect(()=> {
         console.log(messages);
         console.log("room name is " +room_name);
-        console.log(`http://5.34.195.16/chat/room/${sneder}/${room_name}`);
+        console.log(`http://5.34.195.16/chat/room/${customer_id}/${room_name}`);
     },[room_name]);
     useEffect(()=> {
         console.log(messages);
@@ -71,7 +75,7 @@ const Chat = (props) => {
     //     // `ws://localhost:8000/ws/socket-server/board/?token=${localStorage.getItem(
     //     //     "access_token"
     //     // )}`
-    //     // `http://5.34.195.16/chat/room/${sneder}/${receiver}/`
+    //     // `http://5.34.195.16/chat/room/${customer_id}/${restaurant_id}/`
     //     `ws://5.34.195.16:4000/chat/room/${room_name}/`
     // );
     const [client, setClient] = useState(null);
@@ -155,7 +159,7 @@ const Chat = (props) => {
             client.send(
                 JSON.stringify({
                     message : userMessage,
-                    user_id : sneder,
+                    user_id : sender_id,
                     // username : "Hanie",
                     room_name : room_name
                     // type: "join_board_group",
@@ -211,8 +215,10 @@ const Chat = (props) => {
                                 </Grid>
                                 <ReactScrollToBottom className="chatBox">
                                         {messages.map((msg, index) => (
-                                            <ListItem key={index} className='chat-listitem-right'>
-                                                <ListItemText primary={msg.fields.message} style={{ wordWrap: 'break-word' }}/>
+                                            <ListItem key={index} 
+                                                className={msg.fields?.sender == sender_id ? 'chat-listitem-right' : 'chat-listitem-left'}
+                                            >
+                                                <ListItemText primary={msg.fields?.message} style={{ wordWrap: 'break-word' }}/>
                                             {/* {index === messages.length - 1 && <p className='chat-time'>{new Date().toLocaleTimeString(undefined, options)}</p>} */}
                                             {/* {index === messages.length - 1 && (<p className='chat-time'>{formatTime(new Date(), options)}</p>)} */}
                                                 <p className='chat-time'>
