@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
+import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import './EditProfile.css';
 import Header from '../components/Header';
 import './Login-Signup.css';
@@ -20,6 +20,10 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import Footer from "../components/Footer";
 import { Alert, AlertTitle } from "@mui/material";
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+import Map from "../components/Map/Map";
+import Modal from '@mui/material/Modal';
+import CloseIcon from '@mui/icons-material/Close';
 
 const styles = theme => ({
     field: {
@@ -87,6 +91,8 @@ function Edit(props){
     const [openNetwork, setOpenNetwork] = useState(false);
     const [openWrongPass, setOpenWrongPass] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
+    const [countries, setCountries] = useState([]);
+    const [cities, setCities] = useState();
 
     const handleFullname = (e) => {
         setFullname(e.target.value);
@@ -131,7 +137,9 @@ function Edit(props){
     };
     const handleCountry = (e) => {
         setCountry(e.target.value);
+        
     };
+
     const handleAddress = (e) => {
         setAddress(e.target.value);
     };
@@ -173,6 +181,34 @@ function Edit(props){
         })
         .catch((error) => console.log(error));
     },[]);
+
+    useEffect(() =>{
+        axios.get(
+            `http://5.34.195.16/user/all-countries/` , 
+            {headers :{
+                'Content-Type' : 'application/json'
+            }}
+        )
+        .then((response) => {
+            setCountries(response.data);
+            console.log("ALL countries are here!");
+        })
+        .catch((error) => console.log(error));
+    },[]);
+    useEffect(() =>{
+        const userData = {
+            name: country
+        };
+        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+        console.log(userData);
+        axios.post("http://5.34.195.16/user/cities-of-country/", userData, {headers:{"Content-Type" : "application/json"}})
+        .then((response) => {
+            console.log("Here to add cities");
+            console.log(response);
+            setCities(response.data);
+        })
+        .catch((error) => console.log(error));
+    },[country]);
     
     useEffect(() => {
         setFullname(data.name);
@@ -198,9 +234,6 @@ function Edit(props){
     }, [data.address]);
 
     const history = useHistory();
-    const handleChange = () => {
-        history.push('./change-password')
-    };
     const handleCloseNetwork = () => {
         setOpenNetwork(false);
     };
@@ -315,291 +348,278 @@ function Edit(props){
         window.location.reload(false);
     }
 
+    const [showMap, setShowMap] = useState(false);
+    const [blurBackground, setBlurBackground] = useState(false);
+    
+    const handleOpenMap = () => {
+        setShowMap(true);
+        setBlurBackground(true);
+      };
+          
+    const handleCloseMap = () => {
+        setShowMap(false);
+        setBlurBackground(false);
+    };
+      
     return(
         <ThemeProvider theme={theme}>
             <div className="edit-back">
                 <Header/>
-                <Grid container spacing={2} className="edit-grid">
-                    <Grid item md={3} sm={12} xs={12}>
-                        <Box className="edit-box">
-                            <Typography variant="h5" 
-                                color="textPrimary"
-                                gutterBottom
-                                className="edit-title"
-                                // style={{fontWeight: 'bold', fontSize: '30px'}}
-                            >
-                                Profile Picture
-                            </Typography>
-                            <Avatar
-                                className="edit-avatar"
-                                style={{backgroundColor: color, fontSize:"40px"}}
-                                src={profileImg}
-                            >
-                                {firstChar}
-                            </Avatar>
-                            <Typography className="text-above-upload">
-                                JPG or PNG no larger than 5 MB
-                            </Typography>
-                            {open && <Alert severity="error" open={open} onClose={handleClose} className="image-alert" variant="outlined" >
-                                        File size is too large.
-                                    </Alert>
-                            }
-                            <input
-                                accept="image/*"
-                                id="contained-button-file"
-                                type="file"
-                                onChange={handleProfileImg}
-                                hidden      
-                                MAX_FILE_SIZE={MAX_FILE_SIZE}                   
-                            />
-                            <label htmlFor="contained-button-file" className="input-label">
-                                <Button className="upload-button"  component="span">
-                                    Upload new image
-                                </Button>
-                            </label>
-                        </Box>
-                    </Grid>
-                    <Grid item md={9} sm={12} xs={12}>
-                        <Box className="edit-box">
-                            <Typography variant="h5" 
-                                color="textPrimary"
-                                gutterBottom
-                                className="edit-title"
-                                // style={{fontWeight: 'bold', fontSize: '30px'}}
-                            >
-                                Account Details 
-                            </Typography>
-                            <FormControl className="edit-field">
-                                <Grid container spacing={2}>
-                                    {openNetwork && 
-                                            <Grid item lg={12} sm={12} md={12}>
-                                                {openNetwork && <Alert severity="error" onClose={handleCloseNetwork} variant="outlined"> 
-                                                                    Network error!
-                                                                </Alert>
-                                                }
-                                            </Grid> 
-                                    }
-                                    {openWrongPass && 
-                                        <Grid item lg={12} sm={12} md={12}>
-                                                {openWrongPass && <Alert severity="error" onClose={handleCloseWrongPass} variant="outlined">
-                                                                    Current password is wrong!
-                                                                </Alert> 
-                                                }                                        
-                                        </Grid>    
-                                    }
-                                    <Grid item xs={12} sm={6} md={6}>
-                                        <TextField
-                                            label="Full name"
-                                            variant="outlined"
-                                            color="secondary"
-                                            value={fullname}
-                                            onChange={handleFullname}
-                                            style={{width: '100%'}}
-                                            error={fullnameError}
-                                            InputLabelProps={{ shrink: true }} 
-                                            helperText={
-                                                <div className="edit-error">
-                                                    {fullnameError && 'Your full name should have at least two words.'}
-                                                </div>
-                                            }
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12} sm={6} md={6}>
-                                        <PhoneInput
-                                            label="Phone number"
-                                            value={data.phone_number}
-                                            defaultCountry="ir"
-                                            color="secondary"
-                                            onChange={handlePhoneChange}
-                                            InputLabelProps={{ shrink: true }} 
-                                            inputClass={classes.field}
-                                            className="phone-input"
-                                            style={{width: '100%'}}
-                                            variant="outlined"
-                                            // focused={true}
-                                        />
-                                    </Grid>
-                                </Grid>
-                            </FormControl>
-                            <FormControl className="edit-field">
-                                <TextField
-                                    label="Email address"
-                                    variant="outlined"
-                                    color="secondary"
-                                    value={data.email}
-                                    InputLabelProps={{ shrink: true }}  
-                                    // disabled                          
-                                    InputProps={{
-                                        readOnly: true
-                                    }}
+                <div className={`container ${blurBackground ? 'blur-background' : ''}`}>
+                    <Grid container spacing={2} className="edit-grid">
+                        <Grid item md={3} sm={12} xs={12}>
+                            <Box className="edit-box">
+                                <Typography variant="h5" 
+                                    color="textPrimary"
+                                    gutterBottom
+                                    className="edit-title"
+                                    // style={{fontWeight: 'bold', fontSize: '30px'}}
+                                >
+                                    Profile Picture
+                                </Typography>
+                                <Avatar
+                                    className="edit-avatar"
+                                    style={{backgroundColor: color, fontSize:"40px"}}
+                                    src={profileImg}
+                                >
+                                    {firstChar}
+                                </Avatar>
+                                <Typography className="text-above-upload">
+                                    JPG or PNG no larger than 5 MB
+                                </Typography>
+                                {open && <Alert severity="error" open={open} onClose={handleClose} className="image-alert" variant="outlined" >
+                                            File size is too large.
+                                        </Alert>
+                                }
+                                <input
+                                    accept="image/*"
+                                    id="contained-button-file"
+                                    type="file"
+                                    onChange={handleProfileImg}
+                                    hidden      
+                                    MAX_FILE_SIZE={MAX_FILE_SIZE}                   
                                 />
-                            </FormControl>
-                            <FormControl className="edit-field">
-                                <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={6} md={6}>
-                                        <TextField
-                                            select
-                                            label="Gender"
-                                            color="secondary"
-                                            variant="outlined"
-                                            value={gender}
-                                            InputLabelProps={{ shrink: true }}
-                                            // style= {{textAlign: 'left', width:'100%'}}
-                                            style={{width: '100%'}}
-                                            onChange={handleGender}
-                                        >
-                                            <MenuItem value="select" disabled>
-                                                <em>Select gender</em>
-                                            </MenuItem>
-                                            <MenuItem value="male">
-                                                Male
-                                            </MenuItem>
-                                            <MenuItem value="female">
-                                                Female
-                                            </MenuItem>
-                                        </TextField>
+                                <label htmlFor="contained-button-file" className="input-label">
+                                    <Button className="upload-button"  component="span">
+                                        Upload new image
+                                    </Button>
+                                </label>
+                            </Box>
+                        </Grid>
+                        <Grid item md={9} sm={12} xs={12}>
+                            <Box className="edit-box">
+                                <Typography variant="h5" 
+                                    color="textPrimary"
+                                    gutterBottom
+                                    className="edit-title"
+                                    // style={{fontWeight: 'bold', fontSize: '30px'}}
+                                >
+                                    Account Details 
+                                </Typography>
+                                <FormControl className="edit-field">
+                                    <Grid container spacing={2}>
+                                        {openNetwork && 
+                                                <Grid item lg={12} sm={12} md={12}>
+                                                    {openNetwork && <Alert severity="error" onClose={handleCloseNetwork} variant="outlined"> 
+                                                                        Network error!
+                                                                    </Alert>
+                                                    }
+                                                </Grid> 
+                                        }
+                                        {openWrongPass && 
+                                            <Grid item lg={12} sm={12} md={12}>
+                                                    {openWrongPass && <Alert severity="error" onClose={handleCloseWrongPass} variant="outlined">
+                                                                        Current password is wrong!
+                                                                    </Alert> 
+                                                    }                                        
+                                            </Grid>    
+                                        }
+                                        <Grid item xs={12} sm={6} md={6}>
+                                            <TextField
+                                                label="Full name"
+                                                variant="outlined"
+                                                color="secondary"
+                                                value={fullname}
+                                                onChange={handleFullname}
+                                                style={{width: '100%'}}
+                                                error={fullnameError}
+                                                InputLabelProps={{ shrink: true }} 
+                                                helperText={
+                                                    <div className="edit-error">
+                                                        {fullnameError && 'Your full name should have at least two words.'}
+                                                    </div>
+                                                }
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sm={6} md={6}>
+                                            <PhoneInput
+                                                label="Phone number"
+                                                value={data.phone_number}
+                                                defaultCountry="ir"
+                                                color="secondary"
+                                                onChange={handlePhoneChange}
+                                                InputLabelProps={{ shrink: true }} 
+                                                inputClass={classes.field}
+                                                className="phone-input"
+                                                style={{width: '100%'}}
+                                                variant="outlined"
+                                                // focused={true}
+                                            />
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={12} sm={6} md={6} style={{paddingTop: '0'}}>
-                                        <LocalizationProvider dateAdapter={AdapterDayjs} style={{width: '150%'}}
-                                         InputLabelProps={{ shrink: true }}
-                                        >
-                                            <DemoContainer components={['DatePicker']} >
-                                                <DatePicker
-                                                    label="Date of birth"
-                                                    views={['year', 'month', 'day']}
-                                                    sx={{width: '100%'}}
-                                                    maxDate={dayjs()}
-                                                    onChange={handleBirthdate}
-                                                    value={dob ? dayjs(dob) : null }
-                                                />
-                                            </DemoContainer>
-                                        </LocalizationProvider>
-                                    </Grid>
-                                </Grid>
-                            </FormControl>
-                            <FormControl className="edit-field">
-                                <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={6} md={6}>
-                                        <TextField
-                                            label="Country"
-                                            variant="outlined"
-                                            color="secondary"
-                                            value={country}
-                                            style={{width: '100%'}}
-                                            onChange={handleCountry}
-                                        /> 
-                                    </Grid>
-                                    <Grid item xs={12} sm={6} md={6}>
-                                        <TextField
-                                            label="City"
-                                            variant="outlined"
-                                            color="secondary"
-                                            value={city}
-                                            style={{width: '100%'}}
-                                            onChange={handleCity}
-                                        /> 
-                                    </Grid>
-                                </Grid>
-                            </FormControl>
-                            <FormControl className="edit-field">
-                                <TextField
-                                    label="Address"
-                                    variant="outlined"
-                                    color="secondary"
-                                    multiline
-                                    value={address}
-                                    onChange={handleAddress}
-                                /> 
-                            </FormControl>
-                                {show && <>
+                                </FormControl>
                                 <FormControl className="edit-field">
                                     <TextField
-                                        label="Current passsword"
+                                        label="Email address"
                                         variant="outlined"
                                         color="secondary"
-                                        onChange={handlePassword}
-                                        type= {showCurrentPassword ? 'text' : 'password'}
+                                        value={data.email}
+                                        InputLabelProps={{ shrink: true }}  
+                                        // disabled                          
                                         InputProps={{
-                                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <Icon>
-                                                        <LockIcon />
-                                                    </Icon> 
-                                                </InputAdornment>
-                                            ),
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <IconButton 
-                                                        aria-label="toggle password visibility"
-                                                        onClick={handleClickShowCurrentPassword}
-                                                        onMouseDown={handleMouseDownCurrentPassword}
-                                                    >
-                                                        {showCurrentPassword ? <Visibility /> : <VisibilityOff />}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            )
+                                            readOnly: true
                                         }}
-
                                     />
                                 </FormControl>
-
                                 <FormControl className="edit-field">
-                                <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={6} md={6}>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12} sm={6} md={6}>
+                                            <TextField
+                                                select
+                                                label="Gender"
+                                                color="secondary"
+                                                variant="outlined"
+                                                value={gender}
+                                                InputLabelProps={{ shrink: true }}
+                                                // style= {{textAlign: 'left', width:'100%'}}
+                                                style={{width: '100%'}}
+                                                onChange={handleGender}
+                                            >
+                                                <MenuItem value="select" disabled>
+                                                    <em>Select gender</em>
+                                                </MenuItem>
+                                                <MenuItem value="male">
+                                                    Male
+                                                </MenuItem>
+                                                <MenuItem value="female">
+                                                    Female
+                                                </MenuItem>
+                                            </TextField>
+                                        </Grid>
+                                        <Grid item xs={12} sm={6} md={6} style={{paddingTop: '0'}}>
+                                            <LocalizationProvider dateAdapter={AdapterDayjs} style={{width: '150%'}}
+                                            InputLabelProps={{ shrink: true }}
+                                            >
+                                                <DemoContainer components={['DatePicker']} >
+                                                    <DatePicker
+                                                        label="Date of birth"
+                                                        views={['year', 'month', 'day']}
+                                                        sx={{width: '100%'}}
+                                                        maxDate={dayjs()}
+                                                        onChange={handleBirthdate}
+                                                        value={dob ? dayjs(dob) : null }
+                                                    />
+                                                </DemoContainer>
+                                            </LocalizationProvider>
+                                        </Grid>
+                                    </Grid>
+                                </FormControl>
+                                <FormControl className="edit-field">
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12} sm={6} md={6}>
+                                            <TextField
+                                                select
+                                                label="Country"
+                                                variant="outlined"
+                                                color="secondary"
+                                                value={country}
+                                                InputLabelProps={{ shrink: true }}
+                                                style={{width: '100%'}}
+                                                onChange={handleCountry}
+                                                SelectProps={{
+                                                    MenuProps: {
+                                                    PaperProps: {
+                                                        style: {
+                                                        maxHeight: '238px', // Set your desired max height here
+                                                        },
+                                                    },
+                                                    },
+                                                }}
+                                            > 
+                                                <MenuItem value="select" disabled>
+                                                    <em>Select Country</em>
+                                                </MenuItem>
+                                                {countries && countries.map((c, index) => (
+                                                    <MenuItem style={{height: '40px' }} value={c}>{c}</MenuItem>
+                                                ))}
+                                            </TextField>
+                                        </Grid>
+                                        <Grid item xs={12} sm={6} md={6}>
+                                            <TextField
+                                                select
+                                                label="City"
+                                                variant="outlined"
+                                                color="secondary"
+                                                value={city}
+                                                InputLabelProps={{ shrink: true }}
+                                                style={{width: '100%'}}
+                                                onChange={handleCity}
+                                                SelectProps={{
+                                                    MenuProps: {
+                                                    PaperProps: {
+                                                        style: {
+                                                        maxHeight: '238px', // Set your desired max height here
+                                                        },
+                                                    },
+                                                    },
+                                                }}
+                                            >
+                                                <MenuItem value="select" disabled>
+                                                    <em>Select City</em>
+                                                </MenuItem>
+                                                {cities && cities.map((c, index) => (
+                                                    <MenuItem style={{height: '40px' }} value={c}>{c}</MenuItem>
+                                                ))}
+                                            </TextField>
+                                        </Grid>
+                                    </Grid>
+                                </FormControl>
+                                <FormControl className="edit-field">
                                     <TextField
-                                        label="New password"
+                                        label="Address"
                                         variant="outlined"
-                                        style={{width: '100%'}}
                                         color="secondary"
-                                        onChange={handlenewPassword}
-                                        type= {showNewPassword ? 'text' : 'password'}
-                                        error={newPasswordError}
-                                        helperText= {
-                                            <div className="edit-error">
-                                                {newPasswordError && 'Password must be mixture of letters and numbers.'}
-                                            </div>
-                                        }
+                                        multiline
+                                        value={address}
+                                        onChange={handleAddress}
                                         InputProps={{
-                                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <Icon>
-                                                        <LockIcon />
-                                                    </Icon> 
-                                                </InputAdornment>
-                                            ),
                                             endAdornment: (
                                                 <InputAdornment position="end">
-                                                    <IconButton 
-                                                        aria-label="toggle password visibility"
-                                                        onClick={handleClickShowNewPassword}
-                                                        onMouseDown={handleMouseDownnewPassword}
-                                                    >
-                                                        {showNewPassword ? <Visibility /> : <VisibilityOff />}
+                                                    <IconButton title="choose location" style={{marginLeft:"28%"}} onClick={handleOpenMap}>
+                                                        <TravelExploreIcon />
                                                     </IconButton>
                                                 </InputAdornment>
                                             )
                                         }}
+        
                                     />
-                                    </Grid>
-                                    <Grid item xs={12} sm={6} md={6}>
+                                    <Modal open={showMap} onClose={handleCloseMap}>
+                                        <Map/>
+                                    </Modal>
+                                </FormControl>
+                                    {show && <>
+                                    <FormControl className="edit-field">
                                         <TextField
-                                            label="Confirm new password"
+                                            label="Current passsword"
                                             variant="outlined"
-                                            style={{width: '100%'}}
                                             color="secondary"
-                                            onChange={handleConfirmPassword}
-                                            error={newPasswordMatch === false}
-                                            helperText={
-                                                <div className="edit-error">
-                                                    {!newPasswordMatch && 'Password do not match!'}
-                                                </div>
-                                            }
-                                            type= {showConfirmPassword ? 'text' : 'password'}
+                                            onChange={handlePassword}
+                                            type= {showCurrentPassword ? 'text' : 'password'}
                                             InputProps={{
                                                 startAdornment: (
                                                     <InputAdornment position="start">
                                                         <Icon>
-                                                            <LockOpenIcon />
+                                                            <LockIcon />
                                                         </Icon> 
                                                     </InputAdornment>
                                                 ),
@@ -607,46 +627,123 @@ function Edit(props){
                                                     <InputAdornment position="end">
                                                         <IconButton 
                                                             aria-label="toggle password visibility"
-                                                            onClick={handleClickShowConfirmPassword}
-                                                            onMouseDown={handleMouseDownconfirmPassword}
+                                                            onClick={handleClickShowCurrentPassword}
+                                                            onMouseDown={handleMouseDownCurrentPassword}
                                                         >
-                                                            {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                                                            {showCurrentPassword ? <Visibility /> : <VisibilityOff />}
                                                         </IconButton>
                                                     </InputAdornment>
                                                 )
                                             }}
-                                            />
-                                    </Grid>
-                                    </Grid>
-                                </FormControl>
-                                </>
-                                }
-                            <Grid container spacing={2} className="edit-button-grid" wrap="nowrap">
-                                <Grid item>
-                                    <Button className="edit-save-changepass-button"  id="edit-button" variant="contained" onClick={() => setShow(prev => !prev)}>Change password </Button>
-                                </Grid>
-                                <Grid item container lg={5} md={6} sm={12}
-                                // style={{marginRight: "-10px"}}
-                                justifyContent="flex-end"
-                                >
-                                    <Grid item style={{paddingRight: '5px'}}>
-                                        <Button className="edit-discard-button" id="edit-button" variant="contained" onClick={handleDiscard}
-                                            // style={{marginRight: "2%"}}
-                                            // style={{backgroundColor: '#E74C3C'}}
-                                        >Discard</Button>
-                                    </Grid>
-                                    <Grid item>
-                                        <Button className="edit-save-changepass-button" id="edit-button" variant="contained" onClick={handleUpdate}
-                                            disabled={!validInputs}
-                                            // style={{marginRight: "-2%"}}
-                                        >Save changes</Button>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
 
-                        </Box>
+                                        />
+                                    </FormControl>
+
+                                    <FormControl className="edit-field">
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12} sm={6} md={6}>
+                                        <TextField
+                                            label="New password"
+                                            variant="outlined"
+                                            style={{width: '100%'}}
+                                            color="secondary"
+                                            onChange={handlenewPassword}
+                                            type= {showNewPassword ? 'text' : 'password'}
+                                            error={newPasswordError}
+                                            helperText= {
+                                                <div className="edit-error">
+                                                    {newPasswordError && 'Password must be mixture of letters and numbers.'}
+                                                </div>
+                                            }
+                                            InputProps={{
+                                                startAdornment: (
+                                                    <InputAdornment position="start">
+                                                        <Icon>
+                                                            <LockIcon />
+                                                        </Icon> 
+                                                    </InputAdornment>
+                                                ),
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <IconButton 
+                                                            aria-label="toggle password visibility"
+                                                            onClick={handleClickShowNewPassword}
+                                                            onMouseDown={handleMouseDownnewPassword}
+                                                        >
+                                                            {showNewPassword ? <Visibility /> : <VisibilityOff />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                )
+                                            }}
+                                        />
+                                        </Grid>
+                                        <Grid item xs={12} sm={6} md={6}>
+                                            <TextField
+                                                label="Confirm new password"
+                                                variant="outlined"
+                                                style={{width: '100%'}}
+                                                color="secondary"
+                                                onChange={handleConfirmPassword}
+                                                error={newPasswordMatch === false}
+                                                helperText={
+                                                    <div className="edit-error">
+                                                        {!newPasswordMatch && 'Password do not match!'}
+                                                    </div>
+                                                }
+                                                type= {showConfirmPassword ? 'text' : 'password'}
+                                                InputProps={{
+                                                    startAdornment: (
+                                                        <InputAdornment position="start">
+                                                            <Icon>
+                                                                <LockOpenIcon />
+                                                            </Icon> 
+                                                        </InputAdornment>
+                                                    ),
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            <IconButton 
+                                                                aria-label="toggle password visibility"
+                                                                onClick={handleClickShowConfirmPassword}
+                                                                onMouseDown={handleMouseDownconfirmPassword}
+                                                            >
+                                                                {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    )
+                                                }}
+                                                />
+                                        </Grid>
+                                        </Grid>
+                                    </FormControl>
+                                    </>
+                                    }
+                                <Grid container spacing={2} className="edit-button-grid" wrap="nowrap">
+                                    <Grid item>
+                                        <Button className="edit-save-changepass-button"  id="edit-button" variant="contained" onClick={() => setShow(prev => !prev)}>Change password </Button>
+                                    </Grid>
+                                    <Grid item container lg={5} md={6} sm={12}
+                                    // style={{marginRight: "-10px"}}
+                                    justifyContent="flex-end"
+                                    >
+                                        <Grid item style={{paddingRight: '5px'}}>
+                                            <Button className="edit-discard-button" id="edit-button" variant="contained" onClick={handleDiscard}
+                                                // style={{marginRight: "2%"}}
+                                                // style={{backgroundColor: '#E74C3C'}}
+                                            >Discard</Button>
+                                        </Grid>
+                                        <Grid item>
+                                            <Button className="edit-save-changepass-button" id="edit-button" variant="contained" onClick={handleUpdate}
+                                                disabled={!validInputs}
+                                                // style={{marginRight: "-2%"}}
+                                            >Save changes</Button>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+
+                            </Box>
+                        </Grid>
                     </Grid>
-                </Grid> 
+                </div>
                 <Footer/>
             </div>
         </ThemeProvider>

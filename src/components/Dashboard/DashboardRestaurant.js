@@ -190,7 +190,7 @@ export default function DashboardRestaurant(){
 
     useEffect(() => {
         axios.get(
-            `http://5.34.195.16/restaurant/customer/${id}/orderview/`,
+            `http://5.34.195.16/restaurant/${id}/orderview/`,
             {headers :{
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
@@ -229,7 +229,9 @@ export default function DashboardRestaurant(){
                 let status = orderHistory[i].status;
                 let restaurant_id = orderHistory[i].restaurantDetails.id;
                 let order_id = orderHistory[i].orderDetails.id;
-                const new_row = createData(restaurant_name, "Setareh", "set@gmail.com", order, price, formatted_date, status, restaurant_id, order_id);
+                let customer_name = orderHistory[i].userDetails.name;
+                let customer_email = orderHistory[i].userDetails.email;
+                const new_row = createData(restaurant_name, customer_name, customer_email, order, price, formatted_date, status, restaurant_id, order_id);
                 rows = [...rows, new_row];                
             }
         }
@@ -306,7 +308,7 @@ export default function DashboardRestaurant(){
         const userData = {
             status:"Cancled"
         }
-        axios.post(`http://5.34.195.16/restaurant/restaurant_view/${Rid}/${id}/order/${Oid}`, userData,
+        axios.put(`http://5.34.195.16/restaurant/restaurant_view/${Rid}/${id}/order/${Oid}/`, userData,
         {headers :{
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -328,7 +330,7 @@ export default function DashboardRestaurant(){
         const userData = {
             status:"InProgress"
         }
-        axios.post(`http://5.34.195.16/restaurant/restaurant_view/${Rid}/${id}/order/${Oid}`, userData,
+        axios.put(`http://5.34.195.16/restaurant/restaurant_view/${Rid}/${id}/order/${Oid}/`, userData,
         {headers :{
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
