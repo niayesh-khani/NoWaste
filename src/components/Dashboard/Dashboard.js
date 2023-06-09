@@ -198,6 +198,7 @@ export default function Dashboard(){
     const token = localStorage.getItem('token');
     const [orderHistory, setOrderHistory] = useState();
     const [value, setValue] = React.useState(0);
+
     function getRandomColor() {
         const colors = ['#FFA600', '#fff2bf', '#ffe480', '#a2332a' , '#E74C3C' , '#690000' , '#595959', '#3e3e3e' , '#C6C6C6', '#ABABAB', '#B9B9B9'];
         return colors[Math.floor(Math.random() * colors.length)];
@@ -303,9 +304,11 @@ export default function Dashboard(){
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [restaurantId, setRestaurantId] = useState('');
+    const [restaurantName, setRestaurantName] = useState('');
     const handleRowClick = (row) => {
         if (row.status === 'Completed') {
             setRestaurantId(row.restaurant_id);
+            setRestaurantName(row.name);
             console.log(row.restaurant_id);
             setIsModalOpen(true);
         }
@@ -323,27 +326,72 @@ export default function Dashboard(){
     };
 
     const [text, setText] = useState('');
-    // const userId = localStorage.getItem("id");
     const handleAddtext = (e) => {
         setText(e.target.value);
         console.log(text);
     }
+    // const handleAdd = (e) => {
+    //     e.preventDefault();
+    //     const userData = {
+    //         text:text
+    //     }
+    //     axios.post(`http://5.34.195.16/restaurant/comment/user_id/${id}/restaurant_id/${restaurantId}`, userData, {headers:{"Content-Type" : "application/json" , 'Authorization' : "Token " + token.slice(1,-1)}})
+    //     .then((response) => {
+    //         console.log(response);
+    //         window.location.reload(false);
+    //     })
+    //     .catch((error) => {
+    //         if (error.response) {
+    //             console.log(error.response);
+    //         } 
+    //     });    
+    // }
+    
     const handleAdd = (e) => {
         e.preventDefault();
-        const userData = {
-            text:text
-        }
-        axios.post(`http://5.34.195.16/restaurant/comment/user_id/${id}/restaurant_id/${restaurantId}`, userData, {headers:{"Content-Type" : "application/json" , 'Authorization' : "Token " + token.slice(1,-1)}})
-        .then((response) => {
-            console.log(response);
-            window.location.reload(false);
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.log(error.response);
-            } 
-        });    
-    }
+        const userDataComment = {
+            text: text
+        };
+        const userDataRate={
+            rate: value,
+            name: restaurantName
+        };
+        const commentPromise = axios.post(
+            `http://5.34.195.16/restaurant/comment/user_id/${id}/restaurant_id/${restaurantId}`,
+            userDataComment,
+            {
+                headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${token.slice(1, -1)}`
+                }
+            }
+        );
+
+        const ratingPromise = axios.post(
+            `http://5.34.195.16/user/rate-restaurant/`,
+            userDataRate,
+            {
+                headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${token.slice(1, -1)}`
+                }
+            }
+        );
+
+        Promise.all([commentPromise, ratingPromise])
+            .then((responses) => {
+                const commentResponse = responses[0];
+                const ratingResponse = responses[1];
+                console.log("comment",commentResponse);
+                console.log("rating",ratingResponse);
+                window.location.reload(false);
+                })
+                .catch((error) => {
+                    if (error.response) {
+                    console.log(error.response);
+                    }
+                });
+    };
 
     const handleCancleOrdering = (Oid, Rid) => {
         const userData = {
@@ -480,7 +528,6 @@ export default function Dashboard(){
                     
                     <Box sx={style} className="dashboard-comment-box">
                     <h2 className='dashboard-title-show-comments'>Add Comment And Rate</h2>
-                    {/* <Rating size="large" precision={0.5} className='dashboard-rate'/> */}
                     <Rating
                         name="simple-controlled"
                         precision={0.5}
@@ -491,6 +538,7 @@ export default function Dashboard(){
                         setValue(newValue);
                         }}
                     />
+                    {/* <Rating name="read-only" value={2.5} precision={0.5} readOnly /> */}
                     <textarea className='dashboard-textarea' onChange={handleAddtext}></textarea>
                     <Stack direction="row" >
                         <Button onClick={() => setIsModalOpen(false)} variant="contained" className='dashboard-btn-close'>
