@@ -491,9 +491,9 @@ function HomepageRestaurant(props){
                                                     </Grid>
                                                     {/* <hr></hr> */}
                                                     <Grid item container alignItems="center" display= 'flex'>
-                                                        <Grid item container alignItems="center" marginBottom={"15px"}>
-                                                            <StarRateIcon sx={{ marginRight: '0.3rem', marginLeft: '5px', color: '#faaf00' }} />
-                                                                <Typography style={{ marginRight: '0.2rem', marginTop:'2.5%' }}>{res.rate}</Typography>    
+                                                        <Grid item container alignItems="center" marginBottom={"15px"} width={"29%"}>
+                                                            <StarRateIcon sx={{marginLeft: '5px', color: '#faaf00' }} />
+                                                                <Typography style={{marginTop:'2.5%' }}>{res.rate}</Typography>    
                                                         </Grid>
                                                         <div style={{marginLeft: '50%'}}>
                                                             <Grid container>
