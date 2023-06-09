@@ -349,7 +349,7 @@ const RestaurantView = (props: Props) =>
             </MU.Grid>
             <BackToTop/>
         </MU.Grid>
-        <Chat/>
+        <Chat id={id}/>
         <Footer/>
 
     </div>
