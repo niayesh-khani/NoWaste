@@ -19,9 +19,11 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import ReactScrollToBottom from "react-scroll-to-bottom";
 import { useEffectOnce } from './useEffectOnce';
+import axios from 'axios';
+import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 
 
-const Chat = () => {
+const Chat = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [open, setOpen] = React.useState(false);
     const [placement, setPlacement] = React.useState();
@@ -30,10 +32,41 @@ const Chat = () => {
     const [userMessage, setUserMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const [num, setNum] = useState(1);
+    // const {id} = useParams();
+    let restaurantId = props.id !=="undefined" ? props.id : "4";
+    if(restaurantId==="undefined"){
+        restaurantId = 4;
+    }
     // const socket = useRef(null);
     const userId = localStorage.getItem('id');
-    const restaurantId = localStorage.getItem('restaurantId');
+    console.log("res id : "+restaurantId + "user id" + userId);
     let room_name = userId < restaurantId ? userId + "_" + restaurantId: restaurantId + "_" + userId;
+    useEffect(() => {
+        axios.get(`http://5.34.195.16/chat/room/${userId}/${room_name}`,
+        {headers : {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "GET,PUT,PATCH",
+        }})
+        .then((response) => {
+            setMessages(response.data);
+            // console.log("I've got message history");
+            // console.log(messages);
+        })
+        .catch((error) => {
+            console.log(error.response);
+        })
+    }, []);
+    useEffect(()=> {
+        console.log(messages);
+        console.log("room name is " +room_name);
+        console.log(`http://5.34.195.16/chat/room/${userId}/${room_name}`);
+    },[room_name]);
+    useEffect(()=> {
+        console.log(messages);
+    },[messages]);
+    
+    // console.log(messages);
     // client = new WebSocket(
     //     // `ws://localhost:8000/ws/socket-server/board/?token=${localStorage.getItem(
     //     //     "access_token"
@@ -123,7 +156,7 @@ const Chat = () => {
                 JSON.stringify({
                     message : userMessage,
                     user_id : userId,
-                    username : "Hanie",
+                    // username : "Hanie",
                     room_name : room_name
                     // type: "join_board_group",
                     // data: { board_id: boardId },
@@ -131,14 +164,42 @@ const Chat = () => {
             );
         }
     };
+    const handleOpenSocket = (e) => {
+        if (client && client.readyState === WebSocket.CLOSED) {
+            console.log(`url is : ws://5.34.195.16:4000/chat/room/${room_name}/`);
+            const clientCopy = new WebSocket(
+                `ws://5.34.195.16:4000/chat/room/${room_name}/`
+            );
+        
+            clientCopy.onopen = () => {
+              setNum(curr => curr + 1);
+              console.log("WebSocket connection opened" + num);
+            };
+        
+            clientCopy.onmessage = (event) => {
+              const message = JSON.parse(event.data);
+              console.log(message);
+              // dnd_socket(message, message.type);
+            };
+        
+            clientCopy.onclose = () => {
+              console.log("WebSocket connection closed");
+            };
+            setClient(clientCopy);
+        }   
+    };
     const handleCloseSocket = (e) => {
-        client.close();
+        if (client && client.readyState === WebSocket.OPEN) {
+            client.close();
+          } else {
+            console.log("WebSocket connection is already closed");
+        }
+        // client.close();
         // console.log("")
-    }
+    };
 
     return (
         <div>
-            <button onClick={handleCloseSocket}>Close socjet</button>
             <Popper open={open} anchorEl={anchorEl} placement={placement} transition className='chat-poper'>
             {({ TransitionProps }) => (
                 <Fade {...TransitionProps} timeout={350}>
@@ -151,10 +212,13 @@ const Chat = () => {
                                 <ReactScrollToBottom className="chatBox">
                                         {messages.map((msg, index) => (
                                             <ListItem key={index} className='chat-listitem-right'>
-                                                <ListItemText primary={msg} style={{ wordWrap: 'break-word' }}/>
+                                                <ListItemText primary={msg.fields.message} style={{ wordWrap: 'break-word' }}/>
                                             {/* {index === messages.length - 1 && <p className='chat-time'>{new Date().toLocaleTimeString(undefined, options)}</p>} */}
                                             {/* {index === messages.length - 1 && (<p className='chat-time'>{formatTime(new Date(), options)}</p>)} */}
-                                            <p className='chat-time'>{times[index]}</p>
+                                                <p className='chat-time'>
+                                                    {/* {times[msg.fields.date_created]} */}
+                                                    {new Date(msg.fields.date_created).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                </p>
                                             </ListItem>
                                         ))}   
                                 </ReactScrollToBottom >
@@ -177,7 +241,7 @@ const Chat = () => {
                 aria-label="add"
                 onClick={handleClick('top')}
             >
-                {open ? <CloseIcon /> : <HeadsetMicIcon />}
+                {open ? <CloseIcon onClick={handleCloseSocket}/> : <HeadsetMicIcon onClick={handleOpenSocket}/>}
             </Fab>
         </div>
 
