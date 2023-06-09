@@ -108,7 +108,8 @@ const RestaurantView = (props: Props) =>
     const token = localStorage.getItem('token');
     const [email, setEmail] = React.useState("");
     const {id} = useParams();
-    const [list_fav, setList_Fav] = useState(localStorage.getItem('list_of_favorites_res'))
+    const [list_fav, setList_Fav] = useState(localStorage.getItem('list_of_favorites_res'));
+    const customer_id = localStorage.getItem('id');
 
     useEffect(() => {
         const email = JSON.parse(localStorage.getItem('email'));
@@ -349,7 +350,7 @@ const RestaurantView = (props: Props) =>
             </MU.Grid>
             <BackToTop/>
         </MU.Grid>
-        <Chat id={id}/>
+        <Chat restaurant={id} customer={customer_id} sender={customer_id}/>
         <Footer/>
 
     </div>

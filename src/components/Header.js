@@ -30,6 +30,8 @@ const Header = React.memo(() => {
     const [auth, setAuth] = React.useState(true);
     const role = JSON.parse(localStorage.getItem("role"));
     const history = useHistory();
+    const token = localStorage.getItem('token');
+
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
@@ -135,7 +137,14 @@ const Header = React.memo(() => {
       };
       console.log(userData);
       console.log(val)
-      axios.post("http://5.34.195.16/user/charge-wallet/", userData, { headers: { "Content-Type": "application/json" } })
+      axios.post("http://5.34.195.16/user/charge-wallet/", userData,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "POST,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
+
         .then((response) => {
           console.log(response);
           const newBalance = response.data.wallet_balance;

@@ -308,7 +308,7 @@ export default function DashboardRestaurant(){
         const userData = {
             status:"Cancled"
         }
-        axios.post(`http://5.34.195.16/restaurant/restaurant_view/${Rid}/${id}/order/${Oid}/`, userData,
+        axios.put(`http://5.34.195.16/restaurant/restaurant_view/${Rid}/${id}/order/${Oid}/`, userData,
         {headers :{
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -330,7 +330,7 @@ export default function DashboardRestaurant(){
         const userData = {
             status:"InProgress"
         }
-        axios.post(`http://5.34.195.16/restaurant/restaurant_view/${Rid}/${id}/order/${Oid}/`, userData,
+        axios.put(`http://5.34.195.16/restaurant/restaurant_view/${Rid}/${id}/order/${Oid}/`, userData,
         {headers :{
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
