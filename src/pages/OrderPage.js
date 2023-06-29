@@ -13,7 +13,8 @@ import axios from 'axios';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import Map from "../components/Map/Map";
 import Modal from '@mui/material/Modal';
-
+import { ToastContainer, toast } from 'react-toastify';
+import {useHistory } from "react-router-dom";
 
 const theme = createTheme({
     palette: {
@@ -35,14 +36,16 @@ export default function OrderPage(){
     const [prices, setPrices] = useState([]);
     const [balance, setBalance] = useState(localStorage.getItem('wallet_balance'));
     const val = JSON.parse(localStorage.getItem('email'));
+    const [alertSeverity, setAlertSeverity] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+    const history = useHistory();
 
     const handleCheckAdd = () => {
         setCheckAdd(!checkAdd);
-    }
+    };
     const handleCheckPay = (e) => {
         setCheckPay(e.target.checked);
-    }
-
+    };
 
     const restaurantId = localStorage.getItem('restaurantId');
     console.log(restaurantId);
@@ -71,7 +74,31 @@ export default function OrderPage(){
             .catch((error) => {
             console.log(error.response);
             });
-    },[])
+    },[]);
+
+    useEffect(() => {
+        if(alertMessage !== "" && alertSeverity !== ""){
+            if(alertSeverity === "success"){
+                toast.success(alertMessage, {
+                    position: toast.POSITION.TOP_CENTER,
+                    title: "Success",
+                    autoClose: 7000,
+                    pauseOnHover: true
+                });
+                const timeoutId = setTimeout(() => {
+                    history.push(`/restaurant-view/${restaurantId}`);
+                }, 7000);
+                return () => clearTimeout(timeoutId);
+            } else {
+                toast.error(alertMessage, {
+                    position: toast.POSITION.TOP_CENTER,
+                    title: "Error",
+                    autoClose: 7000,
+                    pauseOnHover: true
+                })
+            }
+        }
+    }, [alertMessage, alertSeverity]);
 
     const handlePayment = (e) => {
         e.preventDefault();
@@ -93,10 +120,15 @@ export default function OrderPage(){
             const newBalance = response.data.wallet_balance;
             localStorage.setItem('wallet_balance', newBalance);
             setBalance(newBalance);
+            //add alert
+            setAlertMessage("Payment Successful! Thank you for your purchase.");
+            setAlertSeverity("success");
           })
           .catch((error) => {
             if (error.response) {
-              console.log(error);
+                setAlertMessage("An error occured. Please try again later.");
+                setAlertSeverity("error");
+                console.log(error);
             }
           });
       };
@@ -126,23 +158,24 @@ export default function OrderPage(){
                                 className="orderpage-title"
                             >
                                 Shopping Card
-                                <span style={{color:"#E74C3C"}}>(2)</span>
+                                {/* <span style={{color:"#E74C3C"}}>(2)</span> */}
                             </Typography>
                             <div className="orderpage-details-div">
-
                                 <Grid container spacing={2} className="orderpage-grid">      
+                                    {orderItems && orderItems.map((order_list)=>(
+                                        <Grid container spacing={2} className="orderpage-grid">
+                                            <Grid item>
+                                                <Typography className="order-food">{order_list.name_and_price.name}</Typography>
+                                            </Grid>
+                                            <Grid item>
+                                                <Typography className="order-food">
+                                                    <span className="order-food" style={{color: '#8a8686'}}>{order_list.quantity} × </span>
+                                                    {order_list.name_and_price.price}</Typography>
+                                            </Grid>
+                                        </Grid>
+                                        ))
+                                    }
                                 </Grid>
-                                {orderItems && orderItems.map((order_list)=>(<Grid container spacing={2} className="orderpage-grid">
-                                    <Grid item>
-                                        <Typography className="order-food">{order_list.name_and_price.name}</Typography>
-                                    </Grid>
-                                    <Grid item>
-                                        <Typography className="order-food">
-                                            <span className="order-food" style={{color: '#8a8686'}}>{order_list.quantity} × </span>
-                                            {order_list.name_and_price.price}</Typography>
-                                    </Grid>
-                                </Grid>))
-                                }
                             </div>
                             <hr className="hr-tag" />
                             <Grid container spacing={2} className="orderpage-grid">
@@ -159,7 +192,6 @@ export default function OrderPage(){
                                     <Typography className="order-food">Discount</Typography>
                                 </Grid>
                                 <Grid item >
-                                    {/* <Typography> {"15"+"%"} </Typography> */}
                                     <Typography className="order-food"> {prices[2]*100}% </Typography>     
 
                                 </Grid>
@@ -170,7 +202,6 @@ export default function OrderPage(){
                                     <Typography className="order-food">Grand total</Typography>
                                 </Grid>
                                 <Grid item>
-                                    {/* <Typography> {205*0.85} </Typography> */}
                                     <Typography className="order-food" id="grand-total"> {prices[1]}$ </Typography>          
                                 </Grid>
                             </Grid> 
@@ -217,6 +248,7 @@ export default function OrderPage(){
                                         style={{ color: "green" , marginTop:"-22%"}}
                                         className="checkbox-orderpage"
                                         defaultChecked
+                                        disabled
                                         onClick={handleCheckAdd}
                                     />
                                     </Grid>
@@ -245,6 +277,7 @@ export default function OrderPage(){
                                         style={{ color: "green" , marginTop:"-22%"}}
                                         className="checkbox-orderpage"
                                         defaultChecked
+                                        disabled
                                         onClick={handleCheckAdd}
                                     />
                                     </Grid>
