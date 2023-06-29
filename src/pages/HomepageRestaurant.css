@@ -110,10 +110,17 @@
     font-family: 'Montserrat', sans-serif !important;
     border-radius: 70px;
 }
-.discard-button {
+#cancel-buttons{
+    text-transform: none;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif !important;
+    border-radius: 70px;
+}
+.cancel-button {
     background-color: #E74C3C !important;
 }
-.discard-button:hover{
+.cancel-button:hover{
     transform: scale(1.01);
 }
 

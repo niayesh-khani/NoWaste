@@ -38,21 +38,21 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import '../components/OwnRestaurantCard.css';
 import '../components/OwnRestaurantCard.css';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
+// import Drawer from '@mui/material/Drawer';
+// import List from '@mui/material/List';
+// import ListItem from '@mui/material/ListItem';
+// import ListItemIcon from '@mui/material/ListItemIcon';
+// import ListItemText from '@mui/material/ListItemText';
+// import MenuIcon from '@mui/icons-material/Menu';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import Divider from '@mui/material/Divider';
-import DeleteIcon from '@mui/icons-material/Delete';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
-import InfoIcon from '@mui/icons-material/Info';
-import PersonIcon from '@mui/icons-material/Person';
+// import Divider from '@mui/material/Divider';
+// import DeleteIcon from '@mui/icons-material/Delete';
+// import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+// import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
+// import InfoIcon from '@mui/icons-material/Info';
+// import PersonIcon from '@mui/icons-material/Person';
 import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
+// import AddIcon from '@mui/icons-material/Add';
 import Modal from '@mui/material/Modal';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import Map from "../components/Map/Map";
@@ -76,125 +76,125 @@ const styles = theme => ({
       ...theme.typography.body1,
       width : "100px",
     },
-  });
-const IOSSwitch = styled((props) => (
-    <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
-    ))(({ theme }) => ({
-    width: 42,
-    height: 26,
-    padding: 0,
-    '& .MuiSwitch-switchBase': {
-        padding: 0,
-        margin: 2,
-        transitionDuration: '300ms',
-        '&.Mui-checked': {
-        transform: 'translateX(16px)',
-        color: '#fff',
-        '& + .MuiSwitch-track': {
-            backgroundColor:'#dd9d46',
-            opacity: 1,
-            border: 0,
-        },
-        '&.Mui-disabled + .MuiSwitch-track': {
-            opacity: 0.5,
-        },
-        },
-        '&.Mui-focusVisible .MuiSwitch-thumb': {
-        color: '#dd9d46',
-        border: '6px solid #dd9d46',
-        },
-        '&.Mui-disabled .MuiSwitch-thumb': {
-        color:
-            theme.palette.mode === 'light'
-            ? theme.palette.grey[100]
-            : theme.palette.grey[600],
-        },
-        '&.Mui-disabled + .MuiSwitch-track': {
-        opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
-        },
-    },
-    '& .MuiSwitch-thumb': {
-        boxSizing: 'border-box',
-        width: 22,
-        height: 22,
-    },
-    '& .MuiSwitch-track': {
-        borderRadius: 26 / 2,
-        backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
-        opacity: 1,
-        transition: theme.transitions.create(['background-color'], {
-        duration: 500,
-        }),
-    },
-    }));
-
-const useStyles = makeStyles({
-    markLabel: {
-        fontSize: '0.6rem !important',
-        width: '0 !important',
-        height: '0 !important',
-        alignContent: 'center',
-        alignItems: 'center',
-        transform: "translateX(-25px) !important"
-    },
-    markLabelActive: {
-        fontSize: '0.5rem',
-        width: '0 !important',
-        height: '0 !important',
-    },
 });
-const rateMarks = [
-    {
-        value: 0.0,
-        label: "Least reted",
-    },
-    {
-        value: 5.0,
-        label: "Most rated",
-    }
-];
-function rateValueText(rateMarks) {
-    return `${rateMarks}`;
-}
-const discountMarks = [
-    {
-        value: 0,
-        label: "Least discount"
-    },
-    {
-        value: 100,
-        label: "Most discount"
-    }
-];
-function discountValueText(discountMarks) {
-    return `${discountMarks}`;
-}
+// const IOSSwitch = styled((props) => (
+//     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
+//     ))(({ theme }) => ({
+//     width: 42,
+//     height: 26,
+//     padding: 0,
+//     '& .MuiSwitch-switchBase': {
+//         padding: 0,
+//         margin: 2,
+//         transitionDuration: '300ms',
+//         '&.Mui-checked': {
+//         transform: 'translateX(16px)',
+//         color: '#fff',
+//         '& + .MuiSwitch-track': {
+//             backgroundColor:'#dd9d46',
+//             opacity: 1,
+//             border: 0,
+//         },
+//         '&.Mui-disabled + .MuiSwitch-track': {
+//             opacity: 0.5,
+//         },
+//         },
+//         '&.Mui-focusVisible .MuiSwitch-thumb': {
+//         color: '#dd9d46',
+//         border: '6px solid #dd9d46',
+//         },
+//         '&.Mui-disabled .MuiSwitch-thumb': {
+//         color:
+//             theme.palette.mode === 'light'
+//             ? theme.palette.grey[100]
+//             : theme.palette.grey[600],
+//         },
+//         '&.Mui-disabled + .MuiSwitch-track': {
+//         opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
+//         },
+//     },
+//     '& .MuiSwitch-thumb': {
+//         boxSizing: 'border-box',
+//         width: 22,
+//         height: 22,
+//     },
+//     '& .MuiSwitch-track': {
+//         borderRadius: 26 / 2,
+//         backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
+//         opacity: 1,
+//         transition: theme.transitions.create(['background-color'], {
+//         duration: 500,
+//         }),
+//     },
+// }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-}));
+// const useStyles = makeStyles({
+//     markLabel: {
+//         fontSize: '0.6rem !important',
+//         width: '0 !important',
+//         height: '0 !important',
+//         alignContent: 'center',
+//         alignItems: 'center',
+//         transform: "translateX(-25px) !important"
+//     },
+//     markLabelActive: {
+//         fontSize: '0.5rem',
+//         width: '0 !important',
+//         height: '0 !important',
+//     },
+// });
+// const rateMarks = [
+//     {
+//         value: 0.0,
+//         label: "Least reted",
+//     },
+//     {
+//         value: 5.0,
+//         label: "Most rated",
+//     }
+// ];
+// function rateValueText(rateMarks) {
+//     return `${rateMarks}`;
+// }
+// const discountMarks = [
+//     {
+//         value: 0,
+//         label: "Least discount"
+//     },
+//     {
+//         value: 100,
+//         label: "Most discount"
+//     }
+// ];
+// function discountValueText(discountMarks) {
+//     return `${discountMarks}`;
+// }
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-        width: '12ch',
-        '&:focus': {
-            width: '20ch',
-        },
-        },
-},
-}));
+// const SearchIconWrapper = styled('div')(({ theme }) => ({
+//     padding: theme.spacing(0, 2),
+//     height: '100%',
+//     position: 'absolute',
+//     pointerEvents: 'none',
+//     display: 'flex',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+// }));
+
+// const StyledInputBase = styled(InputBase)(({ theme }) => ({
+//     color: 'inherit',
+//     '& .MuiInputBase-input': {
+//         padding: theme.spacing(1, 1, 1, 0),
+//         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+//         transition: theme.transitions.create('width'),
+//         width: '100%',
+//         [theme.breakpoints.up('sm')]: {
+//         width: '12ch',
+//         '&:focus': {
+//             width: '20ch',
+//         },
+//         },
+// },
+// }));
 
 const breakpoints = {
     default: 3,
@@ -204,7 +204,7 @@ const breakpoints = {
 
 function HomepageRestaurant(props){
     const { value, defaultCountry, onChange, classes } = props;
-    const [show, setShow] = useState(false);
+    // const [show, setShow] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
     const [newName, setNewName] = useState('');
     const [newPhone, setNewPhone] = useState('');
@@ -217,13 +217,13 @@ function HomepageRestaurant(props){
     const history = useHistory();
     const [open, setOpen] = useState(false);
 
-    const handleSidebarOpen = () => {
-        setOpen(!open);
-      };
+    // const handleSidebarOpen = () => {
+    //     setOpen(!open);
+    // };
     
-    const handleSidebarClose = () => {
-        setOpen(false);
-    }
+    // const handleSidebarClose = () => {
+    //     setOpen(false);
+    // };
 
     const handleShow = (res) => {
         history.push(`edit-restaurant/${id}/restaurants/${res.id}`);
@@ -252,11 +252,11 @@ function HomepageRestaurant(props){
         const boxHeight = box.offsetHeight;
         const image = document.querySelector('.background');
         image.style.height = `${boxHeight}px`;
-    }
+    };
     const handleCloseNetwork = () => {
         setOpenNetwork(false);
         setHeight();
-    }
+    };
 
     useEffect(() => {
         let valid = false;
@@ -285,24 +285,24 @@ function HomepageRestaurant(props){
 
     const handleAddName = (e) => {
         setNewName(e.target.value);
-    }
+    };
     const handleAddPhone = (e) => {
         setNewPhone(e);
-    }
+    };
     const handleAddDiscount = (e) => {
         setNewDiscount(e.target.value / 100);
-    }
+    };
     const handleAddAddress = (e) => {
         setNewAddress(e.target.value);
-    }
+    };
 
     const handleCancle = () => {
         window.location.reload(false);
-    }
+    };
 
     const handleShowProfile = () => {
         history.push(`/edit-manager`);
-    }
+    };
 
     const handleAdd = (e) => {
         e.preventDefault();
@@ -335,8 +335,7 @@ function HomepageRestaurant(props){
                 else if (error.request) {
                     setOpenNetwork(true);
                     console.log("network error");
-                } 
-
+                }
             });  
         }
     const [openModal, setOpenModal] = React.useState(false);
@@ -348,7 +347,7 @@ function HomepageRestaurant(props){
     const handleOpenMap = () => {
         setShowMap(true);
         setBlurBackground(true);
-        };
+    };
             
     const handleCloseMap = () => {
         setShowMap(false);
@@ -380,8 +379,9 @@ function HomepageRestaurant(props){
                             color="secondary"
                             onChange={handleAddName}
                             style={{width: '100%', marginTop: '10px'}}
-                            InputLabelProps={{ shrink: true }} 
+                            // InputLabelProps={{ shrink: true }} 
                         />
+                        <form noValidate autoComplete="off" style={{textAlign: 'center'}}>
                         <TextField 
                             label="Address"
                             variant="outlined"
@@ -389,7 +389,7 @@ function HomepageRestaurant(props){
                             onChange={handleAddAddress}
                             multiline
                             style={{width: '100%', marginTop: '10px'}}
-                            InputLabelProps={{ shrink: true }}
+                            // InputLabelProps={{ shrink: true }}
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
@@ -399,8 +399,7 @@ function HomepageRestaurant(props){
                                     </InputAdornment>
                                 )
                             }}
-
-                        />
+                        /></form>
                         <Modal open={showMap} onClose={handleCloseMap}>
                             <Map/>
                         </Modal>
@@ -421,23 +420,31 @@ function HomepageRestaurant(props){
                             variant="outlined"
                             color="secondary"
                             onChange={handleAddDiscount}
-                            style={{width: '100%', marginTop: '10px', borderColor: 'white'}}
+                            style={{width: '100%', marginTop: '10px'}}
                         />
                         <Grid container spacing={2} className="new-restaurant-button-grid" wrap="nowrap">
-                                    <Grid item style={{paddingLeft: '20px'}}>
-                                        <Button className="discard-button" id="add-buttons" variant="contained" onClick={handleCancle}
-                                        >
-                                            Cancel
-                                        </Button>
-                                    </Grid>
-                                    <Grid item style={{textAlign:"center"}}>
-                                        <Button className="add-button" id="add-buttons" variant="contained" onClick={handleAdd}
-                                            // disabled={!validInputs}
-                                            // style={{marginRight: "-2%"}}
-                                        >
-                                            Add
-                                        </Button>
-                                </Grid>
+                            <Grid item style={{paddingLeft: '20px'}}>
+                                <Button 
+                                    className="cancel-button" 
+                                    id="cancel-buttons" 
+                                    variant="contained" 
+                                    onClick={handleCancle}
+                                >
+                                    Cancel
+                                </Button>
+                            </Grid>
+                            <Grid item style={{textAlign:"center"}}>
+                                <Button 
+                                    className="add-button" 
+                                    id="add-buttons" 
+                                    variant="contained" 
+                                    onClick={handleAdd}
+                                    // disabled={!validInputs}
+                                    // style={{marginRight: "-2%"}}
+                                >
+                                    Add
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Box>
                 </Modal>
