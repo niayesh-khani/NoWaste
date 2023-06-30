@@ -4,17 +4,14 @@ import Header from "../components/Header";
 import { ThemeProvider } from "@mui/styles";
 import { Button, Box, Grid, Typography, createTheme, Checkbox } from "@material-ui/core";
 import Footer from "../components/Footer";
-import { KeyboardArrowRightIcon } from '@mui/icons-material';
 import PlaceIcon from '@mui/icons-material/Place';
 import WalletIcon from '@mui/icons-material/Wallet';
-import CircleChecked from '@mui/icons-material/CheckCircleOutline';
-import { CheckBox, CircleCheckedFilled, CircleUnchecked } from "@material-ui/icons";
 import axios from 'axios';
-import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import Map from "../components/Map/Map";
 import Modal from '@mui/material/Modal';
 import { ToastContainer, toast } from 'react-toastify';
 import {useHistory } from "react-router-dom";
+import MoneyIcon from '@mui/icons-material/Money';
 
 const theme = createTheme({
     palette: {
@@ -32,19 +29,20 @@ export default function OrderPage(){
     const [orderItems, setOrderItems] = useState([]);
     const token = localStorage.getItem('token');
     const [checkAdd, setCheckAdd] = useState(true);
-    const [checkPay, setCheckPay] = useState(true);
+    // const [checkPay, setCheckPay] = useState(true);
     const [prices, setPrices] = useState([]);
     const [balance, setBalance] = useState(localStorage.getItem('wallet_balance'));
     const val = JSON.parse(localStorage.getItem('email'));
     const [alertSeverity, setAlertSeverity] = useState("");
     const [alertMessage, setAlertMessage] = useState("");
     const history = useHistory();
+    const [paymentMethod, setPaymentMethod] = useState("wallet");
 
     const handleCheckAdd = () => {
         setCheckAdd(!checkAdd);
     };
-    const handleCheckPay = (e) => {
-        setCheckPay(e.target.checked);
+    const handlePaymentMethod = (method) => {
+        setPaymentMethod(method);
     };
 
     const restaurantId = localStorage.getItem('restaurantId');
@@ -83,18 +81,16 @@ export default function OrderPage(){
                     position: toast.POSITION.TOP_CENTER,
                     title: "Success",
                     autoClose: 7000,
-                    pauseOnHover: true
+                    onClose: () => {
+                        history.push("/homepage-customer");
+                    }
                 });
-                const timeoutId = setTimeout(() => {
-                    history.push(`/restaurant-view/${restaurantId}`);
-                }, 7000);
-                return () => clearTimeout(timeoutId);
+                console.log("successfully added");
             } else {
                 toast.error(alertMessage, {
                     position: toast.POSITION.TOP_CENTER,
                     title: "Error",
-                    autoClose: 7000,
-                    pauseOnHover: true
+                    autoClose: 7000
                 })
             }
         }
@@ -107,31 +103,36 @@ export default function OrderPage(){
           amount: prices[1]
         };
         console.log(userData);
-        console.log(val)
-        axios.post("http://5.34.195.16/user/withdraw-wallet/", userData, 
-        {headers: {
-            'Content-Type' : 'application/json',
-            "Access-Control-Allow-Origin" : "*",
-            "Access-Control-Allow-Methods" : "PUT,PATCH",
-            'Authorization' : "Token " + token.slice(1,-1)   
-        }})
-        .then((response) => {
-            console.log(response);
-            const newBalance = response.data.wallet_balance;
-            localStorage.setItem('wallet_balance', newBalance);
-            setBalance(newBalance);
-            //add alert
-            setAlertMessage("Payment Successful! Thank you for your purchase.");
+        console.log(val);
+        if(paymentMethod === "wallet"){
+            axios.post("http://5.34.195.16/user/withdraw-wallet/", userData, 
+                {headers: {
+                    'Content-Type' : 'application/json',
+                    "Access-Control-Allow-Origin" : "*",
+                    "Access-Control-Allow-Methods" : "PUT,PATCH",
+                    'Authorization' : "Token " + token.slice(1,-1)   
+                }})
+            .then((response) => {
+                console.log(response);
+                const newBalance = response.data.wallet_balance;
+                localStorage.setItem('wallet_balance', newBalance);
+                setBalance(newBalance);
+                //add alert
+                setAlertMessage("Payment successful! Thank you for your purchase.");
+                setAlertSeverity("success");
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setAlertMessage("An error occured. Please try again later.");
+                    setAlertSeverity("error");
+                    console.log(error);
+                }
+            });
+        } else{
+            setAlertMessage("Order submitted successfully! Thank you for your purchase");
             setAlertSeverity("success");
-          })
-          .catch((error) => {
-            if (error.response) {
-                setAlertMessage("An error occured. Please try again later.");
-                setAlertSeverity("error");
-                console.log(error);
-            }
-          });
-      };
+        }
+    };
   
     const [showMap, setShowMap] = useState(false);
     const [blurBackground, setBlurBackground] = useState(false);
@@ -150,6 +151,7 @@ export default function OrderPage(){
         <ThemeProvider theme={theme}>
             <Header />
             <div className={`container ${blurBackground ? 'blur-background' : ''}`}>
+                <ToastContainer />
                 <Grid container spacing={2} sx={{paddingBottom: "1%"}} className="orderpage-root">
                     <Grid item lg={4} md={4} sm={12} style={{paddingLeft: "3%"}}>
                         <Box className="orderpage-box" style={{justifyContent: 'space-between'}}>
@@ -193,7 +195,6 @@ export default function OrderPage(){
                                 </Grid>
                                 <Grid item >
                                     <Typography className="order-food"> {prices[2]*100}% </Typography>     
-
                                 </Grid>
                             </Grid>
                             <hr className="hr-tag" />
@@ -238,10 +239,10 @@ export default function OrderPage(){
                             <Box className="orderpage-shopinfo-box">
                                 <Grid container spacing={2}>
                                     <Grid item xs={10}>
-                                    <Typography style={{ display: "flex", marginLeft:'1px'}}>
-                                        <PlaceIcon className="icon-order-page" style={{paddingLeft:"6px"}}/>
-                                        <span style={{ flex: 1 , marginLeft: '-50%'}}>{shoppingCard.userAddress}</span>
-                                    </Typography>
+                                        <Typography style={{ display: "flex", marginLeft:'1px'}}>
+                                            <PlaceIcon className="icon-order-page" style={{paddingLeft:"6px"}}/>
+                                            <span style={{ flex: 1 , marginLeft: '-50%'}}>{shoppingCard.userAddress}</span>
+                                        </Typography>
                                     </Grid>
                                     <Grid item xs={1.5} justifyContent="flex-end">
                                     <Checkbox
@@ -257,10 +258,10 @@ export default function OrderPage(){
                             <Typography
                                 style={{alignSelf: 'flex-start', fontSize: '19px', marginTop: "30px", marginLeft:'1%'}}
                             >
-                                Payment method
+                                Payment methods
                             </Typography>
                             <Box className="orderpage-shopinfo-box">
-                                <Grid container spacing={2}>
+                                <Grid container spacing={3}>
                                     <Grid item xs={2}>
                                         <Typography style={{ display: "flex", marginLeft:'2px'}}>
                                             <WalletIcon className="icon-order-page" style={{paddingRight:"8px" , paddingLeft:"8px"}}/>
@@ -273,13 +274,34 @@ export default function OrderPage(){
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={1.5} justifyContent="flex-end">
-                                    <Checkbox
-                                        style={{ color: "green" , marginTop:"-22%"}}
-                                        className="checkbox-orderpage"
-                                        defaultChecked
-                                        disabled
-                                        onClick={handleCheckAdd}
-                                    />
+                                        <Checkbox
+                                            style={{ color: "green" , marginTop:"-22%"}}
+                                            className="checkbox-orderpage"
+                                            defaultChecked
+                                            // disabled
+                                            checked={paymentMethod === "wallet"}
+                                            onClick={() => handlePaymentMethod("wallet")}
+                                        />
+                                    </Grid>
+                                </Grid>
+                            </Box>
+                            <Box className="orderpage-shopinfo-box">
+                                <Grid container spacing={2}>
+                                    <Grid item xs={4}>
+                                        <Typography style={{ display: "flex", marginLeft:'2px'}}>
+                                            <MoneyIcon className="icon-order-page" style={{paddingRight:"8px" , paddingLeft:"8px"}}/>
+                                            <span style={{ flex: 1 , marginLeft: "-30px"}}>Cash on delivery</span>
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={1.5} justifyContent="flex-end">
+                                        <Checkbox
+                                            style={{ color: "green" , marginTop:"-22%"}}
+                                            className="checkbox-orderpage"
+                                            // defaultChecked
+                                            // disabled
+                                            checked={paymentMethod === "cash"}
+                                            onClick={() => handlePaymentMethod("cash")}
+                                        />
                                     </Grid>
                                 </Grid>
                             </Box>
