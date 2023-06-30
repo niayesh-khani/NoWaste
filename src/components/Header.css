@@ -22,6 +22,9 @@
     font-family: 'Montserrat', sans-serif !important;
 
 }
+.logout-item {
+    color: red !important;
+}
 .profile-icons{
     margin-right: 5%;
     font-size: 180% !important;

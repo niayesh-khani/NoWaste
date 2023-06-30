@@ -82,7 +82,7 @@ const Footer = () => {
         </section>
 
         <div className='text-center p-4' style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
-            © 2023 Copyright : 
+            © 2023 Copyright: &nbsp;
             <a className='text-reset fw-bold' href='http://localhost:3000/'>
             NoWaste.ir
             </a>

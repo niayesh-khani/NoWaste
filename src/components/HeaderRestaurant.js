@@ -24,9 +24,9 @@ import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect } from 'react';
 import axios from "axios";
+import EmailIcon from '@mui/icons-material/Email';
 
-
-const Header = React.memo(() => {
+const HeaderRestaurant = React.memo(() => {
     const [auth, setAuth] = React.useState(true);
     const role = JSON.parse(localStorage.getItem("role"));
     const history = useHistory();
@@ -100,64 +100,12 @@ const Header = React.memo(() => {
     };
     const handleClose = () => {
         setAnchorEl(null);
+    };    
+
+    const handleClickOnChat = (e) => {
+        history.push('/chats');
     };
-
-    const [openWallet, setOpenWallet] = React.useState(false);
-    const handleOpenWallet = () => setOpenWallet(true);
-    const handleCloseWallet= () => setOpenWallet(false);
-    
-
-    const [selectedAmount, setSelectedAmount] = useState(0);
-
-    const handleAddAmount = (amount) => {
-        setSelectedAmount(amount);
-    };
-
-    // const handleIncreaseBalance = () => {
-    //     if (selectedAmount !== 0) {
-    //     setBalance((prevBalance) => prevBalance + selectedAmount);
-    //     setSelectedAmount(0);
-    //     document.getElementById('payment-submit').classList.add('payment-submit-enabled');
-    //     }
-    // };
-
-    const val = JSON.parse(localStorage.getItem('email'));
-
-    const [balance, setBalance] = useState(localStorage.getItem('wallet_balance') || 0);
-
-    useEffect(() => {
-      console.log(balance);
-    }, [balance]);
-    
-    const handleIncreaseBalance = (e) => {
-      e.preventDefault();
-      const userData = {
-        email: val,
-        amount: selectedAmount
-      };
-      console.log(userData);
-      console.log(val)
-      axios.post("http://5.34.195.16/user/charge-wallet/", userData,
-        {headers: {
-            'Content-Type' : 'application/json',
-            "Access-Control-Allow-Origin" : "*",
-            "Access-Control-Allow-Methods" : "POST,PATCH",
-            'Authorization' : "Token " + token.slice(1,-1)   
-        }})
-
-        .then((response) => {
-          console.log(response);
-          const newBalance = response.data.wallet_balance;
-          localStorage.setItem('wallet_balance', newBalance);
-          setBalance(newBalance);
-        })
-        .catch((error) => {
-          if (error.response) {
-            console.log(error);
-          }
-        });
-    };
-
+    const val = JSON.parse(localStorage.getItem('email'));    
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
         ...theme.typography.body2,
@@ -165,7 +113,7 @@ const Header = React.memo(() => {
         textAlign: 'center',
         color: theme.palette.text.secondary,
         flexGrow: 4,
-      }));
+    }));
     const style = {
         position: 'absolute',
         top: '50%',
@@ -192,7 +140,7 @@ const Header = React.memo(() => {
                     src="/logo4.png"
                     alt="NoWaste"
                 />
-                <Search >
+                {/* <Search >
                     <SearchIconWrapper>
                         <SearchIcon />
                     </SearchIconWrapper>
@@ -201,14 +149,30 @@ const Header = React.memo(() => {
                         inputProps={{ 'aria-label': 'search' }}
                         // onChange={handleChange}
                     />
-                </Search>
+                </Search> */}
                 {auth && (
                 <div >
                     
-                    <IconButton color='inherit'>
+                    {/* <IconButton color='inherit'>
                         <Badge badgeContent={1} color='error'>
                             <ShoppingCartIcon onClick={handleCart}/>
                         </Badge>
+                    </IconButton> */}
+                    <IconButton
+                        size='large'
+                        onClick={handleClickOnChat}
+                        color="inherit"
+                        title='Chats'
+                    >
+                        <EmailIcon fontSize="normal"/>
+                    </IconButton>
+                    <IconButton
+                        size='large'
+                        onClick={handleDashboard}
+                        color="inherit"
+                        title='Dashboard'
+                    >
+                        <DashboardIcon fontSize="normal"/>
                     </IconButton>
                     <IconButton
                         size='large'
@@ -221,7 +185,6 @@ const Header = React.memo(() => {
                     >
                         <PersonIcon fontSize="normal"/>
                     </IconButton>
-                    
                     <Menu
                         anchorEl={anchorEl}
                         id="account-menu"
@@ -260,60 +223,7 @@ const Header = React.memo(() => {
                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                     >
                         <MenuItem onClick={handleClickProfile} className='profile-font'>
-                        <AccountBoxIcon className='profile-icons'/> Profile
-                        </MenuItem>
-                        <MenuItem onClick={handleOpenWallet} className='profile-font'>
-                        <AccountBalanceWalletIcon className='profile-icons'/> Wallet
-                        <div className='balance'>{balance} $</div>
-                        </MenuItem>
-                        <Modal
-                            // className='credit-box'
-                            open={openWallet}
-                            // onClose={handleCloseWallet}
-                            aria-labelledby="modal-modal-title"
-                            aria-describedby="modal-modal-description"
-                        >
-                            <Box className='credit-box'>
-                                <IconButton className='close-icon' onClick={handleCloseWallet}>
-                                    <CloseIcon fontSize='small'/>
-                                </IconButton>
-                                <h2>Credit</h2>
-                                {/* <h5>Current Balance : 10$</h5> */}
-                                <div className='blance-header'>Balance : {balance} $</div>
-                                <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap" sx={{ marginTop: '20px', marginLeft: '10px', alignItems:'center' }}>
-                                    {/* <Item>10$</Item>
-                                    <Item>20$</Item>
-                                    <Item>30$</Item> */}
-                                    {/* <Item>
-                                        <button onClick={() => handleAddAmount(10)} className='add-amount-header'>10$</button>
-                                    </Item>
-                                    <Item>
-                                        <button onClick={() => handleAddAmount(20)} className='add-amount-header'>20$</button>
-                                    </Item>
-                                    <Item>
-                                        <button onClick={() => handleAddAmount(30)} className='add-amount-header'>30$</button>
-                                    </Item> */}
-                                    <Button onClick={() => handleAddAmount(70)} className='amount-header'><Item className='item-header'>70$</Item></Button>
-                                    <Button onClick={() => handleAddAmount(80)} className='amount-header'><Item className='item-header'>80$</Item></Button>
-                                    <Button onClick={() => handleAddAmount(90)} className='amount-header'><Item className='item-header'>90$</Item></Button> 
-                                    
-                                
-                                </Stack>
-                                <div style={{ display: 'flex', alignItems: 'center', marginTop: '25px', marginLeft: '10px'}}>
-                                <button className='button_wallet' onClick={() => setSelectedAmount((prevAmount) => prevAmount - 1)} disabled={selectedAmount < 1}>-</button>
-                                <h3 style={{ margin: '0px', textAlign: 'center', minWidth: '290px' }}>{selectedAmount}$</h3>
-                                <button className='button_wallet' onClick={() => setSelectedAmount((prevAmount) => prevAmount + 1)}>+</button>
-                                </div>
-                                <div style={{display: 'flex', justifyContent: 'center' , alignItems: 'center'}}>
-                                    <Button variant="contained" id='payment-submit' onClick={handleIncreaseBalance} disabled={selectedAmount==0} className={selectedAmount === 0 ? '' : 'payment-submit-enabled'}>
-                                        Add to wallet
-                                    </Button>
-                                </div>
-                                
-                            </Box>
-                        </Modal>
-                        <MenuItem onClick={handleDashboard} className='profile-font'>
-                        <DashboardIcon className='profile-icons'/> Dashboard
+                            <AccountBoxIcon className='profile-icons'/> Profile
                         </MenuItem>
                         <MenuItem onClick={handleClickLogOut} className='profile-font logout-item'>
                             <LogoutIcon className='profile-icons'/> 
@@ -328,4 +238,4 @@ const Header = React.memo(() => {
     );
 }
 )
-export default Header;
+export default HeaderRestaurant;
