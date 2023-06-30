@@ -4,9 +4,10 @@
 .grid-homepage-restaurant {
     margin-top: 2% !important;
     /* padding-left: 10%; */
-    /* padding-right: 0%; */
-    margin-left: 30px;
-    margin-right: 0px !important;
+    padding-right: -10% !important;
+    margin-left: 30px !important;
+    margin-right: -200px !important;
+    overflow-x: hidden;
 }
 .home-res-title{
     text-align: center;
@@ -137,4 +138,8 @@
 .new-restaurant-button-grid{
     justify-content: space-between;
     margin-top: 3% !important;
+}
+.add-restaurant-field{
+    width: 100% !important;
+    margin-top: 10px !important;
 }
