@@ -118,11 +118,11 @@ const useStyles = makeStyles({
 const rateMarks = [
     {
         value: 0.0,
-        label: "Least reted",
+        label: "Minimum rete",
     },
     {
         value: 5.0,
-        label: "Most rated",
+        label: "Maximum rate",
     }
 ];
 function rateValueText(rateMarks) {
@@ -131,11 +131,11 @@ function rateValueText(rateMarks) {
 const discountMarks = [
     {
         value: 0,
-        label: "Least discount"
+        label: "Minimum discount"
     },
     {
         value: 100,
-        label: "Most discount"
+        label: "Maximum discount"
     }
 ];
 function discountValueText(discountMarks) {
@@ -452,8 +452,8 @@ const HomepageCustomer = () => {
                                                     </Typography>
                                                     <StarRateIcon style={{ color: '#faaf00', marginLeft: '-20px', marginTop: '15px'}} />
                                                 </Grid>
-                                                <Grid item xs={12} sm={6} container alignItems='center'>
-                                                    <Typography id='details'>
+                                                <Grid item xs={12} sm={6} container alignItems='center' className='homepage-customer-to'>
+                                                    <Typography id='details' >
                                                         To
                                                     </Typography>
                                                     <Typography id='details'>
@@ -483,7 +483,7 @@ const HomepageCustomer = () => {
                             <Grid container spacing={2} className='grid' id='grid-margin'>
                                 <Grid item>
                                     <Typography className='filter-type'>
-                                        Discount
+                                    Discount
                                     </Typography>
                                 </Grid>
                                 <Grid item lg={2} md={3}>
@@ -503,7 +503,7 @@ const HomepageCustomer = () => {
                                                         {valueD[0]}%
                                                     </Typography>
                                                 </Grid>
-                                                <Grid item xs={12} sm={6} container alignItems='center'>
+                                                <Grid item xs={12} sm={6} container alignItems='center' className='homepage-customer-to'>
                                                     <Typography id='details'>
                                                         To
                                                     </Typography>
@@ -613,8 +613,8 @@ const HomepageCustomer = () => {
                                         >
                                             <MenuItem onClick={handleClickNewest} value="Item1">Newest</MenuItem>        //
                                             <MenuItem onClick={handleClickLatest} value="Item2">Latest</MenuItem>
-                                            <MenuItem onClick={handleClickRate} value="Item3">Rate</MenuItem>
-                                            <MenuItem onClick={handleClickDiscount} value="Item4">Discount</MenuItem>
+                                            <MenuItem onClick={handleClickRate} value="Item3">Maximum rate</MenuItem>
+                                            <MenuItem onClick={handleClickDiscount} value="Item4">Maximum discount</MenuItem>
                                         </TextField>
                                     </FormControl>
                                 </Grid>
