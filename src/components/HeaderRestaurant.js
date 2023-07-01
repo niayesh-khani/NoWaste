@@ -139,6 +139,10 @@ const HeaderRestaurant = React.memo(() => {
                     className='logo'
                     src="/logo4.png"
                     alt="NoWaste"
+                    onClick={() => {
+                        window.location.href = '/homepage-restaurant';
+                    }}
+                    style={{ cursor: 'pointer' }}                        
                 />
                 {/* <Search >
                     <SearchIconWrapper>

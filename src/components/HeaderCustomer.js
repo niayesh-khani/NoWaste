@@ -24,6 +24,7 @@ import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect } from 'react';
 import axios from "axios";
+import { Link } from '@material-ui/core';
 
 
 const HeaderCustomer = React.memo(() => {
@@ -179,7 +180,11 @@ const HeaderCustomer = React.memo(() => {
     };
     const handleCart = () => {
         history.push('/order-page');
-      };
+    };
+
+    const handleBackToHome = (e) => {
+        history.push("/homepage-customer");
+    }
     
     return ( 
         <>
@@ -191,6 +196,10 @@ const HeaderCustomer = React.memo(() => {
                     className='logo'
                     src="/logo4.png"
                     alt="NoWaste"
+                    onClick={() => {
+                        window.location.href = '/homepage-customer';
+                    }}
+                    style={{ cursor: 'pointer' }}                        
                 />
                 {/* <Search >
                     <SearchIconWrapper>

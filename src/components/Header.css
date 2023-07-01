@@ -25,6 +25,9 @@
 .logout-item {
     color: red !important;
 }
+.logo{
+    width: 200px !important;
+}
 .profile-icons{
     margin-right: 5%;
     font-size: 180% !important;
