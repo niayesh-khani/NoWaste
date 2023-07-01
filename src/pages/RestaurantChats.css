@@ -1,0 +1,39 @@
+.restaurant-chat-root {
+    background-image: url(/public/Chat-background.png);
+}
+.restaurant-chat-box{
+    height:90%;
+    box-sizing: border-box;  
+    background-image: url(/public/Chat-background.png);
+    background-size: contain;
+    background-color: rgb(239, 235, 229);
+}
+.chat-send-icon{
+    margin-left: -20px !important;
+}
+.chat-send-icon:hover{
+    transform: scale(1.1);
+}
+.chat-detail{
+    width: 100% !important;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    margin-top: 1%;
+    margin-bottom: -1%;
+    background-color: rgb(240, 204, 151);
+    /* padding-top: 10px !important;
+    margin-bottom: -10px !important; */
+}
+.users-avatar{
+    font-size: 40px;
+    width: 50px !important;
+    height: 50px !important;
+}
+.current-chat-avatar {
+    width: 50px !important;
+    height: 50px !important;
+}
+.chat-title{
+    background: linear-gradient(to right, #FFA600, #E74C3C);
+}

@@ -20,6 +20,29 @@ import Avatar from '@mui/material/Avatar';
 import ReactScrollToBottom from "react-scroll-to-bottom";
 import { useEffectOnce } from './useEffectOnce';
 import axios from 'axios';
+import { Box } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const theme = createTheme({
+    palette: {
+        primary: {
+          main: '#e74c3c',
+        },
+        secondary: {
+          main: '#ffa600',
+        }
+    },
+    overrides: {
+        MuiFormLabel: {
+            asterisk: {
+                color: '#db3131',
+                '&$error': {
+                color: '#db3131'
+                },
+            }
+        }
+    }
+});
 
 const Chat = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -148,14 +171,15 @@ const Chat = (props) => {
                                 </Grid>
                                 <ReactScrollToBottom className="chatBox">
                                         {messages.map((msg, index) => (
-                                            <ListItem key={index} 
-                                                className={msg.fields?.sender == sender_id ? 'chat-listitem-right' : 'chat-listitem-left'}
-                                            >
-                                                <ListItemText primary={msg.fields?.message} style={{ wordWrap: 'break-word' }}/>
-                                                <p className='chat-time'>
-                                                    {new Date(msg.fields.date_created).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                                </p>
-                                            </ListItem>
+                                            <Message key={index} message={msg.message} />
+                                            // <ListItem key={index} 
+                                            //     className={msg.fields?.sender == sender_id ? 'chat-listitem-right' : 'chat-listitem-left'}
+                                            // >
+                                            //     <ListItemText primary={msg.fields?.message} style={{ wordWrap: 'break-word' }}/>
+                                            //     <p className='chat-time'>
+                                            //         {new Date(msg.fields.date_created).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                            //     </p>
+                                            // </ListItem>
                                         ))}   
                                 </ReactScrollToBottom >
                                 <Grid className="inputBox">
@@ -184,5 +208,40 @@ const Chat = (props) => {
         
     );
 }
+const Message = ({ message }) => {
+    const isBot = message.sender === "receiver";
+    const align = isBot ? "flex-start" : "flex-end";
+    const timeAlign = isBot ? "left" : "right";
 
+    return (
+        <ThemeProvider theme={theme}>
+            <Box sx={{ display: "flex", justifyContent: align, mb: 2 }}>
+                <Box sx={{ display: "flex", flexDirection: isBot ? "row" : "row-reverse", alignItems: "end" }} >
+                    <Avatar sx={{ bgcolor: isBot ? "primary.main" : "secondary.main" }}>
+                        {isBot ? "C" : "U"}
+                    </Avatar>
+                    <Paper
+                        variant="outlined"
+                        sx={{
+                            p: 2,
+                            ml: isBot ? 1 : 0,
+                            mr: isBot ? 0 : 1,
+                            backgroundColor: isBot ? "primary.light" : "secondary.light",
+                            borderRadius: isBot ? "20px 20px 20px 5px" : "20px 20px 5px 20px",
+                        }}
+                    >
+                        <Typography variant="body1" sx={{mt:-0.8}}>
+                            {message.text}
+                        </Typography>
+                        <Box sx={{mt: -0.4, mb:-1.5}}>
+                            <Typography variant="caption" sx={{textAlign: timeAlign}} >
+                                {message.time}
+                            </Typography>
+                        </Box>
+                    </Paper>
+                </Box>
+            </Box>
+        </ThemeProvider>
+    );
+};
 export default Chat;

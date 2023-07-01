@@ -22,6 +22,7 @@ import EditProfileManager from './pages/EditProfileManager';
 import Dashboard from './components/Dashboard/Dashboard';
 import DashboardRestaurant from './components/Dashboard/DashboardRestaurant';
 import Map from './components/Map/Map';
+import Chat from './pages/RestaurantChats';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -91,6 +92,9 @@ function App() {
           </Route>
           <Route path = "/dashboard-restaurant">
             <DashboardRestaurant />
+          </Route>
+          <Route path="/chats">
+            <Chat />
           </Route>
       </Router>
     //   )}
