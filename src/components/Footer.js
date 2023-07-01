@@ -8,7 +8,7 @@ import './Footer.scss';
 const Footer = () => {
     return (
         
-        <MDBFooter bgColor='light' className='wrapper text-center text-lg-start text-muted' style={{ backgroundColor: 'rgba(0, 0, 0, 0.1)'}}>
+        <MDBFooter bgColor='light' className='wrapper text-center text-lg-start text-muted' style={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', marginTop: '20px'}}>
         <br></br>
         {/* <section className='d-flex justify-content-center justify-content-lg-between p-2 border-bottom' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)'}}>
             
