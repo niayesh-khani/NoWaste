@@ -81,16 +81,11 @@ const Chat = () => {
     return (
         <ThemeProvider theme={theme}>
             <Header />
-            {/* <Box height='10vh' style={{backgroundColor: 'white',display: 'flex', alignItems: 'center', justifyContent: 'center' , marginTop: '-10px'}}>
-                <Typography variant="h4">Chats</Typography>
-            </Box> */}
             <Grid container spacing={2} backgroundColor="rgb(239, 235, 229)" >
                 <Grid item md={3} sm={2} >
-                    {/* <Grid item md={12} sm={12}> */}
-                        <Box height='10vh' style={{backgroundColor: 'white',display: 'flex', alignItems: 'left', justifyContent: 'left' , marginTop: '-10px', marginLeft: '10px'}}>
-                            <Typography variant="h4">Chats</Typography>
-                        </Box>
-                    {/* </Grid> */}
+                    <Box height='8vh' style={{backgroundColor: 'white',display: 'flex', alignItems: 'left', justifyContent: 'left', paddingleft: '30px'}}>
+                        <Typography variant="h4" style={{marginLeft: '10px', marginBottom: '-5px', marginTop: '5px'}}>Chats</Typography>
+                    </Box>
                     <Box style={{height: '80vh', overflowY: 'scroll', marginTop: '10px'}}>
                     {users.map((user, index) => (
                         <>
@@ -111,7 +106,7 @@ const Chat = () => {
                         </>
                     ))}</Box>
                 </Grid>
-                <Grid item md={9} sm={10} >
+                <Grid item md={9} sm={10}>
                     <Box className="chat-detail" width='100%' style={{ height: '12vh', marginBottom: '-4px',}}>
                         <Grid container spacing={2} alignItems="center" style={{ }}>
                             <Grid item md={1.5} sm={2}>
