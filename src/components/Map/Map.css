@@ -6,17 +6,31 @@
     border-radius: 20px;
 }
 
+.edit-location-button {
+    position: absolute;
+    bottom: 20px;
+    left: 32rem;
+    z-index: 10000;
+}
+
+.edit-location-button button {
+    padding: 8px 16px;
+    font-weight: bold;
+    background-color: #fbae1f;
+    text-transform: uppercase;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.edit-location-button button:hover {
+background-color: beige;
+}
+
+
 .map-container {
     position: relative;
 }
-
-.edit-location-button {
-    position: absolute;
-    top: 10px;
-    left: 45rem;
-    z-index: 10000;
-}
-/* Customize the Leaflet map buttons */
 
 .leaflet-bar {
     border: 0px !important;
@@ -56,3 +70,7 @@
     background-color: #949494 !important;
     color: rgb(255, 255, 255) !important;
 }
+
+
+
+

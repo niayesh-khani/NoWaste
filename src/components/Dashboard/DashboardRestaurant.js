@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {Box, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import '../../pages/EditProfile.css';
-import Header from '../Header';
+import HeaderRestaurant from '../HeaderRestaurant';
 import '../../pages/EditRestaurant.css';
 import 'react-phone-input-2/lib/style.css';
 import axios from "axios";
@@ -352,7 +352,7 @@ export default function DashboardRestaurant(){
     return (
         <ThemeProvider theme={theme}>
             <div className="dashboard-back">
-                <Header />
+                <HeaderRestaurant />
                 <Grid container spacing={2} className="dashboard-grid">
                     <Grid item lg={12} md={12} sm={12} xs={12}>
                         <Box className="dashboard-box" id="order-history-box">
