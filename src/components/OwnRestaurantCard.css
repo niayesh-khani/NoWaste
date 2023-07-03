@@ -1,7 +1,8 @@
 .homepage-restaurant-card-restaurant {
-    width: 80% !important;
+    width: 85% !important;
     margin-bottom: 8% !important;
-    border-radius: 10 !important;
+    margin-left: 5px !important;
+    border-radius: 10px !important;
     height: 230px !important;
     padding: 0;
     position: relative !important;
@@ -15,9 +16,10 @@
 }  
 
 .restaurant-name-hemepage-restaurant {
-    font-size: x-large !important;
+    font-size: 20px !important;
     font-family: 'Montserrat', sans-serif !important;
     margin-left: 5px !important;
+    font-weight: bold !important;
 }
 
 .two-icons-homepage {
@@ -32,7 +34,7 @@
 
 .delete-icons-card-restaurant-homepage {
     color: red !important;
-    /* margin-left: 70px !important; */
+    margin-left: -20px !important;
     display: flex !important;
 }
 /* .delete-icons-card-restaurant-homepage:hover {
@@ -40,7 +42,7 @@
 } */
 
 .edit-icons-card-restaurant-homepage {
-    /* margin-left: 110px !important; */
+    margin-left: 11px !important;
     margin-bottom: -15px !important;
     display: flex !important;
     color: green !important;

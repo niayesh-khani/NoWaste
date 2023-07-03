@@ -40,7 +40,7 @@
 .edit-error-restaurant {
     font-size: 0.8em;
     line-height: 0.8em;
-    height: 0.002em;
+    height: 0.5em;
 }
 .edit-avatar-restaurant {
     margin-top: 2px;
@@ -232,3 +232,6 @@
     width: 130%;
     margin: 10px -30px 0px;
 }
+.blur-background {
+    filter: blur(10px);
+  }

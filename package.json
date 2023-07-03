@@ -26,18 +26,27 @@
     "gulp": "^4.0.2",
     "gulp-less": "^5.0.0",
     "gulp-sass": "^5.1.0",
+    "leaflet": "^1.9.4",
+    "leaflet-defaulticon-compatibility": "^0.1.1",
+    "leaflet-geosearch": "^3.8.0",
+    "leaflet.locatecontrol": "^0.79.0",
+    "mapir-react-component": "^2.0.7",
     "material-ui-phone-number": "^3.0.0",
     "mdb-react-ui-kit": "^6.0.0",
     "react": "^17.0.1",
     "react-bootstrap": "^2.7.4",
     "react-bootstrap-validation": "^0.1.11",
     "react-dom": "^17.0.1",
+    "react-geolocated": "^4.1.0",
     "react-icons": "^4.8.0",
+    "react-leaflet": "^3.2.5",
+    "react-leaflet-geosearch": "^0.3.4",
     "react-loading": "^2.0.3",
     "react-masonry-css": "^1.0.16",
     "react-phone-input-2": "^2.15.1",
     "react-router-dom": "^5.3.4",
     "react-scripts": "^5.0.1",
+    "react-scroll-to-bottom": "^4.2.0",
     "react-spinners": "^0.13.8",
     "react-toastify": "^9.1.2",
     "react-typical": "^0.1.3",
@@ -56,18 +65,11 @@
       "react-app/jest"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
   "devDependencies": {
     "web-vitals": "^3.3.0"
   }

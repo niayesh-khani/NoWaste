@@ -24,9 +24,10 @@ import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect } from 'react';
 import axios from "axios";
+import { Link } from '@material-ui/core';
 
 
-const Header = React.memo(() => {
+const HeaderCustomer = React.memo(() => {
     const [auth, setAuth] = React.useState(true);
     const role = JSON.parse(localStorage.getItem("role"));
     const history = useHistory();
@@ -138,7 +139,7 @@ const Header = React.memo(() => {
       console.log(userData);
       console.log(val)
       axios.post("http://5.34.195.16/user/charge-wallet/", userData,
-        {headers: {
+        {header: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
             "Access-Control-Allow-Methods" : "POST,PATCH",
@@ -179,7 +180,11 @@ const Header = React.memo(() => {
     };
     const handleCart = () => {
         history.push('/order-page');
-      };
+    };
+
+    const handleBackToHome = (e) => {
+        history.push("/homepage-customer");
+    }
     
     return ( 
         <>
@@ -191,8 +196,12 @@ const Header = React.memo(() => {
                     className='logo'
                     src="/logo4.png"
                     alt="NoWaste"
+                    onClick={() => {
+                        window.location.href = '/homepage-customer';
+                    }}
+                    style={{ cursor: 'pointer' }}                        
                 />
-                <Search >
+                {/* <Search >
                     <SearchIconWrapper>
                         <SearchIcon />
                     </SearchIconWrapper>
@@ -201,14 +210,22 @@ const Header = React.memo(() => {
                         inputProps={{ 'aria-label': 'search' }}
                         // onChange={handleChange}
                     />
-                </Search>
+                </Search> */}
                 {auth && (
                 <div >
                     
-                    <IconButton color='inherit'>
+                    {/* <IconButton color='inherit'>
                         <Badge badgeContent={1} color='error'>
                             <ShoppingCartIcon onClick={handleCart}/>
                         </Badge>
+                    </IconButton> */}
+                    <IconButton
+                        size='large'
+                        onClick={handleDashboard}
+                        color="inherit"
+                        title='Dashboard'
+                    >
+                        <DashboardIcon fontSize="normal"/>
                     </IconButton>
                     <IconButton
                         size='large'
@@ -221,7 +238,6 @@ const Header = React.memo(() => {
                     >
                         <PersonIcon fontSize="normal"/>
                     </IconButton>
-                    
                     <Menu
                         anchorEl={anchorEl}
                         id="account-menu"
@@ -260,11 +276,11 @@ const Header = React.memo(() => {
                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                     >
                         <MenuItem onClick={handleClickProfile} className='profile-font'>
-                        <AccountBoxIcon className='profile-icons'/> Profile
+                            <AccountBoxIcon className='profile-icons'/> Profile
                         </MenuItem>
                         <MenuItem onClick={handleOpenWallet} className='profile-font'>
-                        <AccountBalanceWalletIcon className='profile-icons'/> Wallet
-                        <div className='balance'>{balance} $</div>
+                            <AccountBalanceWalletIcon className='profile-icons'/> Wallet
+                            <div className='balance'>{balance} $</div>
                         </MenuItem>
                         <Modal
                             // className='credit-box'
@@ -279,7 +295,7 @@ const Header = React.memo(() => {
                                 </IconButton>
                                 <h2>Credit</h2>
                                 {/* <h5>Current Balance : 10$</h5> */}
-                                <div className='blance-header'>Balance : {balance} $</div>
+                                <div className='blance-header'>Balance: {balance} $</div>
                                 <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap" sx={{ marginTop: '20px', marginLeft: '10px', alignItems:'center' }}>
                                     {/* <Item>10$</Item>
                                     <Item>20$</Item>
@@ -312,9 +328,9 @@ const Header = React.memo(() => {
                                 
                             </Box>
                         </Modal>
-                        <MenuItem onClick={handleDashboard} className='profile-font'>
-                        <DashboardIcon className='profile-icons'/> Dashboard
-                        </MenuItem>
+                        {/* <MenuItem onClick={handleDashboard} className='profile-font'>
+                            <DashboardIcon className='profile-icons'/> Dashboard
+                        </MenuItem> */}
                         <MenuItem onClick={handleClickLogOut} className='profile-font logout-item'>
                             <LogoutIcon className='profile-icons'/> 
                             Logout
@@ -328,4 +344,4 @@ const Header = React.memo(() => {
     );
 }
 )
-export default Header;
+export default HeaderCustomer;
