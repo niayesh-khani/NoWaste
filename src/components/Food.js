@@ -80,17 +80,17 @@ const Food = (props) => {
             setRemainder(response.data.new_remainder);
             // console.log("new_wallet_balance",response.data.new_wallet_balance);
             // localStorage.setItem('wallet_balance', response.data.new_wallet_balance);
-            if (count > 0)
-            {
-                // setCount(count - 1);
-                setCount(response.data.quantity);
-            }
+            
         })
         .catch((error) => {
             console.log(error.response);
         });
         console.log("remove2");
-        
+        if (count > 0)
+            {
+                setCount(count - 1);
+                // setCount(response.data.quantity);
+            }
     };  
 
     const handleAddToCartClick2 = () => {
@@ -109,17 +109,17 @@ const Food = (props) => {
             setRemainder(response.data.new_remainder);
             // console.log("new_wallet_balance",response.data.new_wallet_balance); 
             // localStorage.setItem('wallet_balance', response.data.new_wallet_balance);
-            if (remainder > 0)
-            {
-                // setCount(parseInt(count) + 1);
-                setCount(response.data.quantity);
-            }
+            
         })
         .catch((error) => {
             console.log(error.response);
         });
         console.log("add2");
-        
+        if (remainder > 0)
+            {
+                setCount(parseInt(count) + 1);
+                // setCount(response.data.quantity);
+            }
     };  
 
     // const handleAddToCartClick = () => {

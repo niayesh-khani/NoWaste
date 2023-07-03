@@ -42,6 +42,7 @@ export default function ShowComments() {
 
     const userId = localStorage.getItem("id");
     const [text, setText] = useState('');
+    const token = localStorage.getItem('token');
     const handleAddtext = (e) => {
         setText(e.target.value);
     }
@@ -62,7 +63,13 @@ export default function ShowComments() {
         });    
     }
     useEffect(()=>{
-        axios.get(`http://5.34.195.16/restaurant/comment/restaurant_id/${id}`)
+        axios.get(`http://5.34.195.16/restaurant/comment/restaurant_id/${id}`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
             .then((response) => {
                 setComments(response.data);
                 console.log("salam")
