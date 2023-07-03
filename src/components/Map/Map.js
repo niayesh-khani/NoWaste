@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 import 'leaflet-defaulticon-compatibility';
@@ -8,18 +8,29 @@ import './Map.css';
 function Map() {
   const mapRef = useRef(null);
   const markerRef = useRef(null);
+  const [lat, setLat] = useState();
+  const [lng, setLng] = useState();
+
+  const handleSaveClick = () => {
+    if (markerRef.current) {
+      const { lat, lng } = markerRef.current.getLatLng();
+      setLat(lat);
+      setLng(lng);
+      console.log('Marker saved position:', lat, lng);
+    }
+  };
 
   useEffect(() => {
     // Initialize map
-    const map = L.map(mapRef.current).setView([51.505, -0.09], 13);
+    const map = L.map(mapRef.current).setView([35.6892, 51.3890], 13);
 
     // Add tile layer (e.g., OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    // Add draggable marker with default icon
-    const marker = L.marker([51.505, -0.09], { draggable: true }).addTo(map);
+    // Create a draggable marker with default icon
+    const marker = L.marker([35.6892, 51.3890], { draggable: true }).addTo(map);
     markerRef.current = marker;
 
     // Update marker position on dragend
@@ -34,7 +45,15 @@ function Map() {
     };
   }, []);
 
-  return <div ref={mapRef} style={{ height: '400px' }} />;
+  return (
+    <div className="map-container">
+      <div ref={mapRef} className="leaflet-container" />
+      <div className="edit-location-button">
+        <button onClick={handleSaveClick}>Save Location</button>
+      </div>
+    </div>
+  );
+  
 }
 
 export default Map;
