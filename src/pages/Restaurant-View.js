@@ -18,7 +18,7 @@ import { Button } from '@material-ui/core';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {useHistory } from "react-router-dom";
-import Header from '../components/Header';
+import HeaderCustomer from '../components/HeaderCustomer';
 import Slide from '@mui/material/Slide';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import PropTypes from 'prop-types';
@@ -246,7 +246,7 @@ const RestaurantView = (props: Props) =>
 
     return (
     <div className='myback'>
-        <Header />
+        <HeaderCustomer />
         <MU.Grid container spacing={2} sx={{
             paddingTop:"2%",
         }}>
