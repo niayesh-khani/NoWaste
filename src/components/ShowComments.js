@@ -10,6 +10,7 @@ import { deepOrange, deepPurple,grey } from '@mui/material/colors';
 import Stack from '@mui/material/Stack';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 const theme = createTheme({
     palette: {
@@ -38,7 +39,8 @@ export default function ShowComments() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [comments, setComments] = useState([]); 
-    const id=localStorage.getItem("restaurantId");
+    const {id} = useParams(); 
+    // console.log("restaurantId "+ id);
 
     const userId = localStorage.getItem("id");
     const [text, setText] = useState('');
