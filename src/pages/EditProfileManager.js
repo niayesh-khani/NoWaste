@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import './EditProfileManager.css';
-import Header from '../components/Header';
+import HeaderRestaurant from '../components/HeaderRestaurant';
 import './Login-Signup.css';
 import './Restaurant-View.css';
 import PhoneInput from 'material-ui-phone-number';
@@ -301,7 +301,7 @@ const EditProfileManager = () => {
     return ( 
         <ThemeProvider theme={theme}>
             <div className="edit-back-manager">
-                <Header/>
+                <HeaderRestaurant/>
                 <Grid container spacing={2} className="edit-grid-manager">
                     <Grid item md={3} sm={12} xs={12}>
                         <Box className="edit-box-manager">
