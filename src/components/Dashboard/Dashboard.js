@@ -428,7 +428,7 @@ export default function Dashboard(){
                                 gutterBottom
                                 className="dashboard-title-manager"
                             >
-                                Favorite restaurants
+                                Favorite Restaurants
                             </Typography>
                             {favoriteRestaurant && favoriteRestaurant.map((res, index) => (
                                 <Box className="dashboard-restaurant-box" onClick={() => handleShowFavoriteRestaurant(res.id)}>
@@ -454,7 +454,7 @@ export default function Dashboard(){
                                 gutterBottom
                                 className="dashboard-title-manager"
                             >
-                                Order history
+                                Order History
                             </Typography>
                             <TableContainer>
                                 <Table
