@@ -8,7 +8,7 @@ import Masonry from 'react-masonry-css';
 import Food from '../components/Food';
 import BackToTop from '../components/BackToTop';
 import Footer from '../components/Footer';
-import { Button, InputLabel, FormControl, Paper, TextareaAutosize, withStyles, ThemeProvider, Typography, TextField} from '@material-ui/core';
+import { Button, InputLabel, FormControl, Paper, TextareaAutosize, InputAdornment,withStyles, ThemeProvider, Typography, TextField} from '@material-ui/core';
 // import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {useHistory } from "react-router-dom";
@@ -51,6 +51,11 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
 import InfoIcon from '@mui/icons-material/Info';
 import PersonIcon from '@mui/icons-material/Person';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import Modal from '@mui/material/Modal';
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+import Map from "../components/Map/Map";
 
 const theme = createTheme({
     palette: {
@@ -192,7 +197,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const breakpoints = {
-    default: 2,
+    default: 3,
     1100: 2,
     700:1
 };
@@ -226,7 +231,13 @@ function HomepageRestaurant(props){
 
     const handleDelete = (res) => {
         console.log("i'm here to delete.");
-        axios.delete(`http://5.34.195.16/restaurant/managers/${id}/restaurants/${res.id}/`)
+        axios.delete(`http://5.34.195.16/restaurant/managers/${id}/restaurants/${res.id}/`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
         .then((response) => {
             window.location.reload(false);
         })
@@ -262,7 +273,7 @@ function HomepageRestaurant(props){
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
                 "Access-Control-Allow-Methods" : "GET,POST",
-                // 'Authorization' : "Token " + token.slice(1,-1)
+                'Authorization' : "Token " + token.slice(1,-1)
             }}
         )
         .then((response) => {
@@ -305,7 +316,13 @@ function HomepageRestaurant(props){
             discount: newDiscount
             };
             console.log(userData);
-            axios.post(`http://5.34.195.16/restaurant/managers/${id}/restaurants/`, userData, {headers:{"Content-Type" : "application/json"}})
+            axios.post(`http://5.34.195.16/restaurant/managers/${id}/restaurants/`, userData, 
+            {headers: {
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "PUT,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)   
+            }})
             .then((response) => {
                 console.log(response);
                 window.location.reload(false);
@@ -322,123 +339,126 @@ function HomepageRestaurant(props){
 
             });  
         }
-
+    const [openModal, setOpenModal] = React.useState(false);
+    const handleOpenModal = () => setOpenModal(true);
+    const handleCloseModal = () => setOpenModal(false);
+    const [showMap, setShowMap] = useState(false);
+    const [blurBackground, setBlurBackground] = useState(false);
+    
+    const handleOpenMap = () => {
+        setShowMap(true);
+        setBlurBackground(true);
+        };
+            
+    const handleCloseMap = () => {
+        setShowMap(false);
+        setBlurBackground(false);
+    };
+    
     return ( 
         <ThemeProvider theme={theme}>
             <Header />
-            <IconButton onClick={handleSidebarOpen}>
-                    <MenuIcon/>
-            </IconButton>
-            <Grid container sx={{ paddingBottom:"1"}} className='grid-homepage-restaurant'>
-                <Grid item md={0.5}>
-                    <Drawer
-                        anchor="left"
-                        open={open}
-                        onClose={handleSidebarOpen}
-                        classes={{
-                            paper: 'sidebar'
-                        }}
-                    >
-                        <div className="sidebar-header">
-                            <h2>NoWaste</h2>
-                            <IconButton>
-                                <KeyboardDoubleArrowLeftIcon className='close-icon' onClick={handleSidebarClose}/>
-                            </IconButton>
-                        </div>
-                        <Divider color="white" variant="middle"/>
-                        <List className="sidebar-list">
-                            <ListItem button className='list-item'>
-                                <ListItemIcon >
-                                <AddBusinessIcon className='list-icon'/>
-                                </ListItemIcon>
-                                <ListItemText primary="Add new restaurant" onClick={() => setShow(prev => !prev)}/>
-                            </ListItem>
-                            {show && <Box className='add-box' style={{marginLeft: '12%'}}>
-                                <TextField 
-                                    label="Name"
-                                    variant="outlined"
-                                    color="secondary"
-                                    onChange={handleAddName}
-                                    style={{width: '100%', marginTop: '10px'}}
-                                    InputLabelProps={{ shrink: true }} 
-                                />
-                                <TextField 
-                                    label="Address"
-                                    variant="outlined"
-                                    color="secondary"
-                                    onChange={handleAddAddress}
-                                    multiline
-                                    style={{width: '100%', marginTop: '10px'}}
-                                    InputLabelProps={{ shrink: true }} 
-                                />
-                                <PhoneInput
-                                    label="Phone number"
-                                    defaultCountry="ir"
-                                    color="secondary"
-                                    InputLabelProps={{ shrink: true }} 
-                                    className="phone-input"
-                                    inputClass={classes.field}
-                                    style={{marginTop: '10px'}}
-                                    variant="outlined"
-                                    // focused={true}
-                                    onChange={handleAddPhone}
-                                />
-                                <TextField 
-                                    label="Discount"
-                                    variant="outlined"
-                                    color="secondary"
-                                    onChange={handleAddDiscount}
-                                    style={{width: '100%', marginTop: '10px', borderColor: 'white'}}
-                                />
-                                <Grid container spacing={2} className="new-restaurant-button-grid" wrap="nowrap">
-                                            <Grid item style={{paddingLeft: '20px'}}>
-                                                <Button className="discard-button" id="edit-button" variant="contained" onClick={handleCancle}
-                                                >
-                                                    Cancel
-                                                </Button>
-                                            </Grid>
-                                            <Grid item style={{paddingRight: '5px'}}>
-                                                <Button className="add-button" id="edit-button" variant="contained" onClick={handleAdd}
-                                                    // disabled={!validInputs}
-                                                    // style={{marginRight: "-2%"}}
-                                                >
-                                                    Add
-                                                </Button>
-                                        </Grid>
+            <h1 className='home-res-title'>Restaurants</h1>
+            <div>
+                <Fab
+                    style={{ backgroundColor: "#ffa600", position: "fixed", right: "20px", bottom: "20px"}}
+                    aria-label="add"
+                    onClick={handleOpenModal}>
+                    <AddBusinessIcon />
+                </Fab>
+                <Modal
+                    open={openModal}
+                    onClose={handleCloseModal}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box className="add_res_box">
+                        <div className='add-title'>Add New Restaurant</div>
+                        <TextField 
+                            label="Name"
+                            variant="outlined"
+                            color="secondary"
+                            onChange={handleAddName}
+                            style={{width: '100%', marginTop: '10px'}}
+                            InputLabelProps={{ shrink: true }} 
+                        />
+                        <TextField 
+                            label="Address"
+                            variant="outlined"
+                            color="secondary"
+                            onChange={handleAddAddress}
+                            multiline
+                            style={{width: '100%', marginTop: '10px'}}
+                            InputLabelProps={{ shrink: true }}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton title="choose location" style={{marginLeft:"28%"}} onClick={handleOpenMap}>
+                                            <TravelExploreIcon />
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }}
+
+                        />
+                        <Modal open={showMap} onClose={handleCloseMap}>
+                            <Map/>
+                        </Modal>
+                        <PhoneInput
+                            label="Phone number"
+                            defaultCountry="ir"
+                            color="secondary"
+                            InputLabelProps={{ shrink: true }} 
+                            className="phone-input"
+                            inputClass={classes.field}
+                            style={{marginTop: '10px'}}
+                            variant="outlined"
+                            // focused={true}
+                            onChange={handleAddPhone}
+                        />
+                        <TextField 
+                            label="Discount"
+                            variant="outlined"
+                            color="secondary"
+                            onChange={handleAddDiscount}
+                            style={{width: '100%', marginTop: '10px', borderColor: 'white'}}
+                        />
+                        <Grid container spacing={2} className="new-restaurant-button-grid" wrap="nowrap">
+                                    <Grid item style={{paddingLeft: '20px'}}>
+                                        <Button className="discard-button" id="add-buttons" variant="contained" onClick={handleCancle}
+                                        >
+                                            Cancel
+                                        </Button>
+                                    </Grid>
+                                    <Grid item style={{textAlign:"center"}}>
+                                        <Button className="add-button" id="add-buttons" variant="contained" onClick={handleAdd}
+                                            // disabled={!validInputs}
+                                            // style={{marginRight: "-2%"}}
+                                        >
+                                            Add
+                                        </Button>
                                 </Grid>
-                            <BackToTop/>
-                            </Box>
-                            }
-                            <ListItem button onClick={handleShowProfile} className='list-item'>
-                                <ListItemIcon>
-                                    <PersonIcon className='list-icon'/>
-                                </ListItemIcon>
-                                <ListItemText primary="Profile"/>
-                            </ListItem>
-                        </List>
-                        <Divider color="white" variant="middle" className='divider'/>
-                        <div className="sidebar-footer">
-                            <PermPhoneMsgIcon className='sidebar-footer-icon'/>  Contact
-                        </div>
-                        <div className="sidebar-footer">
-                            <InfoIcon className='sidebar-footer-icon'/> About us
-                        </div>
-                    </Drawer>
-                    {/* <Footer/> */}
-                </Grid>
-                <Grid item md={9}>
+                        </Grid>
+                    </Box>
+                </Modal>
+
+            </div>      
+            <Grid container  sx={{ paddingBottom:"1"}} className='grid-homepage-restaurant'>
+                {/* <Grid item md={0.5}>
+                </Grid> */}
+                <Grid item md={12}>
                     <Grid item>
                         <Masonry style={{paddingLeft: "0%"}} breakpointCols={breakpoints}>
                             {restaurants && restaurants.map((res, index) => (
-                                <div  key={index} style={{ width: index % 2 === 0 ? '100%' : '' }}>
-                                    <Card className='homepage-restaurant-card-restaurant'>
+                                <div  key={index}>
+                                    <Card className='homepage-restaurant-card-restaurant' style={{ marginRight: '-100px' }}>
                                     <CardActionArea>
-                                        <Grid container spacing={2}>
+                                        <Grid container spacing={3}>
                                         <Grid item md={6}>
                                             <div style={{ position: 'relative' }}>
                                             <CardMedia
                                                 component="img"
-                                                sx={{ height: 200, width: 200, marginLeft: 1, marginTop: 2, marginBottom: 1, borderRadius: 1 }}
+                                                sx={{ height: 200, width: 200, marginLeft: 3, marginTop: 2, marginBottom: 2, borderRadius: 2 }}
                                                 image="/mohsen.jpg"
                                             />
                                             </div>
@@ -451,37 +471,38 @@ function HomepageRestaurant(props){
                                                             {res.name}
                                                         </Typography>
                                                     </Grid>
-                                                    <Grid item container alignItems="center">
-                                                        {/* <LocationOnIcon sx={{ marginRight: '0.5rem' }} />
-                                                        <Typography variant="body2">This is the address.</Typography> */}
+                                                    <Grid item container alignItems="center" marginBottom={"2px"}>
                                                         <Chip
-                                                            icon={<MdPhone/>}
-                                                            sx={{mb:1, fontSize: "medium"}}
+                                                            icon={<MdPhone sx={{ fontSize: 20 }}/>}
+                                                            sx={{mb:1, fontSize: "15px"}}
                                                             label={res.number}
                                                         />
                                                     </Grid>
-                                                    <hr></hr>
-                                                    <Grid item container alignItems="center">
-                                                        <StarRateIcon sx={{ marginRight: '0.5rem', marginLeft: '5px' }} style={{ color: '#faaf00' }} />
-                                                        <Typography>{res.rate}</Typography>
-                                                    </Grid>
-                                                    <hr></hr>
-                                                    <Grid item container alignItems="center">
+                                                    {/* <hr></hr> */}
+                                                    <Grid item container alignItems="center" marginBottom={"8px"}>
                                                         {/* <PhoneIcon sx={{ marginRight: '0.5rem' }} />
                                                         <Typography>09116705720</Typography> */}
                                                         <Chip
-                                                            icon={<PlaceIcon />}
-                                                            sx={{fontSize: "medium"}}
+                                                            icon={<PlaceIcon sx={{ fontSize: 20 }}/>}
+                                                            sx={{fontSize: "15px"}}
                                                             label={res.address}
                                                         />
-                                                        <div style={{marginLeft: '30%'}}>
-                                                            <Grid container spacing={2} >
+
+                                                    </Grid>
+                                                    {/* <hr></hr> */}
+                                                    <Grid item container alignItems="center" display= 'flex'>
+                                                        <Grid item container alignItems="center" marginBottom={"15px"} width={"29%"}>
+                                                            <StarRateIcon sx={{marginLeft: '5px', color: '#faaf00' }} />
+                                                                <Typography style={{marginTop:'2.5%' }}>{res.rate}</Typography>    
+                                                        </Grid>
+                                                        <div style={{marginLeft: '50%'}}>
+                                                            <Grid container>
                                                                 <Grid item >
                                                                     <IconButton title="Edit restaurant">
                                                                         <EditIcon  onClick={() => {handleEdit(res)}} className='edit-icons-card-restaurant-homepage'/>
                                                                     </IconButton>
                                                                 </Grid>
-                                                                <Grid item lg={1} >
+                                                                <Grid item lg={0.2} >
                                                                     <IconButton title="Delete restaurant">
                                                                         <DeleteForeverIcon onClick={() => {handleDelete(res)}} className='delete-icons-card-restaurant-homepage'/> 
                                                                     </IconButton>
@@ -508,5 +529,6 @@ function HomepageRestaurant(props){
         </ThemeProvider>
     );
 }
+
 
 export default withStyles(styles)(HomepageRestaurant);

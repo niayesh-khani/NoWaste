@@ -172,3 +172,7 @@
     box-sizing: border-box;
     justify-content: space-between;
 }
+.blur-background {
+    filter: blur(4px);
+}
+  

@@ -105,11 +105,11 @@ const RestaurantView = (props: Props) =>
     const [menu, setMenu] = React.useState([]);
     const [nameRestaurant, setNameRestaurant] = React.useState('');
     const history = useHistory();
+    const token = localStorage.getItem('token');
     const [email, setEmail] = React.useState("");
     const {id} = useParams();
-    const token = localStorage.getItem('token');
-    localStorage.setItem('restaurantId', id);
-    const [list_fav, setList_Fav] = useState(localStorage.getItem('list_of_favorites_res'))
+    const [list_fav, setList_Fav] = useState(localStorage.getItem('list_of_favorites_res'));
+    const customer_id = localStorage.getItem('id');
 
     useEffect(() => {
         const email = JSON.parse(localStorage.getItem('email'));
@@ -176,7 +176,7 @@ const RestaurantView = (props: Props) =>
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
                 "Access-Control-Allow-Methods" : "PUT,PATCH",
-                // 'Authorization' : "Token " + token.slice(1,-1)   
+                'Authorization' : "Token " + token.slice(1,-1)   
             }})
             .then((response) => {
                 console.log(response);
@@ -281,8 +281,9 @@ const RestaurantView = (props: Props) =>
 
                     <MU.CardMedia
                         component="img"
-                        src={"/downt.jpg"}
-                        alt="Restaurant1"
+                        // src={"/downt.jpg"}
+                        src={restaurant.restaurant_image}
+                        alt="RestaurantImage"
                     />
                     <MU.CardContent>
                     <MU.Typography variant="body2" className='Body2-restaurant-view' color="text.secondary">
@@ -290,7 +291,7 @@ const RestaurantView = (props: Props) =>
                     </MU.Typography>
                         </MU.CardContent>
                         <MU.CardActions disableSpacing>
-                            <MU.Rating name="read-only" value={rateValue} readOnly />
+                            <MU.Rating name="read-only" value={rateValue} precision={0.5} readOnly />
                             <ExpandMore
                                 expand={expanded}
                                 onClick={handleExpandClick}
@@ -349,7 +350,7 @@ const RestaurantView = (props: Props) =>
             </MU.Grid>
             <BackToTop/>
         </MU.Grid>
-        <Chat/>
+        <Chat restaurant={id} customer={customer_id} sender={customer_id}/>
         <Footer/>
 
     </div>
