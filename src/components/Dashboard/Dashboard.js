@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import '../../pages/EditProfile.css';
-import Header from '../Header';
+import HeaderCustomer from '../HeaderCustomer';
 // import './Login-Signup.css';
 // import './Restaurant-View.css';
 // import PhoneInput from 'react-phone-input-2';
@@ -418,7 +418,7 @@ export default function Dashboard(){
     return (
         <ThemeProvider theme={theme}>
             <div className="dashboard-back">
-                <Header />
+                <HeaderCustomer />
                 <Grid container spacing={2} className="dashboard-grid">
                     <Grid item lg={4} md={12} sm={12} xs={12}>
                         <Box className="dashboard-box" id="favorite-restaurants-box">
