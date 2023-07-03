@@ -75,7 +75,7 @@ const HeaderRestaurant = React.memo(() => {
     }));
 
     const handleClickProfile = () => {
-        history.push("/edit-profile");
+        history.push("/edit-manager");
     }
     const handleClickLogOut = () => {
         localStorage.removeItem("token");
