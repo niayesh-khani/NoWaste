@@ -58,9 +58,6 @@ const EditProfileManager = () => {
     const token = localStorage.getItem('token');
     const id = localStorage.getItem('id');
     const [data, setData] = useState('');
-    const [city, setCity] = useState('');
-    const [country, setCountry] = useState('');
-    const [address, setAddress] = useState('');
     const [password, setPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [newPasswordError, setNewPasswordError] = useState(false);
@@ -107,25 +104,6 @@ const EditProfileManager = () => {
         localStorage.setItem('phone', value);
         setPhone(value);
     };
-    const handleBirthdate = (date) => {
-        setDob(date);
-        console.log(data.date_of_birth);
-        const formattedDate = dayjs(date).format('YYYY-MM-DD');
-        setUpdate({...update, date_of_birth : formattedDate});
-    };
-    const handleGender = (e) => {
-        setGender(e.target.value);
-        setUpdate({...update, gender: e.target.value});
-    };
-    const handleCity = (e) => {
-        setCity(e.target.value);
-    };
-    const handleCountry = (e) => {
-        setCountry(e.target.value);
-    };
-    const handleAddress = (e) => {
-        setAddress(e.target.value);
-    };
     const handlePassword = (e) => {
         setPassword(e.target.value);
     };
@@ -143,10 +121,6 @@ const EditProfileManager = () => {
     useEffect(() => {
         setNewPasswordMatch(newPassword === confirmPassword);
     }, [newPassword, confirmPassword]);
-    useEffect(() => {
-        const temp = country + '$' + city + '$' + address;
-        setUpdate({...update, address : temp})
-    }, [country, city, address])
 
     useEffect(() =>{
         axios.get(
@@ -180,13 +154,6 @@ const EditProfileManager = () => {
     useEffect(() => {
         setDob(data.date_of_birth);
     }, [data.date_of_birth]);
-
-    useEffect(() => {
-        const arr = data?.address?data?.address.split("$"):"";
-        setCountry(arr[0])
-        setCity(arr[1]);
-        setAddress(arr[2]);
-    }, [data.address]);
 
     const history = useHistory();
     const handleOpenMenu = () => {
@@ -417,110 +384,6 @@ const EditProfileManager = () => {
                                     }}
                                 />
                             </FormControl>
-                            {/* <FormControl className="edit-field-manager">
-                                <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={6} md={6}>
-                                        <TextField
-                                            select
-                                            label="Gender"
-                                            color="secondary"
-                                            variant="outlined"
-                                            value={gender}
-                                            InputLabelProps={{ shrink: true }}
-                                            // style= {{textAlign: 'left', width:'100%'}}
-                                            style={{width: '100%'}}
-                                            onChange={handleGender}
-                                        >
-                                            <MenuItem value="select" disabled>
-                                                <em>Select gender</em>
-                                            </MenuItem>
-                                            <MenuItem value="male">
-                                                Male
-                                            </MenuItem>
-                                            <MenuItem value="female">
-                                                Female
-                                            </MenuItem>
-                                        </TextField>
-                                    </Grid>
-                                    <Grid item xs={12} sm={6} md={6} style={{paddingTop: '0'}}>
-                                        <LocalizationProvider dateAdapter={AdapterDayjs} style={{width: '150%'}}
-                                        InputLabelProps={{ shrink: true }}
-                                        >
-                                            <DemoContainer components={['DatePicker']} >
-                                                <DatePicker
-                                                    label="Date of birth"
-                                                    views={['year', 'month', 'day']}
-                                                    sx={{width: '100%'}}
-                                                    maxDate={dayjs()}
-                                                    onChange={handleBirthdate}
-                                                    value={dob ? dayjs(dob) : null }
-                                                />
-                                            </DemoContainer>
-                                        </LocalizationProvider>
-                                    </Grid>
-                                </Grid>
-                            </FormControl>
-                            <FormControl className="edit-field-manager">
-                                <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={6} md={6}>
-                                        <TextField
-                                            label="Country"
-                                            variant="outlined"
-                                            color="secondary"
-                                            value={country}
-                                            style={{width: '100%'}}
-                                            onChange={handleCountry}
-                                        /> 
-                                    </Grid>
-                                    <Grid item xs={12} sm={6} md={6}>
-                                        <TextField
-                                            label="City"
-                                            variant="outlined"
-                                            color="secondary"
-                                            value={city}
-                                            style={{width: '100%'}}
-                                            onChange={handleCity}
-                                        /> 
-                                    </Grid>
-                                </Grid>
-                            </FormControl>
-                            <FormControl className="edit-field-manager">
-                                <TextField
-                                    label="Address"
-                                    variant="outlined"
-                                    color="secondary"
-                                    multiline
-                                    value={address}
-                                    onChange={handleAddress}
-                            /> 
-                            </FormControl> */}
-                            {/* <FormControl className="edit-field-manager">
-                            {openMenu && 
-                                    <Button 
-                                        color="secondary"
-                                        // id="basic-button"
-                                        // aria-controls={open ? 'basic-menu' : undefined}
-                                        // aria-haspopup="true"
-                                        // aria-expanded={open ? 'true' : undefined}
-                                        // onClick={handleClick}
-                                        onClick={handleOpenMenu}
-                                        className="showr-button"
-                                    >
-                                        Restaurants
-                                    </Button>
-                                }
-                                {!openMenu && 
-                                    <div style={{margin: '5px'}}>
-                                        <Grid container spacing={1} style={{justifyContent: 'flex-end', padding: '1px'}}
-                                        // style={{position: 'absolute', justifyContent: 'flex-end', paddingRight: "10px"}}
-                                        >
-                                            <IconButton title="Hide menu" >
-                                                <ClearIcon style={{color: 'red'}} onClick={handleOpenMenu}/>
-                                            </IconButton>
-                                        </Grid>
-                                    </div>
-                                }
-                            </FormControl> */}
                                 {show && <>
                                 <FormControl className="edit-field-manager">
                                     <TextField
