@@ -19,126 +19,124 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import ReactScrollToBottom from "react-scroll-to-bottom";
 import { useEffectOnce } from './useEffectOnce';
+import axios from 'axios';
 
-
-const Chat = () => {
+const Chat = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [open, setOpen] = React.useState(false);
     const [placement, setPlacement] = React.useState();
-    // const client = new w3websocket();
-    const [times, setTimes] = useState([]);
     const [userMessage, setUserMessage] = useState('');
     const [messages, setMessages] = useState([]);
-    const [num, setNum] = useState(1);
-    // const socket = useRef(null);
-    const userId = localStorage.getItem('id');
-    const restaurantId = localStorage.getItem('restaurantId');
-    let room_name = userId < restaurantId ? userId + "_" + restaurantId: restaurantId + "_" + userId;
-    // client = new WebSocket(
-    //     // `ws://localhost:8000/ws/socket-server/board/?token=${localStorage.getItem(
-    //     //     "access_token"
-    //     // )}`
-    //     // `http://5.34.195.16/chat/room/${userId}/${restaurantId}/`
-    //     `ws://5.34.195.16:4000/chat/room/${room_name}/`
-    // );
+    const restaurant_id = props.restaurant;
+    const customer_id = props.customer;
+    const sender_id = props.sender;
+    let room_name = customer_id < restaurant_id ? customer_id + "_" + restaurant_id: restaurant_id + "_" + customer_id;
+    useEffect(() => {
+        axios.get(`http://5.34.195.16/chat/room/${customer_id}/${room_name}`,
+        {headers : {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "GET,PUT,PATCH",
+        }})
+        .then((response) => {
+            setMessages(response.data);
+        })
+        .catch((error) => {
+            console.log(error.response);
+        })
+    }, []);
+    
     const [client, setClient] = useState(null);
+
     useEffectOnce(() => {
-        // setClient(new WebSocket(
-        //     `ws://5.34.195.16:4000/chat/room/${room_name}/`
-        // ));
         const client_1 = new WebSocket(
             `ws://5.34.195.16:4000/chat/room/${room_name}/`
         );
         client_1.onopen = () => {
-            setNum(curr=>curr+1);
-            console.log("WebSocket connection opened" + num);
-            // setNum(2);
-            // client.send(
-            //     JSON.stringify({
-            //         type: "join_board_group",
-            //         // data: { board_id: boardId },
-            //     })
-            // );
+            // setNum(curr=>curr+1);
+            console.log("WebSocket connection opened");
         };
         client_1.onmessage = (event) => {
             const message = JSON.parse(event.data);
-            console.log(message);
-            // dnd_socket(message, message.type);
+            // console.log(message);
         };
         client_1.onclose = () => {
             console.log("WebSocket connection closed");
         };
         setClient(client_1);
     });
-    // const client = useMemo(() => 
-    //     new WebSocket(
-    //         `ws://5.34.195.16:4000/chat/room/${room_name}/`
-    //     )
-    // , []);
-    // client.onopen = () => {
-    //     setNum(curr=>curr+1);
-    //     console.log("WebSocket connection opened" + num);
-    //     // setNum(2);
-    //     // client.send(
-    //     //     JSON.stringify({
-    //     //         type: "join_board_group",
-    //     //         // data: { board_id: boardId },
-    //     //     })
-    //     // );
-    // };
-
-    
-    const effectHide = useRef(false);
-    // client.onmessage = (event) => {
-    //     const message = JSON.parse(event.data);
-    //     console.log(message);
-    //     // dnd_socket(message, message.type);
-    // };
-    
-    // client.onclose = () => {
-    //     console.log("WebSocket connection closed");
-    // };
     const handleClick = (newPlacement) => (event) => {
         setAnchorEl(event.currentTarget);
         setOpen((prev) => placement !== newPlacement || !prev);
         setPlacement(newPlacement);
     };
+
     const handleMessage = (event) => {
         setUserMessage(event.target.value);
     };
+
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
             sendMessage();
         }
     };
-    // const messageHistory=
+
     const sendMessage = () => {
         const updatedMessage = userMessage.trim();
         if (updatedMessage !== '') {
-            setMessages((prevMessages) => [...prevMessages, updatedMessage]);
+            const newMessage ={
+                fields: {
+                    message: updatedMessage,
+                    sender: sender_id,
+                    date_created: new Date().toISOString()
+                }
+            };
+            setMessages((prevMessages) => [...prevMessages, newMessage]);
             setUserMessage('');
-            setTimes((prevTimes) => [...prevTimes, new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})]);
+            // setTimes((prevTimes) => [...prevTimes, new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})]);
             client.send(
                 JSON.stringify({
                     message : userMessage,
-                    user_id : userId,
-                    username : "Hanie",
+                    user_id : sender_id,
                     room_name : room_name
-                    // type: "join_board_group",
-                    // data: { board_id: boardId },
                 })
             );
         }
     };
+
+    const handleOpenSocket = (e) => {
+        if (client && client.readyState === WebSocket.CLOSED) {
+            const clientCopy = new WebSocket(
+                `ws://5.34.195.16:4000/chat/room/${room_name}/`
+            );
+        
+            clientCopy.onopen = () => {
+            //   setNum(curr => curr + 1);
+              console.log("WebSocket connection opened");
+            };
+        
+            clientCopy.onmessage = (event) => {
+              const message = JSON.parse(event.data);
+            //   console.log(message);
+            };
+        
+            clientCopy.onclose = () => {
+              console.log("WebSocket connection closed");
+            };
+            setClient(clientCopy);
+        }   
+    };
     const handleCloseSocket = (e) => {
-        client.close();
-        // console.log("")
-    }
+        if (client && client.readyState === WebSocket.OPEN) {
+            client.close();
+          } else {
+            console.log("WebSocket connection is already closed");
+        }
+    };
 
     return (
         <div>
-            <button onClick={handleCloseSocket}>Close socjet</button>
             <Popper open={open} anchorEl={anchorEl} placement={placement} transition className='chat-poper'>
             {({ TransitionProps }) => (
                 <Fade {...TransitionProps} timeout={350}>
@@ -150,11 +148,13 @@ const Chat = () => {
                                 </Grid>
                                 <ReactScrollToBottom className="chatBox">
                                         {messages.map((msg, index) => (
-                                            <ListItem key={index} className='chat-listitem-right'>
-                                                <ListItemText primary={msg} style={{ wordWrap: 'break-word' }}/>
-                                            {/* {index === messages.length - 1 && <p className='chat-time'>{new Date().toLocaleTimeString(undefined, options)}</p>} */}
-                                            {/* {index === messages.length - 1 && (<p className='chat-time'>{formatTime(new Date(), options)}</p>)} */}
-                                            <p className='chat-time'>{times[index]}</p>
+                                            <ListItem key={index} 
+                                                className={msg.fields?.sender == sender_id ? 'chat-listitem-right' : 'chat-listitem-left'}
+                                            >
+                                                <ListItemText primary={msg.fields?.message} style={{ wordWrap: 'break-word' }}/>
+                                                <p className='chat-time'>
+                                                    {new Date(msg.fields.date_created).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                </p>
                                             </ListItem>
                                         ))}   
                                 </ReactScrollToBottom >
@@ -177,7 +177,7 @@ const Chat = () => {
                 aria-label="add"
                 onClick={handleClick('top')}
             >
-                {open ? <CloseIcon /> : <HeadsetMicIcon />}
+                {open ? <CloseIcon onClick={handleCloseSocket}/> : <HeadsetMicIcon onClick={handleOpenSocket}/>}
             </Fab>
         </div>
 

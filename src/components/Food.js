@@ -74,8 +74,8 @@ const Food = (props) => {
             // console.log(response.data);
             console.log("remove1");
             setRemainder(response.data.new_remainder);
-            console.log("new_wallet_balance",response.data.new_wallet_balance);
-            localStorage.setItem('wallet_balance', response.data.new_wallet_balance);
+            // console.log("new_wallet_balance",response.data.new_wallet_balance);
+            // localStorage.setItem('wallet_balance', response.data.new_wallet_balance);
         })
         .catch((error) => {
             console.log(error.response);
@@ -100,8 +100,8 @@ const Food = (props) => {
             // console.log(response.data);
             console.log("add1");
             setRemainder(response.data.new_remainder);
-            console.log("new_wallet_balance",response.data.new_wallet_balance); 
-            localStorage.setItem('wallet_balance', response.data.new_wallet_balance);
+            // console.log("new_wallet_balance",response.data.new_wallet_balance); 
+            // localStorage.setItem('wallet_balance', response.data.new_wallet_balance);
         })
         .catch((error) => {
             console.log(error.response);
@@ -205,7 +205,7 @@ const Food = (props) => {
         .catch((error) => {
             console.log(error);
         });
-    });
+    },[]);
 
     return ( 
         <div>
