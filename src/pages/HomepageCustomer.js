@@ -19,7 +19,7 @@ import { Button, InputLabel, FormControl, Paper } from '@material-ui/core';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {useHistory } from "react-router-dom";
-import Header from '../components/Header';
+import HeaderCustomer from '../components/HeaderCustomer';
 import Slider from '@mui/material/Slider';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import PropTypes from 'prop-types';
@@ -421,7 +421,7 @@ const HomepageCustomer = () => {
 
     return ( 
         <ThemeProvider theme={theme}>
-            <Header />
+            <HeaderCustomer />
             <Grid container spacing={2} sx={{ paddingBottom:"1%" }} className='grid-homepage-customer'>
                 <Grid item md={3}>
                     <Box className="filter-hompage-customer">
