@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './OrderPage.css';
-import Header from "../components/Header";
+import HeaderCustomer from "../components/HeaderCustomer";
 import { ThemeProvider } from "@mui/styles";
 import { Button, Box, Grid, Typography, createTheme, Checkbox } from "@material-ui/core";
 import Footer from "../components/Footer";
@@ -149,7 +149,7 @@ export default function OrderPage(){
   
     return(
         <ThemeProvider theme={theme}>
-            <Header />
+            <HeaderCustomer />
             <div className={`container ${blurBackground ? 'blur-background' : ''}`}>
                 <ToastContainer />
                 <Grid container spacing={2} sx={{paddingBottom: "1%"}} className="orderpage-root">
