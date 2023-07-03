@@ -737,7 +737,7 @@ function EditRestaurant(props){
                                         variant="outlined"
                                         color="secondary"
                                         multiline
-                                        value={address}
+                                        value = {address?address:""}
                                         onChange={handleAddress}
                                         InputProps={{
                                             endAdornment: (
