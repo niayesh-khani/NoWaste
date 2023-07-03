@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './EditRestaurant.css';
-import Header from '../components/Header';
+import HeaderRestaurant from '../components/HeaderRestaurant';
 import axios from "axios";
 import Footer from "../components/Footer";
 import dayjs from 'dayjs';
@@ -543,7 +543,7 @@ function EditRestaurant(props){
     return ( 
         <ThemeProvider theme={theme}>
             <div className="edit-back-restaurant">
-                <Header/>
+                <HeaderRestaurant/>
                 <div className={`container ${blurBackground ? 'blur-background' : ''}`}>
                     <Typography className="back-text">
                         <IconButton className="back-button" onClick={handleBackButton}>
