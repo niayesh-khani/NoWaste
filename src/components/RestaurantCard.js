@@ -33,7 +33,6 @@ import Icon from '@mui/material/Icon';
 import DiscountIcon from '@mui/icons-material/Discount';
 import StarRateIcon from '@mui/icons-material/StarRate';
 
-
 const RestaurantCard = (props) => {
     const history = useHistory();
     const [rateValue, setRateValue] = React.useState(2.5);
@@ -49,43 +48,60 @@ const RestaurantCard = (props) => {
     return ( 
         <div>
         {/* <Card className= 'homepage-custumer-card-restaurant' onClick={handleShow}> */}
-        <Card className={`homepage-custumer-card-restaurant${props.isSingleResult ? '-single' : ''}`} onClick={handleShow}>
+        <Card className={`homepage-custumer-card-restaurant${props.isSingleResult ? '-single' : ''}`} onClick={handleShow} style={{borderRadius: '15px'}}>
             <CardActionArea>
-            <div style={{ position: 'relative' }}>
-                <CardMedia
-                    component="img"
-                    sx={{ height: 140, width: '100%', objectFit: 'cover' }}
-                    // image="/mohsen.jpg"        
-                    image={props.restaurant_image}  
-                    // title={food.Type}
-                />
-                <div style={{
-                position: 'absolute',
-                top: '0',
-                left: '0',
-                backgroundColor: '#E74C3C',
-                color: 'white',
-                padding: '5px'
-                }}>
-                    {/* {discount + "%"} */}
-                    {props.discount *100 + "%"}
-                </div>
+                <div style={{ position: 'relative' }}>
+                    <CardMedia
+                        component="img"
+                        sx={{ height: 140, width: '100%', objectFit: 'cover' }}
+                        // image="/mohsen.jpg"        
+                        image={props.restaurant_image}  
+                        // title={food.Type}
+                    />
+                    <div style={{
+                        position: 'absolute',
+                        top: '0',
+                        left: '0',
+                        backgroundColor: '#E74C3C',
+                        color: 'white',
+                        padding: '5px',
+                        width: '38px',
+                        height: '20px',
+                        fontSize: '20px'
+                        }}
+                    >
+                        {/* {discount + "%"} */}
+                        {props.discount *100 + "%"}
+                    </div>
                 </div>
                 <CardContent sx={{ height: 130}}>
-                    <Grid>
-                        <Typography gutterBottom className='restaurant-name-hemepage-customer'>{props.name}
-                            <Typography style={{marginLeft: '75%', marginTop: '-10%', fontSize: '1em'}}>
-                                {/* {rateValue} */}
-                                {props.rate}
-                                <StarRateIcon className='startIcon-homepage' style={{ color: '#faaf00', marginTop: "-11%"}} />
+                    <Grid container spacing={2}>
+                        <Grid item>
+                            <Typography gutterBottom className='restaurant-name-hemepage-customer'>
+                                {props.name}
                             </Typography>
-                        </Typography>
+                        </Grid>
+                        <Grid item sx={{ display: 'flex', alignItems: 'center', mt: '-5px' }}>
+                            <Rating defaultValue={props.rate} precision={0.5} readOnly size="small" />
+                            {/* <Typography 
+                            // style={{marginLeft: '75%', marginTop: '-10%', fontSize: '1em'}}
+                                sx={{
+                                    marginLeft: 'auto',
+                                    fontSize: '1.5em',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                  }}
+                            >
+                                {props.rate}
+                                <StarRateIcon className='startIcon-homepage' style={{ color: '#faaf00', }} />
+                            </Typography> */}
+                        </Grid>
                     </Grid>
                     <Typography className="description-homepage-customer" color="text.secondary">{props.description}</Typography> 
                 </CardContent>
-                </CardActionArea>
-            <CardActions>
-            </CardActions>
+            </CardActionArea>
+            {/* <CardActions>
+            </CardActions> */}
         </Card>
     </div>
     );
