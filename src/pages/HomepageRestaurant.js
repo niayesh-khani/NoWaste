@@ -12,7 +12,7 @@ import { Button, InputLabel, FormControl, Paper, TextareaAutosize, InputAdornmen
 // import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {useHistory } from "react-router-dom";
-import Header from '../components/Header';
+import HeaderRestaurant from '../components/HeaderRestaurant';
 import Slider from '@mui/material/Slider';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import PropTypes from 'prop-types';
@@ -365,7 +365,7 @@ function HomepageRestaurant(props){
     
     return ( 
         <ThemeProvider theme={theme}>
-            <Header />
+            <HeaderRestaurant />
             <h1 className='home-res-title'>My Restaurants</h1>
             <div>
                 <Fab
