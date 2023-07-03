@@ -37,6 +37,7 @@ export default function SignUp(){
     const [showPassword, setShowPassword] = useState(false);
     const [role, setRole] = useState('customer');
     const [email, setEmail] = useState('');
+    const [balance, setBalance] = useState(0);
     const [emailError, setEmailError] = useState(false);
     const [fullname, setFullname] = useState('');
     const [fullnameError, setFullnameError] = useState(false);
@@ -48,6 +49,7 @@ export default function SignUp(){
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(null);
     const [openNetwork, setOpenNetwork] = useState(null);
+    const [id, setId] = useState('');
 
     useEffect(() => {
       window.addEventListener("load", () => {
@@ -167,7 +169,9 @@ export default function SignUp(){
         localStorage.setItem('role', JSON.stringify(role));
         localStorage.setItem('password', JSON.stringify(password));
         localStorage.setItem('fullname', JSON.stringify(fullname));
-    }, [email, role, password, fullname]);
+        localStorage.setItem('wallet_balance', JSON.stringify(balance));
+        localStorage.setItem('id', JSON.stringify(id));
+    }, [email, role, password, fullname, balance,id]);
 
     return ( 
         <ThemeProvider theme={theme}>
@@ -295,13 +299,13 @@ export default function SignUp(){
                                 }}
                             />
                             
-                            <FormControlLabel className='checkbox' 
+                            <FormControlLabel className='checkbox' onClick={() => setRole("restaurant")}
                                 control={<Checkbox 
                                             sx={{color: '#f18b72', '&.Mui-checked': {color: '#E74C3C',},}}
                                         />}
                                 label={
                                 <Typography className="text" id="signupcheck"
-                                        onClick={() => setRole("restaurant")}>
+                                        >
                                     Sign up as restaurant
                                 </Typography>
                             }/>

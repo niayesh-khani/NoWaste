@@ -35,6 +35,9 @@ export default function Login(){
     const [password, setPassword] = useState('');
     const [token, setToken] = useState('');
     const [id, setId] = useState('');
+    const [wallet_balance, setWallet_balance] = useState('');
+    const [role, setRole] = useState('');
+    const [list_of_favorites_res, setList_of_favorites_res] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
     const [open, setOpen] = useState(null);
@@ -82,9 +85,26 @@ export default function Login(){
         console.log(token);
     }, [token]);
     useEffect(() => {
+        localStorage.setItem('email', JSON.stringify(email));
+        console.log(email);
+    }, [email]);
+    useEffect(() => {
         localStorage.setItem('id', JSON.stringify(id));
         console.log(id);
     }, [id]);
+    useEffect(() => {
+        localStorage.setItem('wallet_balance', JSON.stringify(wallet_balance));
+        console.log(wallet_balance);
+    }, [wallet_balance]);
+    useEffect(() => {
+        localStorage.setItem('role', JSON.stringify(role));
+        console.log(role);
+    }, [role]);
+    useEffect(() => {
+        localStorage.setItem('list_of_favorites_res', JSON.stringify(list_of_favorites_res));
+        console.log(list_of_favorites_res);
+    }, [list_of_favorites_res]);
+
     const handleClose = () => {
         setOpen(false);
         setHeight();
@@ -114,9 +134,15 @@ export default function Login(){
                 console.log(response);
                 setToken(response.data.token);
                 setId(response.data.id);
+                setWallet_balance(response.data.wallet_balance);
+                setRole(response.data.role);
+                setList_of_favorites_res(response.data.list_of_favorites_res);
                 console.log(token);
                 console.log(id);
-                history.push("/homepage-customer");
+                if (response.data.role === "customer")
+                    history.push("/homepage-customer");
+                else
+                    history.push("/homepage-restaurant");
             })
             .catch((error) => {
                 if (error.response) {
@@ -225,7 +251,7 @@ export default function Login(){
                                     }
                             /> */}
                             <Link to="/forgot-password" className="forgetpassword">
-                                <Typography style={{ fontFamily: 'Montserrat, sans-serif'}}>
+                                <Typography style={{ Family: 'Montserrat, sfontans-serif'}}>
                                     Forgot password?
                                 </Typography>
                             </Link>
