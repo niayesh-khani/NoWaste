@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import './EditProfile.css';
-import Header from '../components/Header';
+import HeaderCustomer from '../components/HeaderCustomer';
 import './Login-Signup.css';
 import './Restaurant-View.css';
 // import PhoneInput from 'react-phone-input-2';
@@ -364,7 +364,7 @@ function Edit(props){
     return(
         <ThemeProvider theme={theme}>
             <div className="edit-back">
-                <Header/>
+                <HeaderCustomer/>
                 <div className={`container ${blurBackground ? 'blur-background' : ''}`}>
                     <Grid container spacing={2} className="edit-grid">
                         <Grid item md={3} sm={12} xs={12}>
