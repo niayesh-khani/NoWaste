@@ -45,7 +45,7 @@
     flex-direction: column;
 }
 #submit {
-    margin: 5% auto;
+    margin: 7% auto;
     background-color: rgb(244, 102, 70);
     border-radius: 70px;
     margin-bottom: 20px;
@@ -57,7 +57,7 @@
     font-weight: 400;
     font-family: 'Montserrat', sans-serif !important;
     text-align: center;
-    margin: 5% auto !important;
+    margin: 3% auto !important;
 }
 .error {
     font-size: 0.8em;
@@ -71,16 +71,32 @@
     white-space: nowrap;
     margin-left: 13% !important;
 }
+.already {
+    font-weight: 400;
+    font-family: 'Montserrat', sans-serif !important;
+    text-align: center;
+    margin-top: -0% !important;
+    margin-bottom: 5% !important;
+}
+.forgot-title {
+    font-weight: 400;
+    font-family: 'Montserrat', sans-serif !important;
+    text-align: center;
+    margin-top: 7% !important;
+    margin-bottom: 7% !important;
+}
+
 .forgetpassword {
     color: #E74C3C;
-    margin-top: 5%;
-    margin-right: 15% !important;
+    margin-top: 7%;
+    margin-right: 35% !important;
     float: right;
     text-decoration:none;
     font-family: 'Montserrat', sans-serif !important;
+    font-size: small !important;
 }
 .forgetpassword:hover, a:active {
-    text-decoration: underline;
+    text-decoration: underline !important;
 }
 .remember {
     height: 20px;
@@ -90,7 +106,7 @@
     white-space: nowrap;
 }
 #signupcheck {
-    font-size: 1.1em;
+    font-size: 1em;
 }
 
 /* ForgotPass */
@@ -115,13 +131,10 @@
 }
 .link {
     text-decoration:none;
-    color: black;
+    color: #E74C3C;
 }
 .link:hover, a:active {
-    text-decoration:underline;
-}
-.link#signup, .link#login {
-    color: #E74C3C;
+    text-decoration:underline !important;
 }
 .error#forget, .error#verify {
     height: 2em;

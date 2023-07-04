@@ -211,7 +211,7 @@ export default function ForgotPass(){
                     <img
                         // className="desktop"
                         className="background"
-                        src="/f2.jpg"
+                        src="/ff.jpg"
                         alt="NoWaste"
                     />
                     <Box className="box"
@@ -220,8 +220,8 @@ export default function ForgotPass(){
                         <Typography variant="h5" 
                             color="textPrimary"
                             gutterBottom
-                            className="text"
-                            style={{fontWeight: 'bold', fontSize: '30px'}}
+                            className="forgot-title"
+                            style={{fontWeight: 'bold', fontSize: '23px'}}
                         >
                             Forgot Your Password?
                         </Typography>
@@ -308,10 +308,10 @@ export default function ForgotPass(){
                             </Button>
                         </form> 
                         <Typography 
-                            style={{fontSize: '1em'}}
-                            className="text"
+                            style={{fontSize: '0.9em'}}
+                            className="already"
                         >
-                        <Link to="/login" className="link">back to Login</Link>
+                        <Link to="/login" className="link">Back to login</Link>
                         </Typography>
                     </Box>
                 </Container>
