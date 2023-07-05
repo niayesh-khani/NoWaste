@@ -235,7 +235,7 @@ export default function ForgotPass(){
                                 </Alert>
                             } 
                             <TextField 
-                                label="Email Address"
+                                label="Email address"
                                 variant="outlined"
                                 color="secondary"
                                 required
