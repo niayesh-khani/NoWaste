@@ -91,6 +91,24 @@
   margin-top: 2% !important;
 }
 
+.no-comment-message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px; /* Adjust height as needed */
+}
+
+.no-comment-message {
+  color: black;
+  font-family: 'Montserrat', sans-serif !important;
+  text-align: center;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+
 
 .comment-details-div {
   height: 258px ;

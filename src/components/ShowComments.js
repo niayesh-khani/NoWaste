@@ -105,24 +105,32 @@ export default function ShowComments() {
                         <h2 className='title-show-comments'>Users Comments</h2>
 
                         <div className="comment-details-div">
-                        
-                            {comments && comments.map((res,index)=>(
+                            {comments && comments.length > 0 ? (
                                 <div>
-                                    <Stack direction="row" spacing={2} >
-                                        <Avatar sx={{ bgcolor: grey[900] }} className='comment-avatar'>{res.writer_username[0]}</Avatar>
-                                        <Stack direction="column" spacing={2} >
-                                            <Typography variant="h6" className='comment-stack'>
-                                                {res.writer_username}
-                                            </Typography>
-                                            <h8 className='comment-date'>{res.created_at_date}</h8>
+                                    {comments.map((res,index)=>(
+                                    <div>
+                                        <Stack direction="row" spacing={2} >
+                                            <Avatar sx={{ bgcolor: grey[900] }} className='comment-avatar'>{res.writer_username[0]}</Avatar>
+                                            <Stack direction="column" spacing={2} >
+                                                <Typography variant="h6" className='comment-stack'>
+                                                    {res.writer_username}
+                                                </Typography>
+                                                <h8 className='comment-date'>{res.created_at_date}</h8>
+                                            </Stack>
                                         </Stack>
-                                    </Stack>
-                                    <Typography className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
-                                        {res.text}
-                                    </Typography>
-                                    <hr className='comment-hr'></hr>
+                                        <Typography className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
+                                            {res.text}
+                                        </Typography>
+                                        <hr className='comment-hr'></hr>
+                                    </div>
+                                    ))}
                                 </div>
-                            ))}
+                                ) :
+                                (
+                                    <div className="no-comment-message-container">
+                                    <h2 className="no-comment-message">No comment is available.</h2>
+                                    </div>
+                                )}
                         </div>
                         <Button 
                             onClick={handleClose} 

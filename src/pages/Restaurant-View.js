@@ -335,18 +335,25 @@ const RestaurantView = (props: Props) =>
             </MU.Grid>
             
             <MU.Grid item md={9}>
+                {menu && menu.length > 0 ? (
                 <Masonry
                     breakpointCols={breakpoints}
                     className="my-masonry-grid"
                     columnClassName="my-masonry-grid_column"
             >
-                {menu &&
-                    menu.map((food, index) => (
+                {menu.map((food, index) => (
                         <div key={index} className="my-masonry-grid_column" style={{ width: index % 3 === 0 ? '100%' : '' }}>
                             <Food food={food} />
                         </div>
                     ))}
             </Masonry>
+            ) : (
+                // <p className="no-menu-message">No menu available.</p>
+                <div className="no-menu-message-container">
+                <img src='/menu-unavailable.jpg' alt="No menu available" className="food-image-restaurant-view" />
+                <h2 className="no-menu-message">No menu is available.</h2>
+                </div>
+            )}
             </MU.Grid>
             <BackToTop/>
         </MU.Grid>
