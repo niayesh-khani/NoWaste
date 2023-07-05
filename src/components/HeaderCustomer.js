@@ -80,6 +80,19 @@ const HeaderCustomer = React.memo(() => {
     }
     const handleClickLogOut = () => {
         localStorage.removeItem("token");
+        axios.get(`http://5.34.195.16/user/logout/`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "GET",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch((error) => {
+        console.log(error.response);
+        });
         history.push("/landing");
     }
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
