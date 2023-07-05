@@ -95,7 +95,7 @@ function Edit(props){
     const [cities, setCities] = useState();
     const [lat, setLat] = useState();
     const [lng, setLng] = useState();
-    const mylocation = [lat, lng];
+    const mylocation = [lat, lng, id];
 
     const handleFullname = (e) => {
         setFullname(e.target.value);
