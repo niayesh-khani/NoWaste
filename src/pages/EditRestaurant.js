@@ -138,7 +138,7 @@ function EditRestaurant(props){
     const [cities, setCities] = useState();
     const [lat, setLat] = useState();
     const [lng, setLng] = useState();
-    const mylocation = [lat, lng];
+    const mylocation = [lat, lng, idR];
 
     const handleFullname = (e) => {
         setFullname(e.target.value);
