@@ -5,11 +5,17 @@ import 'leaflet-defaulticon-compatibility';
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
 
-function Map() {
+function Map(props) {
   const mapRef = useRef(null);
   const markerRef = useRef(null);
   const [lat, setLat] = useState();
   const [lng, setLng] = useState();
+  setLat(props[0]);
+  setLng(props[1]);
+  const id = props[2];
+
+  //update the new location
+  //get the lat and lng
 
   const handleSaveClick = () => {
     if (markerRef.current) {
