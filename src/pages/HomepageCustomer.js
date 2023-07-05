@@ -256,7 +256,7 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?type=${type}&discount__gt=${fromD}&discount__lt=${toD}&rate__lt=${toR}&rate__gt=${fromR}`,
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?type=${type}&discount__gte=${fromD}&discount__lte=${toD}&rate__lte=${toR}&rate__gte=${fromR}`,
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -321,7 +321,7 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-rate&rate__gt=${fromR}&rate__lt=${toR}`,
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gte=${fromD}&discount__lte=${toD}&ordering=-rate&rate__gte=${fromR}&rate__lte=${toR}`,
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -342,7 +342,7 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-discount&rate__gt=${fromR}&rate__lt=${toR}`,
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gte=${fromD}&discount__lte=${toD}&ordering=-discount&rate__gte=${fromR}&rate__lte=${toR}`,
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -363,7 +363,7 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-date_of_establishment&rate__gt=${fromR}&rate__lt=${toR}`,
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gte=${fromD}&discount__lte=${toD}&ordering=-date_of_establishment&rate__gte=${fromR}&rate__lte=${toR}`,
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -384,7 +384,7 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=date_of_establishment&rate__gt=${fromR}&rate__lt=${toR}`,
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gte=${fromD}&discount__lte=${toD}&ordering=date_of_establishment&rate__gte=${fromR}&rate__lte=${toR}`,
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -633,7 +633,7 @@ const HomepageCustomer = () => {
                         </Grid>
                     </Grid>
                     <Grid container spacing={3}>
-                        <MU.Grid item>
+                        <MU.Grid item md={12}>
                             <Masonry
                                 breakpointCols={breakpoints}
                                 // className="homepage-my-masonry-grid"
@@ -646,7 +646,7 @@ const HomepageCustomer = () => {
                                 {restaurant.length==1 ? (<RestaurantCard name={restaurant[0].name} rate={restaurant[0].rate} discount={restaurant[0].discount} id={restaurant[0].id} description={restaurant[0].description} isSingleResult={true}/>) :
                                 (restaurant && restaurant.map((res, index) => (
                                     <div key={index} style={{ width: index % 3 === 0 ? '100%' : '' }}>
-                                        <RestaurantCard name={res.name} rate={res.rate} discount={res.discount} id={res.id} description={res.description} restaurant_image={res.restaurant_image}/>
+                                        <RestaurantCard name={res.name} rate={res.rate} discount={res.discount} id={res.id} number={res.number} address={res.address} restaurant_image={res.restaurant_image}/>
                                     </div>
                                 )))}
                                 

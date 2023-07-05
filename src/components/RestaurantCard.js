@@ -97,7 +97,9 @@ const RestaurantCard = (props) => {
                             </Typography> */}
                         </Grid>
                     </Grid>
-                    <Typography className="description-homepage-customer" color="text.secondary">{props.description}</Typography> 
+                    {/* <Typography className="description-homepage-customer" color="text.secondary">{props.description}</Typography>  */}
+                    <Typography className="description-homepage-customer" color="text.secondary">{props.number}</Typography>
+                    <Typography className="description-homepage-customer" color="text.secondary">{props.address}</Typography>
                 </CardContent>
             </CardActionArea>
             {/* <CardActions>
