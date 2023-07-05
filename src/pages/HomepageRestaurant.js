@@ -56,6 +56,8 @@ import Fab from '@mui/material/Fab';
 import Modal from '@mui/material/Modal';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import Map from "../components/Map/Map";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const theme = createTheme({
     palette: {
@@ -217,7 +219,9 @@ function HomepageRestaurant(props){
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
     const history = useHistory();
-    const [open, setOpen] = useState(false);
+    // const [open, setOpen] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertSeverity, setAlertSeverity] = useState('');
 
     // const handleSidebarOpen = () => {
     //     setOpen(!open);
@@ -241,10 +245,45 @@ function HomepageRestaurant(props){
             'Authorization' : "Token " + token.slice(1,-1)   
         }})
         .then((response) => {
-            window.location.reload(false);
+            setAlertSeverity("success");
+            setAlertMessage("Restaurant deleted successfully!");
+            console.log("Deleted succcessfully!");
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+            console.log(error);
+            setAlertSeverity("error");
+            setAlertMessage("A problem has been occured! Please try again later.");
+        });
     };
+    const handleReloadPage = () => {
+        window.location.reload();
+    };
+    useEffect(() => {
+        if(alertMessage !== "" && alertSeverity !== ""){
+            // if(alertMessage.includes("deleted")){
+            //     console.log("delete alert");
+            // }
+            if(alertSeverity === "success"){
+                toast.success(alertMessage, {
+                            position: toast.POSITION.BOTTOM_LEFT,
+                            title: "Success",
+                            autoClose: 7000,
+                            pauseOnHover: true,
+                            onClose: handleReloadPage
+                        });
+            } else {
+                toast.error(alertMessage, {
+                            position: toast.POSITION.BOTTOM_LEFT,
+                            title: "Error",
+                            autoClose: 3000,
+                            pauseOnHover: true
+                        });
+            }
+            setAlertSeverity("");
+            setAlertMessage("");
+        }
+    }, [alertMessage, alertSeverity]);  
+
     const handleEdit = (res) => {
         history.push(`edit-restaurant/${id}/restaurants/${res.id}`);
     };
@@ -334,15 +373,19 @@ function HomepageRestaurant(props){
         }})
         .then((response) => {
             console.log(response);
-            window.location.reload(false);
+            setAlertMessage("Restaurant added successfully!");
+            setAlertSeverity("success");
         })
         .catch((error) => {
             if (error.response) {
                 console.log(error.response);
                 console.log("server responded");
+                setAlertMessage("A problem has been occured! Please try again later.");
+                setAlertSeverity("error");
             } 
             else if (error.request) {
-                setOpenNetwork(true);
+                setAlertMessage("Network error! Please try again later.");
+                setAlertSeverity("error");
                 console.log("network error");
             }
         });  
@@ -368,6 +411,9 @@ function HomepageRestaurant(props){
             <HeaderRestaurant />
             <h1 className='home-res-title'>My Restaurants</h1>
             <div>
+                <div>
+                    <ToastContainer />
+                </div>
                 <Fab
                     style={{ backgroundColor: "#ffa600", position: "fixed", right: "20px", bottom: "20px"}}
                     aria-label="add"
@@ -497,9 +543,9 @@ function HomepageRestaurant(props){
                 {/* <Grid item md={12}> */}
                     <Masonry style={{paddingLeft: "0%", marginLeft: "5%"}} breakpointCols={breakpoints}>
                         {restaurants && restaurants.map((res, index) => (
-                            <div key={index}>
-                                <Card className='homepage-restaurant-card-restaurant' sx={{ backgroundColor: '#f5f5f8' }}>
-                                    <CardActionArea>
+                            <div key={index} onClick={() => handleEdit(res)}>
+                                <Card className='homepage-restaurant-card-restaurant' sx={{ backgroundColor: '#f5f2f2' }} >
+                                    <CardActionArea >
                                         <Grid container spacing={2}>
                                             <Grid item md={6}>
                                                 <div style={{ position: 'relative' }}>
@@ -543,18 +589,29 @@ function HomepageRestaurant(props){
                                                                 <Rating name="half-rating" defaultValue={res.rate} precision={0.1} size="small" readOnly style={{marginTop: '2px'}}/>
                                                             </Grid>
                                                             <div style={{marginLeft: '50%'}}>
-                                                                <Grid container>
+                                                                {/* <Grid container>
                                                                     <Grid item >
                                                                         <IconButton title="Edit restaurant">
                                                                             <EditIcon onClick={() => {handleEdit(res)}} className='edit-icons-card-restaurant-homepage'/>
                                                                         </IconButton>
                                                                     </Grid>
                                                                     <Grid item lg={0.2} >
+                                                                        
                                                                         <IconButton title="Delete restaurant">
                                                                             <DeleteForeverIcon onClick={() => {handleDelete(res)}} className='delete-icons-card-restaurant-homepage'/> 
                                                                         </IconButton>
                                                                     </Grid>
-                                                                </Grid>
+                                                                </Grid> */}
+                                                                <Button
+                                                                    variant='contained'
+                                                                    className='delete-restaurant-button'
+                                                                    onClick={(e) =>{
+                                                                        e.stopPropagation();
+                                                                        handleDelete(res)}
+                                                                    } 
+                                                                >
+                                                                    Delete
+                                                                </Button>
                                                             </div>
                                                             {/* <div className='two-icons-homepage'>
                                                             <EditIcon title="Edit" onClick={() => {handleEdit(res)}} className='edit-icons-card-restaurant-homepage'/>
