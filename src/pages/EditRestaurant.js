@@ -136,6 +136,9 @@ function EditRestaurant(props){
     const [updateFoodPic, setUpdateFoodPic] = useState('');
     const [countries, setCountries] = useState([]);
     const [cities, setCities] = useState();
+    const [lat, setLat] = useState();
+    const [lng, setLng] = useState();
+    const mylocation = [lat, lng];
 
     const handleFullname = (e) => {
         setFullname(e.target.value);
@@ -199,6 +202,25 @@ function EditRestaurant(props){
         .then((response) => {
             setCountries(response.data);
             console.log("ALL countries are here!");
+        })
+        .catch((error) => console.log(error));
+    },[]);
+
+    //geting the lt and lng of map
+    useEffect(() =>{
+        axios.get(
+            `http://5.34.195.16/user/${id}/lat_long/` , 
+            {headers :{
+                'Content-Type' : 'application/json'
+            }}
+        )
+        .then((response) => {
+            console.log("got Lat and Lng!");
+            const data = response.data;
+            console.log(data);
+            setLat(data.lat);
+            setLng(data.long);
+
         })
         .catch((error) => console.log(error));
     },[]);
@@ -751,7 +773,7 @@ function EditRestaurant(props){
         
                                     />
                                     <Modal open={showMap} onClose={handleCloseMap}>
-                                        <Map/>
+                                        <Map location = {mylocation}/>
                                     </Modal>
                                 </FormControl>
                                 <FormControl className="edit-field-restaurant">
