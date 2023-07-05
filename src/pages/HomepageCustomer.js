@@ -400,6 +400,25 @@ const HomepageCustomer = () => {
         });
     };
 
+    const handleClickNearest = () => {      //
+        const lat= localStorage.getItem("lat");
+        const long = localStorage.getItem("long");
+        axios.get(`http://5.34.195.16/nearest_restaurant?origins=${lat},${long}`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
+        .then((response) => {
+            console.log(response.data);
+            setRestaurant(response.data);
+        })
+        .catch((error) => {
+            console.log(error.response);
+        });
+    };
+
     // const clickIranian =()=> {
     //     setType(type === "Iranian" ? "" : "Iranian");
     //     console.log("Iranian");
@@ -604,6 +623,7 @@ const HomepageCustomer = () => {
                                         >
                                             <MenuItem onClick={handleClickNewest} value="Item1">Newest</MenuItem>
                                             <MenuItem onClick={handleClickLatest} value="Item2">Latest</MenuItem>
+                                            <MenuItem onClick={handleClickNearest} value="Item4">Nearest</MenuItem>
                                             <MenuItem onClick={handleClickRate} value="Item3">Maximum rate</MenuItem>
                                             <MenuItem onClick={handleClickDiscount} value="Item4">Maximum discount</MenuItem>
                                         </TextField>
