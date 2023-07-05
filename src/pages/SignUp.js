@@ -306,7 +306,7 @@ export default function SignUp(){
                                 label={
                                 <Typography className="text" id="signupcheck"
                                         >
-                                    Sign up as restaurant
+                                    Sign up as restaurant manager
                                 </Typography>
                             }/>
                             <Button 
