@@ -25,6 +25,8 @@ import Chat from "../components/Chat";
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import Map from "../components/Map/Map";
 import Modal from '@mui/material/Modal';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const styles = theme => ({
     field: {
@@ -91,7 +93,7 @@ function EditRestaurant(props){
     };   
     const [doe, setDoe] = useState(null);
     const [color, setColor] = useState(localStorage.getItem('avatarColor') || getRandomColor());
-    const [discount, setDiscount] = useState();
+    const [discount, setDiscount] = useState('');
     const [update, setUpdate] = useState('');
     const [phone, setPhone] = useState('');
     const token = localStorage.getItem('token');
@@ -100,12 +102,15 @@ function EditRestaurant(props){
     const [city, setCity] = useState();
     const [country, setCountry] = useState();
     const [address, setAddress] = useState(' ');
+    const [description, setDescription] = useState(" ");
     const [password, setPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [newPasswordError, setNewPasswordError] = useState(false);
     const [confirmPassword, setConfirmPassword] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState(false);
     const [newPasswordMatch, setNewPasswordMatch] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertSeverity, setAlertSeverity] = useState('');
     const [show, setShow] = useState(false);
     const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
@@ -113,7 +118,7 @@ function EditRestaurant(props){
     const [profileImg, setProfileImg] = useState('');
     const MAX_FILE_SIZE = 5 * 1024 * 1024;
     const [open, setOpen] = useState(false);
-    const [openNetwork, setOpenNetwork] = useState(false);
+    // const [openNetwork, setOpenNetwork] = useState(false);
     // const [openWrongPass, setOpenWrongPass] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
     const [openMenu, setOpenMenu] = useState(true);
@@ -156,6 +161,33 @@ function EditRestaurant(props){
             localStorage.setItem('avatarColor', color);
         }
     }, []);
+
+    const handleReloadPage = () => {
+        window.location.reload();
+    };
+
+    useEffect(() => {
+        if(alertMessage !== "" && alertSeverity !== ""){
+            if(alertSeverity === "success"){
+                toast.success(alertMessage, {
+                            position: toast.POSITION.BOTTOM_LEFT,
+                            title: "Success",
+                            autoClose: 7000,
+                            pauseOnHover: true,
+                            onClose: handleReloadPage
+                        });
+            } else {
+                toast.error(alertMessage, {
+                            position: toast.POSITION.BOTTOM_LEFT,
+                            title: "Error",
+                            autoClose: 3000,
+                            pauseOnHover: true
+                        });
+            }
+            setAlertMessage("");
+            setAlertSeverity("");
+        }
+    }, [alertMessage, alertSeverity]);
 
     useEffect(() => {
         localStorage.setItem('lat', lat);
@@ -261,6 +293,11 @@ function EditRestaurant(props){
         setAddress(e.target.value);
     };
 
+    const handleDescription = (e) => {
+        setDescription(e.target.value);
+        setUpdate({...update, description : e.target.value});
+    };
+
     useEffect(() => {
         setNewPasswordMatch(newPassword === confirmPassword);
     }, [newPassword, confirmPassword]);
@@ -283,8 +320,12 @@ function EditRestaurant(props){
     },[data.restaurant_image]);
 
     useEffect(() => {
-        setDiscount(data.discount);
+        setDiscount(data.discount * 100);
     }, [data.discount]);
+
+    useEffect(() => {
+        setDescription(data.description);
+    }, [data.description]);
 
     useEffect(() => {
         const arr = data?.address?data?.address.split(","):"";
@@ -316,9 +357,9 @@ function EditRestaurant(props){
     // const handleChange = () => {
     //     history.push('./change-password')
     // };
-    const handleCloseNetwork = () => {
-        setOpenNetwork(false);
-    };
+    // const handleCloseNetwork = () => {
+    //     setOpenNetwork(false);
+    // };
     // const handleCloseWrongPass = () => {
     //     setOpenWrongPass(false);
     // };
@@ -393,6 +434,8 @@ function EditRestaurant(props){
 
     const handleRemain = (e) => {
         setRemainFood(e.target.value);
+        console.log("the updated value is  : "+e.target.value);
+        console.log("remail here is : " + remainFood);
         if(!/^[0-9]+?$/.test(e.target.value) || e.target.value.trim() === ''){
             setRemainFoodError(true);
         } else {
@@ -451,13 +494,20 @@ function EditRestaurant(props){
         .then((response)=> {
             console.log(response);
             console.log("succesfully updated");
-            window.location.reload(false);
+            // window.location.reload(false);
+            setAlertMessage("Rstaurant details updated successfully!");
+            setAlertSeverity("success");
         })
         .catch((error) => {
             console.log(error)
             if (error.request) {
-                setOpenNetwork(true);
-                console.log("network error");
+                // setOpenNetwork(true);
+                // console.log("network error");
+                setAlertMessage("Network error! Please try again later.!");
+                setAlertSeverity("error");
+            } else{
+                setAlertMessage("A problem has been occured! Please try again later.");
+                setAlertSeverity("error");
             }
         });
     };
@@ -477,17 +527,37 @@ function EditRestaurant(props){
 
     const handleDelete = (res) => {
         console.log("i'm here to delete.");
-        axios.delete(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/${idFood}/`)
+        axios.delete(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/${idFood}/`, 
+            {headers: {
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "GET,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)   
+            }}
+        )
         .then((response) => {
-            window.location.reload(false);
+            // window.location.reload(false);
+            setAlertMessage("Food deleted successfully!");
+            setAlertSeverity("success");
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+            setAlertMessage("A problem has been occured! Please try again later.");
+            setAlertSeverity("error");
+            console.log(error);
+        });
     };
 
     const handleOpenEdit = (e) => {
         setIdFood(e);
         setOpenEdit(!openEdit);
-        axios.get(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/${e}/`)
+        axios.get(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/${e}/`,
+            {headers: {
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "GET,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)   
+            }}
+        )
         .then((response) => {
             console.log(response);
             console.log("gives the food!");
@@ -512,13 +582,23 @@ function EditRestaurant(props){
         console.log('im here to edit');
         console.log(editData);
         console.log(idFood);
-        axios.put(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/${idFood}/`, editData)
+        axios.put(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/${idFood}/`, editData,
+            {headers: {
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "GET,PATCH",
+                'Authorization' : "Token " + token.slice(1,-1)   
+            }}
+        )
         .then((response) => {
             console.log(response);
-            window.location.reload(false);
-            
+            setAlertMessage("Food updated successfully!");
+            setAlertSeverity("success");
+            // window.location.reload(false);
         })
         .catch((error) => {
+            setAlertMessage("A problem has been occured! Please try again later.");
+            setAlertSeverity("error");
             console.log(error);
         });
     };
@@ -538,19 +618,27 @@ function EditRestaurant(props){
         axios.post(`http://5.34.195.16/restaurant/managers/${idM}/restaurants/${idR}/food/`, userData, {headers:{"Content-Type" : "application/json", 'Authorization' : "Token " + token.slice(1,-1)}})
         .then((response) => {
             console.log(response);
-            window.location.reload(false);
+            setAlertMessage("Food added successfully!");
+            setAlertSeverity("success");
+            // window.location.reload(false);
         })
         .catch((error) => {
             if (error.response) {
                 console.log(error.response);
                 console.log("server responded");
+                setAlertMessage("A problem has been occured! Please try again later.");
+                setAlertSeverity("error");
             } 
             else if (error.request) {
                 console.log("network error");
                 console.log(error);
+                setAlertMessage("Network error! Please try again later.");
+                setAlertSeverity("error");
             } 
             else {
                 console.log(error);
+                setAlertMessage("A problem has been occured! Please try again later.");
+                setAlertSeverity("error");
             }
         });
     };
@@ -576,12 +664,15 @@ function EditRestaurant(props){
             <div className="edit-back-restaurant">
                 <HeaderRestaurant/>
                 <div className={`container ${blurBackground ? 'blur-background' : ''}`}>
-                    <Typography className="back-text">
+                    {/* <Typography className="back-text">
                         <IconButton className="back-button" onClick={handleBackButton}>
                             <ArrowBackIosNewIcon />
                         </IconButton>
                         Back to home
-                    </Typography>
+                    </Typography> */}
+                    <div >
+                        <ToastContainer />
+                    </div>
                     <Grid container spacing={2} className="edit-grid-restaurant">
                         <Grid item md={3} sm={12} xs={12}>
                             <Box className="edit-box-restaurant">
@@ -632,14 +723,14 @@ function EditRestaurant(props){
                                 </Typography>
                                 <FormControl className="edit-field-restaurant">
                                     <Grid container spacing={2}>
-                                        {openNetwork && 
+                                        {/* {openNetwork && 
                                                 <Grid item lg={12} sm={12} md={12}>
                                                     {openNetwork && <Alert severity="error" onClose={handleCloseNetwork} variant="outlined"> 
                                                                         Network error!
                                                                     </Alert>
                                                     }
                                                 </Grid> 
-                                        }
+                                        } */}
                                         <Grid item xs={12} sm={6} md={6}>
                                             <TextField
                                                 label="Restaurant name"
@@ -669,6 +760,9 @@ function EditRestaurant(props){
                                                 style={{width: '100%'}}
                                                 variant="outlined"
                                                 // focused={true}
+                                                inputProps={{
+                                                    maxLength: 13
+                                                }}
                                             />
                                         </Grid>
                                     </Grid>
@@ -696,7 +790,7 @@ function EditRestaurant(props){
                                                 label="Discount"
                                                 variant="outlined"
                                                 color="secondary"
-                                                value={discount*100+"%"}
+                                                value={discount}
                                                 onChange={handleDiscount}
                                                 InputLabelProps={{ shrink: true }}  
                                                 style={{width: '100%', marginTop: '8px'}}
@@ -779,12 +873,23 @@ function EditRestaurant(props){
                                                 </InputAdornment>
                                             )
                                         }}
-        
                                     />
                                     <Modal open={showMap} onClose={handleCloseMap}>
                                         <Map location = {mylocation}/>
                                     </Modal>
                                 </FormControl>
+                                <FormControl className="edit-field-restaurant">
+                                    <TextField
+                                        label="Description"
+                                        variant="outlined"
+                                        color="secondary"
+                                        multiline
+                                        value = {description}
+                                        onChange={handleDescription}
+                                        InputLabelProps={{ shrink: true }}  
+                                    />
+                                </FormControl>
+
                                 <FormControl className="edit-field-restaurant">
                                     {openMenu && 
                                         <Button 
@@ -925,7 +1030,7 @@ function EditRestaurant(props){
                                                                 style={{width: '100%'}}
                                                                 InputProps={{
                                                                     startAdornment: (
-                                                                        <InputAdornment position="start">$</InputAdornment>
+                                                                        <InputAdornment position="start" style={{marginTop:"-3px"}}>$</InputAdornment>
                                                                     ),
                                                                 }}
                                                             />
@@ -1055,6 +1160,7 @@ function EditRestaurant(props){
                                                                             color="secondary"
                                                                             value={remainFood}
                                                                             required
+                                                                            style={{width: '100%'}}
                                                                             onChange={handleRemain}
                                                                             error={remainFoodError}
                                                                             helperText={
@@ -1102,7 +1208,7 @@ function EditRestaurant(props){
                                                                             style={{width: '100%'}}
                                                                             InputProps={{
                                                                                 startAdornment: (
-                                                                                    <InputAdornment position="end">$</InputAdornment>
+                                                                                    <InputAdornment position="end" style={{marginTop: '-2px'}}>$</InputAdornment>
                                                                                 ),
                                                                             }}
                                                                         />
@@ -1192,7 +1298,7 @@ function EditRestaurant(props){
                             </Box>
                         </Grid>
                     </Grid> 
-                <Chat customer={3} restaurant={idR} sender={idR}/>
+                {/* <Chat customer={3} restaurant={idR} sender={idR}/> */}
                 </div>
                 <Footer/>
             </div>
