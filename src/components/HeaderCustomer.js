@@ -93,7 +93,7 @@ const HeaderCustomer = React.memo(() => {
         .catch((error) => {
         console.log(error.response);
         });
-        history.push("/landing");
+        history.push("/");
     }
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
             setAnchorEl(event.currentTarget);
