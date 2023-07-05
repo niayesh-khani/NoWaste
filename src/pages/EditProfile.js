@@ -95,7 +95,8 @@ function Edit(props){
     const [cities, setCities] = useState();
     const [lat, setLat] = useState();
     const [lng, setLng] = useState();
-    const mylocation = [lat, lng, id];
+    const role = localStorage.getItem("role");
+    const mylocation = [lat, lng, id, role];
 
     const handleFullname = (e) => {
         setFullname(e.target.value);
@@ -119,6 +120,11 @@ function Edit(props){
             localStorage.setItem('avatarColor', color);
         }
     }, [])
+    
+    useEffect(() => {
+        localStorage.setItem('lat', lat);
+        localStorage.setItem('long', lng);
+    }, [lat,lng])
 
     const handlePhoneChange = (value) => {
         setUpdate({...update, phone_number : value});
@@ -199,12 +205,15 @@ function Edit(props){
         .catch((error) => console.log(error));
     },[]);
 
-    //geting the lt and lng of map
+    //getting the lt and lng of map
     useEffect(() =>{
         axios.get(
             `http://5.34.195.16/user/${id}/lat_long/` , 
             {headers :{
-                'Content-Type' : 'application/json'
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "GET,POST",
+                'Authorization' : "Token " + token.slice(1,-1)
             }}
         )
         .then((response) => {
@@ -212,8 +221,7 @@ function Edit(props){
             const data = response.data;
             console.log(data);
             setLat(data.lat);
-            setLng(data.long);
-
+            setLng(data.lon);
         })
         .catch((error) => console.log(error));
     },[]);
