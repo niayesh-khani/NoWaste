@@ -258,20 +258,20 @@ export default function Dashboard(){
     //chaatGPT
     useEffect(() => {
         axios
-          .get(`http://5.34.195.16/restaurant/customer/${id}/orderview/`, {
+        .get(`http://5.34.195.16/restaurant/customer/${id}/orderview/`, {
             headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Methods': 'GET,PATCH',
-              Authorization: 'Token ' + token.slice(1, -1),
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET,PATCH',
+                Authorization: 'Token ' + token.slice(1, -1),
             },
-          })
-          .then((response) => {
-            setOrderHistory(response.data);
-            console.log('order got successfully');
-          })
-          .catch((error) => console.log(error));
-      }, []);
+        })
+        .then((response) => {
+        setOrderHistory(response.data);
+        console.log('order got successfully');
+        })
+        .catch((error) => console.log(error));
+    }, []);
     //   useEffect(() => {
     //     if (orderHistory) {
     //       const newRows = orderHistory.map((order) => {
@@ -298,23 +298,22 @@ export default function Dashboard(){
     //       setRows(newRows);
     //     }
     //   }, [orderHistory]); 
-      
-      useEffect(() => {
+
+    useEffect(() => {
         // ...
-    
         if (orderHistory) {
             if (orderHistory) {
                 const newRows = orderHistory.map((order) => {
-                  const restaurant_name = order.restaurantDetails.name;
-                  let orderText = order.orderDetails.orderItems
+                const restaurant_name = order.restaurantDetails.name;
+                let orderText = order.orderDetails.orderItems
                     .map((item) => `${item.quantity}×${item.name_and_price.name}`)
                     .join(', ');
-                  const price = order.orderDetails.Subtotal_Grandtotal_discount[1];
-                  const date = new Date(order.created_at).toISOString().split('T')[0];
-                  const status = order.status;
-                  const restaurant_id = order.restaurantDetails.id;
-                  const order_id = order.orderDetails.id;
-                  return createData(
+                const price = order.orderDetails.Subtotal_Grandtotal_discount[1];
+                const date = new Date(order.created_at).toISOString().split('T')[0];
+                const status = order.status;
+                const restaurant_id = order.restaurantDetails.id;
+                const order_id = order.orderDetails.id;
+                return createData(
                     restaurant_name,
                     orderText,
                     price,
@@ -322,13 +321,12 @@ export default function Dashboard(){
                     status,
                     restaurant_id,
                     order_id
-                  );
+                );
                 });
-          
                 setRows(newRows);
-              }
+            }
         }
-      }, [orderHistory]);
+    }, [orderHistory]);
 
     const handleRequestSort = (e, property) => {
         const isAsc = orderBy === property && order === "asc";

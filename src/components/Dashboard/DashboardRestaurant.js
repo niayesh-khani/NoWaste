@@ -242,27 +242,27 @@ export default function DashboardRestaurant(){
     useEffect(() => {
         console.log("order history is populated");
         if (orderHistory) {
-          const newRows = orderHistory.map((order) => {
-            if (order.restaurantDetails && order.userDetails) {
-              const restaurant_name = order.restaurantDetails.name;
-              const customer_name = order.userDetails.name;
-              const customer_email = order.userDetails.email;
-              let orderText = "";
-              if (order.orderDetails.orderItems && order.orderDetails.orderItems.length >= 0) {
-                orderText = order.orderDetails.orderItems
-                  .map((item) => `${item.quantity}×${item.name_and_price.name}`)
-                  .join(', ');
-                  
-              } else {
+        const newRows = orderHistory.map((order) => {
+            if (order.orderDetails.restaurantDetails && order.userDetails) {
+            const restaurant_name = order.orderDetails.restaurantDetails.name;
+            const customer_name = order.userDetails.name;
+            const customer_email = order.userDetails.email;
+            let orderText = "";
+            if (order.orderDetails.orderItems && order.orderDetails.orderItems.length >= 0) {
+            orderText = order.orderDetails.orderItems
+                .map((item) => `${item.quantity}×${item.name_and_price.name}`)
+                .join(', ');
+                
+            } else {
                 orderText = "No item";
-              }
-              console.log("order row is: " );
-              const price = order.orderDetails.Subtotal_Grandtotal_discount[1];
-              const date = new Date(order.created_at).toISOString().split('T')[0];
-              const status = order.status;
-              const restaurant_id = order.restaurantDetails.id;
-              const order_id = order.orderDetails.id;
-              return createData(
+            }
+            console.log("order row is: " );
+            const price = order.orderDetails.Subtotal_Grandtotal_discount[1];
+            const date = new Date(order.created_at).toISOString().split('T')[0];
+            const status = order.status;
+            const restaurant_id = order.orderDetails.restaurantDetails.id;
+            const order_id = order.id;
+            return createData(
                 restaurant_name,
                 customer_name,
                 customer_email,
@@ -272,14 +272,14 @@ export default function DashboardRestaurant(){
                 status,
                 restaurant_id,
                 order_id
-              );
+            );
             }
             return null; // Skip invalid orders
-          });
-      
+        });
+
           setRows(newRows.filter(Boolean)); // Filter out null rows
         }
-      }, [orderHistory]);
+    }, [orderHistory]);
     // useEffect(() => {
     //     // ...
     
@@ -309,7 +309,6 @@ export default function DashboardRestaurant(){
     //                 order_id
     //               );
     //             });
-          
     //             setRows(newRows);
     //           }
     //     // }
