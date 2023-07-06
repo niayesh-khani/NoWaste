@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {Box, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import '../../pages/EditProfile.css';
-import Header from '../Header';
+import HeaderRestaurant from '../HeaderRestaurant';
 import '../../pages/EditRestaurant.css';
 import 'react-phone-input-2/lib/style.css';
 import axios from "axios";
@@ -14,6 +14,9 @@ import { visuallyHidden } from '@mui/utils';
 import { useMemo } from "react";
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
+import Paper from '@mui/material/Paper';
+import Pagination from '@mui/material/Pagination';
+import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 
 const theme = createTheme({
     palette: {
@@ -88,7 +91,7 @@ function createData(name, customer_name, customer_email, order, price, date, sta
         order_id
     };
 }  
-let rows = [
+// let rows = [
     // createData("Bella", 'Pizaa, Drink, watge, fdjksl, fjsilios, jflkdfjuiff, kfjdfodifdf, fkljdsofjifd', "10$", "2023-10-1", "Completed"),
     // createData("China", 'Steak', "30$", "2023-10-1", "In progress"),
     // createData("Aba", 'Ghormeh', "150$", "2023-10-1", "Open"),
@@ -101,7 +104,7 @@ let rows = [
     // createData("pria", 'Pizaa', "300$", "2023-10-1", "Completed"),
     // createData("orange", 'Pizaa', "300$", "2023-10-1", "Completed"),
     // createData("kej", 'Pizaa', "300$", "2023-10-1", "Completed")
-];
+// ];
 
 function descendingComparator(a, b, orderBy){
     if (b[orderBy] < a[orderBy]){
@@ -182,11 +185,46 @@ export default function DashboardRestaurant(){
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
     const [orderHistory, setOrderHistory] = useState();
+    const [currentPage, setCurrentPage] = useState(1);
+    const ordersPerPage = 5;
     function getRandomColor() {
         const colors = ['#FFA600', '#fff2bf', '#ffe480', '#a2332a' , '#E74C3C' , '#690000' , '#595959', '#3e3e3e' , '#C6C6C6', '#ABABAB', '#B9B9B9'];
         return colors[Math.floor(Math.random() * colors.length)];
     }
     // console.log("$$$$$$$$$$$$$$$$$",favoriteRestaurant);
+    const [rows, setRows] = useState([]);
+    const rowsWithIndex = rows.map((row, index) => ({ ...row, index }));
+    const indexOfLastOrder = currentPage * ordersPerPage;
+    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    const ordersToShow = rowsWithIndex.slice(indexOfFirstOrder, indexOfLastOrder);
+    const totalPages = Math.ceil(rowsWithIndex.length / ordersPerPage);
+
+    //sorting
+    const [sortConfig, setSortConfig] = useState({ field: null, direction: 'asc' });
+    const handleSort = (field) => {
+        const newSortConfig = { field, direction: 'asc' };
+        // If the same column is clicked again, toggle the sort direction
+        if (sortConfig.field === field && sortConfig.direction === 'asc') {
+            newSortConfig.direction = 'desc';
+        }
+        setSortConfig(newSortConfig);
+    };
+    // Sort the data based on the sortConfig state
+    const sortedData = useMemo(() => {
+        if (sortConfig.field) {
+            const compareFunction = (a, b) => {
+                if (a[sortConfig.field] < b[sortConfig.field]) {
+                return sortConfig.direction === 'asc' ? -1 : 1;
+                }
+                if (a[sortConfig.field] > b[sortConfig.field]) {
+                return sortConfig.direction === 'asc' ? 1 : -1;
+                }
+                return 0;
+            };
+            return ordersToShow.sort(compareFunction);
+            }
+            return ordersToShow;
+        }, [sortConfig, ordersToShow]);
 
     useEffect(() => {
         axios.get(
@@ -201,42 +239,116 @@ export default function DashboardRestaurant(){
         .then((response) => {
             console.log(response);
             setOrderHistory(response.data);
-            // console.log("length" + orderHistory.length);
+            console.log("length" + response.data);
         })
         .catch((error) => console.log(error));
     }, []);
+    // useEffect(() => {
+    //     // console.log("order history ios " + orderHistory.length);
+    //     if(orderHistory){
+    //         for (let i = 0; i < orderHistory.length; i++) {
+    //             // const element = array[i];
+    //             console.log(orderHistory[i]);
+
+
+    //             let restaurant_name = orderHistory[i].restaurantDetails.name;
+    //             // let customer_name = orderHistory[i].
+    //             // let customer_email = orderHistory[i].
+    //             let order = "";
+    //             for(let j=0; j < orderHistory[i].orderDetails.orderItems.length; j++){
+    //                 order += orderHistory[i].orderDetails.orderItems[j].quantity + "×" + orderHistory[i].orderDetails.orderItems[j].name_and_price.name;
+    //                 if(j!= orderHistory[i].orderDetails.orderItems.length-1){
+    //                     order += ", ";
+    //                 }
+    //             }
+    //             let price = orderHistory[i].orderDetails.Subtotal_Grandtotal_discount[1];
+    //             const date = new Date(orderHistory[i].created_at);
+    //             let formatted_date = date.toISOString().split('T')[0];
+    //             let status = orderHistory[i].status;
+    //             let restaurant_id = orderHistory[i].restaurantDetails.id;
+    //             let order_id = orderHistory[i].orderDetails.id;
+    //             let customer_name = orderHistory[i].userDetails.name;
+    //             let customer_email = orderHistory[i].userDetails.email;
+    //             const new_row = createData(restaurant_name, customer_name, customer_email, order, price, formatted_date, status, restaurant_id, order_id);
+    //             rows = [...rows, new_row];                
+    //         }
+    //     }
+
+    // }, [orderHistory]);
     useEffect(() => {
-        // console.log("order history ios " + orderHistory.length);
-        if(orderHistory){
-            for (let i = 0; i < orderHistory.length; i++) {
-                // const element = array[i];
-                console.log(orderHistory[i]);
-
-
-                let restaurant_name = orderHistory[i].restaurantDetails.name;
-                // let customer_name = orderHistory[i].
-                // let customer_email = orderHistory[i].
-                let order = "";
-                for(let j=0; j < orderHistory[i].orderDetails.orderItems.length; j++){
-                    order += orderHistory[i].orderDetails.orderItems[j].quantity + "×" + orderHistory[i].orderDetails.orderItems[j].name_and_price.name;
-                    if(j!= orderHistory[i].orderDetails.orderItems.length-1){
-                        order += ", ";
-                    }
-                }
-                let price = orderHistory[i].orderDetails.Subtotal_Grandtotal_discount[1];
-                const date = new Date(orderHistory[i].created_at);
-                let formatted_date = date.toISOString().split('T')[0];
-                let status = orderHistory[i].status;
-                let restaurant_id = orderHistory[i].restaurantDetails.id;
-                let order_id = orderHistory[i].orderDetails.id;
-                let customer_name = orderHistory[i].userDetails.name;
-                let customer_email = orderHistory[i].userDetails.email;
-                const new_row = createData(restaurant_name, customer_name, customer_email, order, price, formatted_date, status, restaurant_id, order_id);
-                rows = [...rows, new_row];                
+        console.log("order history is populated");
+        if (orderHistory) {
+        const newRows = orderHistory.map((order) => {
+            if (order.orderDetails.restaurantDetails && order.userDetails) {
+            const restaurant_name = order.orderDetails.restaurantDetails.name;
+            const customer_name = order.userDetails.name;
+            const customer_email = order.userDetails.email;
+            let orderText = "";
+            if (order.orderDetails.orderItems && order.orderDetails.orderItems.length >= 0) {
+            orderText = order.orderDetails.orderItems
+                .map((item) => `${item.quantity}×${item.name_and_price.name}`)
+                .join(', ');
+                
+            } else {
+                orderText = "No item";
             }
-        }
+            console.log("order row is: " );
+            const price = order.orderDetails.Subtotal_Grandtotal_discount[1];
+            const date = new Date(order.created_at).toISOString().split('T')[0];
+            const status = order.status;
+            const restaurant_id = order.orderDetails.restaurantDetails.id;
+            const order_id = order.id;
+            return createData(
+                restaurant_name,
+                customer_name,
+                customer_email,
+                orderText,
+                price,
+                date,
+                status,
+                restaurant_id,
+                order_id
+            );
+            }
+            return null; // Skip invalid orders
+        });
 
+          setRows(newRows.filter(Boolean)); // Filter out null rows
+        }
     }, [orderHistory]);
+    // useEffect(() => {
+    //     // ...
+    
+    //     if (orderHistory) {
+    //         // if (orderHistory) {
+    //             const newRows = orderHistory.map((order) => {
+    //               const restaurant_name = order.restaurantDetails.name;
+    //               const customer_name = order.userDetails.name;
+    //               const customer_email = order.userDetails.email;
+    //               let orderText = order.orderDetails.orderItems
+    //                 .map((item) => `${item.quantity}×${item.name_and_price.name}`)
+    //                 .join(', ');
+    //               const price = order.orderDetails.Subtotal_Grandtotal_discount[1];
+    //               const date = new Date(order.created_at).toISOString().split('T')[0];
+    //               const status = order.status;
+    //               const restaurant_id = order.restaurantDetails.id;
+    //               const order_id = order.orderDetails.id;
+    //               return createData(
+    //                 restaurant_name,
+    //                 customer_name,
+    //                 customer_email,
+    //                 orderText,
+    //                 price,
+    //                 date,
+    //                 status,
+    //                 restaurant_id,
+    //                 order_id
+    //               );
+    //             });
+    //             setRows(newRows);
+    //           }
+    //     // }
+    //   }, [orderHistory]);
 
     const handleRequestSort = (e, property) => {
         const isAsc = orderBy === property && order === "asc";
@@ -274,24 +386,11 @@ export default function DashboardRestaurant(){
             return "rgba(176, 173, 169, 0.5)";
         } 
     };
-    
-    const showApproveOrDeleteIcon = (status) => {
-        return status === 'notOrdered';
-    }
+
 
     // const options = {
     //     rowStyle
     // }
-
-    const [selectedRow, setSelectedRow] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const handleRowClick = (row) => {
-        if (row.status === 'Completed') {
-            
-            setSelectedRow(row);
-            setIsModalOpen(true);
-        }
-    };
     const style = {
         position: 'absolute',
         top: '50%',
@@ -303,56 +402,19 @@ export default function DashboardRestaurant(){
         boxShadow: 24,
         p: 4,
     };
-
-    const handleCancleOrdering = (Oid, Rid) => {
-        const userData = {
-            status:"Cancled"
-        }
-        axios.put(`http://5.34.195.16/restaurant/restaurant_view/${Rid}/${id}/order/${Oid}/`, userData,
-        {headers :{
-            'Content-Type' : 'application/json',
-            "Access-Control-Allow-Origin" : "*",
-            "Access-Control-Allow-Methods" : "GET,PATCH",
-            'Authorization' : "Token " + token.slice(1,-1)
-        }})
-        .then((response) => {
-            console.log(response);
-            window.location.reload(false);
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.log(error.response);
-            } 
-        }); 
-    }
-
-    const handleAcceptOrdering = (Oid, Rid) => {
-        const userData = {
-            status:"InProgress"
-        }
-        axios.put(`http://5.34.195.16/restaurant/restaurant_view/${Rid}/${id}/order/${Oid}/`, userData,
-        {headers :{
-            'Content-Type' : 'application/json',
-            "Access-Control-Allow-Origin" : "*",
-            "Access-Control-Allow-Methods" : "GET,PATCH",
-            'Authorization' : "Token " + token.slice(1,-1)
-        }})
-        .then((response) => {
-            console.log(response);
-            window.location.reload(false);
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.log(error.response);
-            } 
-        }); 
+    const handleStatus = (status) => {
+        if(status === "InProgress")
+            return "In progress";
+        else if(status === "notOrdered")
+            return "Not ordered";
+        return status;
     }
 
 
     return (
         <ThemeProvider theme={theme}>
             <div className="dashboard-back">
-                <Header />
+                <HeaderRestaurant />
                 <Grid container spacing={2} className="dashboard-grid">
                     <Grid item lg={12} md={12} sm={12} xs={12}>
                         <Box className="dashboard-box" id="order-history-box">
@@ -364,79 +426,96 @@ export default function DashboardRestaurant(){
                             >
                                 Order history
                             </Typography>
-                            <TableContainer>
-                                <Table
-                                    aria-labelledby="OrderTable"
-                                >
-                                    <DashboardTableHead 
-                                        order={order}
-                                        orderBy={orderBy}
-                                        onRequestSort={handleRequestSort}
-                                        rowCount={rows.length}
-                                    />
-                                    <TableBody>
-                                        {visibleRows.map((row, index) => {
-                                            return(
-                                                <TableRow
-                                                    hover
-                                                    key={row.name}
-                                                    // sx={{ cursor: 'pointer'}}
-                                                    sx={{ cursor: row.status === 'Completed' ? 'pointer' : 'default',}}
-                                                    tabIndex={-1}
-                                                    style={{backgroundColor: getRowColor(row.status)}}
-                                                    onClick={() => handleRowClick(row)}
-                                                    
-                                                >
-                                                    <TableCell
-                                                        component="th"
-                                                        // id={labelId}
-                                                        scope="row"
-                                                        align="right"
-                                                        // padding="none"
-                                                    >
-                                                        
-                                                        {index + 1}
-                                                    </TableCell>
-                                                    <TableCell>{row.name}</TableCell>
-                                                    <TableCell>{row.customer_name}</TableCell>
-                                                    <TableCell>{row.customer_email}</TableCell>
-                                                    <TableCell>{row.order}</TableCell>
-                                                    <TableCell>{row.price}</TableCell>
-                                                    <TableCell>{row.date}</TableCell>
-                                                    <TableCell>
-                                                        {row.status}
-                                                        {showApproveOrDeleteIcon && 
-                                                            <span>
-
-                                                                <IconButton onClick={() => handleAcceptOrdering(row.order_id, row.restaurant_id)} title="Approve order">
-                                                                    <CheckIcon style={{color: 'green'}} />
-                                                                </IconButton>
-                                                                <IconButton onClick={() => handleCancleOrdering(row.order_id, row.restaurant_id)} title="Delete order">
-                                                                    <ClearIcon style={{color: 'red'}} /> 
-                                                                </IconButton>
-                                                            </span>
-                                                        }
-                                                    </TableCell>
-                                                </TableRow>
-                                            )
-                                        })}
-                                        {emptyRows > 0 && (
-                                            <TableRow>
-                                                <TableCell colSpan={6} />
-                                            </TableRow>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                    <TableRow>
+                                        <TableCell onClick={() => handleSort('name')}>
+                                            Restaurant name
+                                            {sortConfig.field === 'name' && (
+                                                <>
+                                                {sortConfig.direction === 'asc' ? (
+                                                    <KeyboardArrowUp style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                                ) : (
+                                                    <KeyboardArrowDown style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                                )}
+                                                </>
+                                            )}
+                                        </TableCell>
+                                        <TableCell onClick={() => handleSort('customer-name')}>
+                                            Customer name
+                                            {sortConfig.field === 'customer-name' && (
+                                                <>
+                                                {sortConfig.direction === 'asc' ? (
+                                                    <KeyboardArrowUp style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                                ) : (
+                                                    <KeyboardArrowDown style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                                )}
+                                                </>
+                                            )}
+                                        </TableCell>
+                                        <TableCell>Customer email</TableCell>
+                                        <TableCell align="left">Order</TableCell>
+                                        <TableCell align="left" onClick={() => handleSort('price')}>
+                                            Price
+                                            {sortConfig.field === 'price' && (
+                                            <>
+                                            {sortConfig.direction === 'asc' ? (
+                                                <KeyboardArrowUp style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                            ) : (
+                                                <KeyboardArrowDown style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                            )}
+                                            </>
                                         )}
+                                        </TableCell>
+                                        <TableCell align="left">Date</TableCell>
+                                        <TableCell align="left" onClick={() => handleSort('status')}>
+                                            Status
+                                            {sortConfig.field === 'status' && (
+                                            <>
+                                            {sortConfig.direction === 'asc' ? (
+                                                <KeyboardArrowUp style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                            ) : (
+                                                <KeyboardArrowDown style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                            )}
+                                            </>
+                                        )}
+                                        </TableCell>
+                                    </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                    {sortedData.map((row) => (
+                                        <TableRow key={row.order_id}
+                                            // sx={{ cursor: row.status === 'Completed' ? 'pointer' : 'default',}}
+                                            tabIndex={-1}
+                                            style={{backgroundColor: getRowColor(row.status)}}
+                                            // onClick={() => handleRowClick(row)}
+                                        >
+                                            <TableCell component="th" scope="row">
+                                            {row.name}
+                                            </TableCell>
+                                            <TableCell align="left">{row.customer_name}</TableCell>
+                                            <TableCell align="left">{row.customer_email}</TableCell>
+                                            <TableCell align="left">{row.order}</TableCell>
+                                            <TableCell align="left">{row.price}</TableCell>
+                                            <TableCell align="left">{row.date}</TableCell>
+                                            <TableCell align="left">
+                                                {handleStatus(row.status)}
+                                                {/* {showCancelIcon(row.status) && 
+                                                    <IconButton onClick={() => handleCancleOrdering(row.order_id, row.restaurant_id)} title="Cancel order">
+                                                        <ClearIcon style={{color:'red'}}/>
+                                                    </IconButton>
+                                                } */}
+                                            </TableCell>
+                                        </TableRow>
+                                        ))}
                                     </TableBody>
                                 </Table>
+                                {/* Pagination controls */}
+                                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+                                    <Pagination count={totalPages} page={currentPage} onChange={(event, page) => setCurrentPage(page)} shape="rounded"/>
+                                </div>
                             </TableContainer>
-                            <TablePagination 
-                                rowsPerPageOptions={[5, 10, 15]}
-                                component="div"
-                                count={rows.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}    
-                            />
                         </Box>
                     </Grid>
                 </Grid>
