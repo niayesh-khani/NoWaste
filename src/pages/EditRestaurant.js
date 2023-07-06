@@ -248,7 +248,7 @@ function EditRestaurant(props){
     //geting the lt and lng of map
     useEffect(() =>{
         axios.get(
-            `http://5.34.195.16/restaurant/${idR}/lat_long/` , 
+            `http://5.34.195.16/restaurant/${idR}/lat_long` , 
             {headers :{
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
