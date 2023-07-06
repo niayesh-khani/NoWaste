@@ -4,6 +4,7 @@ import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import 'leaflet-defaulticon-compatibility';
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
+import { Button } from '@material-ui/core';
 import axios from "axios";
 
 function Map(props) {
@@ -79,7 +80,7 @@ function Map(props) {
     <div className="map-container">
       <div ref={mapRef} className="leaflet-container" />
       <div className="edit-location-button">
-        <button onClick={handleSaveClick}>Save Location</button>
+        <Button className='confirm-btn' onClick={handleSaveClick}>Confirm</Button>
       </div>
     </div>
   );

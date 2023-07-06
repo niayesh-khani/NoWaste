@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 .leaflet-container {
     width: 35vw;
     height: 70vh;
@@ -71,6 +73,56 @@ background-color: beige;
     color: rgb(255, 255, 255) !important;
 }
 
+.confirm-btn{
+    text-transform: none !important;
+    font-size: 70% !important;
+    font-weight: bolder !important;
+    font-family: 'Montserrat', sans-serif !important;
+    /* background-color: #90be6d !important; */
+    background-color: #4daa25 !important;
+}
 
+.confirm-btn {
+    border-radius: 70px !important;
+    background-color: #4daa25 !important;
+    border: none;
+    color: #fff !important;
+    text-align: center;
+    text-transform: none !important;
+    font-size: 12px !important;
+    font-family: 'Montserrat', sans-serif !important;
+    padding: 16px;
+    width: 100px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin-top: 36px !important;
+    margin-left: 330% !important;
+    box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7);
+}
 
+.confirm-btn{
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
 
+.confirm-btn:after {
+    content: '✓';
+    position: absolute;
+    opacity: 0;  
+    top: 8.5px;
+    right: -18px;
+    transition: 0.5s;
+}
+
+.confirm-btn:hover{
+    background-color: #62be11 !important;
+    padding-right: 10px;
+    padding-left:1px;
+}
+
+.confirm-btn:hover:after {
+    opacity: 1;
+    right: 10px;
+}
