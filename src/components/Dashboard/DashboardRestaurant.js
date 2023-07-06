@@ -16,6 +16,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import Paper from '@mui/material/Paper';
 import Pagination from '@mui/material/Pagination';
+import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 
 const theme = createTheme({
     palette: {
@@ -198,6 +199,33 @@ export default function DashboardRestaurant(){
     const ordersToShow = rowsWithIndex.slice(indexOfFirstOrder, indexOfLastOrder);
     const totalPages = Math.ceil(rowsWithIndex.length / ordersPerPage);
 
+    //sorting
+    const [sortConfig, setSortConfig] = useState({ field: null, direction: 'asc' });
+    const handleSort = (field) => {
+        const newSortConfig = { field, direction: 'asc' };
+        // If the same column is clicked again, toggle the sort direction
+        if (sortConfig.field === field && sortConfig.direction === 'asc') {
+            newSortConfig.direction = 'desc';
+        }
+        setSortConfig(newSortConfig);
+    };
+    // Sort the data based on the sortConfig state
+    const sortedData = useMemo(() => {
+        if (sortConfig.field) {
+            const compareFunction = (a, b) => {
+                if (a[sortConfig.field] < b[sortConfig.field]) {
+                return sortConfig.direction === 'asc' ? -1 : 1;
+                }
+                if (a[sortConfig.field] > b[sortConfig.field]) {
+                return sortConfig.direction === 'asc' ? 1 : -1;
+                }
+                return 0;
+            };
+            return ordersToShow.sort(compareFunction);
+            }
+            return ordersToShow;
+        }, [sortConfig, ordersToShow]);
+
     useEffect(() => {
         axios.get(
             `http://5.34.195.16/restaurant/${id}/orderview/`,
@@ -374,6 +402,13 @@ export default function DashboardRestaurant(){
         boxShadow: 24,
         p: 4,
     };
+    const handleStatus = (status) => {
+        if(status === "InProgress")
+            return "In progress";
+        else if(status === "notOrdered")
+            return "Not ordered";
+        return status;
+    }
 
 
     return (
@@ -395,17 +430,61 @@ export default function DashboardRestaurant(){
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                     <TableHead>
                                     <TableRow>
-                                        <TableCell>Restaurant name</TableCell>
-                                        <TableCell>Customer name</TableCell>
+                                        <TableCell onClick={() => handleSort('name')}>
+                                            Restaurant name
+                                            {sortConfig.field === 'name' && (
+                                                <>
+                                                {sortConfig.direction === 'asc' ? (
+                                                    <KeyboardArrowUp style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                                ) : (
+                                                    <KeyboardArrowDown style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                                )}
+                                                </>
+                                            )}
+                                        </TableCell>
+                                        <TableCell onClick={() => handleSort('customer-name')}>
+                                            Customer name
+                                            {sortConfig.field === 'customer-name' && (
+                                                <>
+                                                {sortConfig.direction === 'asc' ? (
+                                                    <KeyboardArrowUp style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                                ) : (
+                                                    <KeyboardArrowDown style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                                )}
+                                                </>
+                                            )}
+                                        </TableCell>
                                         <TableCell>Customer email</TableCell>
                                         <TableCell align="left">Order</TableCell>
-                                        <TableCell align="left">Price</TableCell>
+                                        <TableCell align="left" onClick={() => handleSort('price')}>
+                                            Price
+                                            {sortConfig.field === 'price' && (
+                                            <>
+                                            {sortConfig.direction === 'asc' ? (
+                                                <KeyboardArrowUp style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                            ) : (
+                                                <KeyboardArrowDown style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                            )}
+                                            </>
+                                        )}
+                                        </TableCell>
                                         <TableCell align="left">Date</TableCell>
-                                        <TableCell align="left">Status</TableCell>
+                                        <TableCell align="left" onClick={() => handleSort('status')}>
+                                            Status
+                                            {sortConfig.field === 'status' && (
+                                            <>
+                                            {sortConfig.direction === 'asc' ? (
+                                                <KeyboardArrowUp style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                            ) : (
+                                                <KeyboardArrowDown style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                            )}
+                                            </>
+                                        )}
+                                        </TableCell>
                                     </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                    {rows.map((row) => (
+                                    {sortedData.map((row) => (
                                         <TableRow key={row.order_id}
                                             // sx={{ cursor: row.status === 'Completed' ? 'pointer' : 'default',}}
                                             tabIndex={-1}
@@ -421,7 +500,7 @@ export default function DashboardRestaurant(){
                                             <TableCell align="left">{row.price}</TableCell>
                                             <TableCell align="left">{row.date}</TableCell>
                                             <TableCell align="left">
-                                                {row.status}
+                                                {handleStatus(row.status)}
                                                 {/* {showCancelIcon(row.status) && 
                                                     <IconButton onClick={() => handleCancleOrdering(row.order_id, row.restaurant_id)} title="Cancel order">
                                                         <ClearIcon style={{color:'red'}}/>
@@ -437,80 +516,6 @@ export default function DashboardRestaurant(){
                                     <Pagination count={totalPages} page={currentPage} onChange={(event, page) => setCurrentPage(page)} shape="rounded"/>
                                 </div>
                             </TableContainer>
-
-                            {/* <TableContainer>
-                                <Table
-                                    aria-labelledby="OrderTable"
-                                >
-                                    <DashboardTableHead 
-                                        order={order}
-                                        orderBy={orderBy}
-                                        onRequestSort={handleRequestSort}
-                                        rowCount={rows.length}
-                                    />
-                                    <TableBody>
-                                        {visibleRows.map((row, index) => {
-                                            return(
-                                                <TableRow
-                                                    hover
-                                                    key={row.name}
-                                                    // sx={{ cursor: 'pointer'}}
-                                                    sx={{ cursor: row.status === 'Completed' ? 'pointer' : 'default',}}
-                                                    tabIndex={-1}
-                                                    style={{backgroundColor: getRowColor(row.status)}}
-                                                    onClick={() => handleRowClick(row)}
-                                                    
-                                                >
-                                                    <TableCell
-                                                        component="th"
-                                                        // id={labelId}
-                                                        scope="row"
-                                                        align="right"
-                                                        // padding="none"
-                                                    >
-                                                        
-                                                        {index + 1}
-                                                    </TableCell>
-                                                    <TableCell>{row.name}</TableCell>
-                                                    <TableCell>{row.customer_name}</TableCell>
-                                                    <TableCell>{row.customer_email}</TableCell>
-                                                    <TableCell>{row.order}</TableCell>
-                                                    <TableCell>{row.price}</TableCell>
-                                                    <TableCell>{row.date}</TableCell>
-                                                    <TableCell>
-                                                        {row.status}
-                                                        {showApproveOrDeleteIcon && 
-                                                            <span>
-
-                                                                <IconButton onClick={() => handleAcceptOrdering(row.order_id, row.restaurant_id)} title="Approve order">
-                                                                    <CheckIcon style={{color: 'green'}} />
-                                                                </IconButton>
-                                                                <IconButton onClick={() => handleCancleOrdering(row.order_id, row.restaurant_id)} title="Delete order">
-                                                                    <ClearIcon style={{color: 'red'}} /> 
-                                                                </IconButton>
-                                                            </span>
-                                                        }
-                                                    </TableCell>
-                                                </TableRow>
-                                            )
-                                        })}
-                                        {emptyRows > 0 && (
-                                            <TableRow>
-                                                <TableCell colSpan={6} />
-                                            </TableRow>
-                                        )}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer> */}
-                            {/* <TablePagination 
-                                rowsPerPageOptions={[5, 10, 15]}
-                                component="div"
-                                count={rows.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}    
-                            /> */}
                         </Box>
                     </Grid>
                 </Grid>
