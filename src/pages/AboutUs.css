@@ -68,6 +68,38 @@
     width: 97%;
     height: 49%;
     border-radius: 50%;
+    margin-left: 21%;
+}
+
+.about-us-link-negin{
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+    color: #000;
+    text-decoration: none;
+    margin-left: 37%;
+}
+
+.about-us-niayesh{
+    width: 97%;
+    height: 49%;
+    border-radius: 50%;
+    /* clip-path: ellipse(35% 49% at 62% 49%); */
+}
+
+.about-us-golbarg{
+    width: 97%;
+    height: 49%;
+    clip-path: ellipse(35% 49% at 62% 49%);
+}
+
+.about-us-link-golbarg{
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+    color: #000;
+    text-decoration: none;
+    margin-left: 21%;
 }
 
 .about-us-image-container {

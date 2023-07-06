@@ -181,16 +181,16 @@ const AboutUs = () => {
                 <Stack direction="row" spacing={3} >
                     <div className='about-us-team-bottom'>
                         <div className='about-us-image-container'>
-                        <img src='/helia.png' className='about-us-helia' alt='Niayesh Khani'></img>
+                        <img src='/niayesh.jpg' className='about-us-niayesh' alt='Niayesh Khani'></img>
                         <a href='https://github.com/niayesh-khani' className='about-us-link'>Niayesh Khani (Front-end)</a>
                         </div>
                         <div className='about-us-image-container'>
                         <img src='/negin.jpg' className='about-us-negin' alt='Negin Haghighi'></img>
-                        <a href='https://github.com/haghighy' className='about-us-link'>Negin Haghighi (Back-end)</a>
+                        <a href='https://github.com/haghighy' className='about-us-link-negin'>Negin Haghighi (Back-end)</a>
                         </div>
                         <div className='about-us-image-container'>
-                        <img src='/helia.png' className='about-us-helia' alt='Golbarg Sepehara'></img>
-                        <a href='https://github.com/golbara/' className='about-us-link'>Golbarg Sepehara (Back-end)</a>
+                        <img src='/golbarg.jpg' className='about-us-golbarg' alt='Golbarg Sepehara'></img>
+                        <a href='https://github.com/golbara/' className='about-us-link-golbarg'>Golbarg Sepehara (Back-end)</a>
                         </div>
                     </div>
                 </Stack>
