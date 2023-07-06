@@ -9,15 +9,13 @@ import axios from "axios";
 function Map(props) {
   const mapRef = useRef(null);
   const markerRef = useRef(null);
-  const [lat, setLat] = useState();
-  const [lng, setLng] = useState();
-  setLat(props[0]);
-  setLng(props[1]);
+  const [lat, setLat] = useState(props[0] || 35.6892);
+  const [lng, setLng] = useState(props[1] || 51.3890);
   const id = props[2];
   const type = props[3];
   const token = localStorage.getItem('token');
 
-  //update the new location
+  // Update the new location
   const handleSaveClick = () => {
     if (markerRef.current) {
       const { lat, lng } = markerRef.current.getLatLng();
@@ -25,54 +23,36 @@ function Map(props) {
       setLng(lng);
       console.log('Marker saved position:', lat, lng);
       const userData = {
-        "lat": lat,
-        "lon": lng
-      }
-      if(type === "customer")
-      {
-        axios.post(`http://5.34.195.16/user/${id}/lat_long/`, userData,        
-          {headers :
-            {
-              'Content-Type' : 'application/json',
-              "Access-Control-Allow-Origin" : "*",
-              "Access-Control-Allow-Methods" : "GET,POST",
-              'Authorization' : "Token " + token.slice(1,-1)
-            }})
-        .then((response) => {
-            console.log(response);
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.log(error.response);
-            } 
-        }); 
-      }
-      else
-      {
-        axios.post(`http://5.34.195.16/restaurant/${id}/lat_long/`, userData, 
-          {headers :
-          {
-            'Content-Type' : 'application/json',
-            "Access-Control-Allow-Origin" : "*",
-            "Access-Control-Allow-Methods" : "GET,POST",
-            'Authorization' : "Token " + token.slice(1,-1)
-          }}
-        )
-        .then((response) => {
-            console.log(response);
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.log(error.response);
-            } 
-        }); 
-      }
+        lat: lat,
+        lon: lng
+      };
+
+      const url = type === 'customer'
+        ? `http://5.34.195.16/user/${id}/lat_long/`
+        : `http://5.34.195.16/restaurant/${id}/lat_long/`;
+
+      axios.patch(url, userData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET,PATCH',
+          'Authorization': 'Token ' + token.slice(1, -1)
+        }
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log(error.response);
+        }
+      });
     }
   };
 
   useEffect(() => {
     // Initialize map
-    const map = L.map(mapRef.current).setView([35.6892, 51.3890], 13);
+    const map = L.map(mapRef.current).setView([lat, lng], 13);
 
     // Add tile layer (e.g., OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -80,7 +60,7 @@ function Map(props) {
     }).addTo(map);
 
     // Create a draggable marker with default icon
-    const marker = L.marker([35.6892, 51.3890], { draggable: true }).addTo(map);
+    const marker = L.marker([lat, lng], { draggable: true }).addTo(map);
     markerRef.current = marker;
 
     // Update marker position on dragend
@@ -93,7 +73,7 @@ function Map(props) {
     return () => {
       map.remove();
     };
-  }, []);
+  }, [lat, lng]);
 
   return (
     <div className="map-container">
@@ -103,7 +83,6 @@ function Map(props) {
       </div>
     </div>
   );
-  
 }
 
 export default Map;
