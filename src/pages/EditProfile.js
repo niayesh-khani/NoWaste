@@ -95,7 +95,8 @@ function Edit(props){
     const [cities, setCities] = useState();
     const [lat, setLat] = useState();
     const [lng, setLng] = useState();
-    const role = localStorage.getItem("role");
+    let role = localStorage.getItem("role");
+    role = role.replace(/"/g, "");
     const mylocation = [lat, lng, parseInt(id), role];
 
     const handleFullname = (e) => {
@@ -385,6 +386,9 @@ function Edit(props){
     const handleOpenMap = () => {
         setShowMap(true);
         setBlurBackground(true);
+        console.log(mylocation);
+        console.log(id);
+        console.log(role);
       };
           
     const handleCloseMap = () => {
