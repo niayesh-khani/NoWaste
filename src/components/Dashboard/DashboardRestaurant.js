@@ -15,6 +15,7 @@ import { useMemo } from "react";
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import Paper from '@mui/material/Paper';
+import Pagination from '@mui/material/Pagination';
 
 const theme = createTheme({
     palette: {
@@ -183,12 +184,19 @@ export default function DashboardRestaurant(){
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
     const [orderHistory, setOrderHistory] = useState();
+    const [currentPage, setCurrentPage] = useState(1);
+    const ordersPerPage = 5;
     function getRandomColor() {
         const colors = ['#FFA600', '#fff2bf', '#ffe480', '#a2332a' , '#E74C3C' , '#690000' , '#595959', '#3e3e3e' , '#C6C6C6', '#ABABAB', '#B9B9B9'];
         return colors[Math.floor(Math.random() * colors.length)];
     }
     // console.log("$$$$$$$$$$$$$$$$$",favoriteRestaurant);
     const [rows, setRows] = useState([]);
+    const rowsWithIndex = rows.map((row, index) => ({ ...row, index }));
+    const indexOfLastOrder = currentPage * ordersPerPage;
+    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    const ordersToShow = rowsWithIndex.slice(indexOfFirstOrder, indexOfLastOrder);
+    const totalPages = Math.ceil(rowsWithIndex.length / ordersPerPage);
 
     useEffect(() => {
         axios.get(
@@ -481,6 +489,10 @@ export default function DashboardRestaurant(){
                                         ))}
                                     </TableBody>
                                 </Table>
+                                {/* Pagination controls */}
+                                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+                                    <Pagination count={totalPages} page={currentPage} onChange={(event, page) => setCurrentPage(page)} shape="rounded"/>
+                                </div>
                             </TableContainer>
 
                             {/* <TableContainer>

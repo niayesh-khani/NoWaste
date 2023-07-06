@@ -32,6 +32,7 @@ import Modal from '@mui/material/Modal';
 import Stack from '@mui/material/Stack';
 import Rating from '@mui/material/Rating';
 import Paper from '@mui/material/Paper';
+import Pagination from '@mui/material/Pagination';
 
 // const styles = theme => ({
 //     field: {
@@ -207,13 +208,6 @@ export default function Dashboard(){
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
     const ordersToShow = rowsWithIndex.slice(indexOfFirstOrder, indexOfLastOrder);
     const totalPages = Math.ceil(rowsWithIndex.length / ordersPerPage);
-    const goToPreviousPage = () => {
-        setCurrentPage((prevPage) => prevPage - 1);
-    };
-
-    const goToNextPage = () => {
-        setCurrentPage((prevPage) => prevPage + 1);
-    };
 
     function getRandomColor() {
         const colors = ['#FFA600', '#fff2bf', '#ffe480', '#a2332a' , '#E74C3C' , '#690000' , '#595959', '#3e3e3e' , '#C6C6C6', '#ABABAB', '#B9B9B9'];
@@ -610,14 +604,8 @@ export default function Dashboard(){
                                     </TableBody>
                                 </Table>
                                 {/* Pagination controls */}
-                                <div>
-                                <button onClick={goToPreviousPage} disabled={currentPage === 1}>
-                                    Previous Page
-                                </button>
-                                <span>{`Page ${currentPage} of ${totalPages}`}</span>
-                                <button onClick={goToNextPage} disabled={currentPage === totalPages}>
-                                    Next Page
-                                </button>
+                                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+                                    <Pagination count={totalPages} page={currentPage} onChange={(event, page) => setCurrentPage(page)} shape="rounded"/>
                                 </div>
                             </TableContainer>
                             {/* <TableContainer>

@@ -16,7 +16,8 @@
     width: auto;
     /* height: 95%; */
     margin: auto 0% auto 2% !important;
-    padding: 10px 15px 0 15px;
+    padding: 10px 15px 0px 15px;
+    padding-bottom: 15px !important;
     display: flex;
     /* justify-content: center; */
     align-items: center;
@@ -32,12 +33,12 @@
     margin: 10px auto !important;
 }
 #order-history-box {
-    height: 85vh !important;
+    height: auto !important;
     overflow-x: hidden;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 }
 #favorite-restaurants-box {
-    height: 80vh !important;
+    height: 68vh !important;
     overflow-x: hidden;
     overflow-y: scroll;
 }
@@ -58,9 +59,9 @@
 }
 
 .dashboard-restaurant-box {
-    margin: 7px auto !important;
+    margin: 7px auto!important;
     background-color: rgb(255, 255, 255);
-    height: 110px !important;
+    height: 80px !important;
     display: flex;
     justify-content: center;
     align-items: center;
