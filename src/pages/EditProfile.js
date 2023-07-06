@@ -96,7 +96,7 @@ function Edit(props){
     const [lat, setLat] = useState();
     const [lng, setLng] = useState();
     const role = localStorage.getItem("role");
-    const mylocation = [lat, lng, id, role];
+    const mylocation = [lat, lng, parseInt(id), role];
 
     const handleFullname = (e) => {
         setFullname(e.target.value);
