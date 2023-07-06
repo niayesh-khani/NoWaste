@@ -358,24 +358,11 @@ export default function DashboardRestaurant(){
             return "rgba(176, 173, 169, 0.5)";
         } 
     };
-    
-    const showApproveOrDeleteIcon = (status) => {
-        return status === 'notOrdered';
-    }
+
 
     // const options = {
     //     rowStyle
     // }
-
-    const [selectedRow, setSelectedRow] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const handleRowClick = (row) => {
-        if (row.status === 'Completed') {
-            
-            setSelectedRow(row);
-            setIsModalOpen(true);
-        }
-    };
     const style = {
         position: 'absolute',
         top: '50%',
@@ -387,50 +374,6 @@ export default function DashboardRestaurant(){
         boxShadow: 24,
         p: 4,
     };
-
-    const handleCancleOrdering = (Oid, Rid) => {
-        const userData = {
-            status:"Cancled"
-        }
-        axios.put(`http://5.34.195.16/restaurant/restaurant_view/${Rid}/${id}/order/${Oid}/`, userData,
-        {headers :{
-            'Content-Type' : 'application/json',
-            "Access-Control-Allow-Origin" : "*",
-            "Access-Control-Allow-Methods" : "GET,PATCH",
-            'Authorization' : "Token " + token.slice(1,-1)
-        }})
-        .then((response) => {
-            console.log(response);
-            window.location.reload(false);
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.log(error.response);
-            } 
-        }); 
-    }
-
-    const handleAcceptOrdering = (Oid, Rid) => {
-        const userData = {
-            status:"InProgress"
-        }
-        axios.put(`http://5.34.195.16/restaurant/restaurant_view/${Rid}/${id}/order/${Oid}/`, userData,
-        {headers :{
-            'Content-Type' : 'application/json',
-            "Access-Control-Allow-Origin" : "*",
-            "Access-Control-Allow-Methods" : "GET,PATCH",
-            'Authorization' : "Token " + token.slice(1,-1)
-        }})
-        .then((response) => {
-            console.log(response);
-            window.location.reload(false);
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.log(error.response);
-            } 
-        }); 
-    }
 
 
     return (
@@ -464,10 +407,10 @@ export default function DashboardRestaurant(){
                                     <TableBody>
                                     {rows.map((row) => (
                                         <TableRow key={row.order_id}
-                                            sx={{ cursor: row.status === 'Completed' ? 'pointer' : 'default',}}
+                                            // sx={{ cursor: row.status === 'Completed' ? 'pointer' : 'default',}}
                                             tabIndex={-1}
                                             style={{backgroundColor: getRowColor(row.status)}}
-                                            onClick={() => handleRowClick(row)}
+                                            // onClick={() => handleRowClick(row)}
                                         >
                                             <TableCell component="th" scope="row">
                                             {row.name}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
+import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, Tooltip , InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import '../../pages/EditProfile.css';
 import HeaderCustomer from '../HeaderCustomer';
 // import './Login-Signup.css';
@@ -33,6 +33,7 @@ import Stack from '@mui/material/Stack';
 import Rating from '@mui/material/Rating';
 import Paper from '@mui/material/Paper';
 import Pagination from '@mui/material/Pagination';
+import CommentIcon from '@mui/icons-material/Comment';
 
 // const styles = theme => ({
 //     field: {
@@ -580,10 +581,10 @@ export default function Dashboard(){
                                     <TableBody>
                                     {ordersToShow.map((row) => (
                                         <TableRow key={row.order_id}
-                                            sx={{ cursor: row.status === 'Completed' ? 'pointer' : 'default',}}
+                                            // sx={{ cursor: row.status === 'Completed' ? 'pointer' : 'default',}}
                                             tabIndex={-1}
                                             style={{backgroundColor: getRowColor(row.status)}}
-                                            onClick={() => handleRowClick(row)}
+                                            // onClick={() => handleRowClick(row)}
                                         >
                                             <TableCell component="th" scope="row">
                                             {row.name}
@@ -598,6 +599,16 @@ export default function Dashboard(){
                                                         <ClearIcon style={{color:'red'}}/>
                                                     </IconButton>
                                                 }
+                                                {row.status === 'Completed' && (
+                                                <Tooltip title="Add Comment">
+                                                <IconButton onClick={(e) => {
+                                                    // e.stopPropagation(); // Prevent the row click event from triggering
+                                                    handleRowClick(row);
+                                                }}>
+                                                    <CommentIcon />
+                                                </IconButton>
+                                                </Tooltip>
+                                                )}
                                             </TableCell>
                                         </TableRow>
                                         ))}
