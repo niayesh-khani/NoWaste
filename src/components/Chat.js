@@ -50,24 +50,45 @@ const Chat = (props) => {
     const [placement, setPlacement] = React.useState();
     const [userMessage, setUserMessage] = useState('');
     const [messages, setMessages] = useState([]);
-    const restaurant_id = props.restaurant;
-    const customer_id = props.customer;
+    const [data, setData] = useState('');
+    const manager_id = props.managerId;
+    const customer_id = props.customerId;
     const sender_id = props.sender;
-    let room_name = customer_id < restaurant_id ? customer_id + "_" + restaurant_id: restaurant_id + "_" + customer_id;
+    let room_name = customer_id + "_" + manager_id;
     useEffect(() => {
-        axios.get(`http://5.34.195.16/chat/room/${customer_id}/${room_name}`,
-        {headers : {
-            'Content-Type' : 'application/json',
-            "Access-Control-Allow-Origin" : "*",
-            "Access-Control-Allow-Methods" : "GET,PUT,PATCH",
-        }})
+        axios.get(`http://5.34.195.16/chat/room/${customer_id}/${manager_id}`,
+        // {headers : {
+        //     'Content-Type' : 'application/json',
+        //     "Access-Control-Allow-Origin" : "*",
+        //     "Access-Control-Allow-Methods" : "GET,PUT,PATCH",
+        // }}
+        )
         .then((response) => {
-            setMessages(response.data);
+            setData(response.data);
+            // setMessages(response.data);
         })
         .catch((error) => {
             console.log(error.response);
         })
     }, []);
+    useEffect(() => {
+        console.log("here to split data");
+        // console.log(data.split("OrderedDict("));
+        const messageArray = data.split("OrderedDict(").slice(1).map((item) => {
+            const formattedItem = item.replace(/^\[|\]$/g, "");
+            const pairs = formattedItem.split("), ");
+            const msg_array = {};
+            for(let i=0; i<pairs.length; i++){
+                pairs[i] = pairs[i].replace(/['()\[\]]/g, "");
+                const [key, value] = pairs[i].split(", ");
+                msg_array[key] = value;
+            }
+            return msg_array;
+        });
+        messageArray.map((item) => JSON.parse(JSON.stringify(item)));
+        console.log(messageArray);
+        setMessages(messageArray);
+    }, [data]);
     
     const [client, setClient] = useState(null);
 

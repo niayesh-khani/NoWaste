@@ -48,7 +48,6 @@ const Chat = () => {
     const id = localStorage.getItem("id");
     const [data, setData] = useState('');
     const room_name = currentUserId + "_" + id;
-    // let room_name = currentUserId < id ? currentUserId + "_" + id: id + "_" + currentUserId;
     const [client, setClient] = useState(null);
 
     const handleSend = () => {
@@ -56,24 +55,30 @@ const Chat = () => {
         if (trimmedMessage !== "") {
             console.log("trimmed msg is:");
             console.log(trimmedMessage);
-            const newMessage = {
-                // fields: {
-                    message: trimmedMessage,
-                    sender: id,
-                    room_name: room_name,
-                    reciever: currentUserId,
-                    date_created: new Date().toISOString()
-                // }
-            };
-            setMessages((prevMessages) => [...prevMessages, newMessage]);
+            const currentDate = new Date();
+            const formattedDate = currentDate.toISOString();
+            console.log("form");
+            console.log(formattedDate);
+            // const newMessage = {
+            //         message: trimmedMessage,
+            //         sender: id,
+            //         room_name: room_name,
+            //         reciever: currentUserId,
+            //         date_created: formattedDate
+            //     // }
+            // };
+            // setMessages((prevMessages) => [...prevMessages, newMessage]);
             client.send(
                 JSON.stringify({
                     message: input,
                     sender_id: id,
                     room_name: room_name,
-                    reciever_id: currentUserId
+                    reciever_id: currentUserId,
+                    date_created: formattedDate
                 })
             );
+            console.log("ms is");
+            console.log(messages);
             setInput("");
         }
     };
@@ -82,48 +87,26 @@ const Chat = () => {
         const client_1 = new WebSocket(
             `ws://5.34.195.16:4000/chat/room/${room_name}/`
         );
-        client_1.onopen = () => {
-            // setNum(curr=>curr+1);
-            console.log("WebSocket connection opened");
-        };
-        client_1.onmessage = (event) => {
-            const message = JSON.parse(event.data);
-            // console.log(message);
-            setMessages((e) => [...e, message]);
-        };
-        client_1.onclose = () => {
-            console.log("WebSocket connection closed");
-        };
+        client_1.onopen = messageOnOpen;
+
+        client_1.onmessage = messageOnMessage;
+
+        client_1.onclose = messageOnClose;
         setClient(client_1);
     });
-    const handleOpenSocket = (e) => {
-        if (client && client.readyState === WebSocket.CLOSED) {
-            const clientCopy = new WebSocket(
-                `ws://5.34.195.16:4000/chat/room/${room_name}/`
-            );
-        
-            clientCopy.onopen = () => {
-            //   setNum(curr => curr + 1);
-              console.log("WebSocket connection opened");
-            };
-        
-            clientCopy.onmessage = (event) => {
-              const message = JSON.parse(event.data);
-            //   console.log(message);
-            };
-        
-            clientCopy.onclose = () => {
-              console.log("WebSocket connection closed");
-            };
-            setClient(clientCopy);
-        }   
+    const messageOnOpen = (e) => {
+        console.log("WebSocket connection opened"+ currentUser);
     };
-    const handleCloseSocket = (e) => {
-        if (client && client.readyState === WebSocket.OPEN) {
-            client.close();
-          } else {
-            console.log("WebSocket connection is already closed");
-        }
+    const messageOnMessage = (event) => {
+        const message = JSON.parse(event.data);
+        message.sender = message.sender_id;
+        message.date_created = new Date();
+        console.log("new message: ");
+        console.log(message);
+        setMessages((e) => [...e, message]);
+    };
+    const messageOnClose = () => {
+        console.log("WebSocket connection closed");
     };
     useEffect(() => {
         if(client && client.readyState === WebSocket.OPEN){
@@ -133,22 +116,11 @@ const Chat = () => {
                 `ws://5.34.195.16:4000/chat/room/${room_name}/`
             );
         
-            clientCopy.onopen = () => {
-            //   setNum(curr => curr + 1);
-              console.log("WebSocket connection opened"+ currentUser);
-            };
+            clientCopy.onopen = messageOnOpen;
         
-            clientCopy.onmessage = (event) => {
-                const message = JSON.parse(event.data);
-                console.log("onmessage function returns:");
-                console.log(event.data);
-              console.log(message);
-                // setMessages((e) => [...e, message]);
-            };
+            clientCopy.onmessage = messageOnMessage;
         
-            clientCopy.onclose = () => {
-              console.log("WebSocket connection closed");
-            };
+            clientCopy.onclose = messageOnClose;
             setClient(clientCopy);
         } 
         // else{
@@ -159,20 +131,11 @@ const Chat = () => {
                 `ws://5.34.195.16:4000/chat/room/${room_name}/`
             );
         
-            clientCopy.onopen = () => {
-            //   setNum(curr => curr + 1);
-              console.log("WebSocket connection opened"+ currentUser);
-            };
+            clientCopy.onopen = messageOnOpen;
         
-            clientCopy.onmessage = (event) => {
-              const message = JSON.parse(event.data);
-            //   console.log(message);
-                setMessages((e) => [...e, message]);
-            };
+            clientCopy.onmessage = messageOnMessage;
         
-            clientCopy.onclose = () => {
-              console.log("WebSocket connection closed");
-            };
+            clientCopy.onclose = messageOnClose;
             setClient(clientCopy);
         }
     }, [currentUser]);
@@ -215,7 +178,7 @@ const Chat = () => {
 
     useEffect(() => {
         console.log("here to split data");
-        console.log(data.split("OrderedDict("));
+        // console.log(data.split("OrderedDict("));
         const messageArray = data.split("OrderedDict(").slice(1).map((item) => {
             const formattedItem = item.replace(/^\[|\]$/g, "");
             const pairs = formattedItem.split("), ");
@@ -227,6 +190,8 @@ const Chat = () => {
             }
             return msg_array;
         });
+        messageArray.map((item) => JSON.parse(JSON.stringify(item)));
+        console.log(messageArray);
         setMessages(messageArray);
     }, [data]);
 
@@ -352,10 +317,10 @@ const Chat = () => {
 
 const Message = ({ message }) => {
     const id = localStorage.getItem("id");
-    const isCustomer = message.sender !== id;
+    const isCustomer = (message.sender !== id);
     const align = isCustomer ? "flex-start" : "flex-end";
     const timeAlign = isCustomer ? "left" : "right";
-
+    // console.log(message);
     return (
         <ThemeProvider theme={theme}>
             <Box sx={{ display: "flex", justifyContent: align, mb: 2 }}>
