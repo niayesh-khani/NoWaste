@@ -19,6 +19,8 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 import Footer from "../components/Footer";
 import { Alert, AlertTitle } from "@mui/material";
 import ClearIcon from '@mui/icons-material/Clear';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const styles = theme => ({
     field: {
@@ -74,7 +76,9 @@ const EditProfileManager = () => {
     const [openNetwork, setOpenNetwork] = useState(false);
     const [openWrongPass, setOpenWrongPass] = useState(false);
     const [validInputs, setValidInputs] = useState(false);
-    const [openMenu, setOpenMenu] = useState(true);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertSeverity, setAlertSeverity] = useState('');
+
 
     const handleFullname = (e) => {
         setFullname(e.target.value);
@@ -156,9 +160,6 @@ const EditProfileManager = () => {
     }, [data.date_of_birth]);
 
     const history = useHistory();
-    const handleOpenMenu = () => {
-        setOpenMenu(!openMenu);
-    }
     const handleCloseNetwork = () => {
         setOpenNetwork(false);
     };
@@ -205,6 +206,32 @@ const EditProfileManager = () => {
     const handleMouseDownconfirmPassword = (event) => {
         event.preventDefault();
     };
+    const handleReloadPage = () => {
+        window.location.reload();
+    };
+
+    useEffect(() => {
+        if(alertMessage !== "" && alertSeverity !== ""){
+            if(alertSeverity === "success"){
+                toast.success(alertMessage, {
+                            position: toast.POSITION.BOTTOM_LEFT,
+                            title: "Success",
+                            autoClose: 7000,
+                            pauseOnHover: true,
+                            onClose: handleReloadPage
+                        });
+            } else {
+                toast.error(alertMessage, {
+                            position: toast.POSITION.BOTTOM_LEFT,
+                            title: "Error",
+                            autoClose: 3000,
+                            pauseOnHover: true
+                        });
+            }
+            setAlertMessage("");
+            setAlertSeverity("");
+        }
+    }, [alertMessage, alertSeverity]);
 
     const firstChar = data?.name?data.name.charAt(0) : "UN";
     const handleUpdate = (e) => {
@@ -221,13 +248,20 @@ const EditProfileManager = () => {
         .then((response)=> {
             console.log(response);
             console.log("succesfully updated");
-            window.location.reload(false);
+            setAlertMessage("Profile updated successfully!");
+            setAlertSeverity("success");
+            // window.location.reload(false);
         })
         .catch((error) => {
             console.log(error)
             if (error.request) {
                 setOpenNetwork(true);
                 console.log("network error");
+                setAlertMessage("Network error! Please try again later.");
+                setAlertSeverity("error");
+            } else{
+                setAlertMessage("A problem has been occured! Please try again later.");
+                setAlertSeverity("error");
             }
         });
 
@@ -247,15 +281,21 @@ const EditProfileManager = () => {
             .then((response)=> {
                 console.log(response);
                 console.log("succesfully updated password");
-                window.location.reload(false);
+                // window.location.reload(false);
+                setAlertMessage("Your password changed successfully!");
+                setAlertSeverity("success");
             })
             .catch((error) => {
                 console.log(error);
                 if (error.response) {
-                    setOpenWrongPass(true);
+                    // setOpenWrongPass(true);
+                    setAlertMessage("Your current password is wrong! Please try again later.");
+                    setAlertSeverity("error");
                     console.log("wrong password");
                 } else if (error.request){
-                    setOpenNetwork(true);
+                    // setOpenNetwork(true);
+                    setAlertMessage("Network error! Please try again later.");
+                    setAlertSeverity("error");
                     console.log("network error");
                 }
             });
@@ -270,6 +310,9 @@ const EditProfileManager = () => {
             <div className="edit-back-manager">
                 <HeaderRestaurant/>
                 <Grid container spacing={2} className="edit-grid-manager">
+                    <div >
+                        <ToastContainer />
+                    </div>
                     <Grid item md={3} sm={12} xs={12}>
                         <Box className="edit-box-manager">
                             <Typography variant="h5" 
@@ -321,22 +364,22 @@ const EditProfileManager = () => {
                             </Typography>
                             <FormControl className="edit-field-manager">
                                 <Grid container spacing={2}>
-                                    {openNetwork && 
+                                    {/* {openNetwork && 
                                             <Grid item lg={12} sm={12} md={12}>
                                                 {openNetwork && <Alert severity="error" onClose={handleCloseNetwork} variant="outlined"> 
                                                                     Network error!
                                                                 </Alert>
                                                 }
                                             </Grid> 
-                                    }
-                                    {openWrongPass && 
+                                    } */}
+                                    {/* {openWrongPass && 
                                         <Grid item lg={12} sm={12} md={12}>
                                                 {openWrongPass && <Alert severity="error" onClose={handleCloseWrongPass} variant="outlined">
                                                                     Current password is wrong!
                                                                 </Alert> 
                                                 }                                        
                                         </Grid>    
-                                    }
+                                    } */}
                                     <Grid item xs={12} sm={6} md={6}>
                                         <TextField
                                             label="Full name"
@@ -367,6 +410,9 @@ const EditProfileManager = () => {
                                             style={{width: '100%'}}
                                             variant="outlined"
                                             // focused={true}
+                                            inputProps={{
+                                                maxLength: 13
+                                            }}
                                         />
                                     </Grid>
                                 </Grid>
