@@ -12,6 +12,8 @@ import Modal from '@mui/material/Modal';
 import { ToastContainer, toast } from 'react-toastify';
 import {useHistory } from "react-router-dom";
 import MoneyIcon from '@mui/icons-material/Money';
+import { useParams } from 'react-router-dom';
+
 
 const theme = createTheme({
     palette: {
@@ -24,7 +26,7 @@ const theme = createTheme({
     },
 })
 
-export default function OrderPage(props){
+export default function OrderPage(){
     const [shoppingCard, setShoppingCard] = useState([]);  
     const [orderItems, setOrderItems] = useState([]);
     const token = localStorage.getItem('token');
@@ -39,7 +41,8 @@ export default function OrderPage(props){
     const [paymentMethod, setPaymentMethod] = useState("wallet");
     const [status, setStatus] = useState();
     const [orderId, setOrderId] = useState();
-    const IdOfRestaurant = props.id[0];
+    const {IdOfRestaurant} = useParams();
+
 
     const handleCheckAdd = () => {
         setCheckAdd(!checkAdd);
