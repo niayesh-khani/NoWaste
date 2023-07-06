@@ -113,7 +113,7 @@ export default function OrderPage(){
         const userStatus = {
             status: "InProgress"
         };
-        axios.put(`http://5.34.195.16/restaurant/restaurant_view/${IdOfRestaurant}/${userId}/order/${orderId}`, userStatus,
+        axios.put(`http://5.34.195.16/restaurant/restaurant_view/${IdOfRestaurant}/${userId}/order/${orderId}/`, userStatus,
         {headers :{
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -122,48 +122,47 @@ export default function OrderPage(){
         }})
         .then((response) => {
             console.log(response);
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.log(error.response);
-            } 
-        }); 
-
-        //for reducing the wallet
-        const userData = {
-            email: val,
-            amount: prices[1]
-        };
-        console.log(userData);
-        console.log(val);
-        if(paymentMethod === "wallet"){
-            axios.post("http://5.34.195.16/user/withdraw-wallet/", userData, 
-                {headers: {
-                    'Content-Type' : 'application/json',
-                    "Access-Control-Allow-Origin" : "*",
-                    "Access-Control-Allow-Methods" : "PUT,PATCH",
-                    'Authorization' : "Token " + token.slice(1,-1)   
-                }})
-            .then((response) => {
-                console.log(response);
-                const newBalance = response.data.wallet_balance;
-                localStorage.setItem('wallet_balance', newBalance);
-                setBalance(newBalance);
-                //add alert
-                setAlertMessage("Payment successful! Thank you for your purchase.");
+            //for reducing the wallet
+            const userData = {
+                email: val,
+                amount: prices[1]
+            };
+            console.log(userData);
+            console.log(val);
+            if(paymentMethod === "wallet"){
+                axios.post("http://5.34.195.16/user/withdraw-wallet/", userData, 
+                    {headers: {
+                        'Content-Type' : 'application/json',
+                        "Access-Control-Allow-Origin" : "*",
+                        "Access-Control-Allow-Methods" : "PUT,PATCH",
+                        'Authorization' : "Token " + token.slice(1,-1)   
+                    }})
+                .then((response) => {
+                    console.log(response);
+                    const newBalance = response.data.wallet_balance;
+                    localStorage.setItem('wallet_balance', newBalance);
+                    setBalance(newBalance);
+                    //add alert
+                    setAlertMessage("Payment successful! Thank you for your purchase.");
+                    setAlertSeverity("success");
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        setAlertMessage("An error occured. Please try again later.");
+                        setAlertSeverity("error");
+                        console.log(error);
+                    }
+                });
+            } else{
+                setAlertMessage("Order submitted successfully! Thank you for your purchase");
                 setAlertSeverity("success");
+            }
             })
             .catch((error) => {
                 if (error.response) {
-                    setAlertMessage("An error occured. Please try again later.");
-                    setAlertSeverity("error");
-                    console.log(error);
-                }
-            });
-        } else{
-            setAlertMessage("Order submitted successfully! Thank you for your purchase");
-            setAlertSeverity("success");
-        }
+                    console.log(error.response);
+                } 
+            }); 
     };
   
     const [showMap, setShowMap] = useState(false);
