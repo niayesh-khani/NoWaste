@@ -28,7 +28,7 @@ function Map(props) {
         lon: lng
       };
 
-      const url = type === 'customer'
+      const url = type.includes("customer")
         ? `http://5.34.195.16/user/${id}/lat_long/`
         : `http://5.34.195.16/restaurant/${id}/lat_long/`;
 
