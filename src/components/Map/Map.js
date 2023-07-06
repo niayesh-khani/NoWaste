@@ -10,10 +10,10 @@ import axios from "axios";
 function Map(props) {
   const mapRef = useRef(null);
   const markerRef = useRef(null);
-  const [lat, setLat] = useState(props[0] || 35.6892);
-  const [lng, setLng] = useState(props[1] || 51.3890);
-  const id = props[2];
-  const type = props[3];
+  const [lat, setLat] = useState(props.location[0] || 35.6892);
+  const [lng, setLng] = useState(props.location[1] || 51.3890);
+  const id = props.location[2];
+  const type = props.location[3];
   const token = localStorage.getItem('token');
 
   // Update the new location
@@ -28,7 +28,7 @@ function Map(props) {
         lon: lng
       };
 
-      const url = type.includes("customer")
+      const url = type === "customer"
         ? `http://5.34.195.16/user/${id}/lat_long/`
         : `http://5.34.195.16/restaurant/${id}/lat_long/`;
 
