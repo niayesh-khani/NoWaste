@@ -74,7 +74,7 @@ function App() {
           <Route path="/homepage-customer" >
             <HomepageCustomer />
           </Route>
-          <Route path="/order-page">
+          <Route path="/order-page/:IdOfRestaurant">
             <OrderPage />
           </Route>  
           <Route path="/edit-restaurant/:idM/restaurants/:idR" >
