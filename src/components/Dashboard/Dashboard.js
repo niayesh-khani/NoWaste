@@ -199,8 +199,21 @@ export default function Dashboard(){
     const token = localStorage.getItem('token');
     const [orderHistory, setOrderHistory] = useState();
     const [value, setValue] = React.useState(0);
-
+    const [currentPage, setCurrentPage] = useState(1);
+    const ordersPerPage = 5;
     const [rows, setRows] = useState([]);
+    const rowsWithIndex = rows.map((row, index) => ({ ...row, index }));
+    const indexOfLastOrder = currentPage * ordersPerPage;
+    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    const ordersToShow = rowsWithIndex.slice(indexOfFirstOrder, indexOfLastOrder);
+    const totalPages = Math.ceil(rowsWithIndex.length / ordersPerPage);
+    const goToPreviousPage = () => {
+        setCurrentPage((prevPage) => prevPage - 1);
+    };
+
+    const goToNextPage = () => {
+        setCurrentPage((prevPage) => prevPage + 1);
+    };
 
     function getRandomColor() {
         const colors = ['#FFA600', '#fff2bf', '#ffe480', '#a2332a' , '#E74C3C' , '#690000' , '#595959', '#3e3e3e' , '#C6C6C6', '#ABABAB', '#B9B9B9'];
@@ -571,7 +584,7 @@ export default function Dashboard(){
                                     </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                    {rows.map((row) => (
+                                    {ordersToShow.map((row) => (
                                         <TableRow key={row.order_id}
                                             sx={{ cursor: row.status === 'Completed' ? 'pointer' : 'default',}}
                                             tabIndex={-1}
@@ -596,6 +609,16 @@ export default function Dashboard(){
                                         ))}
                                     </TableBody>
                                 </Table>
+                                {/* Pagination controls */}
+                                <div>
+                                <button onClick={goToPreviousPage} disabled={currentPage === 1}>
+                                    Previous Page
+                                </button>
+                                <span>{`Page ${currentPage} of ${totalPages}`}</span>
+                                <button onClick={goToNextPage} disabled={currentPage === totalPages}>
+                                    Next Page
+                                </button>
+                                </div>
                             </TableContainer>
                             {/* <TableContainer>
                                 <Table
