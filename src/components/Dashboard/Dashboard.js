@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
+import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, Tooltip , InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import '../../pages/EditProfile.css';
-import Header from '../Header';
+import HeaderCustomer from '../HeaderCustomer';
 // import './Login-Signup.css';
 // import './Restaurant-View.css';
 // import PhoneInput from 'react-phone-input-2';
@@ -31,6 +31,10 @@ import { parse } from "date-fns";
 import Modal from '@mui/material/Modal';
 import Stack from '@mui/material/Stack';
 import Rating from '@mui/material/Rating';
+import Paper from '@mui/material/Paper';
+import Pagination from '@mui/material/Pagination';
+import CommentIcon from '@mui/icons-material/Comment';
+import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 
 // const styles = theme => ({
 //     field: {
@@ -101,21 +105,6 @@ function createData(name, order, price, date, status, restaurant_id, order_id) {
         order_id
     };
 }  
-let rows = [
-    // createData("Bella", 'Pizaa, Drink, watge, fdjksl, fjsilios, jflkdfjuiff, kfjdfodifdf, fkljdsofjifd', "10$", "2023-10-1", "Completed"),
-    // createData("China", 'Steak', "30$", "2023-10-1", "In progress"),
-    // createData("Aba", 'Ghormeh', "150$", "2023-10-1", "Open"),
-    // createData("mina", 'Polp', "200$", "2022-9-10", "Canceled"),
-    // createData("Ans", 'Morgh', "420$", "2023-10-5", "Ordered"),
-    // createData("lora", 'water', "300$", "2023-11-10", "Completed"),
-    // createData("Den", 'Coca', "300$", "2023-10-1", "Open"),
-    // createData("jim", 'rice', "300$", "2023-10-1", "Completed"),
-    // createData("kimi", 'spaghetti', "300$", "2023-10-1", "Completed"),
-    // createData("pria", 'Pizaa', "300$", "2023-10-1", "Completed"),
-    // createData("orange", 'Pizaa', "300$", "2023-10-1", "Completed"),
-    // createData("kej", 'Pizaa', "300$", "2023-10-1", "Completed")
-];
-
 function descendingComparator(a, b, orderBy){
     if (b[orderBy] < a[orderBy]){
         return -1;
@@ -198,6 +187,41 @@ export default function Dashboard(){
     const token = localStorage.getItem('token');
     const [orderHistory, setOrderHistory] = useState();
     const [value, setValue] = React.useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const ordersPerPage = 5;
+    const [rows, setRows] = useState([]);
+    const rowsWithIndex = rows.map((row, index) => ({ ...row, index }));
+    const indexOfLastOrder = currentPage * ordersPerPage;
+    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    const ordersToShow = rowsWithIndex.slice(indexOfFirstOrder, indexOfLastOrder);
+    const totalPages = Math.ceil(rowsWithIndex.length / ordersPerPage);
+
+    //sorting
+    const [sortConfig, setSortConfig] = useState({ field: null, direction: 'asc' });
+    const handleSort = (field) => {
+        const newSortConfig = { field, direction: 'asc' };
+        // If the same column is clicked again, toggle the sort direction
+        if (sortConfig.field === field && sortConfig.direction === 'asc') {
+            newSortConfig.direction = 'desc';
+        }
+        setSortConfig(newSortConfig);
+    };
+    // Sort the data based on the sortConfig state
+    const sortedData = useMemo(() => {
+        if (sortConfig.field) {
+            const compareFunction = (a, b) => {
+                if (a[sortConfig.field] < b[sortConfig.field]) {
+                return sortConfig.direction === 'asc' ? -1 : 1;
+                }
+                if (a[sortConfig.field] > b[sortConfig.field]) {
+                return sortConfig.direction === 'asc' ? 1 : -1;
+                }
+                return 0;
+            };
+            return ordersToShow.sort(compareFunction);
+            }
+            return ordersToShow;
+        }, [sortConfig, ordersToShow]);
 
     function getRandomColor() {
         const colors = ['#FFA600', '#fff2bf', '#ffe480', '#a2332a' , '#E74C3C' , '#690000' , '#595959', '#3e3e3e' , '#C6C6C6', '#ABABAB', '#B9B9B9'];
@@ -205,78 +229,99 @@ export default function Dashboard(){
     }
     // console.log("$$$$$$$$$$$$$$$$$",favoriteRestaurant);
 
+    // useEffect(() => {
+    //     axios.get(
+    //         `http://5.34.195.16/restaurant/customer/${id}/orderview/`,
+    //         {headers :{
+    //             'Content-Type' : 'application/json',
+    //             "Access-Control-Allow-Origin" : "*",
+    //             "Access-Control-Allow-Methods" : "GET,PATCH",
+    //             'Authorization' : "Token " + token.slice(1,-1)
+    //         }}
+    //     )
+    //     .then((response) => {
+    //         // console.log(response.data);
+    //         setOrderHistory(response.data);
+    //         console.log("order got sus");
+    //     })
+    //     .catch((error) => console.log(error));
+    // }, []);
+    // useEffect(() => {
+    //     // console.log("order history ios " + orderHistory.length);
+    //     if(orderHistory){
+    //         for (let i = 0; i < orderHistory.length; i++) {
+    //             // const element = array[i];
+    //             console.log(orderHistory[i]);
+
+
+    //             let restaurant_name = orderHistory[i].restaurantDetails.name;
+    //             // setOrderid(orderHistory[i].orderDetails.id);
+    //             // setRestaurantOrderId(orderHistory[i].restaurantDetails.id);
+    //             let order = "";
+    //             for(let j=0; j < orderHistory[i].orderDetails.orderItems.length; j++){
+    //                 order += orderHistory[i].orderDetails.orderItems[j].quantity + "×" + orderHistory[i].orderDetails.orderItems[j].name_and_price.name;
+    //                 if(j!= orderHistory[i].orderDetails.orderItems.length-1){
+    //                     order += ", ";
+    //                 }
+    //             }
+    //             let price = orderHistory[i].orderDetails.Subtotal_Grandtotal_discount[1];
+    //             const date = new Date(orderHistory[i].created_at);
+    //             let formatted_date = date.toISOString().split('T')[0];
+    //             let status = orderHistory[i].status;
+    //             let restaurant_id = orderHistory[i].restaurantDetails.id;
+    //             let order_id = orderHistory[i].orderDetails.id;
+    //             const new_row = createData(restaurant_name, order, price, formatted_date, status, restaurant_id, order_id)
+    //             rows = [...rows, new_row];                
+    //         }
+    //     }
+
+    // }, [orderHistory]);
+    //chaatGPT
     useEffect(() => {
-        axios.get(
-            `http://5.34.195.16/restaurant/customer/${id}/orderview/`,
-            {headers :{
-                'Content-Type' : 'application/json',
-                "Access-Control-Allow-Origin" : "*",
-                "Access-Control-Allow-Methods" : "GET,PATCH",
-                'Authorization' : "Token " + token.slice(1,-1)
-            }}
-        )
+        axios
+        .get(`http://5.34.195.16/restaurant/customer/${id}/orderview/`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET,PATCH',
+                Authorization: 'Token ' + token.slice(1, -1),
+            },
+        })
         .then((response) => {
-            console.log(response.data);
-            setOrderHistory(response.data);
-            // console.log("length" + orderHistory.length);
+        setOrderHistory(response.data);
+        console.log('order got successfully');
         })
         .catch((error) => console.log(error));
     }, []);
+
     useEffect(() => {
-        // console.log("order history ios " + orderHistory.length);
-        if(orderHistory){
-            for (let i = 0; i < orderHistory.length; i++) {
-                // const element = array[i];
-                console.log(orderHistory[i]);
-
-
-                let restaurant_name = orderHistory[i].restaurantDetails.name;
-                // setOrderid(orderHistory[i].orderDetails.id);
-                // setRestaurantOrderId(orderHistory[i].restaurantDetails.id);
-                let order = "";
-                for(let j=0; j < orderHistory[i].orderDetails.orderItems.length; j++){
-                    order += orderHistory[i].orderDetails.orderItems[j].quantity + "×" + orderHistory[i].orderDetails.orderItems[j].name_and_price.name;
-                    if(j!= orderHistory[i].orderDetails.orderItems.length-1){
-                        order += ", ";
-                    }
-                }
-                let price = orderHistory[i].orderDetails.Subtotal_Grandtotal_discount[1];
-                const date = new Date(orderHistory[i].created_at);
-                let formatted_date = date.toISOString().split('T')[0];
-                let status = orderHistory[i].status;
-                let restaurant_id = orderHistory[i].restaurantDetails.id;
-                let order_id = orderHistory[i].orderDetails.id;
-                const new_row = createData(restaurant_name, order, price, formatted_date, status, restaurant_id, order_id)
-                rows = [...rows, new_row];                
+        // ...
+        if (orderHistory) {
+            if (orderHistory) {
+                const newRows = orderHistory.map((order) => {
+                const restaurant_name = order.restaurantDetails.name;
+                let orderText = order.orderDetails.orderItems
+                    .map((item) => `${item.quantity}×${item.name_and_price.name}`)
+                    .join(', ');
+                const price = order.orderDetails.Subtotal_Grandtotal_discount[1];
+                const date = new Date(order.created_at).toISOString().split('T')[0];
+                const status = order.status;
+                const restaurant_id = order.restaurantDetails.id;
+                const order_id = order.orderDetails.id;
+                return createData(
+                    restaurant_name,
+                    orderText,
+                    price,
+                    date,
+                    status,
+                    restaurant_id,
+                    order_id
+                );
+                });
+                setRows(newRows);
             }
         }
-
     }, [orderHistory]);
-
-    const handleRequestSort = (e, property) => {
-        const isAsc = orderBy === property && order === "asc";
-        setOrder(isAsc ? 'desc' : 'asc');
-        setOrderBy(property);
-    };
-
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
-    const visibleRows = useMemo(
-        () => 
-            stableSort(rows, getComparator(order, orderBy)).slice(
-                page * rowsPerPage , page * rowsPerPage + rowsPerPage,
-            ),
-        [order, orderBy, page, rowsPerPage]
-    );
-    
-    const handleChangePage = (e, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (e) => {
-        setRowsPerPage(parseInt(e.target.value, 10));
-        setPage(0);
-    };
 
     const getRowColor = (status) => {
         if(status === "Completed") {
@@ -293,10 +338,6 @@ export default function Dashboard(){
     const showCancelIcon = (status) => {
         return status === 'notOrdered';
     }
-
-    // const options = {
-    //     rowStyle
-    // }
 
     const handleShowFavoriteRestaurant = (id) => {
         history.push("./restaurant-view/"+ id);
@@ -393,6 +434,14 @@ export default function Dashboard(){
                 });
     };
 
+    const handleStatus = (status) => {
+        if(status === "InProgress")
+            return "In progress";
+        else if(status === "notOrdered")
+            return "Not ordered";
+        return status;
+    }
+
     const handleCancleOrdering = (Oid, Rid) => {
         const userData = {
             status:"Cancled"
@@ -418,7 +467,7 @@ export default function Dashboard(){
     return (
         <ThemeProvider theme={theme}>
             <div className="dashboard-back">
-                <Header />
+                <HeaderCustomer />
                 <Grid container spacing={2} className="dashboard-grid">
                     <Grid item lg={4} md={12} sm={12} xs={12}>
                         <Box className="dashboard-box" id="favorite-restaurants-box">
@@ -428,7 +477,7 @@ export default function Dashboard(){
                                 gutterBottom
                                 className="dashboard-title-manager"
                             >
-                                Favorite restaurants
+                                Favorite Restaurants
                             </Typography>
                             {favoriteRestaurant && favoriteRestaurant.map((res, index) => (
                                 <Box className="dashboard-restaurant-box" onClick={() => handleShowFavoriteRestaurant(res.id)}>
@@ -454,73 +503,97 @@ export default function Dashboard(){
                                 gutterBottom
                                 className="dashboard-title-manager"
                             >
-                                Order history
+                                Order History
                             </Typography>
-                            <TableContainer>
-                                <Table
-                                    aria-labelledby="OrderTable"
-                                >
-                                    <DashboardTableHead 
-                                        order={order}
-                                        orderBy={orderBy}
-                                        onRequestSort={handleRequestSort}
-                                        rowCount={rows.length}
-                                    />
-                                    <TableBody>
-                                        {visibleRows.map((row, index) => {
-                                            return(
-                                                <TableRow
-                                                    hover
-                                                    key={row.name}
-                                                    // sx={{ cursor: 'pointer'}}
-                                                    sx={{ cursor: row.status === 'Completed' ? 'pointer' : 'default',}}
-                                                    tabIndex={-1}
-                                                    style={{backgroundColor: getRowColor(row.status)}}
-                                                    onClick={() => handleRowClick(row)}
-                                                    
-                                                >
-                                                    <TableCell
-                                                        component="th"
-                                                        // id={labelId}
-                                                        scope="row"
-                                                        align="right"
-                                                        // padding="none"
-                                                    >
-                                                        
-                                                        {index + 1}
-                                                    </TableCell>
-                                                    <TableCell>{row.name}</TableCell>
-                                                    <TableCell>{row.order}</TableCell>
-                                                    <TableCell>{row.price}</TableCell>
-                                                    <TableCell>{row.date}</TableCell>
-                                                    <TableCell>
-                                                        {row.status}
-                                                        {showCancelIcon(row.status) && 
-                                                            <IconButton onClick={() => handleCancleOrdering(row.order_id, row.restaurant_id)} title="Cancel order">
-                                                                <ClearIcon style={{color:'red'}}/>
-                                                            </IconButton>
-                                                        }
-                                                    </TableCell>
-                                                </TableRow>
-                                            )
-                                        })}
-                                        {emptyRows > 0 && (
-                                            <TableRow>
-                                                <TableCell colSpan={6} />
-                                            </TableRow>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                    <TableRow>
+                                        <TableCell onClick={() => handleSort('name')}>
+                                            Restaurant name
+                                            {sortConfig.field === 'name' && (
+                                                <>
+                                                {sortConfig.direction === 'asc' ? (
+                                                    <KeyboardArrowUp style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                                ) : (
+                                                    <KeyboardArrowDown style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                                )}
+                                                </>
+                                            )}
+                                        </TableCell>
+                                        <TableCell align="left" >
+                                            Order
+                                        </TableCell>
+                                        <TableCell align="left" onClick={() => handleSort('price')}>
+                                            Price
+                                            {sortConfig.field === 'price' && (
+                                            <>
+                                            {sortConfig.direction === 'asc' ? (
+                                                <KeyboardArrowUp style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                            ) : (
+                                                <KeyboardArrowDown style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                            )}
+                                            </>
                                         )}
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            Date
+                                        </TableCell>
+                                        <TableCell align="left" onClick={() => handleSort('status')}>
+                                            Status
+                                            {sortConfig.field === 'status' && (
+                                            <>
+                                            {sortConfig.direction === 'asc' ? (
+                                                <KeyboardArrowUp style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                            ) : (
+                                                <KeyboardArrowDown style={{ fontSize: '16px', verticalAlign: 'middle' }} />
+                                            )}
+                                            </>
+                                        )}
+                                        </TableCell>
+                                    </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                    {sortedData.map((row) => (
+                                        <TableRow key={row.order_id}
+                                            // sx={{ cursor: row.status === 'Completed' ? 'pointer' : 'default',}}
+                                            tabIndex={-1}
+                                            style={{backgroundColor: getRowColor(row.status)}}
+                                            // onClick={() => handleRowClick(row)}
+                                        >
+                                            <TableCell component="th" scope="row">
+                                            {row.name}
+                                            </TableCell>
+                                            <TableCell align="left">{row.order}</TableCell>
+                                            <TableCell align="left">{row.price}</TableCell>
+                                            <TableCell align="left">{row.date}</TableCell>
+                                            <TableCell align="left">
+                                                {handleStatus(row.status)}
+                                                {showCancelIcon(row.status) && 
+                                                    <IconButton onClick={() => handleCancleOrdering(row.order_id, row.restaurant_id)} title="Cancel order">
+                                                        <ClearIcon style={{color:'red'}}/>
+                                                    </IconButton>
+                                                }
+                                                {row.status === 'Completed' && (
+                                                <Tooltip title="Add Comment">
+                                                <IconButton onClick={(e) => {
+                                                    // e.stopPropagation(); // Prevent the row click event from triggering
+                                                    handleRowClick(row);
+                                                }}>
+                                                    <CommentIcon />
+                                                </IconButton>
+                                                </Tooltip>
+                                                )}
+                                            </TableCell>
+                                        </TableRow>
+                                        ))}
                                     </TableBody>
                                 </Table>
+                                {/* Pagination controls */}
+                                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+                                    <Pagination count={totalPages} page={currentPage} onChange={(event, page) => setCurrentPage(page)} shape="rounded"/>
+                                </div>
                             </TableContainer>
-                            <TablePagination 
-                                rowsPerPageOptions={[5, 10, 15]}
-                                component="div"
-                                count={rows.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}    
-                            />
                         </Box>
                     </Grid>
                 </Grid>
@@ -545,7 +618,7 @@ export default function Dashboard(){
                             Close
                         </Button>
                         <Button variant="contained" className='dashboard-btn-submit' onClick={handleAdd}>
-                            Sublmit
+                            Submit
                         </Button>
                     </Stack>
                     </Box>

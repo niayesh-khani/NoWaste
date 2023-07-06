@@ -1,0 +1,31 @@
+.custom-step-icon,
+.custom-step-icon-active {
+    color: #FFA600 !important;
+}
+
+.about-us-continue-button{
+    background-color: #E74C3C !important;
+    text-transform: none !important;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif !important;
+    border-radius: 70px;
+    color: black !important;
+}
+.about-us-continue-button:hover{
+    transform: scale(1.01);
+}
+.about-us-title{
+    color: #E74C3C;
+    font-family: 'Montserrat', sans-serif !important;
+    margin: 1%;
+}
+
+.about-us-about{
+    /* margin-left: 3% !important; */
+}
+
+.about-us-image{
+    width: 50%;
+    height: 50%;
+}
