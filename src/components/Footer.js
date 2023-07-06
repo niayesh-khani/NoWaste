@@ -56,7 +56,7 @@ const Footer = () => {
                     </p>
                     <p>
                         <MDBIcon icon="envelope" className="me-2" />
-                        NoWaste.39@gmail.com
+                            gen39.nowaste@gmail.com
                     </p>
                 </MDBCol>
 

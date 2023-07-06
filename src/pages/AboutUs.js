@@ -13,6 +13,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Stack from '@mui/material/Stack';
 import "./AboutUs.css";
+import HeaderCustomer from "../components/HeaderCustomer";
 
 
 const steps = [
@@ -64,7 +65,7 @@ const AboutUs = () => {
     };
     return ( 
         <div >
-            <Header />
+            <HeaderCustomer />
             <h2 className='about-us-title'>About Nowaste</h2>
             {/* <Grid container spacing={2}>
                 <Grid item lg={6} md={6} sm={6} className='about-us-about'>
