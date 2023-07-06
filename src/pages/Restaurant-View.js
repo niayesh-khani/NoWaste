@@ -325,8 +325,8 @@ const RestaurantView = (props: Props) =>
     },[])
 
     const handlePayment = () => {
-        history.push('/order-page');
-      };
+        history.push('/order-page/' + id);
+    };
     
     return (
     <div className='myback'>
