@@ -143,7 +143,8 @@ function EditRestaurant(props){
     const [cities, setCities] = useState();
     const [lat, setLat] = useState();
     const [lng, setLng] = useState();
-    const role = localStorage.getItem("role");
+    let role = localStorage.getItem("role");
+    role = role.replace(/"/g, "");
     const mylocation = [lat, lng, idR, role];
 
     const handleFullname = (e) => {
