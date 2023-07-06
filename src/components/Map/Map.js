@@ -29,8 +29,8 @@ function Map(props) {
       };
 
       const url = type === "customer"
-        ? `http://5.34.195.16/user/${id}/lat_long/`
-        : `http://5.34.195.16/restaurant/${id}/lat_long/`;
+        ? `http://5.34.195.16/user/${id}/lat_long`
+        : `http://5.34.195.16/restaurant/${id}/lat_long`;
       if(type === "customer")
       {
         axios.patch(url, userData, {
