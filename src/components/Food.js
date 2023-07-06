@@ -15,9 +15,9 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { styled} from '@mui/material/styles';
 import './Food.css';
 import axios from 'axios';
+import { Button } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import { Chip, Divider, Grid } from '@mui/material';
-import { Stack } from 'react-bootstrap';
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -54,7 +54,7 @@ const Food = (props) => {
     }
     // console.log("user id",userid);
     // console.log("res id",resid);
-    // console.log("food_id", food.id);
+    // console.log("food_id", food.id);      
     const [remainder, setRemainder] = React.useState('');
     React.useEffect(() => {
         if(food.remainder === 0)
@@ -230,7 +230,7 @@ const Food = (props) => {
                     <CardContent sx={{ height: 25}}>
                         <Typography gutterBottom className='food-name-restaurant-view'>{food.name}</Typography>
                         <Typography variant="body2" color="text.secondary">{food.ingredients}</Typography>
-                        <Typography variant="body2" color="#e74c3c">remaining: {remainder}</Typography>
+                        <Typography variant="body2" color="#ffa600">remaining: {remainder}</Typography>
 
                         {/* <hr className='food-hr'/> */}
                     </CardContent>
