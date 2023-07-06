@@ -24,7 +24,7 @@ const theme = createTheme({
     },
 })
 
-export default function OrderPage(){
+export default function OrderPage(props){
     const [shoppingCard, setShoppingCard] = useState([]);  
     const [orderItems, setOrderItems] = useState([]);
     const token = localStorage.getItem('token');
@@ -37,6 +37,9 @@ export default function OrderPage(){
     const [alertMessage, setAlertMessage] = useState("");
     const history = useHistory();
     const [paymentMethod, setPaymentMethod] = useState("wallet");
+    const [status, setStatus] = useState();
+    const [orderId, setOrderId] = useState();
+    const IdOfRestaurant = props.id[0];
 
     const handleCheckAdd = () => {
         setCheckAdd(!checkAdd);
@@ -52,7 +55,7 @@ export default function OrderPage(){
     // const restaurantId =1;
     // const userId=5;
     useEffect(()=>{
-        axios.get(`http://5.34.195.16/restaurant/restaurant_view/${restaurantId}/${userId}/order/`,
+        axios.get(`http://5.34.195.16/restaurant/restaurant_view/${IdOfRestaurant}/${userId}/order/`,
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -60,13 +63,16 @@ export default function OrderPage(){
             'Authorization' : "Token " + token.slice(1,-1)   
         }})
             .then((response) => {
+                console.log(response.data);
                 // console.log("oredrs",response.data[0]);
                 // console.log("prices", response.data[0].Subtotal_Grandtotal_discount);
                 // console.log("items: " , response.data[0].orderItems)
+                setStatus(response.data[0].status);
                 setShoppingCard(response.data[0]);
                 setOrderItems(response.data[0].orderItems);
                 setPrices(response.data[0].Subtotal_Grandtotal_discount);
                 console.log("prices", response.data[0].Subtotal_Grandtotal_discount);
+                setOrderId(response.data[0].id);
             
             })
             .catch((error) => {
@@ -96,11 +102,34 @@ export default function OrderPage(){
         }
     }, [alertMessage, alertSeverity]);
 
+
+
     const handlePayment = (e) => {
         e.preventDefault();
+        //for changing the status
+        const userStatus = {
+            status: "InProgress"
+        };
+        axios.put(`http://5.34.195.16/restaurant/restaurant_view/${IdOfRestaurant}/${userId}/order/${orderId}`, userStatus,
+        {headers :{
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "GET,PUT",
+            'Authorization' : "Token " + token.slice(1,-1)
+        }})
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            if (error.response) {
+                console.log(error.response);
+            } 
+        }); 
+
+        //for reducing the wallet
         const userData = {
-          email: val,
-          amount: prices[1]
+            email: val,
+            amount: prices[1]
         };
         console.log(userData);
         console.log(val);
