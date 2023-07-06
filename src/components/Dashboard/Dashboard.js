@@ -31,6 +31,7 @@ import { parse } from "date-fns";
 import Modal from '@mui/material/Modal';
 import Stack from '@mui/material/Stack';
 import Rating from '@mui/material/Rating';
+import Paper from '@mui/material/Paper';
 
 // const styles = theme => ({
 //     field: {
@@ -101,7 +102,7 @@ function createData(name, order, price, date, status, restaurant_id, order_id) {
         order_id
     };
 }  
-let rows = [
+// let rows = [
     // createData("Bella", 'Pizaa, Drink, watge, fdjksl, fjsilios, jflkdfjuiff, kfjdfodifdf, fkljdsofjifd', "10$", "2023-10-1", "Completed"),
     // createData("China", 'Steak', "30$", "2023-10-1", "In progress"),
     // createData("Aba", 'Ghormeh', "150$", "2023-10-1", "Open"),
@@ -114,7 +115,7 @@ let rows = [
     // createData("pria", 'Pizaa', "300$", "2023-10-1", "Completed"),
     // createData("orange", 'Pizaa', "300$", "2023-10-1", "Completed"),
     // createData("kej", 'Pizaa', "300$", "2023-10-1", "Completed")
-];
+// ];
 
 function descendingComparator(a, b, orderBy){
     if (b[orderBy] < a[orderBy]){
@@ -199,59 +200,135 @@ export default function Dashboard(){
     const [orderHistory, setOrderHistory] = useState();
     const [value, setValue] = React.useState(0);
 
+    const [rows, setRows] = useState([]);
+
     function getRandomColor() {
         const colors = ['#FFA600', '#fff2bf', '#ffe480', '#a2332a' , '#E74C3C' , '#690000' , '#595959', '#3e3e3e' , '#C6C6C6', '#ABABAB', '#B9B9B9'];
         return colors[Math.floor(Math.random() * colors.length)];
     }
     // console.log("$$$$$$$$$$$$$$$$$",favoriteRestaurant);
 
+    // useEffect(() => {
+    //     axios.get(
+    //         `http://5.34.195.16/restaurant/customer/${id}/orderview/`,
+    //         {headers :{
+    //             'Content-Type' : 'application/json',
+    //             "Access-Control-Allow-Origin" : "*",
+    //             "Access-Control-Allow-Methods" : "GET,PATCH",
+    //             'Authorization' : "Token " + token.slice(1,-1)
+    //         }}
+    //     )
+    //     .then((response) => {
+    //         // console.log(response.data);
+    //         setOrderHistory(response.data);
+    //         console.log("order got sus");
+    //     })
+    //     .catch((error) => console.log(error));
+    // }, []);
+    // useEffect(() => {
+    //     // console.log("order history ios " + orderHistory.length);
+    //     if(orderHistory){
+    //         for (let i = 0; i < orderHistory.length; i++) {
+    //             // const element = array[i];
+    //             console.log(orderHistory[i]);
+
+
+    //             let restaurant_name = orderHistory[i].restaurantDetails.name;
+    //             // setOrderid(orderHistory[i].orderDetails.id);
+    //             // setRestaurantOrderId(orderHistory[i].restaurantDetails.id);
+    //             let order = "";
+    //             for(let j=0; j < orderHistory[i].orderDetails.orderItems.length; j++){
+    //                 order += orderHistory[i].orderDetails.orderItems[j].quantity + "×" + orderHistory[i].orderDetails.orderItems[j].name_and_price.name;
+    //                 if(j!= orderHistory[i].orderDetails.orderItems.length-1){
+    //                     order += ", ";
+    //                 }
+    //             }
+    //             let price = orderHistory[i].orderDetails.Subtotal_Grandtotal_discount[1];
+    //             const date = new Date(orderHistory[i].created_at);
+    //             let formatted_date = date.toISOString().split('T')[0];
+    //             let status = orderHistory[i].status;
+    //             let restaurant_id = orderHistory[i].restaurantDetails.id;
+    //             let order_id = orderHistory[i].orderDetails.id;
+    //             const new_row = createData(restaurant_name, order, price, formatted_date, status, restaurant_id, order_id)
+    //             rows = [...rows, new_row];                
+    //         }
+    //     }
+
+    // }, [orderHistory]);
+    //chaatGPT
     useEffect(() => {
-        axios.get(
-            `http://5.34.195.16/restaurant/customer/${id}/orderview/`,
-            {headers :{
-                'Content-Type' : 'application/json',
-                "Access-Control-Allow-Origin" : "*",
-                "Access-Control-Allow-Methods" : "GET,PATCH",
-                'Authorization' : "Token " + token.slice(1,-1)
-            }}
-        )
-        .then((response) => {
-            console.log(response.data);
+        axios
+          .get(`http://5.34.195.16/restaurant/customer/${id}/orderview/`, {
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'GET,PATCH',
+              Authorization: 'Token ' + token.slice(1, -1),
+            },
+          })
+          .then((response) => {
             setOrderHistory(response.data);
-            // console.log("length" + orderHistory.length);
-        })
-        .catch((error) => console.log(error));
-    }, []);
-    useEffect(() => {
-        // console.log("order history ios " + orderHistory.length);
-        if(orderHistory){
-            for (let i = 0; i < orderHistory.length; i++) {
-                // const element = array[i];
-                console.log(orderHistory[i]);
-
-
-                let restaurant_name = orderHistory[i].restaurantDetails.name;
-                // setOrderid(orderHistory[i].orderDetails.id);
-                // setRestaurantOrderId(orderHistory[i].restaurantDetails.id);
-                let order = "";
-                for(let j=0; j < orderHistory[i].orderDetails.orderItems.length; j++){
-                    order += orderHistory[i].orderDetails.orderItems[j].quantity + "×" + orderHistory[i].orderDetails.orderItems[j].name_and_price.name;
-                    if(j!= orderHistory[i].orderDetails.orderItems.length-1){
-                        order += ", ";
-                    }
-                }
-                let price = orderHistory[i].orderDetails.Subtotal_Grandtotal_discount[1];
-                const date = new Date(orderHistory[i].created_at);
-                let formatted_date = date.toISOString().split('T')[0];
-                let status = orderHistory[i].status;
-                let restaurant_id = orderHistory[i].restaurantDetails.id;
-                let order_id = orderHistory[i].orderDetails.id;
-                const new_row = createData(restaurant_name, order, price, formatted_date, status, restaurant_id, order_id)
-                rows = [...rows, new_row];                
-            }
+            console.log('order got successfully');
+          })
+          .catch((error) => console.log(error));
+      }, []);
+    //   useEffect(() => {
+    //     if (orderHistory) {
+    //       const newRows = orderHistory.map((order) => {
+    //         const restaurant_name = order.restaurantDetails.name;
+    //         let orderText = order.orderDetails.orderItems
+    //           .map((item) => `${item.quantity}×${item.name_and_price.name}`)
+    //           .join(', ');
+    //         const price = order.orderDetails.Subtotal_Grandtotal_discount[1];
+    //         const date = new Date(order.created_at).toISOString().split('T')[0];
+    //         const status = order.status;
+    //         const restaurant_id = order.restaurantDetails.id;
+    //         const order_id = order.orderDetails.id;
+    //         return createData(
+    //           restaurant_name,
+    //           orderText,
+    //           price,
+    //           date,
+    //           status,
+    //           restaurant_id,
+    //           order_id
+    //         );
+    //       });
+    
+    //       setRows(newRows);
+    //     }
+    //   }, [orderHistory]); 
+      
+      useEffect(() => {
+        // ...
+    
+        if (orderHistory) {
+            if (orderHistory) {
+                const newRows = orderHistory.map((order) => {
+                  const restaurant_name = order.restaurantDetails.name;
+                  let orderText = order.orderDetails.orderItems
+                    .map((item) => `${item.quantity}×${item.name_and_price.name}`)
+                    .join(', ');
+                  const price = order.orderDetails.Subtotal_Grandtotal_discount[1];
+                  const date = new Date(order.created_at).toISOString().split('T')[0];
+                  const status = order.status;
+                  const restaurant_id = order.restaurantDetails.id;
+                  const order_id = order.orderDetails.id;
+                  return createData(
+                    restaurant_name,
+                    orderText,
+                    price,
+                    date,
+                    status,
+                    restaurant_id,
+                    order_id
+                  );
+                });
+          
+                setRows(newRows);
+              }
         }
-
-    }, [orderHistory]);
+      }, [orderHistory]);
 
     const handleRequestSort = (e, property) => {
         const isAsc = orderBy === property && order === "asc";
@@ -416,6 +493,34 @@ export default function Dashboard(){
     }
 
     return (
+        // <ThemeProvider theme={theme}>
+        //     <TableContainer component={Paper}>
+        //         <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        //             <TableHead>
+        //             <TableRow>
+        //                 <TableCell>Restaurant name</TableCell>
+        //                 <TableCell align="right">Order</TableCell>
+        //                 <TableCell align="right">Price</TableCell>
+        //                 <TableCell align="right">Date</TableCell>
+        //                 <TableCell align="right">Status</TableCell>
+        //             </TableRow>
+        //             </TableHead>
+        //             <TableBody>
+        //             {rows.map((row) => (
+        //                 <TableRow key={row.order_id}>
+        //                     <TableCell component="th" scope="row">
+        //                     {row.name}
+        //                     </TableCell>
+        //                     <TableCell align="right">{row.order}</TableCell>
+        //                     <TableCell align="right">{row.price}</TableCell>
+        //                     <TableCell align="right">{row.date}</TableCell>
+        //                     <TableCell align="right">{row.status}</TableCell>
+        //                 </TableRow>
+        //                 ))}
+        //             </TableBody>
+        //         </Table>
+        //     </TableContainer>
+        // </ThemeProvider>
         <ThemeProvider theme={theme}>
             <div className="dashboard-back">
                 <HeaderCustomer />
@@ -456,7 +561,45 @@ export default function Dashboard(){
                             >
                                 Order History
                             </Typography>
-                            <TableContainer>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                    <TableRow>
+                                        <TableCell>Restaurant name</TableCell>
+                                        <TableCell align="left">Order</TableCell>
+                                        <TableCell align="left">Price</TableCell>
+                                        <TableCell align="left">Date</TableCell>
+                                        <TableCell align="left">Status</TableCell>
+                                    </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                    {rows.map((row) => (
+                                        <TableRow key={row.order_id}
+                                            sx={{ cursor: row.status === 'Completed' ? 'pointer' : 'default',}}
+                                            tabIndex={-1}
+                                            style={{backgroundColor: getRowColor(row.status)}}
+                                            onClick={() => handleRowClick(row)}
+                                        >
+                                            <TableCell component="th" scope="row">
+                                            {row.name}
+                                            </TableCell>
+                                            <TableCell align="left">{row.order}</TableCell>
+                                            <TableCell align="left">{row.price}</TableCell>
+                                            <TableCell align="left">{row.date}</TableCell>
+                                            <TableCell align="left">
+                                                {row.status}
+                                                {showCancelIcon(row.status) && 
+                                                    <IconButton onClick={() => handleCancleOrdering(row.order_id, row.restaurant_id)} title="Cancel order">
+                                                        <ClearIcon style={{color:'red'}}/>
+                                                    </IconButton>
+                                                }
+                                            </TableCell>
+                                        </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            {/* <TableContainer>
                                 <Table
                                     aria-labelledby="OrderTable"
                                 >
@@ -511,8 +654,8 @@ export default function Dashboard(){
                                         )}
                                     </TableBody>
                                 </Table>
-                            </TableContainer>
-                            <TablePagination 
+                            </TableContainer> */}
+                            {/* <TablePagination 
                                 rowsPerPageOptions={[5, 10, 15]}
                                 component="div"
                                 count={rows.length}
@@ -520,7 +663,7 @@ export default function Dashboard(){
                                 page={page}
                                 onPageChange={handleChangePage}
                                 onRowsPerPageChange={handleChangeRowsPerPage}    
-                            />
+                            /> */}
                         </Box>
                     </Grid>
                 </Grid>
@@ -545,7 +688,7 @@ export default function Dashboard(){
                             Close
                         </Button>
                         <Button variant="contained" className='dashboard-btn-submit' onClick={handleAdd}>
-                            Sublmit
+                            Submit
                         </Button>
                     </Stack>
                     </Box>
