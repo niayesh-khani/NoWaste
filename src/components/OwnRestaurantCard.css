@@ -12,6 +12,7 @@
 }
 .homepage-restaurant-card-restaurant:hover {
     transform: scale(1.05);
+    transition-duration: 0.5s;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(187, 32, 32, 0.585) 0px 8px 16px -8px !
 }  
 
@@ -34,7 +35,7 @@
 
 .delete-icons-card-restaurant-homepage {
     color: red !important;
-    /* margin-left: 70px !important; */
+    margin-left: -20px !important;
     display: flex !important;
 }
 /* .delete-icons-card-restaurant-homepage:hover {
@@ -42,7 +43,7 @@
 } */
 
 .edit-icons-card-restaurant-homepage {
-    /* margin-left: 110px !important; */
+    margin-left: 11px !important;
     margin-bottom: -15px !important;
     display: flex !important;
     color: green !important;
