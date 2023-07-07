@@ -21,6 +21,7 @@ import HomepageRestaurant from './pages/HomepageRestaurant';
 import EditProfileManager from './pages/EditProfileManager';
 import Dashboard from './components/Dashboard/Dashboard';
 import Map from './components/Map/Map';
+import Chat from './pages/RestaurantChats';
 import AboutUs from './pages/AboutUs';
 
 
@@ -92,6 +93,9 @@ function App() {
           </Route>
           <Route path="/AboutUs">
             <AboutUs />
+          </Route>
+          <Route path="/chats">
+            <Chat />
           </Route>
       </Router>
     //   )}
