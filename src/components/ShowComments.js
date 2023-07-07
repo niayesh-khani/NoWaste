@@ -10,6 +10,7 @@ import { deepOrange, deepPurple,grey } from '@mui/material/colors';
 import Stack from '@mui/material/Stack';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 const theme = createTheme({
     palette: {
@@ -38,10 +39,12 @@ export default function ShowComments() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [comments, setComments] = useState([]); 
-    const id=localStorage.getItem("restaurantId");
+    const {id} = useParams(); 
+    // console.log("restaurantId "+ id);
 
     const userId = localStorage.getItem("id");
     const [text, setText] = useState('');
+    const token = localStorage.getItem('token');
     const handleAddtext = (e) => {
         setText(e.target.value);
     }
@@ -62,7 +65,13 @@ export default function ShowComments() {
         });    
     }
     useEffect(()=>{
-        axios.get(`http://5.34.195.16/restaurant/comment/restaurant_id/${id}`)
+        axios.get(`http://5.34.195.16/restaurant/comment/restaurant_id/${id}`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
             .then((response) => {
                 setComments(response.data);
                 console.log("salam")
@@ -96,24 +105,32 @@ export default function ShowComments() {
                         <h2 className='title-show-comments'>Users Comments</h2>
 
                         <div className="comment-details-div">
-                        
-                            {comments && comments.map((res,index)=>(
+                            {comments && comments.length > 0 ? (
                                 <div>
-                                    <Stack direction="row" spacing={2} >
-                                        <Avatar sx={{ bgcolor: grey[900] }} className='comment-avatar'>{res.writer_username[0]}</Avatar>
-                                        <Stack direction="column" spacing={2} >
-                                            <Typography variant="h6" className='comment-stack'>
-                                                {res.writer_username}
-                                            </Typography>
-                                            <h8 className='comment-date'>{res.created_at_date}</h8>
+                                    {comments.map((res,index)=>(
+                                    <div>
+                                        <Stack direction="row" spacing={2} >
+                                            <Avatar sx={{ bgcolor: grey[900] }} className='comment-avatar'>{res.writer_username[0]}</Avatar>
+                                            <Stack direction="column" spacing={2} >
+                                                <Typography variant="h6" className='comment-stack'>
+                                                    {res.writer_username}
+                                                </Typography>
+                                                <h8 className='comment-date'>{res.created_at_date}</h8>
+                                            </Stack>
                                         </Stack>
-                                    </Stack>
-                                    <Typography className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
-                                        {res.text}
-                                    </Typography>
-                                    <hr className='comment-hr'></hr>
+                                        <Typography className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
+                                            {res.text}
+                                        </Typography>
+                                        <hr className='comment-hr'></hr>
+                                    </div>
+                                    ))}
                                 </div>
-                            ))}
+                                ) :
+                                (
+                                    <div className="no-comment-message-container">
+                                    <h2 className="no-comment-message">No comment is available.</h2>
+                                    </div>
+                                )}
                         </div>
                         <Button 
                             onClick={handleClose} 

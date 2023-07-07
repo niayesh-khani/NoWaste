@@ -161,4 +161,6 @@
     
 }    
 
-
+.food-disabled {
+    cursor: default;
+}

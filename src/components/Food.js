@@ -15,9 +15,9 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { styled} from '@mui/material/styles';
 import './Food.css';
 import axios from 'axios';
+import { Button } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import { Chip, Divider, Grid } from '@mui/material';
-import { Stack } from 'react-bootstrap';
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -54,10 +54,14 @@ const Food = (props) => {
     }
     // console.log("user id",userid);
     // console.log("res id",resid);
-    // console.log("food_id", food.id);
+    // console.log("food_id", food.id);      
     const [remainder, setRemainder] = React.useState('');
     React.useEffect(() => {
-        setRemainder(food.remainder);
+        if(food.remainder === 0)
+            setRemainder('there is no food');
+        else    
+            setRemainder(food.remainder);
+        
     }, []);
 
 
@@ -76,20 +80,23 @@ const Food = (props) => {
             setRemainder(response.data.new_remainder);
             // console.log("new_wallet_balance",response.data.new_wallet_balance);
             // localStorage.setItem('wallet_balance', response.data.new_wallet_balance);
+            
         })
         .catch((error) => {
             console.log(error.response);
         });
         console.log("remove2");
         if (count > 0)
-        {
-            setCount(count - 1);
-        }
+            {
+                setCount(count - 1);
+                // setCount(response.data.quantity);
+            }
     };  
 
     const handleAddToCartClick2 = () => {
+        console.log("food id", food.id);
         axios.get("http://5.34.195.16/restaurant/restaurant_view/"+ resid + "/" + userid + "/order/add_to_order/" + food.id + "/",
-        //http://5.34.195.16/restaurant/restaurant_view/1/2/order/add_to_order/1/
+        //http://5.34.195.16/restaurant/restaurant_view/1/5/order/add_to_order/2/
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -102,15 +109,17 @@ const Food = (props) => {
             setRemainder(response.data.new_remainder);
             // console.log("new_wallet_balance",response.data.new_wallet_balance); 
             // localStorage.setItem('wallet_balance', response.data.new_wallet_balance);
+            
         })
         .catch((error) => {
             console.log(error.response);
         });
         console.log("add2");
-        console.log(count);
-        var tmp = parseInt(count) + 1
-        console.log(tmp);
-        setCount(tmp);
+        if (remainder > 0)
+            {
+                setCount(parseInt(count) + 1);
+                // setCount(response.data.quantity);
+            }
     };  
 
     // const handleAddToCartClick = () => {
@@ -221,7 +230,7 @@ const Food = (props) => {
                     <CardContent sx={{ height: 25}}>
                         <Typography gutterBottom className='food-name-restaurant-view'>{food.name}</Typography>
                         <Typography variant="body2" color="text.secondary">{food.ingredients}</Typography>
-                        <Typography variant="body2" color="#e74c3c">number remaining: {remainder}</Typography>
+                        <Typography variant="body2" color="#ffa600">remaining: {remainder}</Typography>
 
                         {/* <hr className='food-hr'/> */}
                     </CardContent>
@@ -231,10 +240,11 @@ const Food = (props) => {
                         <Grid item>
                             <Typography className='food-price'>${parseInt(food.price)}</Typography>
                         </Grid>
+                        
                         <Grid item lg={5} md={5} sm={5} className='count-buttons'>
-                            <button className='button__wrapper' onClick={handleRemoveFromCartClick2}>-</button>
+                            <button className='button__wrapper'  onClick={handleRemoveFromCartClick2} >-</button>
                             <h5 className="food-h5" onChange={handleChange}>{count}</h5>
-                            <button className='button__wrapper' onClick={handleAddToCartClick2}>+</button>
+                            <button className={`button__wrapper ${remainder === 'there is no food' ? 'food-disabled' : ''}`} onClick={handleAddToCartClick2} disabled={remainder === 'there is no food'}>+</button>
                         </Grid>
                     </Grid>
                 </CardActions>

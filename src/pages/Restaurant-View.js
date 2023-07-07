@@ -18,7 +18,7 @@ import { Button } from '@material-ui/core';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {useHistory } from "react-router-dom";
-import Header from '../components/Header';
+import HeaderCustomer from '../components/HeaderCustomer';
 import Slide from '@mui/material/Slide';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import PropTypes from 'prop-types';
@@ -37,6 +37,36 @@ import { FaRegClipboard } from 'react-icons/fa';
 import DoneIcon from '@mui/icons-material/Done';
 import { add } from 'date-fns';
 import Chat from '../components/Chat';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import Modal from '@mui/material/Modal';
+import Stack from '@mui/material/Stack';
+import { createTheme } from '@material-ui/core';
+import { Avatar, Grid, ThemeProvider } from '@mui/material';
+import { deepOrange, deepPurple,grey } from '@mui/material/colors';
+
+
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#dd9d46',
+        },
+        secondary: {
+            main: '#a44704',
+        }
+    },
+})    
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
+
 
 const Search = MU.styled('div')(({ theme }) => ({
     position: 'relative',
@@ -104,6 +134,7 @@ const RestaurantView = (props: Props) =>
     const [restaurant, setRestaurant] = React.useState('');
     const [menu, setMenu] = React.useState([]);
     const [nameRestaurant, setNameRestaurant] = React.useState('');
+    const [date_of_res, setDate_Of_Res] = React.useState([])
     const history = useHistory();
     const token = localStorage.getItem('token');
     const [email, setEmail] = React.useState("");
@@ -154,6 +185,8 @@ const RestaurantView = (props: Props) =>
             setRestaurant(response.data);
             setNameRestaurant(response.data.name);
             setRateValue(response.data.rate);
+            setDate_Of_Res(response.data.date_of_establishment.split('-'));
+            console.log("Dateeeeeeee",date_of_res);
             const is_in_list = list_fav.includes(response.data.name);
             is_in_list ? (setColor(!color)) : setColor(color);
           })
@@ -244,9 +277,60 @@ const RestaurantView = (props: Props) =>
         })
     })
 
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const [comments, setComments] = useState([]); 
+    // const {id} = useParams(); 
+    // console.log("restaurantId "+ id);
+
+    const userId = localStorage.getItem("id");
+    const [text, setText] = useState('');
+    // const token = localStorage.getItem('token');
+    const handleAddtext = (e) => {
+        setText(e.target.value);
+    }
+    const handleAdd = (e) => {
+        e.preventDefault();
+        const userData = {
+            text:text
+        }
+        axios.post(`http://5.34.195.16/restaurant/comment/user_id/${userId}/restaurant_id/${id}`, userData, {headers:{"Content-Type" : "application/json"}})
+        .then((response) => {
+            console.log(response);
+            window.location.reload(false);
+        })
+        .catch((error) => {
+            if (error.response) {
+                console.log(error.response);
+            } 
+        });    
+    }
+    useEffect(()=>{
+        axios.get(`http://5.34.195.16/restaurant/comment/restaurant_id/${id}`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
+            .then((response) => {
+                setComments(response.data);
+                console.log("salam")
+                console.log(response.data);
+            })
+            .catch((error) => {
+            console.log(error.response);
+            });
+    },[])
+
+    const handlePayment = () => {
+        history.push('/order-page/' + id);
+    };
+    
     return (
     <div className='myback'>
-        <Header />
+        <HeaderCustomer />
         <MU.Grid container spacing={2} sx={{
             paddingTop:"2%",
         }}>
@@ -261,7 +345,7 @@ const RestaurantView = (props: Props) =>
                                         </MU.Avatar>
                                     }
                                     title= {restaurant.name}
-                                    subheader={restaurant.date_of_establishment}
+                                    subheader={date_of_res[0]}
                                     >
                             </MU.CardHeader>
                         </MU.Grid>
@@ -289,6 +373,59 @@ const RestaurantView = (props: Props) =>
                     <MU.Typography variant="body2" className='Body2-restaurant-view' color="text.secondary">
                         {restaurant.description}
                     </MU.Typography>
+                    <Typography className='see-comment' onClick={handleOpen} style={{ display: 'flex', alignItems: 'center' }}>
+                        See Comments 
+                        <ChevronRightIcon style={{ marginLeft: '1px' }} />
+                    </Typography>
+                    <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        
+                        <Box sx={style} className="comment-box">
+                            <h2 className='title-show-comments'>Comments</h2>
+
+                            <div className="comment-details-div">
+                                {comments && comments.length > 0 ? (
+                                    <div>
+                                        {comments.map((res,index)=>(
+                                        <div>
+                                            <Stack direction="row" spacing={2} >
+                                                <Avatar sx={{ bgcolor: grey[900] }} className='comment-avatar'>{res.writer_username[0]}</Avatar>
+                                                <Stack direction="column" spacing={2} >
+                                                    <Typography variant="h6" className='comment-stack'>
+                                                        {res.writer_username}
+                                                    </Typography>
+                                                    <h8 className='comment-date'>{res.created_at_date}</h8>
+                                                </Stack>
+                                            </Stack>
+                                            <Typography className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
+                                                {res.text}
+                                            </Typography>
+                                            <hr className='comment-hr'></hr>
+                                        </div>
+                                        ))}
+                                    </div>
+                                    ) :
+                                    (
+                                        <div className="no-comment-message-container">
+                                        <h3 className="no-comment-message">No comment is available.</h3>
+                                        </div>
+                                    )}
+                            </div>
+                            <Button 
+                                onClick={handleClose} 
+                                variant="contained"
+                                className='close-comment'
+                            >
+                                Close
+                            </Button>
+                        </Box>
+                        
+                    </Modal>
+
                         </MU.CardContent>
                         <MU.CardActions disableSpacing>
                             <MU.Rating name="read-only" value={rateValue} precision={0.5} readOnly />
@@ -328,25 +465,39 @@ const RestaurantView = (props: Props) =>
                         </MU.CardContent>
                     </MU.Collapse>
                 </MU.Card>
+                <Button 
+                    onClick={handlePayment} 
+                    variant="contained"
+                    id='comment-submit'
+                >
+                    Payment
+                </Button>
 
-                <ShowComments />
+                {/* <ShowComments /> */}
 
 
             </MU.Grid>
             
             <MU.Grid item md={9}>
+                {menu && menu.length > 0 ? (
                 <Masonry
                     breakpointCols={breakpoints}
                     className="my-masonry-grid"
                     columnClassName="my-masonry-grid_column"
             >
-                {menu &&
-                    menu.map((food, index) => (
+                {menu.map((food, index) => (
                         <div key={index} className="my-masonry-grid_column" style={{ width: index % 3 === 0 ? '100%' : '' }}>
                             <Food food={food} />
                         </div>
                     ))}
             </Masonry>
+            ) : (
+                // <p className="no-menu-message">No menu available.</p>
+                <div className="no-menu-message-container">
+                <img src='/oops!.png' alt="No menu available" className="food-image-restaurant-view" />
+                <h2 className="no-menu-message">No menu is available.</h2>
+                </div>
+            )}
             </MU.Grid>
             <BackToTop/>
         </MU.Grid>
