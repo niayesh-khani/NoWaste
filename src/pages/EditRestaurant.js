@@ -330,9 +330,9 @@ function EditRestaurant(props){
 
     useEffect(() => {
         const arr = data?.address?data?.address.split(","):"";
-        setCountry(arr[0])
+        setCountry(arr[2])
         setCity(arr[1]);
-        setAddress(arr[2]);
+        setAddress(arr[0]);
     }, [data.address]);
 
     useEffect(() => {
@@ -496,7 +496,7 @@ function EditRestaurant(props){
             console.log(response);
             console.log("succesfully updated");
             // window.location.reload(false);
-            setAlertMessage("Rstaurant details updated successfully!");
+            setAlertMessage("Restaurant details updated successfully!");
             setAlertSeverity("success");
         })
         .catch((error) => {
@@ -807,6 +807,7 @@ function EditRestaurant(props){
                                                 variant="outlined"
                                                 color="secondary"
                                                 value={country}
+                                                InputLabelProps={{ shrink: true }}
                                                 style={{width: '100%'}}
                                                 onChange={handleCountry}
                                                 select
@@ -834,6 +835,7 @@ function EditRestaurant(props){
                                                 variant="outlined"
                                                 color="secondary"
                                                 value={city}
+                                                InputLabelProps={{ shrink: true }}
                                                 style={{width: '100%'}}
                                                 onChange={handleCity}
                                                 select
