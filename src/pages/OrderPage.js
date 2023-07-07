@@ -62,6 +62,7 @@ export default function OrderPage(){
         )
         .then((response) => {
             console.log("got Lat and Lng!");
+            console.log(response.data);
             const data = response.data;
             console.log(data);
             setLat(data.lat);
@@ -290,7 +291,7 @@ export default function OrderPage(){
                                         Change Address
                                     </Button>
                                         <Modal open={showMap} onClose={handleCloseMap}>
-                                            <Map/>
+                                            <Map location = {mylocation}/>
                                         </Modal>
                                 </Grid>
                             </Grid>
