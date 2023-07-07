@@ -623,7 +623,7 @@ const HomepageCustomer = () => {
                                         >
                                             <MenuItem onClick={handleClickNewest} value="Item1">Newest</MenuItem>
                                             <MenuItem onClick={handleClickLatest} value="Item2">Latest</MenuItem>
-                                            <MenuItem onClick={handleClickNearest} value="Item4">Nearest</MenuItem>
+                                            <MenuItem onClick={handleClickNearest} value="Item5">Nearest</MenuItem>
                                             <MenuItem onClick={handleClickRate} value="Item3">Maximum rate</MenuItem>
                                             <MenuItem onClick={handleClickDiscount} value="Item4">Maximum discount</MenuItem>
                                         </TextField>
