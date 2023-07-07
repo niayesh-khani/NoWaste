@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import './EditProfile.css';
-import Header from '../components/Header';
+import HeaderCustomer from '../components/HeaderCustomer';
 import './Login-Signup.css';
 import './Restaurant-View.css';
 // import PhoneInput from 'react-phone-input-2';
@@ -93,6 +93,11 @@ function Edit(props){
     const [validInputs, setValidInputs] = useState(false);
     const [countries, setCountries] = useState([]);
     const [cities, setCities] = useState();
+    const [lat, setLat] = useState();
+    const [lng, setLng] = useState();
+    let role = localStorage.getItem("role");
+    role = role.replace(/"/g, "");
+    const mylocation = [lat, lng, parseInt(id), role];
 
     const handleFullname = (e) => {
         setFullname(e.target.value);
@@ -116,6 +121,11 @@ function Edit(props){
             localStorage.setItem('avatarColor', color);
         }
     }, [])
+    
+    useEffect(() => {
+        localStorage.setItem('lat', lat);
+        localStorage.setItem('long', lng);
+    }, [lat,lng])
 
     const handlePhoneChange = (value) => {
         setUpdate({...update, phone_number : value});
@@ -161,7 +171,7 @@ function Edit(props){
         setNewPasswordMatch(newPassword === confirmPassword);
     }, [newPassword, confirmPassword]);
     useEffect(() => {
-        const temp = country + '$' + city + '$' + address;
+        const temp = address + ',' + city + ',' + country;
         setUpdate({...update, address : temp})
     }, [country, city, address])
 
@@ -177,7 +187,7 @@ function Edit(props){
         )
         .then((response) => {
             console.log(response);
-            setData(response.data)
+            setData(response.data);
         })
         .catch((error) => console.log(error));
     },[]);
@@ -195,6 +205,28 @@ function Edit(props){
         })
         .catch((error) => console.log(error));
     },[]);
+
+    //getting the lt and lng of map
+    useEffect(() =>{
+        axios.get(
+            `http://5.34.195.16/user/${id}/lat_long/` , 
+            {headers :{
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "GET,POST",
+                'Authorization' : "Token " + token.slice(1,-1)
+            }}
+        )
+        .then((response) => {
+            console.log("got Lat and Lng!");
+            const data = response.data;
+            console.log(data);
+            setLat(data.lat);
+            setLng(data.lon);
+        })
+        .catch((error) => console.log(error));
+    },[]);
+
     useEffect(() =>{
         const userData = {
             name: country
@@ -227,10 +259,10 @@ function Edit(props){
     }, [data.date_of_birth]);
 
     useEffect(() => {
-        const arr = data?.address?data?.address.split("$"):"";
-        setCountry(arr[0])
+        const arr = data?.address?data?.address.split(","):"";
+        setCountry(arr[2])
         setCity(arr[1]);
-        setAddress(arr[2]);
+        setAddress(arr[0]);
     }, [data.address]);
 
     const history = useHistory();
@@ -354,6 +386,9 @@ function Edit(props){
     const handleOpenMap = () => {
         setShowMap(true);
         setBlurBackground(true);
+        console.log(mylocation);
+        console.log(id);
+        console.log(role);
       };
           
     const handleCloseMap = () => {
@@ -364,7 +399,7 @@ function Edit(props){
     return(
         <ThemeProvider theme={theme}>
             <div className="edit-back">
-                <Header/>
+                <HeaderCustomer/>
                 <div className={`container ${blurBackground ? 'blur-background' : ''}`}>
                     <Grid container spacing={2} className="edit-grid">
                         <Grid item md={3} sm={12} xs={12}>
@@ -590,7 +625,8 @@ function Edit(props){
                                         variant="outlined"
                                         color="secondary"
                                         multiline
-                                        value={address}
+                                        value = {address?address:""}
+
                                         onChange={handleAddress}
                                         InputProps={{
                                             endAdornment: (
@@ -604,7 +640,7 @@ function Edit(props){
         
                                     />
                                     <Modal open={showMap} onClose={handleCloseMap}>
-                                        <Map/>
+                                        <Map location = {mylocation}/>
                                     </Modal>
                                 </FormControl>
                                     {show && <>
