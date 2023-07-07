@@ -5,6 +5,9 @@ import 'leaflet-defaulticon-compatibility';
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
 import { Button } from '@material-ui/core';
+import { Alert, AlertTitle } from "@mui/material";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 
 function Map(props) {
@@ -15,6 +18,39 @@ function Map(props) {
   const id = props.location[2];
   const type = props.location[3];
   const token = localStorage.getItem('token');
+  const [open, setOpen] = useState(null);
+  const [alertSeverity, setAlertSeverity] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+  const [openNetwork, setOpenNetwork] = useState(null);
+
+  const handleClose = () => {
+    setOpen(false);
+  }
+
+  const handleCloseNetwork = () => {
+    setOpenNetwork(false);
+  }
+  useEffect(() => {
+    if(alertMessage !== "" && alertSeverity !== ""){
+        if(alertSeverity === "success"){
+            toast.success(alertMessage, {
+                        position: toast.POSITION.TOP_CENTER,
+                        title: "Success",
+                        autoClose: 7000,
+                        pauseOnHover: true,
+                    });
+        } else {
+            toast.error(alertMessage, {
+                        position: toast.POSITION.TOP_CENTER,
+                        title: "Error",
+                        autoClose: 3000,
+                        pauseOnHover: true
+                    });
+        }
+        setAlertMessage("");
+        setAlertSeverity("");
+    }
+  }, [alertMessage, alertSeverity]);
 
   // Update the new location
   const handleSaveClick = () => {
@@ -43,8 +79,12 @@ function Map(props) {
         })
         .then((response) => {
           console.log(response);
+          setAlertMessage("Location saved successfully.");
+          setAlertSeverity("success");
         })
         .catch((error) => {
+          setAlertMessage("An error occured. Please try agian later.");
+          setAlertSeverity("error");
           if (error.response) {
             console.log(error.response);
           }
@@ -99,10 +139,15 @@ function Map(props) {
 
   return (
     <div className="map-container">
+      <div >
+        <ToastContainer />
+      </div>
       <div ref={mapRef} className="leaflet-container" />
       <div className="edit-location-button">
         <Button className='confirm-btn' onClick={handleSaveClick}>Confirm</Button>
       </div>
+      {open && <Alert severity="error" open={open} onClose={handleClose} className="alert-error" variant="outlined"> An error occurde!</Alert>}
+      {openNetwork && <Alert severity="error" open={openNetwork} onClose={handleCloseNetwork} variant="outlined" className="alert-error filed"> Network error! </Alert>} 
     </div>
   );
 }
