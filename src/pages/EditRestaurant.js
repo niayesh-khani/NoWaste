@@ -304,7 +304,7 @@ function EditRestaurant(props){
     }, [newPassword, confirmPassword]);
 
     useEffect(() => {
-        const temp = country + ',' + city + ',' + address;
+        const temp = address + ',' + city + ',' + country;
         setUpdate({...update, address : temp})
     }, [country, city, address]);
 
@@ -330,9 +330,9 @@ function EditRestaurant(props){
 
     useEffect(() => {
         const arr = data?.address?data?.address.split(","):"";
-        setCountry(arr[0])
+        setCountry(arr[2]);
         setCity(arr[1]);
-        setAddress(arr[2]);
+        setAddress(arr[0]);
     }, [data.address]);
 
     useEffect(() => {
@@ -653,8 +653,8 @@ function EditRestaurant(props){
     const handleOpenMap = () => {
         setShowMap(true);
         setBlurBackground(true);
-      };
-          
+    };
+
     const handleCloseMap = () => {
         setShowMap(false);
         setBlurBackground(false);
