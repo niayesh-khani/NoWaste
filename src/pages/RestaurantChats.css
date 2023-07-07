@@ -23,7 +23,7 @@
     margin-top: 1%;
     margin-bottom: -1%;
     margin-left: -1.3% !important;
-    background-color: rgb(240, 204, 151);
+    background-color: rgba(166, 164, 160 ,1);
     /* padding-top: 10px !important;
     margin-bottom: -10px !important; */
 }
@@ -38,4 +38,9 @@
 }
 #no-current-chat{
     height: 100% !important;
+}
+
+.restaurant-chats-chats{
+    margin-left: -29% !important;
+    font-family: 'Montserrat', sans-serif !important;
 }

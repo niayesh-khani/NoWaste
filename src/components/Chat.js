@@ -261,7 +261,7 @@ const Chat = (props) => {
                                         ))}   
                                 </ReactScrollToBottom >
                                 <Grid className="inputBox">
-                                    <textarea  onChange={handleMessage} value={input} id="chatInput" rows={1}/>
+                                    <textarea  onChange={handleMessage} value={input} id="chatInput" rows={1} placeholder="Type a message"/>
                                     <Button 
                                     // disabled={input.length < 1} 
                                         onClick={handleSend}>

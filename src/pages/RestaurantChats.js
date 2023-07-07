@@ -3,6 +3,7 @@ import { Box, TextField, Button, Typography, Avatar, Grid, Paper } from "@mui/ma
 import SendIcon from "@mui/icons-material/Send";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Header from "../components/Header";
+import HeaderCustomer from "../components/HeaderCustomer";
 import ReactScrollToBottom from "react-scroll-to-bottom";
 import './RestaurantChats.css';
 import '../components/Chat.css';
@@ -214,11 +215,11 @@ const Chat = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <Header />
+            <HeaderCustomer />
             <Grid container spacing={2} backgroundColor="rgb(239, 235, 229)" >
                 <Grid item md={3} sm={2} >
-                    <Box height='8vh' style={{backgroundColor: 'white',display: 'flex', alignItems: 'left', justifyContent: 'left', paddingleft: '30px'}}>
-                        <Typography variant="h4" style={{marginLeft: '10px', marginBottom: '-5px', marginTop: '5px'}}>Chats</Typography>
+                    <Box height='8vh' style={{backgroundColor: '#bdbab6',display: 'flex', alignItems: 'center', justifyContent: 'center', paddingleft: '30px'}}>
+                        <Typography variant="h4" className='restaurant-chats-chats'>Chats</Typography>
                     </Box>
                     <Box style={{height: '81vh', overflowY: 'scroll', marginTop: '10px'}}>
                         {users.map((user, index) => (
