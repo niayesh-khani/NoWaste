@@ -48,7 +48,7 @@ const Food = (props) => {
     const token = localStorage.getItem('token');
     const order_id = localStorage.getItem("order_id");
     // console.log("my id",order_id);
-    const [resid, setResid] = localStorage.getItem("restaurantId");
+    const resid = food.restaurant_id;
     const handleChange = (e) => {
         setCount(e.target.value);
     }
