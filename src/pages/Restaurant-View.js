@@ -295,43 +295,44 @@ const RestaurantView = (props: Props) =>
     // const {id} = useParams(); 
     // console.log("restaurantId "+ id);
 
-    const userId = localStorage.getItem("id");
-    const [text, setText] = useState('');
+    // const userId = localStorage.getItem("id");
+    // const [text, setText] = useState('');
     // const token = localStorage.getItem('token');
-    const handleAddtext = (e) => {
-        setText(e.target.value);
-    }
-    const handleAdd = (e) => {
-        e.preventDefault();
-        const userData = {
-            text:text
-        }
-        axios.post(`http://5.34.195.16/restaurant/comment/user_id/${userId}/restaurant_id/${id}`, userData, {headers:{"Content-Type" : "application/json"}})
-        .then((response) => {
-            console.log(response);
-            window.location.reload(false);
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.log(error.response);
-            } 
-        });    
-    }
+    // const handleAddtext = (e) => {
+    //     setText(e.target.value);
+    // }
+    // const handleAdd = (e) => {
+    //     e.preventDefault();
+    //     const userData = {
+    //         text:text
+    //     }
+    //     axios.post(`http://5.34.195.16/restaurant/comment/user_id/${userId}/restaurant_id/${id}`, userData, {headers:{"Content-Type" : "application/json"}})
+    //     .then((response) => {
+    //         console.log(response);
+    //         window.location.reload(false);
+    //     })
+    //     .catch((error) => {
+    //         if (error.response) {
+    //             console.log(error.response);
+    //         } 
+    //     });    
+    // }
     useEffect(()=>{
         axios.get(`http://5.34.195.16/restaurant/restaurant_id/${id}/comments`,
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
-            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            "Access-Control-Allow-Methods" : "GET,PUT,PATCH",
             'Authorization' : "Token " + token.slice(1,-1)   
         }})
             .then((response) => {
                 setComments(response.data);
-                console.log("salam")
+                console.log("commient1");
                 console.log(response.data);
             })
             .catch((error) => {
             console.log(error.response);
+            console.log("commient2");
             });
     },[])
 
