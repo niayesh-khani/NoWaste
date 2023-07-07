@@ -43,7 +43,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 26%;
-    height: 40%;
+    height: 45%;
     background-color: #f8f8f8;
     border-radius: 5%;
     box-shadow: 24;
@@ -125,7 +125,7 @@ h2{
 #payment-submit {
     margin-top: 6%;
     margin-bottom: 10%;
-    width: 95%;
+    width: 96%;
     text-transform:none;
     font-size: 100%;
     font-family: 'Montserrat', sans-serif !important;
