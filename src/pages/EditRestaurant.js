@@ -304,7 +304,7 @@ function EditRestaurant(props){
     }, [newPassword, confirmPassword]);
 
     useEffect(() => {
-        const temp = address + ',' + city + ',' + country;
+        const temp = country + ',' + city + ',' + address;
         setUpdate({...update, address : temp})
     }, [country, city, address]);
 
@@ -330,7 +330,7 @@ function EditRestaurant(props){
 
     useEffect(() => {
         const arr = data?.address?data?.address.split(","):"";
-        setCountry(arr[2]);
+        setCountry(arr[2])
         setCity(arr[1]);
         setAddress(arr[0]);
     }, [data.address]);
@@ -496,7 +496,7 @@ function EditRestaurant(props){
             console.log(response);
             console.log("succesfully updated");
             // window.location.reload(false);
-            setAlertMessage("Rstaurant details updated successfully!");
+            setAlertMessage("Restaurant details updated successfully!");
             setAlertSeverity("success");
         })
         .catch((error) => {
@@ -653,8 +653,8 @@ function EditRestaurant(props){
     const handleOpenMap = () => {
         setShowMap(true);
         setBlurBackground(true);
-    };
-
+      };
+          
     const handleCloseMap = () => {
         setShowMap(false);
         setBlurBackground(false);
@@ -807,6 +807,7 @@ function EditRestaurant(props){
                                                 variant="outlined"
                                                 color="secondary"
                                                 value={country}
+                                                InputLabelProps={{ shrink: true }}
                                                 style={{width: '100%'}}
                                                 onChange={handleCountry}
                                                 select
@@ -834,6 +835,7 @@ function EditRestaurant(props){
                                                 variant="outlined"
                                                 color="secondary"
                                                 value={city}
+                                                InputLabelProps={{ shrink: true }}
                                                 style={{width: '100%'}}
                                                 onChange={handleCity}
                                                 select
