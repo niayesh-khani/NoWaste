@@ -30,24 +30,45 @@ function Map(props) {
 
       const url = type === "customer"
         ? `http://5.34.195.16/user/${id}/lat_long/`
-        : `http://5.34.195.16/restaurant/${id}/lat_long/`;
-
-      axios.patch(url, userData, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET,PATCH',
-          'Authorization': 'Token ' + token.slice(1, -1)
-        }
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        if (error.response) {
-          console.log(error.response);
-        }
-      });
+        : `http://5.34.195.16/restaurant/${id}/lat_long`;
+      if(type === "customer")
+      {
+        axios.patch(url, userData, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET,PATCH',
+            'Authorization': 'Token ' + token.slice(1, -1)
+          }
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          if (error.response) {
+            console.log(error.response);
+          }
+        });
+      }
+      else
+      {
+        axios.put(url, userData, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET,PUT',
+            'Authorization': 'Token ' + token.slice(1, -1)
+          }
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          if (error.response) {
+            console.log(error.response);
+          }
+        });
+      }
     }
   };
 
