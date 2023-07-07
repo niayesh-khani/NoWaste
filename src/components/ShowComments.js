@@ -40,32 +40,33 @@ export default function ShowComments() {
     const handleClose = () => setOpen(false);
     const [comments, setComments] = useState([]); 
     const {id} = useParams(); 
-    // console.log("restaurantId "+ id);
-
-    const userId = localStorage.getItem("id");
-    const [text, setText] = useState('');
     const token = localStorage.getItem('token');
-    const handleAddtext = (e) => {
-        setText(e.target.value);
-    }
-    const handleAdd = (e) => {
-        e.preventDefault();
-        const userData = {
-            text:text
-        }
-        axios.post(`http://5.34.195.16/restaurant/comment/user_id/${userId}/restaurant_id/${id}`, userData, {headers:{"Content-Type" : "application/json"}})
-        .then((response) => {
-            console.log(response);
-            window.location.reload(false);
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.log(error.response);
-            } 
-        });    
-    }
+
+    // console.log("restaurantId "+ id);
+    // const userId = localStorage.getItem("id");
+    // const [text, setText] = useState('');
+    
+    // const handleAddtext = (e) => {
+    //     setText(e.target.value);
+    // }
+    // const handleAdd = (e) => {
+    //     e.preventDefault();
+    //     const userData = {
+    //         text:text
+    //     }
+    //     axios.post(`http://5.34.195.16/restaurant/comment/user_id/${userId}/restaurant_id/${id}`, userData, {headers:{"Content-Type" : "application/json"}})
+    //     .then((response) => {
+    //         console.log(response);
+    //         window.location.reload(false);
+    //     })
+    //     .catch((error) => {
+    //         if (error.response) {
+    //             console.log(error.response);
+    //         } 
+    //     });    
+    // }
     useEffect(()=>{
-        axios.get(`http://5.34.195.16/restaurant/comment/restaurant_id/${id}`,
+        axios.get(`http://5.34.195.16/restaurant/restaurant_id/${id}/comments`,
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",

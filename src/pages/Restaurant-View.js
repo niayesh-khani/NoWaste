@@ -141,6 +141,14 @@ const RestaurantView = (props: Props) =>
     const {id} = useParams();
     const [list_fav, setList_Fav] = useState(localStorage.getItem('list_of_favorites_res'));
     const customer_id = localStorage.getItem('id');
+    const [managerId,setManagerId] = useState('');
+
+    useEffect ( ()=>{
+        console.log("restaurant is :" + restaurant);
+        console.log("manager id is: ");
+        setManagerId(restaurant.manager_id);
+        console.log(restaurant.manager_id);
+    },[]);
 
     useEffect(() => {
         const email = JSON.parse(localStorage.getItem('email'));
@@ -181,8 +189,11 @@ const RestaurantView = (props: Props) =>
                 'Authorization' : "Token " + token.slice(1,-1)   
             }})
             .then((response) => {
+                console.log("res and managers are: ")
             console.log(response.data);
+            console.log(response.data.manager_id);
             setRestaurant(response.data);
+            setManagerId(response.data.manager_id);
             setNameRestaurant(response.data.name);
             setRateValue(response.data.rate);
             setDate_Of_Res(response.data.date_of_establishment.split('-'));
@@ -501,7 +512,7 @@ const RestaurantView = (props: Props) =>
             </MU.Grid>
             <BackToTop/>
         </MU.Grid>
-        <Chat restaurant={id} customer={customer_id} sender={customer_id}/>
+        <Chat reciever={managerId} sender={customer_id} restaurant={restaurant}/>
         <Footer/>
 
     </div>
