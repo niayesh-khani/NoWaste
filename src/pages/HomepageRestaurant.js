@@ -443,19 +443,19 @@ function HomepageRestaurant(props){
                             onChange={handleAddAddress}
                             multiline
                             className='add-restaurant-field'
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton title="choose location" style={{marginLeft:"28%"}} onClick={handleOpenMap}>
-                                            <TravelExploreIcon />
-                                        </IconButton>
-                                    </InputAdornment>
-                                )
-                            }}
+                            // InputProps={{
+                            //     endAdornment: (
+                            //         <InputAdornment position="end">
+                            //             <IconButton title="choose location" style={{marginLeft:"28%"}} onClick={handleOpenMap}>
+                            //                 <TravelExploreIcon />
+                            //             </IconButton>
+                            //         </InputAdornment>
+                            //     )
+                            // }}
                         /></form>
-                        <Modal open={showMap} onClose={handleCloseMap}>
+                        {/* <Modal open={showMap} onClose={handleCloseMap}>
                             <Map/>
-                        </Modal>
+                        </Modal> */}
                         <PhoneInput
                             label="Phone number"
                             defaultCountry="ir"
