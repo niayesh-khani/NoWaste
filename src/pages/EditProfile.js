@@ -171,7 +171,7 @@ function Edit(props){
         setNewPasswordMatch(newPassword === confirmPassword);
     }, [newPassword, confirmPassword]);
     useEffect(() => {
-        const temp = country + '$' + city + '$' + address;
+        const temp = address + ',' + city + ',' + country;
         setUpdate({...update, address : temp})
     }, [country, city, address])
 
@@ -259,10 +259,10 @@ function Edit(props){
     }, [data.date_of_birth]);
 
     useEffect(() => {
-        const arr = data?.address?data?.address.split("$"):"";
-        setCountry(arr[0])
+        const arr = data?.address?data?.address.split(","):"";
+        setCountry(arr[2])
         setCity(arr[1]);
-        setAddress(arr[2]);
+        setAddress(arr[0]);
     }, [data.address]);
 
     const history = useHistory();
