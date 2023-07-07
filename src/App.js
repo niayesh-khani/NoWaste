@@ -20,6 +20,7 @@ import EditRestaurant from './pages/EditRestaurant';
 import HomepageRestaurant from './pages/HomepageRestaurant';
 import EditProfileManager from './pages/EditProfileManager';
 import Dashboard from './components/Dashboard/Dashboard';
+import DashboardRestaurant from './components/Dashboard/DashboardRestaurant';
 import Map from './components/Map/Map';
 import Chat from './pages/RestaurantChats';
 import AboutUs from './pages/AboutUs';
@@ -90,6 +91,9 @@ function App() {
           </Route>
           <Route path="/dashboard">
             <Dashboard />
+          </Route>
+          <Route path = "/dashboard-restaurant">
+            <DashboardRestaurant />
           </Route>
           <Route path="/AboutUs">
             <AboutUs />
