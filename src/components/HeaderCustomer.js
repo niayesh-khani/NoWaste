@@ -330,7 +330,7 @@ const HeaderCustomer = React.memo(() => {
                                 </Stack>
                                 <div style={{ display: 'flex', alignItems: 'center', marginTop: '25px', marginLeft: '10px'}}>
                                 <button className='button_wallet' onClick={() => setSelectedAmount((prevAmount) => prevAmount - 1)} disabled={selectedAmount < 1}>-</button>
-                                <h3 style={{ margin: '0px', textAlign: 'center', minWidth: '290px' }}>{selectedAmount}$</h3>
+                                <h3 style={{ margin: '0px', textAlign: 'center', minWidth: '318px' }}>{selectedAmount}$</h3>
                                 <button className='button_wallet' onClick={() => setSelectedAmount((prevAmount) => prevAmount + 1)}>+</button>
                                 </div>
                                 <div style={{display: 'flex', justifyContent: 'center' , alignItems: 'center'}}>
