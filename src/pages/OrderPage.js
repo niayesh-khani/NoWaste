@@ -42,6 +42,33 @@ export default function OrderPage(){
     const [status, setStatus] = useState();
     const [orderId, setOrderId] = useState();
     const {IdOfRestaurant} = useParams();
+    const [lat, setLat] = useState();
+    const [lng, setLng] = useState();
+    let role = localStorage.getItem("role");
+    role = role.replace(/"/g, "");
+    const id = localStorage.getItem("id");
+    const mylocation = [lat, lng, parseInt(id), role];
+
+    //getting the lt and lng of map
+    useEffect(() =>{
+        axios.get(
+            `http://5.34.195.16/user/${id}/lat_long/` , 
+            {headers :{
+                'Content-Type' : 'application/json',
+                "Access-Control-Allow-Origin" : "*",
+                "Access-Control-Allow-Methods" : "GET,POST",
+                'Authorization' : "Token " + token.slice(1,-1)
+            }}
+        )
+        .then((response) => {
+            console.log("got Lat and Lng!");
+            const data = response.data;
+            console.log(data);
+            setLat(data.lat);
+            setLng(data.lon);
+        })
+        .catch((error) => console.log(error));
+    },[]);
 
 
     const handleCheckAdd = () => {
