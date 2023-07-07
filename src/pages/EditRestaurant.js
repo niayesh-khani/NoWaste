@@ -100,7 +100,7 @@ function EditRestaurant(props){
     const id = localStorage.getItem('id');
     const [data, setData] = useState('');
     const [city, setCity] = useState();
-    const [country, setCountry] = useState();
+    const [country, setCountry] = useState('');
     const [address, setAddress] = useState(' ');
     const [description, setDescription] = useState(" ");
     const [password, setPassword] = useState('');
@@ -283,6 +283,8 @@ function EditRestaurant(props){
     },[country]);
 
     const handleCity = (e) => {
+        console.log("line 286");
+        console.log(e.target.value);
         setCity(e.target.value);
     };
 
@@ -302,11 +304,6 @@ function EditRestaurant(props){
     useEffect(() => {
         setNewPasswordMatch(newPassword === confirmPassword);
     }, [newPassword, confirmPassword]);
-
-    useEffect(() => {
-        const temp = address + ',' + city + ',' + country;
-        setUpdate({...update, address : temp})
-    }, [country, city, address]);
 
     useEffect(() => {
         setFullname(data.name);
@@ -329,12 +326,28 @@ function EditRestaurant(props){
     }, [data.description]);
 
     useEffect(() => {
-        const arr = data?.address?data?.address.split(","):"";
-        setCountry(arr[2])
-        setCity(arr[1]);
-        setAddress(arr[0]);
+        console.log("addreess is : ");
+        console.log(data.address);
+        const arr = data?.address?data?.address.split(","):[];
+        console.log(arr[1]);
+        setCountry(arr[2] || '');
+        // setCity(arr[1] || '');
+        setAddress(arr[0] || '');
     }, [data.address]);
 
+    useEffect(() => {
+        const temp = address + ',' + city + ',' + country;
+        console.log("city is : ");
+        console.log(city);
+        console.log(temp);
+        setUpdate({...update, address : temp})
+    }, [country, city, address]);
+    useEffect(() => {
+        console.log("line 346"); 
+        const arr = data?.address?data?.address.split(",") : "";
+        console.log("City is: ", arr[1]);
+        setCity(arr[1] || "");
+    }, [data]);
     useEffect(() => {
         setFoodName(food.name);
     }, [food.name]);
