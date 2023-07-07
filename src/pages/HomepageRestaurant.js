@@ -541,6 +541,7 @@ function HomepageRestaurant(props){
             </div>      
             {/* <Grid container spacing={1} sx={{ paddingBottom:"1px"}} className='grid-homepage-restaurant'> */}
                 {/* <Grid item md={12}> */}
+                {restaurants && restaurants.length > 0 ? ( 
                     <Masonry style={{paddingLeft: "0%", marginLeft: "5%"}} breakpointCols={breakpoints}>
                         {restaurants && restaurants.map((res, index) => (
                             <div key={index} onClick={() => handleEdit(res)}>
@@ -627,6 +628,12 @@ function HomepageRestaurant(props){
                             </div>
                         ))}
                     </Masonry>
+                    ) : (
+                        <div className="no-menu-message-container">
+                        <img src='/oops!.png' alt="No menu available" className="food-image-restaurant-view" />
+                        <h2 className="no-menu-message">No restaurant is added yet.</h2>
+                        </div>        
+                    )}     
                 {/* </Grid>
             </Grid> */}
         </ThemeProvider>
