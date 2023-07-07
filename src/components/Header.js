@@ -280,7 +280,7 @@ const Header = React.memo(() => {
                                 <h2>Credit</h2>
                                 {/* <h5>Current Balance : 10$</h5> */}
                                 <div className='blance-header'>Balance : {balance} $</div>
-                                <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap" sx={{ marginTop: '20px', marginLeft: '10px', alignItems:'center' }}>
+                                <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap" sx={{ marginTop: '20px', marginLeft: '5px', alignItems:'center' }}>
                                     {/* <Item>10$</Item>
                                     <Item>20$</Item>
                                     <Item>30$</Item> */}
@@ -299,9 +299,9 @@ const Header = React.memo(() => {
                                     
                                 
                                 </Stack>
-                                <div style={{ display: 'flex', alignItems: 'center', marginTop: '25px', marginLeft: '10px'}}>
+                                <div style={{ display: 'flex', alignItems: 'center', marginTop: '25px', marginLeft: '7px'}}>
                                 <button className='button_wallet' onClick={() => setSelectedAmount((prevAmount) => prevAmount - 1)} disabled={selectedAmount < 1}>-</button>
-                                <h3 style={{ margin: '0px', textAlign: 'center', minWidth: '290px' }}>{selectedAmount}$</h3>
+                                <h3 style={{ margin: '0px', textAlign: 'center', minWidth: '260px' }}>{selectedAmount}$</h3>
                                 <button className='button_wallet' onClick={() => setSelectedAmount((prevAmount) => prevAmount + 1)}>+</button>
                                 </div>
                                 <div style={{display: 'flex', justifyContent: 'center' , alignItems: 'center'}}>
