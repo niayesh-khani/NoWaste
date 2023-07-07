@@ -177,7 +177,7 @@ export default function Login(){
                             color="textPrimary"
                             gutterBottom
                             className="text"
-                            style={{fontWeight: 'bold', fontSize: '30px'}}
+                            style={{fontWeight: 'bold', fontSize: '30px', marginTop:'20%'}}
                         >
                             Login 
                         </Typography>
@@ -251,7 +251,7 @@ export default function Login(){
                                     }
                             /> */}
                             <Link to="/forgot-password" className="forgetpassword">
-                                <Typography style={{ Family: 'Montserrat, sfontans-serif'}}>
+                                <Typography style={{ Family: 'Montserrat, sfontans-serif',  fontSize: '1.08em'}}>
                                     Forgot password?
                                 </Typography>
                             </Link>
@@ -269,9 +269,9 @@ export default function Login(){
                         </form> 
                         <Typography 
                             style={{marginBottom: '5%', fontSize: '0.9em'}}
-                            className="text"
+                            className="already"
                         >
-                            Don't have an account? <Link to="/sign-up" className="link" id="signup">Sign Up</Link>
+                            Don't have an account? <Link to="/sign-up" className="link" id="signup">Sign up</Link>
                         </Typography>
                     </Box>
                 </Container>

@@ -306,7 +306,7 @@ export default function SignUp(){
                                 label={
                                 <Typography className="text" id="signupcheck"
                                         >
-                                    Sign up as restaurant
+                                    Sign up as restaurant manager
                                 </Typography>
                             }/>
                             <Button 
@@ -322,8 +322,8 @@ export default function SignUp(){
                             </Button>
                         </form> 
                         <Typography
-                            style={{fontSize: '0.9em'}}
-                            className="text"
+                            style={{fontSize: '0.9em', marginTop:'-20%'}}
+                            className="already"
                         >
                             Already have an account? <Link to="/login" className="link" id="login">Log in</Link>
                         </Typography>
