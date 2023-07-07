@@ -304,7 +304,7 @@ function EditRestaurant(props){
     }, [newPassword, confirmPassword]);
 
     useEffect(() => {
-        const temp = country + ',' + city + ',' + address;
+        const temp = address + ',' + city + ',' + country;
         setUpdate({...update, address : temp})
     }, [country, city, address]);
 
