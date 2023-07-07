@@ -101,10 +101,7 @@ const HeaderCustomer = React.memo(() => {
 
     const handleDashboard = () => {
         setAnchorEl(null);
-        if (role === "customer")
-            history.push("/dashboard");
-        else
-            history.push("/dashboard-restaurant");
+        history.push("/dashboard");
     }
     
     const [anchorEl, setAnchorEl] = React.useState(null);
