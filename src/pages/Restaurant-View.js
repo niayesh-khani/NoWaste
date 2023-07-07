@@ -318,7 +318,7 @@ const RestaurantView = (props: Props) =>
         });    
     }
     useEffect(()=>{
-        axios.get(`http://5.34.195.16/restaurant/comment/restaurant_id/${id}`,
+        axios.get(`http://5.34.195.16/restaurant/restaurant_id/${id}/comments`,
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
