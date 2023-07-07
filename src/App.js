@@ -22,6 +22,9 @@ import EditProfileManager from './pages/EditProfileManager';
 import Dashboard from './components/Dashboard/Dashboard';
 import DashboardRestaurant from './components/Dashboard/DashboardRestaurant';
 import Map from './components/Map/Map';
+import Chat from './pages/RestaurantChats';
+import AboutUs from './pages/AboutUs';
+
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -74,7 +77,7 @@ function App() {
           <Route path="/homepage-customer" >
             <HomepageCustomer />
           </Route>
-          <Route path="/order-page">
+          <Route path="/order-page/:IdOfRestaurant">
             <OrderPage />
           </Route>  
           <Route path="/edit-restaurant/:idM/restaurants/:idR" >
@@ -91,7 +94,12 @@ function App() {
           </Route>
           <Route path = "/dashboard-restaurant">
             <DashboardRestaurant />
-            
+          </Route>
+          <Route path="/AboutUs">
+            <AboutUs />
+          </Route>
+          <Route path="/chats">
+            <Chat />
           </Route>
       </Router>
     //   )}

@@ -19,7 +19,7 @@ import { Button, InputLabel, FormControl, Paper } from '@material-ui/core';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {useHistory } from "react-router-dom";
-import Header from '../components/Header';
+import HeaderCustomer from '../components/HeaderCustomer';
 import Slider from '@mui/material/Slider';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import PropTypes from 'prop-types';
@@ -37,6 +37,8 @@ import RestaurantCard from '../components/RestaurantCard';
 import { Container, Row } from 'react-bootstrap';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import {InputBase} from '@mui/material';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 const theme = createTheme({
     palette: {
@@ -46,6 +48,9 @@ const theme = createTheme({
         secondary: {
             main: '#a44704',
         }
+    },
+    typography: {
+        fontFamily: 'Montserrat, sans-serif',
     },
 })
 
@@ -118,11 +123,11 @@ const useStyles = makeStyles({
 const rateMarks = [
     {
         value: 0.0,
-        label: "Least reted",
+        label: "Minimum rate",
     },
     {
         value: 5.0,
-        label: "Most rated",
+        label: "Maximum rate",
     }
 ];
 function rateValueText(rateMarks) {
@@ -131,11 +136,11 @@ function rateValueText(rateMarks) {
 const discountMarks = [
     {
         value: 0,
-        label: "Least discount"
+        label: "Minimum discount"
     },
     {
         value: 100,
-        label: "Most discount"
+        label: "Maximum discount"
     }
 ];
 function discountValueText(discountMarks) {
@@ -251,7 +256,7 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&rate__lt=${toR}&rate__gt=${fromR}`,
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?type=${type}&discount__gte=${fromD}&discount__lte=${toD}&rate__lte=${toR}&rate__gte=${fromR}`,
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -316,7 +321,7 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-rate&rate__gt=${fromR}&rate__lt=${toR}`,
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gte=${fromD}&discount__lte=${toD}&ordering=-rate&rate__gte=${fromR}&rate__lte=${toR}`,
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -337,7 +342,7 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-discount&rate__gt=${fromR}&rate__lt=${toR}`,
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gte=${fromD}&discount__lte=${toD}&ordering=-discount&rate__gte=${fromR}&rate__lte=${toR}`,
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -358,7 +363,7 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=-date_of_establishment&rate__gt=${fromR}&rate__lt=${toR}`,
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gte=${fromD}&discount__lte=${toD}&ordering=-date_of_establishment&rate__gte=${fromR}&rate__lte=${toR}`,
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -379,7 +384,7 @@ const HomepageCustomer = () => {
         const toR = valueR[1].toFixed(1);
         const fromD = valueD[0] * 0.01;
         const toD = valueD[1] * 0.01;
-        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gt=${fromD}&discount__lt=${toD}&ordering=date_of_establishment&rate__gt=${fromR}&rate__lt=${toR}`,
+        axios.get(`http://5.34.195.16/restaurant/restaurant-search/?discount__gte=${fromD}&discount__lte=${toD}&ordering=date_of_establishment&rate__gte=${fromR}&rate__lte=${toR}`,
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
@@ -395,33 +400,41 @@ const HomepageCustomer = () => {
         });
     };
 
-    const clickIranian =()=> {
-        setType(type === "Iranian" ? "" : "Iranian");
-        console.log("Iranian");
+    const handleClickNearest = () => {      //
+        const lat= localStorage.getItem("lat");
+        const long = localStorage.getItem("long");
+        axios.get(`http://5.34.195.16/nearest_restaurant?origins=${lat},${long}`,
+        {headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)   
+        }})
+        .then((response) => {
+            console.log(response.data);
+            setRestaurant(response.data);
+        })
+        .catch((error) => {
+            console.log(error.response);
+        });
     };
 
-    const clickForeign =()=> {
-        setType(type === "Foreign" ? "" : "Foreign");
-        console.log(type);
+    // const clickIranian =()=> {
+    //     setType(type === "Iranian" ? "" : "Iranian");
+    //     console.log("Iranian");
+    // };
+
+    // const clickForeign =()=> {
+    //     setType(type === "Foreign" ? "" : "Foreign");
+    //     console.log(type);
+    // };
+    const handleSelectType = (event, newValue) => {
+        setType(newValue);
     };
-
-    // const [iranianActive, setIranianActive] = useState(false);
-    // const [foreignActive, setForeignActive] = useState(false);
-    // const clickIranian = () => {
-    //     setIranianActive(!iranianActive);
-    //     setForeignActive(false);
-    //     setType(iranianActive ? "" : "Iranian");
-    // };
-
-    // const clickForeign = () => {
-    //     setForeignActive(!foreignActive);
-    //     setIranianActive(false);
-    //     setType(foreignActive ? "" : "Foreign");
-    // };
-
+    
     return ( 
         <ThemeProvider theme={theme}>
-            <Header />
+            <HeaderCustomer />
             <Grid container spacing={2} sx={{ paddingBottom:"1%" }} className='grid-homepage-customer'>
                 <Grid item md={3}>
                     <Box className="filter-hompage-customer">
@@ -429,152 +442,149 @@ const HomepageCustomer = () => {
                             Filters
                         </Typography>
                         <Grid container spacing={2} className='grid' id='grid-margin'>
-                                <Grid item>
-                                    <Typography className='filter-type'>
-                                        Rating
-                                    </Typography>
-                                </Grid>
-                                <Grid item lg={2} md={3}>
-                                    <IconButton onClick={handleExpandRating} aria-label='Show more' aria-expanded={setExpandRating}>
-                                        {expandRating ? <ExpandLess /> : <ExpandMore />}
-                                    </IconButton>
-                                </Grid>
-                                <Grid item lg={12} style={{ marginTop: '-10px', marginLeft: '10px'}}>
-                                    {expandRating ? (
-                                        <Collapse in={expandRating} timeout="auto" unmountOnExit>
-                                            <Grid container spacing={2} className='grid-details'>
-                                                <Grid item xs={12} sm={6} container alignItems='center'>
-                                                    <Typography id='details'>
-                                                        From
-                                                    </Typography>
-                                                    <Typography id='details'>
-                                                        {valueR[0].toFixed(1)}
-                                                    </Typography>
-                                                    <StarRateIcon style={{ color: '#faaf00', marginLeft: '-20px', marginTop: '15px'}} />
-                                                </Grid>
-                                                <Grid item xs={12} sm={6} container alignItems='center'>
-                                                    <Typography id='details'>
-                                                        To
-                                                    </Typography>
-                                                    <Typography id='details'>
-                                                        {valueR[1].toFixed(1)}
-                                                    </Typography>
-                                                    <StarRateIcon style={{ color: '#faaf00', marginLeft: '-20px', marginTop: '15px'}} />
-                                                </Grid>
+                            <Grid item>
+                                <Typography className='filter-type'>
+                                    Rating
+                                </Typography>
+                            </Grid>
+                            <Grid item lg={2} md={3}>
+                                <IconButton onClick={handleExpandRating} aria-label='Show more' aria-expanded={setExpandRating}>
+                                    {expandRating ? <ExpandLess /> : <ExpandMore />}
+                                </IconButton>
+                            </Grid>
+                            <Grid item lg={12} style={{ marginTop: '-10px', marginLeft: '10px'}}>
+                                {expandRating ? (
+                                    <Collapse in={expandRating} timeout="auto" unmountOnExit>
+                                        <Grid container spacing={2} className='grid-details'>
+                                            <Grid item xs={12} sm={6} container alignItems='center'>
+                                                <Typography id='details'>
+                                                    From
+                                                </Typography>
+                                                <Typography id='details'>
+                                                    {valueR[0].toFixed(1)}
+                                                </Typography>
+                                                <StarRateIcon style={{ color: '#faaf00', marginLeft: '-20px', marginTop: '15px'}} />
                                             </Grid>
-                                            <Slider
-                                                getAriaLabel={rateValueText}
-                                                marks={rateMarks}
-                                                value={valueR}
-                                                onChange={handleChangeRate}
-                                                max={5}
-                                                step={0.1}
-                                                className="range-homepage-customer"
-                                                classes={{
-                                                    markLabel: classes.markLabel,
-                                                    markLabelActive: classes.markLabelActive,
-                                                }}
-                                            />
-                                        </Collapse>
-                                    ) : null}
-                                </Grid> 
-                            </Grid>
-                            <hr className='hr-tag' />
-                            <Grid container spacing={2} className='grid' id='grid-margin'>
-                                <Grid item>
-                                    <Typography className='filter-type'>
-                                        Discount
-                                    </Typography>
-                                </Grid>
-                                <Grid item lg={2} md={3}>
-                                    <IconButton onClick={handleExpandDiscount} aria-label='Show more' aria-expanded={setExpandDiscount}>
-                                        {expandDiscount ? <ExpandLess /> : <ExpandMore />}
-                                    </IconButton>
-                                </Grid>
-                                <Grid item lg={12} style={{ marginTop: '-10px', marginLeft: '10px'}}>
-                                    {expandDiscount ? (
-                                        <Collapse in={expandDiscount} timeout="auto" unmountOnExit style={{marginTop: '20px'}}>
-                                            <Grid container spacing={2} className='grid-details' style={{marginBottom: '10px', marginTop: '-15px !important'}}>
-                                                <Grid item xs={12} sm={6} container alignItems='center'>
-                                                    <Typography id='details'>
-                                                        From
-                                                    </Typography>
-                                                    <Typography id='details'>
-                                                        {valueD[0]}%
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item xs={12} sm={6} container alignItems='center'>
-                                                    <Typography id='details'>
-                                                        To
-                                                    </Typography>
-                                                    <Typography id='details'>
-                                                        {valueD[1]}%
-                                                    </Typography>
-                                                </Grid>
+                                            <Grid item xs={12} sm={6} container alignItems='center' className='homepage-customer-to'>
+                                                <Typography id='details' >
+                                                    To
+                                                </Typography>
+                                                <Typography id='details'>
+                                                    {valueR[1].toFixed(1)}
+                                                </Typography>
+                                                <StarRateIcon style={{ color: '#faaf00', marginLeft: '-20px', marginTop: '15px'}} />
                                             </Grid>
-                                            <Slider
-                                                getAriaLabel={discountValueText}
-                                                marks={discountMarks}
-                                                value={valueD}
-                                                onChange={handleChangeDiscount}
-                                                max={100}
-                                                step={1}
-                                                className="range-homepage-customer"
-                                                classes={{
-                                                    markLabel: classes.markLabel,
-                                                    markLabelActive: classes.markLabelActive,
-                                                }}
-                                            />
-                                        </Collapse>
-                                    ) : null}
-                                </Grid> 
+                                        </Grid>
+                                        <Slider
+                                            getAriaLabel={rateValueText}
+                                            marks={rateMarks}
+                                            value={valueR}
+                                            onChange={handleChangeRate}
+                                            max={5}
+                                            step={0.1}
+                                            className="range-homepage-customer"
+                                            classes={{
+                                                markLabel: classes.markLabel,
+                                                markLabelActive: classes.markLabelActive,
+                                            }}
+                                        />
+                                    </Collapse>
+                                ) : null}
+                            </Grid> 
+                        </Grid>
+                        <hr className='hr-tag' />
+                        <Grid container spacing={2} className='grid' id='grid-margin'>
+                            <Grid item>
+                                <Typography className='filter-type'>
+                                Discount
+                                </Typography>
                             </Grid>
-                            <hr className='hr-tag'/>
-                            <Grid container spacing={2} className='grid'>
-                                <Grid item>
-                                    <Typography className='filter-type'>
-                                        Iranian
-                                    </Typography>
-                                </Grid>
-                                <Grid item lg={3} md={4}>
-                                    <FormControlLabel
-                                        control={<IOSSwitch onChange={clickIranian}/>}
-                                        labelPlacement="start"
-                                    />
-                                </Grid>
+                            <Grid item lg={2} md={3}>
+                                <IconButton onClick={handleExpandDiscount} aria-label='Show more' aria-expanded={setExpandDiscount}>
+                                    {expandDiscount ? <ExpandLess /> : <ExpandMore />}
+                                </IconButton>
                             </Grid>
-                            <hr className='hr-tag'/>
-                            <Grid container spacing={2} className='grid'>
-                                <Grid item>
-                                    <Typography className='filter-type'>
-                                        Foreign
-                                    </Typography>
-                                </Grid>
-                                <Grid item lg={3} md={4}>
-                                    <FormControlLabel
-                                        control={<IOSSwitch onChange={clickForeign}/>}
-                                        labelPlacement="start"
-                                    />
-                                </Grid>
-                            </Grid>
-                            {/* <hr className='hr-tag'/>
-                            <Grid container spacing={2} className='grid'>
-                                <Grid item>
-                                    <Typography className='filter-type'>
-                                        Drink
-                                    </Typography>
-                                </Grid>
-                                <Grid item lg={3} md={4}>
-                                    <FormControlLabel 
-                                        control={<IOSSwitch />}
-                                        labelPlacement="start"
-                                    />
-                                </Grid>
-                            </Grid> */}
-                            <Button className='submit' onClick={handleClickApplyFilter} >      
-                                Apply
-                            </Button>          
-                        </Box>
+                            <Grid item lg={12} style={{ marginTop: '-10px', marginLeft: '10px'}}>
+                                {expandDiscount ? (
+                                    <Collapse in={expandDiscount} timeout="auto" unmountOnExit style={{marginTop: '20px'}}>
+                                        <Grid container spacing={2} className='grid-details' style={{marginBottom: '10px', marginTop: '-15px !important'}}>
+                                            <Grid item xs={12} sm={6} container alignItems='center'>
+                                                <Typography id='details'>
+                                                    From
+                                                </Typography>
+                                                <Typography id='details'>
+                                                    {valueD[0]}%
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item xs={12} sm={6} container alignItems='center' className='homepage-customer-to'>
+                                                <Typography id='details'>
+                                                    To
+                                                </Typography>
+                                                <Typography id='details'>
+                                                    {valueD[1]}%
+                                                </Typography>
+                                            </Grid>
+                                        </Grid>
+                                        <Slider
+                                            getAriaLabel={discountValueText}
+                                            marks={discountMarks}
+                                            value={valueD}
+                                            onChange={handleChangeDiscount}
+                                            max={100}
+                                            step={1}
+                                            className="range-homepage-customer"
+                                            classes={{
+                                                markLabel: classes.markLabel,
+                                                markLabelActive: classes.markLabelActive,
+                                            }}
+                                        />
+                                    </Collapse>
+                                ) : null}
+                            </Grid> 
+                        </Grid>
+                        <hr className='hr-tag'/>
+                        <ToggleButtonGroup
+                            value={type}
+                            exclusive
+                            onChange={handleSelectType}
+                            aria-label="Platform"
+                            style={{marginTop: '10px'}}
+                        >
+                            <ToggleButton value="Iranian"
+                                className='filter-type'
+                                sx={{
+                                    fontSize: '16px',
+                                    color: 'black',
+                                    backgroundColor: '#e6e4df',
+                                    '&.Mui-selected': {
+                                        color: 'white',
+                                        backgroundColor: '#FFA600',
+                                    },
+                                    textTransform: 'none'
+                                }}
+                            >
+                                Iranian
+                            </ToggleButton>
+                            <ToggleButton value="Foreign"
+                                className='filter-type'
+                                sx={{
+                                    fontSize: '16px',
+                                    color: 'black',
+                                    backgroundColor: '#e6e4df',
+                                    '&.Mui-selected': {
+                                        color: 'white',
+                                        backgroundColor: '#FFA600',
+                                    },
+                                    textTransform: 'none'
+                                }}
+                            >
+                                Foreign
+                            </ToggleButton>
+                        </ToggleButtonGroup>
+                        <Button className='submit' onClick={handleClickApplyFilter} >      
+                            Apply
+                        </Button>          
+                    </Box>
                 </Grid>
                 <Grid item lg={9} md={9}>
                     <Grid container spacing={2}>
@@ -611,10 +621,11 @@ const HomepageCustomer = () => {
                                             style={{width: '100%', backgroundColor: "rgba(117, 115, 111, 0.05)"}}
                                             onChange={handleChange}
                                         >
-                                            <MenuItem onClick={handleClickNewest} value="Item1">Newest</MenuItem>        //
+                                            <MenuItem onClick={handleClickNewest} value="Item1">Newest</MenuItem>
                                             <MenuItem onClick={handleClickLatest} value="Item2">Latest</MenuItem>
-                                            <MenuItem onClick={handleClickRate} value="Item3">Rate</MenuItem>
-                                            <MenuItem onClick={handleClickDiscount} value="Item4">Discount</MenuItem>
+                                            <MenuItem onClick={handleClickNearest} value="Item4">Nearest</MenuItem>
+                                            <MenuItem onClick={handleClickRate} value="Item3">Maximum rate</MenuItem>
+                                            <MenuItem onClick={handleClickDiscount} value="Item4">Maximum discount</MenuItem>
                                         </TextField>
                                     </FormControl>
                                 </Grid>
@@ -622,7 +633,7 @@ const HomepageCustomer = () => {
                         </Grid>
                     </Grid>
                     <Grid container spacing={3}>
-                        <MU.Grid item>
+                        <MU.Grid item md={12}>
                             <Masonry
                                 breakpointCols={breakpoints}
                                 // className="homepage-my-masonry-grid"
@@ -635,7 +646,7 @@ const HomepageCustomer = () => {
                                 {restaurant.length==1 ? (<RestaurantCard name={restaurant[0].name} rate={restaurant[0].rate} discount={restaurant[0].discount} id={restaurant[0].id} description={restaurant[0].description} isSingleResult={true}/>) :
                                 (restaurant && restaurant.map((res, index) => (
                                     <div key={index} style={{ width: index % 3 === 0 ? '100%' : '' }}>
-                                        <RestaurantCard name={res.name} rate={res.rate} discount={res.discount} id={res.id} description={res.description} restaurant_image={res.restaurant_image}/>
+                                        <RestaurantCard name={res.name} rate={res.rate} discount={res.discount} id={res.id} number={res.number} address={res.address} restaurant_image={res.restaurant_image}/>
                                     </div>
                                 )))}
                                 

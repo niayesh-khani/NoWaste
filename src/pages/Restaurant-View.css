@@ -63,7 +63,14 @@
     display: flex;
     flex-direction: row;
 } */
+.see-comment{
+    color: #484646;
+    margin-top: 2% !important;
+    text-decoration:underline;
+    font-size: small !important;
+    cursor: pointer;
 
+}
 .MuiChip-root{
     background-color: rgb(255, 255, 255) !important;
     font-family: 'Montserrat', sans-serif !important;
@@ -103,6 +110,32 @@
 .my-masonry-grid_column {
     background-clip: padding-box;
 }
+
+.no-menu-message-container {
+    margin-top: 12%;
+    margin-bottom: 15%;
+    height: 200px; /* Adjust height as needed */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.no-menu-message {
+    color: #6d6c6c;
+    font-family: 'Montserrat', sans-serif !important;
+    text-align: center;
+    margin-top: 0.3px;
+}
+
+.food-image-restaurant-view {
+    width: 250px; /* Adjust dimensions as needed */
+    border-radius: 4px; /* Apply rounded border if desired */
+    margin-bottom: 10px; /* Adjust spacing as needed */
+    height: auto; /* Ensure image aspect ratio is maintained */
+    object-fit: contain; /* Adjust the object-fit property as needed */
+}
+
 
 @media(max-width: 360px) {
     .card-restaurant-view

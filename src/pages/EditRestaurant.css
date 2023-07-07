@@ -6,7 +6,7 @@
 }
 .edit-grid-restaurant {
     width: 100% !important;
-    margin-top: 1% !important;
+    margin-top: 3% !important;
     padding-left: 5%;
     padding-right: 5%;
     
@@ -187,7 +187,7 @@
 }
 .food-edit{
     margin: 20px !important;
-    background-color: #E74C3C !important;
+    background-color: #FFA600 !important;
 }
 #food-edit-button {
     justify-content: center;
