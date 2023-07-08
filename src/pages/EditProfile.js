@@ -540,6 +540,9 @@ function Edit(props){
                                                 style={{width: '100%'}}
                                                 variant="outlined"
                                                 // focused={true}
+                                                inputProps={{
+                                                    maxLength: 13
+                                                }}
                                             />
                                         </Grid>
                                     </Grid>
