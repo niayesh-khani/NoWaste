@@ -456,7 +456,7 @@ const HomepageCustomer = () => {
                                 {expandRating ? (
                                     <Collapse in={expandRating} timeout="auto" unmountOnExit>
                                         <Grid container spacing={2} className='grid-details'>
-                                            <Grid item xs={12} sm={4} container alignItems='center'>
+                                            <Grid item xs={12} sm={3} container alignItems='center'>
                                                 {/* <Typography id='details'>
                                                     From
                                                 </Typography> */}
@@ -465,7 +465,7 @@ const HomepageCustomer = () => {
                                                 </Typography>
                                                 <StarRateIcon style={{ color: '#faaf00', marginLeft: '-100px', marginTop: '15px'}} />
                                             </Grid>
-                                            <Grid item xs={12} sm={4} container alignItems='center' className='homepage-customer-to'>
+                                            <Grid item xs={12} sm={3} container alignItems='center' className='homepage-customer-to'>
                                                 {/* <Typography id='details' >
                                                     To
                                                 </Typography> */}
@@ -516,7 +516,7 @@ const HomepageCustomer = () => {
                                                     {valueD[0]}%
                                                 </Typography>
                                             </Grid>
-                                            <Grid item xs={12} sm={4} container alignItems='center' className='homepage-customer-to'>
+                                            <Grid item xs={12} sm={3} container alignItems='center' className='homepage-customer-to'>
                                                 {/* <Typography id='details'>
                                                     To
                                                 </Typography> */}
@@ -559,7 +559,7 @@ const HomepageCustomer = () => {
                                 backgroundColor: '#e6e4df',
                                 '&.Mui-selected': {
                                     color: 'white',
-                                    backgroundColor: '#000000',
+                                    backgroundColor: '#FFA600',
                                 },
                                 textTransform: 'none',
                                 display: 'flex',  // Add this line
