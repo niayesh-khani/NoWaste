@@ -225,7 +225,7 @@ const RestaurantView = (props: Props) =>
             .then((response) => {
                 console.log(response);
                 const new_list = response.data.list_of_favorites_res;
-                localStorage.setItem('list_of_favorites_res' , new_list);
+                localStorage.setItem('list_of_favorites_res', JSON.stringify(new_list));
                 setList_Fav(response.data.list_of_favorites_res);
             })
             .catch((error) => {
