@@ -1,33 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Box, Button, createTheme, Divider, FormControl, Grid, Icon, IconButton, Tooltip , InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
+import { Box, Button, createTheme, Grid, Icon, IconButton, Tooltip , MenuItem, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import '../../pages/EditProfile.css';
 import HeaderCustomer from '../HeaderCustomer';
-// import './Login-Signup.css';
-// import './Restaurant-View.css';
-// import PhoneInput from 'react-phone-input-2';
 import '../../pages/EditRestaurant.css';
-import PhoneInput from 'material-ui-phone-number';
 import 'react-phone-input-2/lib/style.css';
-import { DatePicker } from '@mui/x-date-pickers'
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import AdapterDayjs from '@date-io/dayjs';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import LockIcon from '@mui/icons-material/Lock';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
-import { Visibility, VisibilityOff } from "@material-ui/icons";
 import Footer from "../Footer";
-import { Alert, AlertTitle, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from "@mui/material";
 import './Dashboard.css';
-// import { id } from "date-fns/locale";
-import PropTypes from 'prop-types';
-import { visuallyHidden } from '@mui/utils';
 import { useMemo } from "react";
 import ClearIcon from '@mui/icons-material/Clear';
-import { parse } from "date-fns";
 import Modal from '@mui/material/Modal';
 import Stack from '@mui/material/Stack';
 import Rating from '@mui/material/Rating';
@@ -36,16 +19,6 @@ import Pagination from '@mui/material/Pagination';
 import CommentIcon from '@mui/icons-material/Comment';
 import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 
-// const styles = theme => ({
-//     field: {
-//       margin: '10px 0',
-//       width : "100px",
-//     },
-//     countryList: {
-//       ...theme.typography.body1,
-//       width : "100px",
-//     },
-// });
 const theme = createTheme({
     palette: {
         primary: {
@@ -56,44 +29,7 @@ const theme = createTheme({
         }
     },
 });
-const headCells = [
-    {
-        id: 'no',
-        numeric: true,
-        disablePadding: true,
-        label: 'No.'
-    },
-    {
-        id: 'name',
-        numeric: false,
-        disablePadding: false,
-        label: 'Restaurant name'
-    },
-    {
-        id: 'order',
-        numeric: false,
-        disablePadding: false,
-        label: 'Order'
-    },
-    {
-        id: 'price',
-        numeric: false,
-        disablePadding: false,
-        label: 'Price'
-    },
-    {
-        id: 'date',
-        numeric: false,
-        disablePadding: false,
-        label: 'Date'
-    },
-    {
-        id: "status",
-        numeric: false,
-        disablePadding: false,
-        label: 'Status'
-    },
-];
+
 function createData(name, order, price, date, status, restaurant_id, order_id) {
     return {
         name,
@@ -105,84 +41,10 @@ function createData(name, order, price, date, status, restaurant_id, order_id) {
         order_id
     };
 }  
-function descendingComparator(a, b, orderBy){
-    if (b[orderBy] < a[orderBy]){
-        return -1;
-    }
-    if (b[orderBy] > a[orderBy]){
-        return 1;
-    }
-    return 0;
-};
-
-function getComparator(order, orderBy) {
-    return order === 'desc'
-        ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy);
-};
-
-function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if(order !== 0){
-            return order;
-        }
-        return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
-};
-
-function DashboardTableHead(props) {
-    const { order, orderBy, rowCount, onRequestSort } = props;
-    const createSortHandler = (property) => (event) => {
-        onRequestSort(event, property);
-    };
-
-    
-    return (
-        <TableHead>
-            <TableRow>
-                {headCells.map((headCell) => (
-                    <TableCell
-                        key={headCell.id}
-                        align={headCell.numeric ? 'right' : 'left'}
-                        padding={headCell.disablePadding ? 'none' : 'normal'}
-                        sortDirection={orderBy === headCell.id ? order : false}
-                    >
-                        <TableSortLabel 
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : 'asc'}
-                            onClick={createSortHandler(headCell.id)}
-                        >
-                            {headCell.label}
-                            {orderBy === headCell.id ? (
-                                <Box component="span" sx={visuallyHidden}>
-                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                </Box>
-                            ) : null }
-                        </TableSortLabel>
-                    </TableCell>
-                ))}
-            </TableRow>
-        </TableHead>
-    );
-};
-DashboardTableHead.propTypes = {
-    onRequestSort: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired
-};
 
 export default function Dashboard(){
-    const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('Price');
-    const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [page, setPage] =  useState(0);
     const history = useHistory();
     const favoriteRestaurant = JSON.parse(localStorage.getItem('list_of_favorites_res'));
-    const [color, setColor] = useState(localStorage.getItem('avatarColor') || getRandomColor());
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
     const [orderHistory, setOrderHistory] = useState();
@@ -196,17 +58,14 @@ export default function Dashboard(){
     const ordersToShow = rowsWithIndex.slice(indexOfFirstOrder, indexOfLastOrder);
     const totalPages = Math.ceil(rowsWithIndex.length / ordersPerPage);
 
-    //sorting
     const [sortConfig, setSortConfig] = useState({ field: null, direction: 'asc' });
     const handleSort = (field) => {
         const newSortConfig = { field, direction: 'asc' };
-        // If the same column is clicked again, toggle the sort direction
         if (sortConfig.field === field && sortConfig.direction === 'asc') {
             newSortConfig.direction = 'desc';
         }
         setSortConfig(newSortConfig);
     };
-    // Sort the data based on the sortConfig state
     const sortedData = useMemo(() => {
         if (sortConfig.field) {
             const compareFunction = (a, b) => {
@@ -221,65 +80,17 @@ export default function Dashboard(){
             return ordersToShow.sort(compareFunction);
             }
             return ordersToShow;
-        }, [sortConfig, ordersToShow]);
-
-    function getRandomColor() {
-        const colors = ['#FFA600', '#fff2bf', '#ffe480', '#a2332a' , '#E74C3C' , '#690000' , '#595959', '#3e3e3e' , '#C6C6C6', '#ABABAB', '#B9B9B9'];
-        return colors[Math.floor(Math.random() * colors.length)];
-    }
-    // console.log("$$$$$$$$$$$$$$$$$",favoriteRestaurant);
-
-    // useEffect(() => {
-    //     axios.get(
-    //         `http://5.34.195.16/restaurant/customer/${id}/orderview/`,
-    //         {headers :{
-    //             'Content-Type' : 'application/json',
-    //             "Access-Control-Allow-Origin" : "*",
-    //             "Access-Control-Allow-Methods" : "GET,PATCH",
-    //             'Authorization' : "Token " + token.slice(1,-1)
-    //         }}
-    //     )
-    //     .then((response) => {
-    //         // console.log(response.data);
-    //         setOrderHistory(response.data);
-    //         console.log("order got sus");
-    //     })
-    //     .catch((error) => console.log(error));
-    // }, []);
-    // useEffect(() => {
-    //     // console.log("order history ios " + orderHistory.length);
-    //     if(orderHistory){
-    //         for (let i = 0; i < orderHistory.length; i++) {
-    //             // const element = array[i];
-    //             console.log(orderHistory[i]);
+        }, 
+    [sortConfig, ordersToShow]);
 
 
-    //             let restaurant_name = orderHistory[i].restaurantDetails.name;
-    //             // setOrderid(orderHistory[i].orderDetails.id);
-    //             // setRestaurantOrderId(orderHistory[i].restaurantDetails.id);
-    //             let order = "";
-    //             for(let j=0; j < orderHistory[i].orderDetails.orderItems.length; j++){
-    //                 order += orderHistory[i].orderDetails.orderItems[j].quantity + "×" + orderHistory[i].orderDetails.orderItems[j].name_and_price.name;
-    //                 if(j!= orderHistory[i].orderDetails.orderItems.length-1){
-    //                     order += ", ";
-    //                 }
-    //             }
-    //             let price = orderHistory[i].orderDetails.Subtotal_Grandtotal_discount[1];
-    //             const date = new Date(orderHistory[i].created_at);
-    //             let formatted_date = date.toISOString().split('T')[0];
-    //             let status = orderHistory[i].status;
-    //             let restaurant_id = orderHistory[i].restaurantDetails.id;
-    //             let order_id = orderHistory[i].orderDetails.id;
-    //             const new_row = createData(restaurant_name, order, price, formatted_date, status, restaurant_id, order_id)
-    //             rows = [...rows, new_row];                
-    //         }
-    //     }
-
-    // }, [orderHistory]);
-    //chaatGPT
     useEffect(() => {
-        axios
-        .get(`http://5.34.195.16/restaurant/customer/${id}/orderview/`, {
+        console.log("favs");
+        console.log(favoriteRestaurant);
+    }, []);
+
+    useEffect(() => {
+        axios.get(`http://5.34.195.16/restaurant/customer/${id}/orderview/`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
@@ -295,7 +106,6 @@ export default function Dashboard(){
     }, []);
 
     useEffect(() => {
-        // ...
         if (orderHistory) {
             if (orderHistory) {
                 const newRows = orderHistory.map((order) => {
@@ -370,23 +180,7 @@ export default function Dashboard(){
     const handleAddtext = (e) => {
         setText(e.target.value);
         console.log(text);
-    }
-    // const handleAdd = (e) => {
-    //     e.preventDefault();
-    //     const userData = {
-    //         text:text
-    //     }
-    //     axios.post(`http://5.34.195.16/restaurant/comment/user_id/${id}/restaurant_id/${restaurantId}`, userData, {headers:{"Content-Type" : "application/json" , 'Authorization' : "Token " + token.slice(1,-1)}})
-    //     .then((response) => {
-    //         console.log(response);
-    //         window.location.reload(false);
-    //     })
-    //     .catch((error) => {
-    //         if (error.response) {
-    //             console.log(error.response);
-    //         } 
-    //     });    
-    // }
+    };
     
     const handleAdd = (e) => {
         e.preventDefault();
@@ -440,7 +234,7 @@ export default function Dashboard(){
         else if(status === "notOrdered")
             return "Not ordered";
         return status;
-    }
+    };
 
     const handleCancleOrdering = (Oid, Rid) => {
         const userData = {
@@ -468,6 +262,7 @@ export default function Dashboard(){
         <ThemeProvider theme={theme}>
             <div className="dashboard-back">
                 <HeaderCustomer />
+                <h1 className='dashboard-title'>Dashboard</h1>
                 <Grid container spacing={2} className="dashboard-grid">
                     <Grid item lg={4} md={12} sm={12} xs={12}>
                         <Box className="dashboard-box" id="favorite-restaurants-box">
@@ -482,8 +277,8 @@ export default function Dashboard(){
                             {favoriteRestaurant && favoriteRestaurant.map((res, index) => (
                                 <Box className="dashboard-restaurant-box" onClick={() => handleShowFavoriteRestaurant(res.id)}>
                                     <Grid container spacing={2}>
-                                        <Grid item lg={5} md={3} sm={4} xs={4} className="food">
-                                            <img src={res.restaurant_image} className="food-image"/>
+                                        <Grid item lg={5} md={3} sm={4} xs={4} >
+                                            <img src={res.restaurant_image} className="favorite-restaurant-image"/>
                                         </Grid>
                                         <Grid item lg={7} md={7} sm={8} xs={8}>
                                             <Typography className="dashboard-restaurant-name">
@@ -577,7 +372,6 @@ export default function Dashboard(){
                                                 {row.status === 'Completed' && (
                                                 <Tooltip title="Add Comment">
                                                 <IconButton onClick={(e) => {
-                                                    // e.stopPropagation(); // Prevent the row click event from triggering
                                                     handleRowClick(row);
                                                 }}>
                                                     <CommentIcon />
