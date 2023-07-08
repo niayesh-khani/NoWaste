@@ -517,7 +517,7 @@ function EditRestaurant(props){
             if (error.request) {
                 // setOpenNetwork(true);
                 // console.log("network error");
-                setAlertMessage("Network error! Please try again later.!");
+                setAlertMessage("Network error! Please try again later.");
                 setAlertSeverity("error");
             } else{
                 setAlertMessage("A problem has been occured! Please try again later.");
