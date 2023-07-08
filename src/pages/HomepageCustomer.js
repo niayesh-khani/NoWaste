@@ -185,6 +185,7 @@ const HomepageCustomer = () => {
     const [type, setType] = useState("");
 
     const [restaurant, setRestaurant] = useState([]); 
+    const [fields, setFields] = useState([]); 
     useEffect(()=>{
         axios.get(`http://5.34.195.16/restaurant/restaurant-search/`,
         {headers: {
@@ -331,6 +332,7 @@ const HomepageCustomer = () => {
         .then((response) => {
             console.log(response.data);
             setRestaurant(response.data);
+            setFields([]);
         })
         .catch((error) => {
             console.log(error.response);
@@ -352,6 +354,7 @@ const HomepageCustomer = () => {
         .then((response) => {
             setRestaurant(response.data);
             console.log(response.data);
+            setFields([]);
         })
         .catch((error) => {
             console.log(error.response);
@@ -373,6 +376,7 @@ const HomepageCustomer = () => {
         .then((response) => {
             console.log(response.data);
             setRestaurant(response.data);
+            setFields([]);
         })
         .catch((error) => {
             console.log(error.response);
@@ -394,6 +398,7 @@ const HomepageCustomer = () => {
         .then((response) => {
             console.log(response.data);
             setRestaurant(response.data);
+            setFields([]);
         })
         .catch((error) => {
             console.log(error.response);
@@ -412,7 +417,10 @@ const HomepageCustomer = () => {
         }})
         .then((response) => {
             console.log(response.data);
-            setRestaurant(response.data);
+            setFields(response.data);
+            setRestaurant([]);
+            // console.log(response.data);
+            // console.log("fielesds: "+response.data.fields);
         })
         .catch((error) => {
             console.log(error.response);
@@ -650,6 +658,12 @@ const HomepageCustomer = () => {
                                     </div>
                                 )))}
                                 
+                                {fields.length==1 ? (<RestaurantCard name={fields.fields[0].name} rate={fields.fields[0].rate} discount={fields.fields[0].discount} id={fields.fields[0].id} description={fields.fields[0].description} isSingleResult={true}/>) :
+                                (fields && fields.map((res, index) => (
+                                    <div key={index} style={{ width: index % 3 === 0 ? '100%' : '' }}>
+                                        <RestaurantCard name={res.fields.name} rate={res.fields.rate} discount={res.fields.discount} id={res.pk} number={res.fields.number} address={res.fields.address} restaurant_image={res.fields.restaurant_image}/>
+                                    </div>
+                                )))}
                             </Masonry>
                         </MU.Grid>
                     </Grid>
