@@ -199,15 +199,15 @@ const Chat = () => {
         <ThemeProvider theme={theme}>
             <HeaderRestaurant />
             <Grid container spacing={2} backgroundColor="rgb(239, 235, 229)" >
-                <Grid item md={3} sm={2} >
-                    <Box height='8vh' style={{backgroundColor: '#bdbab6',display: 'flex', alignItems: 'center', justifyContent: 'center', paddingleft: '30px'}}>
+                <Grid item md={3} sm={5} >
+                    <Box height='10vh' style={{backgroundColor: '#bdbab6',display: 'flex', alignItems: 'center', justifyContent: 'start', paddingleft: '30px'}}>
                         <Typography variant="h4" className='restaurant-chats-chats'>Chats</Typography>
                     </Box>
-                    <Box style={{height: '81vh', overflowY: 'scroll', marginTop: '10px'}}>
+                    <Box style={{height: '79vh', overflowY: 'scroll', marginTop: '10px'}}>
                         {users.map((user, index) => (
                             <>
                             <Grid container spacing={2} style={{justifyContent: 'center', alignItems: 'center', cursor: 'pointer'}} onClick={() => handleChat(user.userId, user.username)}>
-                                <Grid item md={1}></Grid>
+                                {/* <Grid item md={1}></Grid> */}
                                 <Grid item md={3}>
                                     <Avatar className="users-avatar" style={{ backgroundColor: getRandomColor(user.userId), fontSize: '30px'}}>
                                         {user.username.charAt(0).toUpperCase()}
@@ -224,9 +224,9 @@ const Chat = () => {
                         ))}
                     </Box>
                 </Grid>
-                <Grid item md={9} sm={10}>
+                <Grid item md={9} sm={7}>
                     {currentUser ? ( <>
-                        <Box className="chat-detail"  style={{ height: '12vh', marginBottom: '-4px',}}>
+                        <Box className="chat-detail"  style={{ height: '11vh', marginBottom: '-4px',}}>
                             <Grid container spacing={2} alignItems="center" style={{ }}>
                                 <Grid item md={1.5} sm={2}>
                                     <Avatar className="users-avatar current-chat-avatar" style={{ backgroundColor: getRandomColor(currentUserId), marginLeft: '10px', fontSize: '30px'}}>
@@ -242,7 +242,7 @@ const Chat = () => {
                         </Box>
                         <Box
                             sx={{
-                                height: "80vh",
+                                height: "81vh",
                                 display: "flex",
                                 flexDirection: "column",
                                 bgcolor: "grey.200",
