@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Box, createTheme, Divider, FormControl, Grid, Icon, IconButton, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
+import {Box, createTheme, Divider, FormControl, Grid, Icon, IconButton, Tooltip, InputAdornment, MenuItem, TextField, ThemeProvider, Typography, withStyles } from "@material-ui/core";
 import '../../pages/EditProfile.css';
 import HeaderRestaurant from '../HeaderRestaurant';
 import '../../pages/EditRestaurant.css';
@@ -91,20 +91,6 @@ function createData(name, customer_name, customer_email, order, price, date, sta
         order_id
     };
 }  
-// let rows = [
-    // createData("Bella", 'Pizaa, Drink, watge, fdjksl, fjsilios, jflkdfjuiff, kfjdfodifdf, fkljdsofjifd', "10$", "2023-10-1", "Completed"),
-    // createData("China", 'Steak', "30$", "2023-10-1", "In progress"),
-    // createData("Aba", 'Ghormeh', "150$", "2023-10-1", "Open"),
-    // createData("mina", 'Polp', "200$", "2022-9-10", "Canceled"),
-    // createData("Ans", 'Morgh', "420$", "2023-10-5", "Ordered"),
-    // createData("lora", 'water', "300$", "2023-11-10", "Completed"),
-    // createData("Den", 'Coca', "300$", "2023-10-1", "Open"),
-    // createData("jim", 'rice', "300$", "2023-10-1", "Completed"),
-    // createData("kimi", 'spaghetti', "300$", "2023-10-1", "Completed"),
-    // createData("pria", 'Pizaa', "300$", "2023-10-1", "Completed"),
-    // createData("orange", 'Pizaa', "300$", "2023-10-1", "Completed"),
-    // createData("kej", 'Pizaa', "300$", "2023-10-1", "Completed")
-// ];
 
 function descendingComparator(a, b, orderBy){
     if (b[orderBy] < a[orderBy]){
@@ -237,44 +223,13 @@ export default function DashboardRestaurant(){
             }}
         )
         .then((response) => {
-            console.log(response);
+            console.log(response.data);
             setOrderHistory(response.data);
             console.log("length" + response.data);
         })
         .catch((error) => console.log(error));
     }, []);
-    // useEffect(() => {
-    //     // console.log("order history ios " + orderHistory.length);
-    //     if(orderHistory){
-    //         for (let i = 0; i < orderHistory.length; i++) {
-    //             // const element = array[i];
-    //             console.log(orderHistory[i]);
 
-
-    //             let restaurant_name = orderHistory[i].restaurantDetails.name;
-    //             // let customer_name = orderHistory[i].
-    //             // let customer_email = orderHistory[i].
-    //             let order = "";
-    //             for(let j=0; j < orderHistory[i].orderDetails.orderItems.length; j++){
-    //                 order += orderHistory[i].orderDetails.orderItems[j].quantity + "×" + orderHistory[i].orderDetails.orderItems[j].name_and_price.name;
-    //                 if(j!= orderHistory[i].orderDetails.orderItems.length-1){
-    //                     order += ", ";
-    //                 }
-    //             }
-    //             let price = orderHistory[i].orderDetails.Subtotal_Grandtotal_discount[1];
-    //             const date = new Date(orderHistory[i].created_at);
-    //             let formatted_date = date.toISOString().split('T')[0];
-    //             let status = orderHistory[i].status;
-    //             let restaurant_id = orderHistory[i].restaurantDetails.id;
-    //             let order_id = orderHistory[i].orderDetails.id;
-    //             let customer_name = orderHistory[i].userDetails.name;
-    //             let customer_email = orderHistory[i].userDetails.email;
-    //             const new_row = createData(restaurant_name, customer_name, customer_email, order, price, formatted_date, status, restaurant_id, order_id);
-    //             rows = [...rows, new_row];                
-    //         }
-    //     }
-
-    // }, [orderHistory]);
     useEffect(() => {
         console.log("order history is populated");
         if (orderHistory) {
@@ -297,7 +252,7 @@ export default function DashboardRestaurant(){
             const date = new Date(order.created_at).toISOString().split('T')[0];
             const status = order.status;
             const restaurant_id = order.orderDetails.restaurantDetails.id;
-            const order_id = order.id;
+            const order_id = order.orderDetails.id;
             return createData(
                 restaurant_name,
                 customer_name,
@@ -316,39 +271,6 @@ export default function DashboardRestaurant(){
           setRows(newRows.filter(Boolean)); // Filter out null rows
         }
     }, [orderHistory]);
-    // useEffect(() => {
-    //     // ...
-    
-    //     if (orderHistory) {
-    //         // if (orderHistory) {
-    //             const newRows = orderHistory.map((order) => {
-    //               const restaurant_name = order.restaurantDetails.name;
-    //               const customer_name = order.userDetails.name;
-    //               const customer_email = order.userDetails.email;
-    //               let orderText = order.orderDetails.orderItems
-    //                 .map((item) => `${item.quantity}×${item.name_and_price.name}`)
-    //                 .join(', ');
-    //               const price = order.orderDetails.Subtotal_Grandtotal_discount[1];
-    //               const date = new Date(order.created_at).toISOString().split('T')[0];
-    //               const status = order.status;
-    //               const restaurant_id = order.restaurantDetails.id;
-    //               const order_id = order.orderDetails.id;
-    //               return createData(
-    //                 restaurant_name,
-    //                 customer_name,
-    //                 customer_email,
-    //                 orderText,
-    //                 price,
-    //                 date,
-    //                 status,
-    //                 restaurant_id,
-    //                 order_id
-    //               );
-    //             });
-    //             setRows(newRows);
-    //           }
-    //     // }
-    //   }, [orderHistory]);
 
     const handleRequestSort = (e, property) => {
         const isAsc = orderBy === property && order === "asc";
@@ -387,10 +309,6 @@ export default function DashboardRestaurant(){
         } 
     };
 
-
-    // const options = {
-    //     rowStyle
-    // }
     const style = {
         position: 'absolute',
         top: '50%',
@@ -408,6 +326,58 @@ export default function DashboardRestaurant(){
         else if(status === "notOrdered")
             return "Not ordered";
         return status;
+    }
+
+    const showCancelIcon = (status) => {
+        return status === 'notOrdered';
+    }
+
+    const showAcceptIcon = (status) => {
+        return status === 'notOrdered';
+    }
+
+    const handleCancleOrdering = (Oid, Rid) => {
+        const userData = {
+            status:"Cancled"
+        }
+        axios.put(`http://5.34.195.16/restaurant/restaurant_view/${Rid}/${id}/order/${Oid}/`, userData,
+        {headers :{
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "GET,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)
+        }})
+        .then((response) => {
+            console.log(response);
+            window.location.reload(false);
+        })
+        .catch((error) => {
+            if (error.response) {
+                console.log(error.response);
+            } 
+        }); 
+    }
+
+    const handleAcceptOrdering = (Oid, Rid) => {
+        const userData = {
+            status:"InProgress"
+        }
+        axios.put(`http://5.34.195.16/restaurant/restaurant_view/${Rid}/${id}/order/${Oid}/`, userData,
+        {headers :{
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "GET,PATCH",
+            'Authorization' : "Token " + token.slice(1,-1)
+        }})
+        .then((response) => {
+            console.log(response);
+            window.location.reload(false);
+        })
+        .catch((error) => {
+            if (error.response) {
+                console.log(error.response);
+            } 
+        }); 
     }
 
 
@@ -501,11 +471,20 @@ export default function DashboardRestaurant(){
                                             <TableCell align="left">{row.date}</TableCell>
                                             <TableCell align="left">
                                                 {handleStatus(row.status)}
-                                                {/* {showCancelIcon(row.status) && 
+                                                {showAcceptIcon(row.status) && 
+                                                    <Tooltip title="Accept">
+                                                    <IconButton onClick={() => handleAcceptOrdering(row.order_id, row.restaurant_id)} title="Cancel order">
+                                                        <CheckIcon style={{color:'green'}}/>
+                                                    </IconButton>
+                                                    </Tooltip>
+                                                }
+                                                {showCancelIcon(row.status) && 
+                                                    <Tooltip title="Reject">
                                                     <IconButton onClick={() => handleCancleOrdering(row.order_id, row.restaurant_id)} title="Cancel order">
                                                         <ClearIcon style={{color:'red'}}/>
                                                     </IconButton>
-                                                } */}
+                                                    </Tooltip>
+                                                }
                                             </TableCell>
                                         </TableRow>
                                         ))}
