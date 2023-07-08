@@ -23,6 +23,8 @@ import { Alert, AlertTitle } from "@mui/material";
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import Map from "../components/Map/Map";
 import Modal from '@mui/material/Modal';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import CloseIcon from '@mui/icons-material/Close';
 
 const styles = theme => ({
@@ -81,6 +83,8 @@ function Edit(props){
     const [confirmPassword, setConfirmPassword] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState(false);
     const [newPasswordMatch, setNewPasswordMatch] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertSeverity, setAlertSeverity] = useState('');
     const [show, setShow] = useState(false);
     const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
@@ -173,7 +177,34 @@ function Edit(props){
     useEffect(() => {
         const temp = address + ',' + city + ',' + country;
         setUpdate({...update, address : temp})
-    }, [country, city, address])
+    }, [country, city, address]);
+
+    const handleReloadPage = () => {
+        window.location.reload();
+    };
+
+    useEffect(() => {
+        if(alertMessage !== "" && alertSeverity !== ""){
+            if(alertSeverity === "success"){
+                toast.success(alertMessage, {
+                            position: toast.POSITION.BOTTOM_LEFT,
+                            title: "Success",
+                            autoClose: 7000,
+                            pauseOnHover: true,
+                            onClose: handleReloadPage
+                        });
+            } else {
+                toast.error(alertMessage, {
+                            position: toast.POSITION.BOTTOM_LEFT,
+                            title: "Error",
+                            autoClose: 3000,
+                            pauseOnHover: true
+                        });
+            }
+            setAlertMessage("");
+            setAlertSeverity("");
+        }
+    }, [alertMessage, alertSeverity]);
 
     useEffect(() =>{
         axios.get(
@@ -335,13 +366,20 @@ function Edit(props){
         .then((response)=> {
             console.log(response);
             console.log("succesfully updated");
-            window.location.reload(false);
+            setAlertMessage("Profile updated successfully!");
+            setAlertSeverity("success");
+            // window.location.reload(false);
         })
         .catch((error) => {
             console.log(error)
             if (error.request) {
-                setOpenNetwork(true);
+                // setOpenNetwork(true);
+                setAlertMessage("Network error! Please try again later.");
+                setAlertSeverity("error");
                 console.log("network error");
+            }else{
+                setAlertMessage("A problem has been occured! Please try again later.");
+                setAlertSeverity("error");
             }
         });
 
@@ -401,6 +439,9 @@ function Edit(props){
             <div className="edit-back">
                 <HeaderCustomer/>
                 <div className={`container ${blurBackground ? 'blur-background' : ''}`}>
+                    <div>
+                        <ToastContainer />
+                    </div>
                     <Grid container spacing={2} className="edit-grid">
                         <Grid item md={3} sm={12} xs={12}>
                             <Box className="edit-box">
