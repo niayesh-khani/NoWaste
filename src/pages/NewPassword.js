@@ -122,15 +122,15 @@ export default function NewPassword(){
                 <Container className="container">
                     <img
                         className="background"
-                        src="/f2.jpg"
+                        src="/ff.jpg"
                         alt="NoWaste"
                     />
                     <Box className="box">
-                        <Typography variant="h4" 
+                        <Typography variant="h5" 
                             color="textPrimary"
                             gutterBottom
                             className="text"
-                            style={{fontWeight: 'bold'}}
+                            style={{fontWeight: 'bold', padding:'10px'}}
                         >
                             Reset your password
                         </Typography>
