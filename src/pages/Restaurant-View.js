@@ -399,7 +399,7 @@ const RestaurantView = (props: Props) =>
                         <Box sx={style} className="comment-box">
                             <h2 className='title-show-comments'>Comments</h2>
 
-                            <div className="comment-details-div">
+                            {/* <div className="comment-details-div">
                                 {comments && comments.length > 0 ? (
                                     <div>
                                         {comments.map((res,index)=>(
@@ -426,6 +426,47 @@ const RestaurantView = (props: Props) =>
                                         <h3 className="no-comment-message">No comment is available.</h3>
                                         </div>
                                     )}
+                            </div> */}
+                            <div className="comment-details-div">
+                                <Stack direction="row" spacing={2} >
+                                    <Avatar sx={{ bgcolor: grey[900] }} className='comment-avatar'>H</Avatar>
+                                    <Stack direction="column" spacing={2} >
+                                        <Typography variant="h6" className='comment-stack'>
+                                            Helia Vafaei
+                                        </Typography>
+                                        <h8 className='comment-date'>2023-07-06</h8>
+                                    </Stack>
+                                </Stack>
+                                <Typography className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
+                                    Very nice !
+                                </Typography>
+                                <hr className='comment-hr'></hr>
+                                <Stack direction="row" spacing={2} >
+                                    <Avatar sx={{ bgcolor: grey[900] }} className='comment-avatar'>S</Avatar>
+                                    <Stack direction="column" spacing={2} >
+                                        <Typography variant="h6" className='comment-stack'>
+                                            Setareh Babajani
+                                        </Typography>
+                                        <h8 className='comment-date'>2023-06-29</h8>
+                                    </Stack>
+                                </Stack>
+                                <Typography className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
+                                    I recommend it.
+                                </Typography>
+                                <hr className='comment-hr'></hr>
+                                <Stack direction="row" spacing={2} >
+                                    <Avatar sx={{ bgcolor: grey[900] }} className='comment-avatar'>N</Avatar>
+                                    <Stack direction="column" spacing={2} >
+                                        <Typography variant="h6" className='comment-stack'>
+                                            Hanie asadi
+                                        </Typography>
+                                        <h8 className='comment-date'>2023-06-26</h8>
+                                    </Stack>
+                                </Stack>
+                                <Typography className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
+                                    The best restaurant ever.
+                                </Typography>
+                                <hr className='comment-hr'></hr>
                             </div>
                             <Button 
                                 onClick={handleClose} 
