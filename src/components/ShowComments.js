@@ -70,16 +70,17 @@ export default function ShowComments() {
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
-            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            "Access-Control-Allow-Methods" : "GET,PUT,PATCH",
             'Authorization' : "Token " + token.slice(1,-1)   
         }})
             .then((response) => {
                 setComments(response.data);
-                console.log("salam")
+                console.log("comment1");
                 console.log(response.data);
             })
             .catch((error) => {
             console.log(error.response);
+            console.log("comment2");
             });
     },[])
 

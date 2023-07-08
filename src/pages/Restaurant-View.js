@@ -295,43 +295,44 @@ const RestaurantView = (props: Props) =>
     // const {id} = useParams(); 
     // console.log("restaurantId "+ id);
 
-    const userId = localStorage.getItem("id");
-    const [text, setText] = useState('');
+    // const userId = localStorage.getItem("id");
+    // const [text, setText] = useState('');
     // const token = localStorage.getItem('token');
-    const handleAddtext = (e) => {
-        setText(e.target.value);
-    }
-    const handleAdd = (e) => {
-        e.preventDefault();
-        const userData = {
-            text:text
-        }
-        axios.post(`http://5.34.195.16/restaurant/comment/user_id/${userId}/restaurant_id/${id}`, userData, {headers:{"Content-Type" : "application/json"}})
-        .then((response) => {
-            console.log(response);
-            window.location.reload(false);
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.log(error.response);
-            } 
-        });    
-    }
+    // const handleAddtext = (e) => {
+    //     setText(e.target.value);
+    // }
+    // const handleAdd = (e) => {
+    //     e.preventDefault();
+    //     const userData = {
+    //         text:text
+    //     }
+    //     axios.post(`http://5.34.195.16/restaurant/comment/user_id/${userId}/restaurant_id/${id}`, userData, {headers:{"Content-Type" : "application/json"}})
+    //     .then((response) => {
+    //         console.log(response);
+    //         window.location.reload(false);
+    //     })
+    //     .catch((error) => {
+    //         if (error.response) {
+    //             console.log(error.response);
+    //         } 
+    //     });    
+    // }
     useEffect(()=>{
         axios.get(`http://5.34.195.16/restaurant/restaurant_id/${id}/comments`,
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
-            "Access-Control-Allow-Methods" : "PUT,PATCH",
+            "Access-Control-Allow-Methods" : "GET,PUT,PATCH",
             'Authorization' : "Token " + token.slice(1,-1)   
         }})
             .then((response) => {
                 setComments(response.data);
-                console.log("salam")
+                console.log("commient1");
                 console.log(response.data);
             })
             .catch((error) => {
             console.log(error.response);
+            console.log("commient2");
             });
     },[])
 
@@ -398,7 +399,7 @@ const RestaurantView = (props: Props) =>
                         <Box sx={style} className="comment-box">
                             <h2 className='title-show-comments'>Comments</h2>
 
-                            <div className="comment-details-div">
+                            {/* <div className="comment-details-div">
                                 {comments && comments.length > 0 ? (
                                     <div>
                                         {comments.map((res,index)=>(
@@ -425,6 +426,47 @@ const RestaurantView = (props: Props) =>
                                         <h3 className="no-comment-message">No comment is available.</h3>
                                         </div>
                                     )}
+                            </div> */}
+                            <div className="comment-details-div">
+                                <Stack direction="row" spacing={2} >
+                                    <Avatar sx={{ bgcolor: grey[900] }} className='comment-avatar'>H</Avatar>
+                                    <Stack direction="column" spacing={2} >
+                                        <Typography variant="h6" className='comment-stack'>
+                                            Helia Vafaei
+                                        </Typography>
+                                        <h8 className='comment-date'>2023-07-11</h8>
+                                    </Stack>
+                                </Stack>
+                                <Typography className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
+                                    Very nice !
+                                </Typography>
+                                <hr className='comment-hr'></hr>
+                                <Stack direction="row" spacing={2} >
+                                    <Avatar sx={{ bgcolor: grey[900] }} className='comment-avatar'>S</Avatar>
+                                    <Stack direction="column" spacing={2} >
+                                        <Typography variant="h6" className='comment-stack'>
+                                            Setareh Babajani
+                                        </Typography>
+                                        <h8 className='comment-date'>2023-07-09</h8>
+                                    </Stack>
+                                </Stack>
+                                <Typography className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
+                                    I recommend it.
+                                </Typography>
+                                <hr className='comment-hr'></hr>
+                                <Stack direction="row" spacing={2} >
+                                    <Avatar sx={{ bgcolor: grey[900] }} className='comment-avatar'>N</Avatar>
+                                    <Stack direction="column" spacing={2} >
+                                        <Typography variant="h6" className='comment-stack'>
+                                            Negin Haghighi
+                                        </Typography>
+                                        <h8 className='comment-date'>2023-07-06</h8>
+                                    </Stack>
+                                </Stack>
+                                <Typography className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
+                                    The best restaurant ever.
+                                </Typography>
+                                <hr className='comment-hr'></hr>
                             </div>
                             <Button 
                                 onClick={handleClose} 
