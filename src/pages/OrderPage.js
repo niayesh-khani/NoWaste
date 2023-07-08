@@ -222,16 +222,17 @@ export default function OrderPage(){
                                 {/* <span style={{color:"#E74C3C"}}>(2)</span> */}
                             </Typography>
                             <div className="orderpage-details-div">
-                                <Grid container spacing={2} className="orderpage-grid">      
+                                <Grid container spacing={2} className="orderpage-grid" id="orderpage-shopping-card">      
                                     {orderItems && orderItems.map((order_list)=>(
-                                        <Grid container spacing={2} className="orderpage-grid">
+                                        <Grid container spacing={2} >
                                             <Grid item>
                                                 <Typography className="order-food">{order_list.name_and_price.name}</Typography>
                                             </Grid>
                                             <Grid item>
                                                 <Typography className="order-food">
-                                                    <span className="order-food" style={{color: '#8a8686'}}>{order_list.quantity} × </span>
-                                                    {order_list.name_and_price.price}</Typography>
+                                                    <span  style={{color: '#8a8686'}}>{order_list.quantity} × </span>
+                                                    {order_list.name_and_price.price}
+                                                </Typography>
                                             </Grid>
                                         </Grid>
                                         ))
