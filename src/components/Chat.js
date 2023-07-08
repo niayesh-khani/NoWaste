@@ -31,16 +31,6 @@ const theme = createTheme({
         secondary: {
           main: '#ffa600',
         }
-    },
-    overrides: {
-        MuiFormLabel: {
-            asterisk: {
-                color: '#db3131',
-                '&$error': {
-                color: '#db3131'
-                },
-            }
-        }
     }
 });
 
@@ -52,27 +42,17 @@ const Chat = (props) => {
     const [messages, setMessages] = useState([]);
     const [data, setData] = useState('');
     const manager_id = props.reciever;
-    // const rest_data = props.restaurant;
-    // console.log(rest_data);
     const customer_id = props.sender;
     console.log("manager id is as shw" + manager_id + " " + customer_id);
-    // const sender_id = props.sender;
     let room_name = customer_id + "_" + manager_id;
 
     useEffect(() => {
         console.log(`link is http://5.34.195.16/chat/room/${customer_id}/${manager_id}/`);
         console.log(manager_id);
-        axios.get(`http://5.34.195.16/chat/room/${customer_id}/${manager_id}/`,
-        // {headers : {
-        //     'Content-Type' : 'application/json',
-        //     "Access-Control-Allow-Origin" : "*",
-        //     "Access-Control-Allow-Methods" : "GET,PUT,PATCH",
-        // }}
-        )
+        axios.get(`http://5.34.195.16/chat/room/${customer_id}/${manager_id}/`)
         .then((response) => {
             console.log(`got from http://5.34.195.16/chat/room/${customer_id}/${manager_id}/`);
             setData(response.data);
-            // setMessages(response.data);
         })
         .catch((error) => {
             console.log(`did not got from http://5.34.195.16/chat/room/${customer_id}/${manager_id}/`);
@@ -82,7 +62,6 @@ const Chat = (props) => {
 
     useEffect(() => {
         console.log("here to split data");
-        // console.log(data.split("OrderedDict("));
         const messageArray = data.split("OrderedDict(").slice(1).map((item) => {
             const formattedItem = item.replace(/^\[|\]$/g, "");
             const pairs = formattedItem.split("), ");
@@ -104,6 +83,7 @@ const Chat = (props) => {
     const handleClick = (newPlacement) => (event) => {
         setAnchorEl(event.currentTarget);
         setOpen((prev) => placement !== newPlacement || !prev);
+        console.log("open is "+ open);
         setPlacement(newPlacement);
     };
 
@@ -111,31 +91,29 @@ const Chat = (props) => {
         setInput(event.target.value);
     };
 
-    // const handleKeyPress = (event) => {
-    //     if (event.key === 'Enter') {
-    //         event.preventDefault();
-    //         handleSend();
-    //     }
-    // };
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            handleSend();
+        }
+    };
 
     const handleSend = () => {
         const trimmedMessage = input.trim();
         if (trimmedMessage !== '') {
             const formattedDate = new Date().toISOString();
-            // const newMessage ={
-            //     fields: {
-            //         message: trimmedMessage,
-            //         sender: sender_id,
-            //         date_created: new Date().toISOString()
-            //     }
-            // };
-            // setMessages((prevMessages) => [...prevMessages, newMessage]);
-            // setTimes((prevTimes) => [...prevTimes, new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})]);
             console.log("here t send message");
+            console.log(JSON.stringify({
+                message : input,
+                sender_id : parseInt(customer_id),
+                room_name : room_name,
+                reciever_id: manager_id,
+                date_created: formattedDate
+            }));
             client.send(
                 JSON.stringify({
                     message : input,
-                    sender_id : customer_id,
+                    sender_id : parseInt(customer_id),
                     room_name : room_name,
                     reciever_id: manager_id,
                     date_created: formattedDate
@@ -149,6 +127,7 @@ const Chat = (props) => {
         console.log("WebSocket connection opened");
     };
     const messageOnMessage = (event) => {
+        console.log("on message func");
         const message = JSON.parse(event.data);
         message.sender = message.sender_id;
         message.date_created = new Date();
@@ -172,47 +151,10 @@ const Chat = (props) => {
         client_1.onclose = messageOnClose;
         setClient(client_1);
     });
-    
-    // useEffect(() => {
-    //     if(client && client.readyState === WebSocket.OPEN){
-    //         client.close();
-    //         console.log("WebSocket connection closed");
-    //         console.log(`websocket is : ws://5.34.195.16:4000/chat/room/${room_name}/`);
-    //         console.log("opening socket");
-    //         const clientCopy = new WebSocket(
-    //             `ws://5.34.195.16:4000/chat/room/${room_name}/`
-    //         );
-        
-    //         clientCopy.onopen = messageOnOpen;
-    //         console.log("socket opens in 196");
-        
-    //         clientCopy.onmessage = messageOnMessage;
-        
-    //         console.log("socket closed in 201");
-    //         // clientCopy.onclose = messageOnClose;
-    //         setClient(clientCopy);
-    //     } 
-    //     // else{
-    //     //     console.log("websocket is already closed!");
-    //     // }
-    //     if(client && client.readyState === WebSocket.CLOSED){
-    //         const clientCopy = new WebSocket(
-    //             `ws://5.34.195.16:4000/chat/room/${room_name}/`
-    //         );
-        
-    //         clientCopy.onopen = messageOnOpen;
-    //         // console.log("socket opens in 213");
-        
-    //         clientCopy.onmessage = messageOnMessage;
-        
-    //         // console.log("socket closed in 218");
-    //         clientCopy.onclose = messageOnClose;
-    //         setClient(clientCopy);
-    //     }
-    // }, []);
-
-    const handleOpenSocket = (e) => {
-        if (client && client.readyState === WebSocket.CLOSED) {
+    useEffect(() => {
+        if(client && client.readyState === WebSocket.OPEN){
+            client.close();
+            console.log("WebSocket connection closed ");
             const clientCopy = new WebSocket(
                 `ws://5.34.195.16:4000/chat/room/${room_name}/`
             );
@@ -220,21 +162,47 @@ const Chat = (props) => {
             clientCopy.onopen = messageOnOpen;
         
             clientCopy.onmessage = messageOnMessage;
-            console.log("close in 223")
+        
             clientCopy.onclose = messageOnClose;
             setClient(clientCopy);
-        }else{
-            console.log("socket is already opened in 227");
+        } 
+        if(client && client.readyState === WebSocket.CLOSED){
+            const clientCopy = new WebSocket(
+                `ws://5.34.195.16:4000/chat/room/${room_name}/`
+            );
+        
+            clientCopy.onopen = messageOnOpen;
+        
+            clientCopy.onmessage = messageOnMessage;
+        
+            clientCopy.onclose = messageOnClose;
+            setClient(clientCopy);
         }
-    };
-    const handleCloseSocket = (e) => {
-        if (client && client.readyState === WebSocket.OPEN) {
-            console.log("socket closed succ");
-            client.close();
-          } else {
-            console.log("WebSocket connection is already closed");
-        }
-    };
+    }, [open]);
+    // const handleOpenSocket = (e) => {
+    //     if (client && client.readyState === WebSocket.CLOSED) {
+    //         const clientCopy = new WebSocket(
+    //             `ws://5.34.195.16:4000/chat/room/${room_name}/`
+    //         );
+        
+    //         clientCopy.onopen = messageOnOpen;
+        
+    //         clientCopy.onmessage = messageOnMessage;
+    //         console.log("close in 223")
+    //         clientCopy.onclose = messageOnClose;
+    //         setClient(clientCopy);
+    //     }else{
+    //         console.log("socket is already opened in 227");
+    //     }
+    // };
+    // const handleCloseSocket = (e) => {
+    //     if (client && client.readyState === WebSocket.OPEN) {
+    //         console.log("socket closed succ");
+    //         client.close();
+    //       } else {
+    //         console.log("WebSocket connection is already closed");
+    //     }
+    // };
 
     return (
         <div>
@@ -250,18 +218,10 @@ const Chat = (props) => {
                                 <ReactScrollToBottom className="chatBox">
                                         {messages.map((msg, index) => (
                                             <Message key={index} message={msg} />
-                                            // <ListItem key={index} 
-                                            //     className={msg.fields?.sender == sender_id ? 'chat-listitem-right' : 'chat-listitem-left'}
-                                            // >
-                                            //     <ListItemText primary={msg.fields?.message} style={{ wordWrap: 'break-word' }}/>
-                                            //     <p className='chat-time'>
-                                            //         {new Date(msg.fields.date_created).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                            //     </p>
-                                            // </ListItem>
                                         ))}   
                                 </ReactScrollToBottom >
                                 <Grid className="inputBox">
-                                    <textarea  onChange={handleMessage} value={input} id="chatInput" rows={1} placeholder="Type a message"/>
+                                    <textarea onKeyPress={handleKeyPress} onChange={handleMessage} value={input} id="chatInput" rows={1} placeholder="Type a message"/>
                                     <Button 
                                     // disabled={input.length < 1} 
                                         onClick={handleSend}>
@@ -279,11 +239,7 @@ const Chat = (props) => {
                 aria-label="add"
                 onClick={handleClick('top')}
             >
-                {open ? <CloseIcon 
-                onClick={handleCloseSocket}
-                /> : <HeadsetMicIcon 
-                onClick={handleOpenSocket}
-                />}
+                {open ? <CloseIcon /> : <HeadsetMicIcon />}
             </Fab>
         </div>
 
@@ -292,7 +248,7 @@ const Chat = (props) => {
 }
 const Message = ({ message }) => {
     const id = localStorage.getItem('id');
-    const isRestaurant = message.sender !== id;
+    const isRestaurant = message.sender != id;
     const align = isRestaurant ? "flex-start" : "flex-end";
     const timeAlign = isRestaurant ? "left" : "right";
 

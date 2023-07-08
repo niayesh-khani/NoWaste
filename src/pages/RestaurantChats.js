@@ -3,7 +3,8 @@ import { Box, TextField, Button, Typography, Avatar, Grid, Paper } from "@mui/ma
 import SendIcon from "@mui/icons-material/Send";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Header from "../components/Header";
-import HeaderCustomer from "../components/HeaderCustomer";
+// import HeaderCustomer from "../components/HeaderCustomer";
+import HeaderRestaurant from "../components/HeaderRestaurant"
 import ReactScrollToBottom from "react-scroll-to-bottom";
 import './RestaurantChats.css';
 import '../components/Chat.css';
@@ -51,6 +52,12 @@ const Chat = () => {
     const room_name = currentUserId + "_" + id;
     const [client, setClient] = useState(null);
 
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            handleSend();
+        }
+    };
     const handleSend = () => {
         const trimmedMessage = input.trim();
         if (trimmedMessage !== "") {
@@ -60,6 +67,7 @@ const Chat = () => {
             const formattedDate = currentDate.toISOString();
             console.log("form");
             console.log(formattedDate);
+            console.log(currentUserId);
             // const newMessage = {
             //         message: trimmedMessage,
             //         sender: id,
@@ -72,7 +80,7 @@ const Chat = () => {
             client.send(
                 JSON.stringify({
                     message: input,
-                    sender_id: id,
+                    sender_id: parseInt(id),
                     room_name: room_name,
                     reciever_id: currentUserId,
                     date_created: formattedDate
@@ -102,8 +110,10 @@ const Chat = () => {
         const message = JSON.parse(event.data);
         message.sender = message.sender_id;
         message.date_created = new Date();
+        // message.reciever_id = message.
         console.log("new message: ");
         console.log(message);
+        // console.log(message.reciever_id);
         setMessages((e) => [...e, message]);
     };
     const messageOnClose = () => {
@@ -124,9 +134,6 @@ const Chat = () => {
             clientCopy.onclose = messageOnClose;
             setClient(clientCopy);
         } 
-        // else{
-        //     console.log("websocket is already closed!");
-        // }
         if(client && client.readyState === WebSocket.CLOSED){
             const clientCopy = new WebSocket(
                 `ws://5.34.195.16:4000/chat/room/${room_name}/`
@@ -170,12 +177,6 @@ const Chat = () => {
     const handleInputChange = (event) => {
         setInput(event.target.value);
     };
-    // useEffect(() => {
-    //     console.log("users are");
-    //     console.log(users);
-    //     console.log("messages: ");
-    //     console.log(messages);
-    // }, [users, messages]);
 
     useEffect(() => {
         console.log("here to split data");
@@ -197,8 +198,6 @@ const Chat = () => {
     }, [data]);
 
     const handleChat = (userId, username) => {
-        // console.log("user id is :" + userId);
-        // console.log("the link is :" + `http://5.34.195.16/chat/room/${userId}/${id}`);
         setCurrentUser(username);
         setCurrentUserId(userId);
         
@@ -215,7 +214,7 @@ const Chat = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <HeaderCustomer />
+            <HeaderRestaurant />
             <Grid container spacing={2} backgroundColor="rgb(239, 235, 229)" >
                 <Grid item md={3} sm={2} >
                     <Box height='8vh' style={{backgroundColor: '#bdbab6',display: 'flex', alignItems: 'center', justifyContent: 'center', paddingleft: '30px'}}>
@@ -266,7 +265,6 @@ const Chat = () => {
                                 bgcolor: "grey.200",
                                 overflow: 'hidden',ml: '-1.3%'
                             }}
-                            // className="restaurant-chat-root"
                         > 
                             <ReactScrollToBottom className="restaurant-chat-box" >
                                 <Box sx={{ flexGrow: 1, overflow: 'auto',p: 2 }}>
@@ -288,6 +286,7 @@ const Chat = () => {
                                             multiline
                                             onChange={handleInputChange}
                                             autoComplete="false"
+                                            onKeyPress={handleKeyPress}
                                         />
                                     </Grid>
                                     <Grid item xs={0.5} >
@@ -307,7 +306,6 @@ const Chat = () => {
                             className="restaurant-chat-box"
                             id="no-current-chat"
                         >
-
                         </Box>
                     )}
                 </Grid>
@@ -318,10 +316,9 @@ const Chat = () => {
 
 const Message = ({ message }) => {
     const id = localStorage.getItem("id");
-    const isCustomer = (message.sender !== id);
+    const isCustomer = (message.sender != id);
     const align = isCustomer ? "flex-start" : "flex-end";
     const timeAlign = isCustomer ? "left" : "right";
-    // console.log(message);
     return (
         <ThemeProvider theme={theme}>
             <Box sx={{ display: "flex", justifyContent: align, mb: 2 }}>
