@@ -179,30 +179,6 @@ const Chat = (props) => {
             setClient(clientCopy);
         }
     }, [open]);
-    // const handleOpenSocket = (e) => {
-    //     if (client && client.readyState === WebSocket.CLOSED) {
-    //         const clientCopy = new WebSocket(
-    //             `ws://5.34.195.16:4000/chat/room/${room_name}/`
-    //         );
-        
-    //         clientCopy.onopen = messageOnOpen;
-        
-    //         clientCopy.onmessage = messageOnMessage;
-    //         console.log("close in 223")
-    //         clientCopy.onclose = messageOnClose;
-    //         setClient(clientCopy);
-    //     }else{
-    //         console.log("socket is already opened in 227");
-    //     }
-    // };
-    // const handleCloseSocket = (e) => {
-    //     if (client && client.readyState === WebSocket.OPEN) {
-    //         console.log("socket closed succ");
-    //         client.close();
-    //       } else {
-    //         console.log("WebSocket connection is already closed");
-    //     }
-    // };
 
     return (
         <div>

@@ -34,8 +34,7 @@ const theme = createTheme({
 });
 
 const getRandomColor = (userId) => {
-    const colors = ['#FFA600', '#E74C3C','#1d9138', '#595959', '#225ca8', '#571e94', '#94511e', '#941e38'];
-    // return colors[Math.floor(Math.random() * colors.length)];
+    const colors = ['#FFA600', '#E74C3C','#1d9138','#225ca8', '#595959', '#571e94', '#94511e', '#941e38'];
     const index = userId % colors.length;
     return colors[index];
 };
@@ -68,15 +67,6 @@ const Chat = () => {
             console.log("form");
             console.log(formattedDate);
             console.log(currentUserId);
-            // const newMessage = {
-            //         message: trimmedMessage,
-            //         sender: id,
-            //         room_name: room_name,
-            //         reciever: currentUserId,
-            //         date_created: formattedDate
-            //     // }
-            // };
-            // setMessages((prevMessages) => [...prevMessages, newMessage]);
             client.send(
                 JSON.stringify({
                     message: input,
@@ -110,10 +100,8 @@ const Chat = () => {
         const message = JSON.parse(event.data);
         message.sender = message.sender_id;
         message.date_created = new Date();
-        // message.reciever_id = message.
         console.log("new message: ");
         console.log(message);
-        // console.log(message.reciever_id);
         setMessages((e) => [...e, message]);
     };
     const messageOnClose = () => {
@@ -155,21 +143,17 @@ const Chat = () => {
                 'Content-Type' : 'application/json',
                 "Access-Control-Allow-Origin" : "*",
                 "Access-Control-Allow-Methods" : "GET,PATCH",
-                // 'Authorization' : "Token " + token.slice(1,-1)
             }}
         )
         .then((response) => {
             console.log("I've got the messages");
             console.log(response.data);
-            // setUsers(response.data);
             const usersArray = Object.entries(response.data).map(([username, userId]) => ({
                 username,
                 userId,
             }));
     
             setUsers(usersArray);
-            // setOrderHistory(response.data);
-            // console.log("length" + orderHistory.length);
         })
         .catch((error) => console.log(error));    
     }, []);
@@ -180,7 +164,6 @@ const Chat = () => {
 
     useEffect(() => {
         console.log("here to split data");
-        // console.log(data.split("OrderedDict("));
         const messageArray = data.split("OrderedDict(").slice(1).map((item) => {
             const formattedItem = item.replace(/^\[|\]$/g, "");
             const pairs = formattedItem.split("), ");
