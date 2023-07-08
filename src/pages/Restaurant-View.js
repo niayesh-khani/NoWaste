@@ -434,7 +434,7 @@ const RestaurantView = (props: Props) =>
                                         <Typography variant="h6" className='comment-stack'>
                                             Helia Vafaei
                                         </Typography>
-                                        <h8 className='comment-date'>2023-07-11</h8>
+                                        <h8 className='comment-date'>2023-07-06</h8>
                                     </Stack>
                                 </Stack>
                                 <Typography className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
@@ -447,7 +447,7 @@ const RestaurantView = (props: Props) =>
                                         <Typography variant="h6" className='comment-stack'>
                                             Setareh Babajani
                                         </Typography>
-                                        <h8 className='comment-date'>2023-07-09</h8>
+                                        <h8 className='comment-date'>2023-06-29</h8>
                                     </Stack>
                                 </Stack>
                                 <Typography className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
@@ -458,9 +458,9 @@ const RestaurantView = (props: Props) =>
                                     <Avatar sx={{ bgcolor: grey[900] }} className='comment-avatar'>N</Avatar>
                                     <Stack direction="column" spacing={2} >
                                         <Typography variant="h6" className='comment-stack'>
-                                            Negin Haghighi
+                                            Hanie asadi
                                         </Typography>
-                                        <h8 className='comment-date'>2023-07-06</h8>
+                                        <h8 className='comment-date'>2023-06-26</h8>
                                     </Stack>
                                 </Stack>
                                 <Typography className='comment-text' id="modal-modal-description" sx={{ mt: 2 }}>
