@@ -403,7 +403,7 @@ const HomepageCustomer = () => {
     const handleClickNearest = () => {      //
         const lat= localStorage.getItem("lat");
         const long = localStorage.getItem("long");
-        axios.get(`http://5.34.195.16/nearest_restaurant?origins=${lat},${long}`,
+        axios.get(`http://5.34.195.16/restaurant/nearest_restaurant?origins=${lat},${long}`,
         {headers: {
             'Content-Type' : 'application/json',
             "Access-Control-Allow-Origin" : "*",
