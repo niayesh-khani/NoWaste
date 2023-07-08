@@ -123,11 +123,11 @@ const useStyles = makeStyles({
 const rateMarks = [
     {
         value: 0.0,
-        label: "Minimum rate",
+        // label: "Minimum rate",
     },
     {
         value: 5.0,
-        label: "Maximum rate",
+        // label: "Maximum rate",
     }
 ];
 function rateValueText(rateMarks) {
@@ -136,11 +136,11 @@ function rateValueText(rateMarks) {
 const discountMarks = [
     {
         value: 0,
-        label: "Minimum discount"
+        // label: "Minimum discount"
     },
     {
         value: 100,
-        label: "Maximum discount"
+        // label: "Maximum discount"
     }
 ];
 function discountValueText(discountMarks) {
@@ -446,7 +446,7 @@ const HomepageCustomer = () => {
             <Grid container spacing={2} sx={{ paddingBottom:"1%" }} className='grid-homepage-customer'>
                 <Grid item md={3}>
                     <Box className="filter-hompage-customer">
-                        <Typography variant='h5'> 
+                        <Typography variant='h5' className='filters-title'> 
                             Filters
                         </Typography>
                         <Grid container spacing={2} className='grid' id='grid-margin'>
@@ -460,23 +460,23 @@ const HomepageCustomer = () => {
                                     {expandRating ? <ExpandLess /> : <ExpandMore />}
                                 </IconButton>
                             </Grid>
-                            <Grid item lg={12} style={{ marginTop: '-10px', marginLeft: '10px'}}>
+                            <Grid item lg={12} style={{ marginTop: '-10px', marginLeft: '5px'}}>
                                 {expandRating ? (
                                     <Collapse in={expandRating} timeout="auto" unmountOnExit>
                                         <Grid container spacing={2} className='grid-details'>
-                                            <Grid item xs={12} sm={6} container alignItems='center'>
-                                                <Typography id='details'>
+                                            <Grid item xs={12} sm={3} container alignItems='center'>
+                                                {/* <Typography id='details'>
                                                     From
-                                                </Typography>
+                                                </Typography> */}
                                                 <Typography id='details'>
                                                     {valueR[0].toFixed(1)}
                                                 </Typography>
-                                                <StarRateIcon style={{ color: '#faaf00', marginLeft: '-20px', marginTop: '15px'}} />
+                                                <StarRateIcon style={{ color: '#faaf00', marginLeft: '-100px', marginTop: '15px'}} />
                                             </Grid>
-                                            <Grid item xs={12} sm={6} container alignItems='center' className='homepage-customer-to'>
-                                                <Typography id='details' >
+                                            <Grid item xs={12} sm={3} container alignItems='center' className='homepage-customer-to'>
+                                                {/* <Typography id='details' >
                                                     To
-                                                </Typography>
+                                                </Typography> */}
                                                 <Typography id='details'>
                                                     {valueR[1].toFixed(1)}
                                                 </Typography>
@@ -512,22 +512,22 @@ const HomepageCustomer = () => {
                                     {expandDiscount ? <ExpandLess /> : <ExpandMore />}
                                 </IconButton>
                             </Grid>
-                            <Grid item lg={12} style={{ marginTop: '-10px', marginLeft: '10px'}}>
+                            <Grid item lg={12} style={{ marginTop: '-10px', marginLeft: '5px'}}>
                                 {expandDiscount ? (
                                     <Collapse in={expandDiscount} timeout="auto" unmountOnExit style={{marginTop: '20px'}}>
                                         <Grid container spacing={2} className='grid-details' style={{marginBottom: '10px', marginTop: '-15px !important'}}>
                                             <Grid item xs={12} sm={6} container alignItems='center'>
-                                                <Typography id='details'>
+                                                {/* <Typography id='details'>
                                                     From
-                                                </Typography>
+                                                </Typography> */}
                                                 <Typography id='details'>
                                                     {valueD[0]}%
                                                 </Typography>
                                             </Grid>
-                                            <Grid item xs={12} sm={6} container alignItems='center' className='homepage-customer-to'>
-                                                <Typography id='details'>
+                                            <Grid item xs={12} sm={3} container alignItems='center' className='homepage-customer-to'>
+                                                {/* <Typography id='details'>
                                                     To
-                                                </Typography>
+                                                </Typography> */}
                                                 <Typography id='details'>
                                                     {valueD[1]}%
                                                 </Typography>
@@ -556,39 +556,45 @@ const HomepageCustomer = () => {
                             exclusive
                             onChange={handleSelectType}
                             aria-label="Platform"
-                            style={{marginTop: '10px'}}
-                        >
-                            <ToggleButton value="Iranian"
+                            style={{ marginTop: '10px'}}
+                            >
+                            <ToggleButton
+                                value="Iranian"
                                 className='filter-type'
                                 sx={{
-                                    fontSize: '16px',
-                                    color: 'black',
-                                    backgroundColor: '#e6e4df',
-                                    '&.Mui-selected': {
-                                        color: 'white',
-                                        backgroundColor: '#FFA600',
-                                    },
-                                    textTransform: 'none'
+                                fontSize: '16px',
+                                color: 'black',
+                                backgroundColor: '#e6e4df',
+                                '&.Mui-selected': {
+                                    color: 'white',
+                                    backgroundColor: '#FFA600',
+                                },
+                                textTransform: 'none',
+                                display: 'flex',  // Add this line
+                                justifyContent: 'center',  // Add this line
                                 }}
                             >
                                 Iranian
                             </ToggleButton>
-                            <ToggleButton value="Foreign"
+                            <ToggleButton
+                                value="Foreign"
                                 className='filter-type'
                                 sx={{
-                                    fontSize: '16px',
-                                    color: 'black',
-                                    backgroundColor: '#e6e4df',
-                                    '&.Mui-selected': {
-                                        color: 'white',
-                                        backgroundColor: '#FFA600',
-                                    },
-                                    textTransform: 'none'
+                                fontSize: '16px',
+                                color: 'black',
+                                backgroundColor: '#e6e4df',
+                                '&.Mui-selected': {
+                                    color: 'white',
+                                    backgroundColor: '#FFA600',
+                                },
+                                textTransform: 'none',
+                                display: 'flex',  // Add this line
+                                justifyContent: 'center',  // Add this line
                                 }}
                             >
                                 Foreign
                             </ToggleButton>
-                        </ToggleButtonGroup>
+                            </ToggleButtonGroup>
                         <Button className='submit' onClick={handleClickApplyFilter} >      
                             Apply
                         </Button>          
